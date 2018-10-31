@@ -4,20 +4,25 @@ const state = {
 }
 
 const mutations = {
-    SAVE_DATA(state, payload) {
-        state.data = payload;
+    SET_DATA(state, data) {
+        state.data = data;
     },
-    SAVE_TOKEN(state, payload) {
-        state.token = payload;
+    SET_TOKEN(state, token) {
+        state.token = token;
     }
 }
 
 const actions = {
-    saveData({ commit }, payload) {
-        commit("SAVE_DATA", payload);
+    getData() {
+        return axios({
+            url: "/users/0"
+        });
     },
-    saveToken({ commit }, payload) {
-        commit("SAVE_TOKEN", payload);
+    setData({ commit }, payload) {
+        commit("SET_DATA", payload);
+    },
+    setToken({ commit }, token) {
+        commit("SET_TOKEN", token);
     }
 }
 
