@@ -5,9 +5,12 @@ axios.defaults.baseURL = process.env.VUE_APP_BASE_API_URL;
 
 axios.interceptors.request.use(
     config => {
-        if (store.state.User.token) {
+        const token = store.state.User.token || Cookies.get("token");
+
+        if (token) {
+            store.dispatch("User/setToken", token);
             config.headers = {
-                Authorization: store.state.User.token.token
+                Authorization: token
             }
         }
 

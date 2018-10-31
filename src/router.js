@@ -52,15 +52,19 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth == undefined)) {
-        if (!store.getters["User/isLoggedIn"]) {
-            next({
-                path: "/users/login",
-                query: {
-                    redirect: to.fullPath
-                }
-            });
-        } else {
+        if (store.getters["Application/isStateReady"]) {
             next();
+        } else {
+            store.dispatch("Application/getGlobalStateData").then(() => {
+                next();
+            }).catch(() => {
+                next({
+                    name: "login",
+                    query: {
+                        redirect: to.fullPath
+                    }
+                });
+            });
         }
     } else {
         next();

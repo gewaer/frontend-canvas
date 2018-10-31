@@ -4,6 +4,7 @@
 import Vue from "vue";
 import "@/config/axios";
 import "@/config/lodash";
+import "@/config/cookies";
 import * as filters from "@/utils/filters";
 
 // Register global utility filters.
