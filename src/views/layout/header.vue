@@ -202,14 +202,12 @@ export default {
         },
         switchCompany(company) {
             const data = new FormData();
-            data.append();
+            data.append("default_company", company.id);
 
             axios({
-                url: "/users",
+                url: `/users/${this.userData.id}`,
                 method: "PUT",
-                data: {
-                    "default_company": company.id
-                }
+                data
             }).then(() => {
                 this.$store.dispatch("Company/setData", company);
             });
