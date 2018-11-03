@@ -5,4 +5,4 @@
  *
  * Vue.component("conponent", require("@/<path>/<component>"));
  */
-import Vue from "vue";
+// import Vue from "vue";
