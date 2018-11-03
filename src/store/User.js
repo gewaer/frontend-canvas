@@ -1,5 +1,5 @@
 const state = {
-    data: null,
+    data: {},
     token: null
 }
 
