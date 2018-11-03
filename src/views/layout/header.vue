@@ -49,12 +49,14 @@
                         </div>
                         <div class="more-details">
                         <div class="more-details-inner">
-                            <h5 class="semi-bold fs-16">“Apple’s Motivation - Innovation <br>
-                                                        distinguishes between <br>
-                                                        A leader and a follower.”</h5>
+                            <h5 class="semi-bold fs-16">
+                                “Apple’s Motivation - Innovation<br>
+                                distinguishes between<br>
+                                A leader and a follower.”
+                            </h5>
                             <p class="small hint-text">
-                            Commented on john Smiths wall.
-                            <br> via pages framework.
+                                Commented on john Smiths wall.
+                                <br> via pages framework.
                             </p>
                         </div>
                         </div>
@@ -132,19 +134,21 @@
     </div>
     <div class="multi-rooftop">
         <multiselect
-            id="rooftop-select"
-            class='rooftop-select'
             v-model="selectedCompany"
-            :show-labels="false"
+            id="rooftop-select"
+            class="rooftop-select"
+            label="name"
             :allow-empty="false"
+            :options="companies"
             :searchable="false"
-            :options="[ 'Company 1', 'Company 2', 'Company 3' ]">
-        </multiselect>
+            :show-labels="false"
+            @select="switchCompany"
+        />
     </div>
     <div class="user-bar">
         <div class="user-name">
-            <span class="bold">John</span>
-            <span> Doe</span>
+            <span class="bold">{{ userData.firstname }}</span>
+            <span>{{ userData.lastname }}</span>
         </div>
         <div class="dropdown">
             <div class="profile-image" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -163,6 +167,8 @@
 </template>
 
 <script type="text/javascript">
+import { mapState } from "vuex";
+
 export default {
     name: "Header",
     props: {
@@ -173,12 +179,40 @@ export default {
     },
     data() {
         return {
-            selectedCompany: "Company 1"
-        };
+            selectedCompany: null
+        }
+    },
+    computed: {
+        ...mapState("Company", {
+            companies: state => state.list,
+            defaultCompany: state => state.data
+        }),
+        ...mapState("User", {
+            userData: state => state.data
+        })
+    },
+    watch: {
+        defaultCompany() {
+            this.selectedCompany = this.defaultCompany;
+        }
     },
     methods: {
         handleSidebar(payload) {
             this.$emit("handleSidebar", payload);
+        },
+        switchCompany(company) {
+            const data = new FormData();
+            data.append();
+
+            axios({
+                url: "/users",
+                method: "PUT",
+                data: {
+                    "default_company": company.id
+                }
+            }).then(() => {
+                this.$store.dispatch("Company/setData", company);
+            });
         }
     }
 };
