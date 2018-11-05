@@ -126,7 +126,7 @@ export default {
                 email: "sparohawk@gmail.com",
                 firstname: "",
                 lastname: "",
-                password: "Nosen0s3"
+                password: "Nosen0s31"
             },
             formOptions: {
                 login: {
@@ -211,7 +211,12 @@ export default {
                 this.$store.dispatch("User/setToken", auth.token);
                 this.$router.push({ name: "dashboard" });
             }).catch((error) => {
-                console.log(error);
+                this.$notify({
+                    group: null,
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
             });
         }
     }
