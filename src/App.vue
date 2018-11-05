@@ -1,5 +1,6 @@
 <template>
     <div id="app" :class="{ is_auth : ['signup', 'login'].includes($route.name)}">
+        <notifications/>
         <side-bar v-if="!['signup', 'login'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
         <div class="page-container">
             <app-header v-if="!['signup', 'login'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
