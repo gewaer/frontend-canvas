@@ -21,6 +21,11 @@ const actions = {
             dispatch("setGlobalData", { userData: response[0].data, companies: response[1].data });
         })
     },
+    resetGlobalData({ dispatch }) {
+        dispatch("User/setData", {}, { root: true });
+        dispatch("Company/setList", [], { root: true });
+        dispatch("Company/setData", null, { root: true });
+    },
     setGlobalData({ dispatch }, data) {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
