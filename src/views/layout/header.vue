@@ -155,7 +155,7 @@
                 <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
             </div>
             <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                <a href="#" class="dropdown-item">
+                <a href="#" class="dropdown-item" @click="logout()">
                     <span>Logout</span>
                     <i class="pg-power"></i>
                 </a>
@@ -199,6 +199,19 @@ export default {
     methods: {
         handleSidebar(payload) {
             this.$emit("handleSidebar", payload);
+        },
+        logout() {
+            axios({
+                url: "/auth/logout",
+                method: "PUT"
+            }).then((response) => {
+                console.log(response);
+
+                Cookies.remove("token");
+                this.$store.dispatch("User/setToken", null);
+                this.$store.dispatch("Application/resetGlobalData");
+                this.$router.push({ name: "login" });
+            });
         },
         switchCompany(company) {
             const data = new FormData();

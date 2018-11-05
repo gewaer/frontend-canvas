@@ -126,7 +126,7 @@ export default {
                 email: "sparohawk@gmail.com",
                 firstname: "",
                 lastname: "",
-                password: "Nosen0s31"
+                password: "Nosen0s3"
             },
             formOptions: {
                 login: {
