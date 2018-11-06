@@ -32,6 +32,22 @@ const router = new Router({
             }
         },
         {
+            path: "/users/forgot-password",
+            name: "forgotPassword",
+            component: Auth,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/users/reset-password",
+            name: "resetPassword",
+            component: Auth,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
             path: "/about",
             name: "about",
             // route level code-splitting

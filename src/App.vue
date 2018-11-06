@@ -1,9 +1,9 @@
 <template>
-    <div id="app" :class="{ is_auth : ['signup', 'login'].includes($route.name)}">
+    <div id="app" :class="{ is_auth : ['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)}">
         <notifications/>
-        <side-bar v-if="!['signup', 'login'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
+        <side-bar v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
         <div class="page-container">
-            <app-header v-if="!['signup', 'login'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
+            <app-header v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in" />

@@ -196,6 +196,9 @@ export default {
             this.selectedCompany = this.defaultCompany;
         }
     },
+    created() {
+        this.selectedCompany = this.defaultCompany;
+    },
     methods: {
         handleSidebar(payload) {
             this.$emit("handleSidebar", payload);
@@ -214,13 +217,12 @@ export default {
             });
         },
         switchCompany(company) {
-            const data = new FormData();
-            data.append("default_company", company.id);
-
             axios({
                 url: `/users/${this.userData.id}`,
                 method: "PUT",
-                data
+                data: {
+                    "default_company": company.id
+                }
             }).then(() => {
                 this.$store.dispatch("Company/setData", company);
             });
