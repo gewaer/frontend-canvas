@@ -20,7 +20,7 @@
                 <p class="p-t-10">{{ form.title }}</p>
                 <!-- START Login Form -->
                 <form id="form-login" class="p-t-15" role="form" @submit.prevent="submitData()">
-                    <template v-if="!isLogin">
+                    <template v-if="isSignup">
                         <!-- START Form Control-->
                         <div class="form-group form-group-default">
                             <label>First Name</label>
@@ -39,7 +39,7 @@
                         <!-- END Form Control-->
                     </template>
                     <!-- START Form Control-->
-                    <div class="form-group form-group-default">
+                    <div v-if="!isResetPassword" class="form-group form-group-default">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
                             <input v-model="data.email" type="text" name="username" placeholder="user@example.com" class="form-control" required>
@@ -47,31 +47,29 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div class="form-group form-group-default">
+                    <div v-if="!isForgotPassword" class="form-group form-group-default">
                         <label>Password</label>
                         <div class="controls">
                             <input v-model="data.password" type="password" class="form-control" name="password" placeholder="Credentials" required>
                         </div>
                     </div>
                     <!-- END Form Control-->
-                    <template v-if="!isLogin">
-                        <!-- START Form Control-->
-                        <div class="form-group form-group-default">
-                            <label>Confirm Password</label>
-                            <div class="controls">
-                                <input v-model="data.password2" type="password" name="password2" placeholder="Retype Credentials" class="form-control" required>
-                            </div>
+                    <!-- START Form Control-->
+                    <div v-if="isSignup || isResetPassword" class="form-group form-group-default">
+                        <label>Confirm Password</label>
+                        <div class="controls">
+                            <input v-model="data.password2" type="password" name="password2" placeholder="Retype Credentials" class="form-control" required>
                         </div>
-                        <!-- END Form Control-->
-                        <!-- START Form Control-->
-                        <div class="form-group form-group-default">
-                            <label>Company Name</label>
-                            <div class="controls">
-                                <input v-model="data.company" type="text" name="company" placeholder="John Smith Co." class="form-control" required>
-                            </div>
+                    </div>
+                    <!-- END Form Control-->
+                    <!-- START Form Control-->
+                    <div v-if="isSignup" class="form-group form-group-default">
+                        <label>Company Name</label>
+                        <div class="controls">
+                            <input v-model="data.company" type="text" name="company" placeholder="John Smith Co." class="form-control" required>
                         </div>
-                        <!-- END Form Control-->
-                    </template>
+                    </div>
+                    <!-- END Form Control-->
                     <!-- START Form Control-->
                     <div class="row">
                         <div class="col-md-6 no-padding sm-p-l-10">
@@ -91,7 +89,10 @@
                             Don't have an account?
                             <router-link :to="{ name: 'signup' }">Create one!</router-link>
                         </div>
-                        <div v-else class="col-md-12">
+                        <div v-if="isLogin" class="col-md-12">
+                            <router-link :to="{ name: 'forgotPassword' }">Forgot Password?</router-link>
+                        </div>
+                        <div v-if="isSignup" class="col-md-12">
                             Already have an account?
                             <router-link :to="{ name: 'login' }">Log in!</router-link>
                         </div>
@@ -123,12 +124,23 @@ export default {
         return {
             data: {
                 company: "",
-                email: "sparohawk@gmail.com",
+                email: "",
                 firstname: "",
                 lastname: "",
-                password: "Nosen0s3"
+                password: ""
             },
             formOptions: {
+                forgotPassword: {
+                    data: {
+                        email: {
+                            label: "Email",
+                            validations: "required|email"
+                        }
+                    },
+                    endpoint: "auth/forgot",
+                    submitLabel: "Reset Password",
+                    title: "Reset your Gewaer password"
+                },
                 login: {
                     data: {
                         email: {
@@ -142,6 +154,19 @@ export default {
                     endpoint: "auth",
                     submitLabel: "Sign In",
                     title: "Sign into your Gewaer account"
+                },
+                resetPassword: {
+                    data: {
+                        password: {
+                            validations: "required|min:8"
+                        },
+                        password2: {
+                            validations: "required|min:8"
+                        }
+                    },
+                    endpoint: "auth/reset",
+                    submitLabel: "Reset Password",
+                    title: "Reset your Gewaer password"
                 },
                 signup: {
                     data: {
@@ -177,11 +202,37 @@ export default {
         form() {
             return this.formOptions[this.$route.name];
         },
+        isForgotPassword() {
+            return this.$route.name == "forgotPassword";
+        },
         isLogin() {
             return this.$route.name == "login";
+        },
+        isResetPassword() {
+            return this.$route.name == "resetPassword";
+        },
+        isSignup() {
+            return this.$route.name == "signup";
         }
     },
     methods: {
+        handleForgotPassword(response) {
+            console.log(response);
+        },
+        handleLoginSignup(response) {
+            const auth = this.isLogin ? response.data : response.data.session;
+
+            Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
+            this.$store.dispatch("User/setToken", auth.token);
+            this.$router.push({ name: "dashboard" });
+        },
+        handleResponse(response) {
+            if (this.isLogin || this.isSignup) {
+                this.handleLoginSignup(response);
+            } else if(this.isForgotPassword) {
+                this.handleForgotPassword(response);
+            }
+        },
         prepareData() {
             const data = new FormData();
 
@@ -205,11 +256,7 @@ export default {
                 method: "POST",
                 data
             }).then((response) => {
-                const auth = this.isLogin ? response.data : response.data.session;
-
-                Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
-                this.$store.dispatch("User/setToken", auth.token);
-                this.$router.push({ name: "dashboard" });
+                this.handleResponse(response);
             }).catch((error) => {
                 this.$notify({
                     group: null,
