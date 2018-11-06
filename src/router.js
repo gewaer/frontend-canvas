@@ -40,7 +40,7 @@ const router = new Router({
             }
         },
         {
-            path: "/users/reset-password",
+            path: "/users/reset-password/:resetKey",
             name: "resetPassword",
             component: Auth,
             meta: {

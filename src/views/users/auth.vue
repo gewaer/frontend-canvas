@@ -158,13 +158,15 @@ export default {
                 resetPassword: {
                     data: {
                         password: {
+                            map: "new_password",
                             validations: "required|min:8"
                         },
                         password2: {
+                            map: "verify_password",
                             validations: "required|min:8"
                         }
                     },
-                    endpoint: "auth/reset",
+                    endpoint: `auth/reset/${this.$route.params.resetKey}`,
                     submitLabel: "Reset Password",
                     title: "Reset your Gewaer password"
                 },
@@ -217,7 +219,15 @@ export default {
     },
     methods: {
         handleForgotPassword(response) {
-            console.log(response);
+            this.$notify({
+                group: null,
+                title: "Confirmation",
+                text: response.data,
+                type: "success"
+            });
+
+            this.data.email = "";
+            this.$router.push({ name: "login" });
         },
         handleLoginSignup(response) {
             const auth = this.isLogin ? response.data : response.data.session;
@@ -226,11 +236,25 @@ export default {
             this.$store.dispatch("User/setToken", auth.token);
             this.$router.push({ name: "dashboard" });
         },
+        handleResetPassword(response) {
+            this.$notify({
+                group: null,
+                title: "Confirmation",
+                text: response.data,
+                type: "success"
+            });
+
+            this.data.password = "";
+            this.data.password2 = "";
+            this.$router.push({ name: "login" });
+        },
         handleResponse(response) {
             if (this.isLogin || this.isSignup) {
                 this.handleLoginSignup(response);
-            } else if(this.isForgotPassword) {
+            } else if (this.isForgotPassword) {
                 this.handleForgotPassword(response);
+            } else if (this.isResetPassword) {
+                this.handleResetPassword(response);
             }
         },
         prepareData() {

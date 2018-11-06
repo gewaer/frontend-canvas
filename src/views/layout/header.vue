@@ -207,9 +207,7 @@ export default {
             axios({
                 url: "/auth/logout",
                 method: "PUT"
-            }).then((response) => {
-                console.log(response);
-
+            }).then(() => {
                 Cookies.remove("token");
                 this.$store.dispatch("User/setToken", null);
                 this.$store.dispatch("Application/resetGlobalData");
