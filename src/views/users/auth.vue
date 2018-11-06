@@ -274,6 +274,7 @@ export default {
         },
         submitData() {
             const data = this.prepareData();
+            console.log(window.axios.defaults.baseURL);
 
             axios({
                 url: `/${this.form.endpoint}`,

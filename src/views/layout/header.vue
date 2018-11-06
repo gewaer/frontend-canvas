@@ -208,7 +208,7 @@ export default {
                 url: "/auth/logout",
                 method: "PUT"
             }).then(() => {
-                Cookies.remove("token");
+                Cookies.remove("token", { path: "/", domain: process.env.VUE_APP_DOMAIN });
                 this.$store.dispatch("User/setToken", null);
                 this.$store.dispatch("Application/resetGlobalData");
                 this.$router.push({ name: "login" });
