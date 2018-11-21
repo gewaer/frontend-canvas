@@ -1070,6 +1070,7 @@ export default {
     },
     mounted() {
         document.body.style.setProperty("--base-color", this.appBaseColor);
+        $.Pages.init();
     },
     methods: {
         handleSidebar(payload) {

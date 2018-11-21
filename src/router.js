@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
+import examples from "./views/examples";
 
 Vue.use(Router);
 
@@ -59,6 +60,14 @@ const router = new Router({
             path: "*",
             name: "404",
             component: () => import(/* webpackChunkName: "404" */ "./views/errors/404.vue"),
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/example-page",
+            name: "examplePage",
+            component: examples,
             meta: {
                 requiresAuth: false
             }
