@@ -22,6 +22,7 @@
                         <form novalidate>
                             <div class="row">
                                 <div class="col">
+                                    <h6>General Information</h6>
                                     <div class="form-group form-group-default required">
                                         <label>First name</label>
                                         <input class="form-control" type="text" name='firstname'>
@@ -58,6 +59,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
+                                    <h6>Security</h6>
                                     <div class="form-group form-group-default required">
                                         <label>Current password</label>
                                         <input  name="old_password" class="form-control" type="password">
