@@ -5,6 +5,7 @@ import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
 import userSettings from "./views/users/settings";
+import companySettings from "@/views/settings/company/CompanySettings";
 
 Vue.use(Router);
 
@@ -77,6 +78,22 @@ const router = new Router({
             path: "/users/settings",
             name: "userSettings",
             component: userSettings,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/settings/user",
+            name: "userSettings",
+            component: userSettings,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/settings/company",
+            name: "companySettings",
+            component: companySettings,
             meta: {
                 requiresAuth: false
             }

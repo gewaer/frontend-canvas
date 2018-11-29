@@ -76,6 +76,21 @@
 
 <script>
 export default {
+    name: 'UserInfo',
+    data() {
+        return {
+
+        }
+    },
+    mounted() {
+        this.getUserData();
+    },
+
+    methods: {
+        getUserData() {
+            axios.get('/users')
+        }
+    }
 };
 </script>
 

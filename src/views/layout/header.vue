@@ -155,6 +155,14 @@
                 <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
             </div>
             <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
+                <router-link to="/users/settings" class="dropdown-item">
+                    <span>User settings</span>
+                </router-link>
+
+                <router-link to="/settings/company" class="dropdown-item">
+                    <span>Company settings</span>
+                </router-link>
+
                 <a href="#" class="dropdown-item" @click="logout()">
                     <span>Logout</span>
                     <i class="pg-power"></i>
