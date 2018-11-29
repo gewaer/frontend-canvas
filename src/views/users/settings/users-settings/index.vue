@@ -34,15 +34,15 @@
 </template>
 
 <script>
-import userInfo from './user-info';
-import userNotifications from './user-notifications';
-import userSocials from './social';
+import userInfo from "./user-info";
+import userNotifications from "./user-notifications";
+import userSocials from "./social";
 
 export default {
     components: {
         userInfo,
         userNotifications,
-        userSocials,
+        userSocials
     }
 };
 </script>

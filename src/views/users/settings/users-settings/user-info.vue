@@ -76,7 +76,7 @@
 
 <script>
 export default {
-    name: 'UserInfo',
+    name: "UserInfo",
     data() {
         return {
 
@@ -88,7 +88,7 @@ export default {
 
     methods: {
         getUserData() {
-            axios.get('/users')
+            axios.get("/users")
         }
     }
 };

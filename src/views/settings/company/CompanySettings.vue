@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import companySettings from '@/views/users/settings/company-settings';
+import companySettings from "@/views/users/settings/company-settings";
 
 export default {
     components: {
-       companySettings,
+        companySettings
     }
 };
 </script>

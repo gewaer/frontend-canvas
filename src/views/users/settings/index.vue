@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import usersSettings from './users-settings';
+import usersSettings from "./users-settings";
 
 export default {
     components: {
-       usersSettings
+        usersSettings
     }
 };
 </script>
