@@ -19,15 +19,15 @@
                     <div class="col">
                         <div class="form-group form-group-default required">
                             <label>Name</label>
-                            <input class="form-control" type="text" name='name'>
+                            <input class="form-control" type="text" name='name' v-model="company.name">
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Address</label>
-                            <input class="form-control" type="text" name="email">
+                            <input class="form-control" type="text" name="email" v-model="company.address">
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Zip Code</label>
-                            <input class="form-control" type="text" name="email">
+                            <input class="form-control" type="text" name="email" v-model="company.zipcode">
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             <div class="col-12 col-xl-5">
                 <div class="form-group form-group-default">
                     <label>Email</label>
-                    <input class="form-control" name='phone' type="email">
+                    <input class="form-control" name='phone' type="email" v-model="company.email">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Phone</label>
@@ -45,28 +45,92 @@
         </div>
         <div class="row">
             <div class="col">
-                <label>Country</label>
-                <select class="cs-select cs-skin-slide" style="width:500px;" data-init-plugin="cs-select">
-                    <option value="sightseeing">English</option>
-                    <option value="business">Spanish</option>
-                    <option value="honeymoon">French</option>
-                </select>
+                <label>Language </label>
+                 <select-single :options="settings.languages" v-model="company.language"/>
             </div>
             <div class="col">
                 <label>Timezone</label>
-                <select class="cs-select cs-skin-slide" style="width:500px;" data-init-plugin="cs-select">
-                    <option value="sightseeing">Timezone 1</option>
-                    <option value="business">Timezone 2</option>
-                    <option value="honeymoon">Timezone 3</option>
-                </select>
+                <select-single :options="settings.timezones" v-model="company.timezone"/>
             </div>
+        </div>
+        <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-primary" :disabled="isLoading" @click="updateCompany"> Save </button>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+import SelectSingle from "@/components/Select2Single";
+
 export default {
+    name: "CompanyInfo",
+    props: {
+        company: {
+            type: Object,
+            required: true
+        }
+    },
+    components: {
+        SelectSingle
+    },
+    data() {
+        return {
+            isLoading: false,
+            companySchema: {
+                createFields: ["name", "timezone", "language"]
+            }
+        }
+    },
+
+    computed:{
+        ...mapState("Settings", {
+            settings: (state) => {
+                return {
+                    timezones: state.timezones,
+                    languages: state.languages
+                }
+            }
+        })
+    },
+
+    methods: {
+        prepareForm(data, fields) {
+            const form = {};
+            fields.forEach(field => {
+                form[field] = data[field]
+            })
+            return form;
+        },
+        updateCompany() {
+            this.isLoading = true;
+            const form = this.prepareForm(this.company, this.companySchema.createFields);
+
+            axios.put(`/companies/${this.company.id}`, form)
+                .then(({data}) => {
+                    this.isLoading = false;
+                    this.onCompanyUpdate(data)
+                })
+                .catch(() => {
+                    this.isLoading = false;
+                })
+        },
+
+        readChange(event) {
+            console.log(event)
+        },
+
+        onCompanyUpdate(company) {
+            this.$notify({
+                group: null,
+                title: "Confirmation",
+                text: "the company information has been changed",
+                type: "success"
+            });
+            this.$store.dispatch("Company/setData", company);
+        }
+    }
 };
 </script>
 

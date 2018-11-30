@@ -77,26 +77,17 @@ const router = new Router({
         {
             path: "/users/settings",
             name: "userSettings",
-            component: userSettings,
-            meta: {
-                requiresAuth: false
-            }
+            component: userSettings
         },
         {
             path: "/settings/user",
-            name: "userSettings",
-            component: userSettings,
-            meta: {
-                requiresAuth: false
-            }
+            name: "userSettings2",
+            component: userSettings
         },
         {
             path: "/settings/company",
             name: "companySettings",
-            component: companySettings,
-            meta: {
-                requiresAuth: false
-            }
+            component: companySettings
         }
     ]
 });

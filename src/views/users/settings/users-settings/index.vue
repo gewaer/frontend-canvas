@@ -17,7 +17,7 @@
                 </ul>
                 <div class="tab-content bg-white">
                     <div class="tab-pane active" id="user-info">
-                        <user-info />
+                        <user-info :user="user"/>
                     </div>
                     <div class="tab-pane" id="user-notifications">
                         <user-notifications />
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+import {cloneDeep} from "lodash"
 import userInfo from "./user-info";
 import userNotifications from "./user-notifications";
 import userSocials from "./social";
@@ -43,6 +45,29 @@ export default {
         userInfo,
         userNotifications,
         userSocials
+    },
+    data() {
+        return {
+            user: {}
+        }
+    },
+    computed: {
+        ...mapState("User", {
+            userData: state => state.data
+        })
+    },
+    watch: {
+        userData() {
+            this.user = userData;
+        }
+    },
+
+    mounted() {
+        this.user = cloneDeep(this.userData);
+    },
+
+    methods: {
+
     }
 };
 </script>

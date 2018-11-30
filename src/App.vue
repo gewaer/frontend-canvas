@@ -1071,6 +1071,14 @@ export default {
     mounted() {
         document.body.style.setProperty("--base-color", this.appBaseColor);
         $.Pages.init();
+        this.$store.dispatch("Settings/getTimezones");
+    },
+    watch: {
+        "$route.path"() {
+            this.$nextTick(() => {
+                $.Pages.init();
+            })
+        }
     },
     methods: {
         handleSidebar(payload) {

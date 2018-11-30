@@ -30,6 +30,7 @@ const actions = {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
         dispatch("Company/setData", data.companies.find((company) => company.id == data.userData.default_company), { root: true });
+        dispatch("Settings/getSettings", null, {root: true});
     }
 };
 
