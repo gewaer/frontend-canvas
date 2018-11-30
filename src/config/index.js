@@ -11,3 +11,5 @@ import * as filters from "@/utils/filters";
 Object.keys(filters).forEach(key => {
     Vue.filter(key, filters[key]);
 });
+
+alert(1);

@@ -40,17 +40,17 @@
 </template>
 
 <script>
-import companyInfo from './company-info';
-import companiesList from './companies';
-import companyUsers from './users';
-import companySubscriptions from './subscriptions';
+import companyInfo from "./company-info";
+import companiesList from "./companies";
+import companyUsers from "./users";
+import companySubscriptions from "./subscriptions";
 
 export default {
     components: {
         companyInfo,
         companiesList,
         companyUsers,
-        companySubscriptions,
+        companySubscriptions
     }
 };
 </script>

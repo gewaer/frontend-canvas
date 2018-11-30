@@ -10,15 +10,34 @@ module.exports = {
     rules: {
         "array-bracket-newline": ["error", "consistent"],
         "array-bracket-spacing": ["error", "never"],
+        "array-element-newline": ["error", "consistent"],
         "brace-style": ["error", "1tbs", {
             allowSingleLine: false
         }],
-        camelcase: ["error"],
+        camelcase: ["error", {
+            properties: "always",
+            ignoreDestructuring: false
+        }],
+        "capitalized-comments": ["error", "always", {
+            ignoreConsecutiveComments: true
+        }],
         "comma-dangle": ["error", "never"],
-        "comma-spacing": ["error"],
+        "comma-spacing": ["error", {
+            before: false,
+            after: true
+        }],
+        "computed-property-spacing": ["error", "never"],
+        "consistent-this": ["error", "self"],
         curly: ["error", "all"],
         eqeqeq: 0,
+        "func-call-spacing": ["error", "never"],
+        "func-name-matching": ["error", "always", {
+            considerPropertyDescriptor: true,
+            includeCommonJSModuleExports: true
+        }],
+        "function-paren-newline": ["error", "consistent"],
         "handle-callback-err": 0,
+        "implicit-arrow-linebreak": ["error", "beside"],
         indent: ["error", 4, {
             SwitchCase: 1,
             flatTernaryExpressions: true

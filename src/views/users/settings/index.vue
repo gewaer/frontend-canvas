@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import usersSettings from './users-settings';
-import companySettings from './company-settings';
+import usersSettings from "./users-settings";
+import companySettings from "./company-settings";
 
 export default {
     components: {
-       usersSettings,
-       companySettings,
+        usersSettings,
+        companySettings
     }
 };
 </script>
