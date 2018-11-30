@@ -2,18 +2,16 @@
 <div class="user-settings">
     <h4 class="section-title p-l-10">Settings</h4>
     <users-settings />
-    <company-settings />
+    <!-- <company-settings /> -->
 </div>
 </template>
 
 <script>
 import usersSettings from "./users-settings";
-import companySettings from "./company-settings";
 
 export default {
     components: {
-        usersSettings,
-        companySettings
+        usersSettings
     }
 };
 </script>

@@ -66,6 +66,19 @@
                             <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         </td>
                     </tr>
+                    <tr v-for="company in companies" :key="`company-${company.id}`">
+                        <td class="v-align-middle semi-bold text-">
+                            <img :src="company.profile_image || defaultImage" height="25px" alt="Company Logo">
+                        </td>
+                        <td class="v-align-middle semi-bold"> {{ company.name }}</td>
+                        <td class="v-align-middle semi-bold">Lorem Dolor sit amet</td>
+                        <td class="v-align-middle semi-bold">Lorem Dolor</td>
+                        <td class="v-align-middle semi-bold">
+                            <button class="btn btn-primary m-l-5"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -74,6 +87,18 @@
 </template>
 <script>
 export default {
+    name: "companies",
+    props: {
+        companies: {
+            type: Array,
+            required: true
+        }
+    },
+    data() {
+        return {
+            defaultImage: "https://mctekk.com/images/logo-o.svg"
+        }
+    }
 };
 </script>
 

@@ -20,10 +20,10 @@
                 </ul>
                 <div class="tab-content bg-white">
                     <div class="tab-pane active" id="company-info">
-                        <company-info />
+                        <company-info :company="company"/>
                     </div>
                     <div class="tab-pane" id="companies">
-                        <companies-list />
+                        <companies-list :companies="companies"/>
                     </div>
                     <div class="tab-pane" id="users-list">
                         <company-users />
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+import {cloneDeep} from "lodash"
 import companyInfo from "./company-info";
 import companiesList from "./companies";
 import companyUsers from "./users";
@@ -51,6 +53,26 @@ export default {
         companiesList,
         companyUsers,
         companySubscriptions
+    },
+    data() {
+        return {
+            company: {}
+        }
+    },
+    computed: {
+        ...mapState("Company", {
+            companies: state => state.list,
+            defaultCompany: state => state.data
+        })
+    },
+    watch: {
+        userData() {
+            this.company = cloneDeep(this.defaultCompany);
+        }
+    },
+
+    mounted() {
+        this.company = cloneDeep(this.defaultCompany);
     }
 };
 </script>

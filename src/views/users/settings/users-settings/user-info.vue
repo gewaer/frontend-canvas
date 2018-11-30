@@ -17,39 +17,34 @@
             <div class="col-12 col-md">
                 <div class="form-group form-group-default required">
                     <label>First name</label>
-                    <input class="form-control" type="text" name='firstname'>
+                    <input class="form-control" type="text" name="firstname" v-model="user.firstname">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Last name</label>
-                    <input name='lastname' class="form-control" type="text">
+                    <input name='lastname' class="form-control" type="text" v-model="user.lastname">
                 </div>
                 <div class="form-group form-group-default">
                     <label>Cell phone</label>
-                    <input class="form-control" name='phone' type="text">
+                    <input class="form-control" name='phone' type="text" v-model="user.phone">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Email (username)</label>
-                    <input class="form-control" type="text" name="email">
+                    <input class="form-control" type="text" name="email" v-model="user.email">
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label>Language</label>
-                <select class="cs-select cs-skin-slide" style="width:500px;" data-init-plugin="cs-select">
-                    <option value="sightseeing">English</option>
-                    <option value="business">Spanish</option>
-                    <option value="honeymoon">French</option>
-                </select>
+                <label>Language </label>
+                <select-single :options="settings.languages" v-model="user.language"/>
             </div>
             <div class="col">
                 <label>Timezone</label>
-                <select class="cs-select cs-skin-slide" style="width:500px;" data-init-plugin="cs-select">
-                    <option value="sightseeing">Timezone 1</option>
-                    <option value="business">Timezone 2</option>
-                    <option value="honeymoon">Timezone 3</option>
-                </select>
+                <select-single :options="settings.timezones" v-model="user.timezone"/>
             </div>
+        </div>
+        <div class="d-flex justify-content-end mt-2">
+            <button class="btn btn-primary" :disabled="isLoading" @click="updateUser"> Save </button>
         </div>
     </div>
     <div class="col-12 col-xl m-b-20">
@@ -58,7 +53,7 @@
             <div class="col">
                 <div class="form-group form-group-default required">
                     <label>Current password</label>
-                    <input  name="old_password" class="form-control" type="password">
+                    <input  name="old_password" class="form-control" type="password" autocomplete="off" v-model="security.current_password">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>New password</label>
@@ -68,6 +63,9 @@
                     <label>Confirm new password</label>
                     <input name="confirmPassword" class="form-control" type="password">
                 </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary"> Change password</button>
+                </div>
             </div>
         </div>
     </div>
@@ -75,7 +73,72 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+import SelectSingle from "@/components/Select2Single";
+
 export default {
+    name: "UserInfo",
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
+    components: {
+        SelectSingle
+    },
+    data() {
+        return {
+            isLoading: false,
+            security: {
+                currentPassword: ""
+            }
+        }
+    },
+    computed: {
+        ...mapState("Settings", {
+            settings: (state) => {
+                return {
+                    timezones: state.timezones,
+                    languages: state.languages
+                }
+            }
+        })
+    },
+    methods: {
+        prepareForm() {
+            return {
+                email: this.user.email,
+                firstname: this.user.firstname,
+                lastname: this.user.lastname,
+                phone: this.user.phone,
+                timezones: this.user.timezone,
+                languages: this.user.languages
+            }
+        },
+        updateUser() {
+            this.isLoading = true;
+            const form = this.prepareForm();
+            axios.put(`/users/${this.user.id}`, form)
+                .then(({data}) => {
+                    this.isLoading = false;
+                    this.onUserUpdate(data)
+                })
+                .catch(() => {
+                    this.isLoading = false;
+                })
+        },
+
+        onUserUpdate(user) {
+            this.$notify({
+                group: null,
+                title: "Confirmation",
+                text: "the user information has been changed",
+                type: "success"
+            });
+            this.$store.dispatch("User/setData", user);
+        }
+    }
 };
 </script>
 
