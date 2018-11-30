@@ -217,6 +217,11 @@ export default {
             return this.$route.name == "signup";
         }
     },
+    beforeRouteLeave(to, from, next) {
+        this.data.email = "";
+        this.data.password = "";
+        next();
+    },
     methods: {
         handleForgotPassword(response) {
             this.$notify({
