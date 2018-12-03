@@ -36,11 +36,11 @@
         <div class="row">
             <div class="col">
                 <label>Language </label>
-                <select-single :options="settings.languages" v-model="user.language"/>
+                <multiselect :options="settings.languages" v-model="user.language"/>
             </div>
             <div class="col">
                 <label>Timezone</label>
-                <select-single :options="settings.timezones" v-model="user.timezone"/>
+                <multiselect :options="settings.timezones" v-model="user.timezone"/>
             </div>
         </div>
         <div class="d-flex justify-content-end mt-2">
@@ -74,7 +74,6 @@
 
 <script>
 import {mapState} from "vuex";
-import SelectSingle from "@/components/Select2Single";
 
 export default {
     name: "UserInfo",
@@ -83,9 +82,6 @@ export default {
             type: Object,
             required: true
         }
-    },
-    components: {
-        SelectSingle
     },
     data() {
         return {
@@ -104,6 +100,14 @@ export default {
                 }
             }
         })
+    },
+    watch: {
+        user(value) {
+            this.formData = value;
+        }
+    },
+    mounted() {
+        this.formData = this.user;
     },
     methods: {
         prepareForm() {

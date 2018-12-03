@@ -19,15 +19,15 @@
                     <div class="col">
                         <div class="form-group form-group-default required">
                             <label>Name</label>
-                            <input class="form-control" type="text" name='name' v-model="company.name">
+                            <input class="form-control" type="text" name='name' v-model="formData.name">
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Address</label>
-                            <input class="form-control" type="text" name="email" v-model="company.address">
+                            <input class="form-control" type="text" name="email" v-model="formData.address">
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Zip Code</label>
-                            <input class="form-control" type="text" name="email" v-model="company.zipcode">
+                            <input class="form-control" type="text" name="email" v-model="formData.zipcode">
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
             <div class="col-12 col-xl-5">
                 <div class="form-group form-group-default">
                     <label>Email</label>
-                    <input class="form-control" name='phone' type="email" v-model="company.email">
+                    <input class="form-control" name='phone' type="email" v-model="formData.email">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Phone</label>
@@ -46,11 +46,11 @@
         <div class="row">
             <div class="col">
                 <label>Language </label>
-                 <select-single :options="settings.languages" v-model="company.language"/>
+                 <multiselect :options="settings.languages" v-model="formData.language"/>
             </div>
             <div class="col">
                 <label>Timezone</label>
-                <select-single :options="settings.timezones" v-model="company.timezone"/>
+                <multiselect :options="settings.timezones" v-model="formData.timezone"/>
             </div>
         </div>
         <div class="d-flex justify-content-end mt-2">
@@ -62,7 +62,6 @@
 
 <script>
 import {mapState} from "vuex";
-import SelectSingle from "@/components/Select2Single";
 
 export default {
     name: "CompanyInfo",
@@ -72,12 +71,10 @@ export default {
             required: true
         }
     },
-    components: {
-        SelectSingle
-    },
     data() {
         return {
             isLoading: false,
+            formData: {},
             companySchema: {
                 createFields: ["name", "timezone", "language"]
             }
@@ -95,6 +92,16 @@ export default {
         })
     },
 
+    watch: {
+        company(value) {
+            this.formData = value;
+        }
+    },
+
+    mounted() {
+        this.formData = this.company;
+    },
+
     methods: {
         prepareForm(data, fields) {
             const form = {};
@@ -107,7 +114,7 @@ export default {
             this.isLoading = true;
             const form = this.prepareForm(this.company, this.companySchema.createFields);
 
-            axios.put(`/companies/${this.company.id}`, form)
+            axios.put(`/companies/${this.formData.id}`, form)
                 .then(({data}) => {
                     this.isLoading = false;
                     this.onCompanyUpdate(data)

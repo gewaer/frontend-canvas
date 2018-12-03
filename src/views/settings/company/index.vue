@@ -42,7 +42,7 @@
 <script>
 import {mapState} from "vuex";
 import {cloneDeep} from "lodash"
-import companyInfo from "./company-info";
+import companyInfo from "./info";
 import companiesList from "./companies";
 import companyUsers from "./users";
 import companySubscriptions from "./subscriptions";

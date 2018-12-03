@@ -36,8 +36,8 @@
 <script>
 import {mapState} from "vuex";
 import {cloneDeep} from "lodash"
-import userInfo from "./user-info";
-import userNotifications from "./user-notifications";
+import userInfo from "./info";
+import userNotifications from "./notifications";
 import userSocials from "./social";
 
 export default {

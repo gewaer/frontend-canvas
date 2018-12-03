@@ -154,7 +154,7 @@
                     <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
                 <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                    <router-link to="/users/settings" class="dropdown-item">
+                    <router-link to="/settings/user" class="dropdown-item">
                         <span>User settings</span>
                     </router-link>
 
