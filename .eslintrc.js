@@ -18,9 +18,6 @@ module.exports = {
             properties: "always",
             ignoreDestructuring: false
         }],
-        "capitalized-comments": ["error", "always", {
-            ignoreConsecutiveComments: true
-        }],
         "comma-dangle": ["error", "never"],
         "comma-spacing": ["error", {
             before: false,
