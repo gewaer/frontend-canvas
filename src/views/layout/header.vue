@@ -1,177 +1,176 @@
 <template>
-<div class="header app-header">
-    <div @click="handleSidebar(!showSidebar)" class="sidebar-toggle">
-        <img src="../../assets/icons/hamburguer-menu.png">
-    </div>
-    <router-link class="app-logo" :to="{ name: 'dashboard'}">
-        <img src="../../assets/primary-logo.png" alt="logo">
-    </router-link>
-    <div class="app-switcher">
-        <span class="app-mode">A1</span>
-        <a class="grid-box" id="app-grid" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
-        <ul class="dropdown-menu" aria-labelledby="app-grid">
-            <li class="dropdown-item">
-                <a href="javascript:void(0)" target="_blank">
-                    <span class="app-mode mode">A1</span>
-                    <p>Application 1</p>
-                </a>
-            </li>
-            <li class="dropdown-item">
-                <a href="javascript:void(0)" target="_blank">
-                    <span class="app-mode mode">A2</span>
-                    <p>Application 2</p>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="notifications-center dropdown">
-        <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
-            <span class="bubble"></span>
-        </a>
-        <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
-            <div class="notification-panel">
-                <div class="notification-body scrollable">
-                    <!-- START Notification Item-->
-                    <div class="notification-item unread clearfix">
-                    <!-- START Notification Item-->
-                    <div class="heading open">
-                        <a href="#" class="text-complete pull-left">
-                        <i class="pg-map fs-16 m-r-10"></i>
-                        <span class="bold">Carrot Design</span>
-                        <span class="fs-12 m-l-10">David Nester</span>
-                        </a>
-                        <div class="pull-right">
-                        <div class="thumbnail-wrapper d16 circular inline m-t-15 m-r-10 toggle-more-details">
-                            <div><i class="fa fa-angle-left"></i>
-                            </div>
-                        </div>
-                        <span class=" time">few sec ago</span>
-                        </div>
-                        <div class="more-details">
-                        <div class="more-details-inner">
-                            <h5 class="semi-bold fs-16">
-                                “Apple’s Motivation - Innovation<br>
-                                distinguishes between<br>
-                                A leader and a follower.”
-                            </h5>
-                            <p class="small hint-text">
-                                Commented on john Smiths wall.
-                                <br> via pages framework.
-                            </p>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- END Notification Item-->
-                    <!-- START Notification Item Right Side-->
-                    <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
-                        <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                    </div>
-                    <!-- START Notification Body-->
-                    <!-- START Notification Item-->
-                    <div class="notification-item  clearfix">
-                    <div class="heading">
-                        <a href="#" class="text-danger pull-left">
-                        <i class="fa fa-exclamation-triangle m-r-10"></i>
-                        <span class="bold">98% Server Load</span>
-                        <span class="fs-12 m-l-10">Take Action</span>
-                        </a>
-                        <span class="pull-right time">2 mins ago</span>
-                    </div>
-                    <!-- START Notification Item Right Side-->
-                    <div class="option">
-                        <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                    </div>
-                    <!-- END Notification Item-->
-                    <!-- START Notification Item-->
-                    <div class="notification-item  clearfix">
-                    <div class="heading">
-                        <a href="#" class="text-warning-dark pull-left">
-                        <i class="fa fa-exclamation-triangle m-r-10"></i>
-                        <span class="bold">Warning Notification</span>
-                        <span class="fs-12 m-l-10">Buy Now</span>
-                        </a>
-                        <span class="pull-right time">yesterday</span>
-                    </div>
-                    <!-- START Notification Item Right Side-->
-                    <div class="option">
-                        <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                    </div>
-                    <!-- END Notification Item-->
-                    <!-- START Notification Item-->
-                    <div class="notification-item unread clearfix">
-                    <div class="heading">
-                        <div class="thumbnail-wrapper d24 circular b-white m-r-5 b-a b-white m-t-10 m-r-10">
-                        <img width="30" height="30" data-src-retina="assets/img/profiles/1x.jpg" data-src="assets/img/profiles/1.jpg" alt="" src="assets/img/profiles/1.jpg">
-                        </div>
-                        <a href="#" class="text-complete pull-left">
-                        <span class="bold">Revox Design Labs</span>
-                        <span class="fs-12 m-l-10">Owners</span>
-                        </a>
-                        <span class="pull-right time">11:00pm</span>
-                    </div>
-                    <!-- START Notification Item Right Side-->
-                    <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
-                        <a href="#" class="mark"></a>
-                    </div>
-                    <!-- END Notification Item Right Side-->
-                    </div>
-                    <!-- END Notification Item-->
-                </div>
-                <div class="notification-footer text-center">
-                    <a href="#" class="">Read all notifications</a>
-                    <a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
-                    <i class="pg-refresh_new"></i>
+    <div class="header app-header">
+        <div @click="handleSidebar(!showSidebar)" class="sidebar-toggle">
+            <img src="../../assets/icons/hamburguer-menu.png">
+        </div>
+        <router-link class="app-logo" :to="{ name: 'dashboard'}">
+            <img src="../../assets/primary-logo.png" alt="logo">
+        </router-link>
+        <div class="app-switcher">
+            <span class="app-mode">A1</span>
+            <a class="grid-box" id="app-grid" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+            <ul class="dropdown-menu" aria-labelledby="app-grid">
+                <li class="dropdown-item">
+                    <a href="javascript:void(0)" target="_blank">
+                        <span class="app-mode mode">A1</span>
+                        <p>Application 1</p>
                     </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="multi-rooftop">
-        <multiselect
-            v-model="selectedCompany"
-            id="rooftop-select"
-            class="rooftop-select"
-            label="name"
-            :allow-empty="false"
-            :options="companies"
-            :searchable="false"
-            :show-labels="false"
-            @select="switchCompany"
-        />
-    </div>
-    <div class="user-bar">
-        <div class="user-name">
-            <span class="bold">{{ userData.firstname }}</span>
-            <span> {{ userData.lastname }}</span>
-        </div>
-        <div class="dropdown">
-            <div class="profile-image" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
-            </div>
-            <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                <router-link to="/users/settings" class="dropdown-item">
-                    <span>User settings</span>
-                </router-link>
-
-                <router-link to="/settings/company" class="dropdown-item">
-                    <span>Company settings</span>
-                </router-link>
-
-                <a href="#" class="dropdown-item" @click="logout()">
-                    <span>Logout</span>
-                    <i class="pg-power"></i>
-                </a>
+                </li>
+                <li class="dropdown-item">
+                    <a href="javascript:void(0)" target="_blank">
+                        <span class="app-mode mode">A2</span>
+                        <p>Application 2</p>
+                    </a>
+                </li>
             </ul>
         </div>
+        <div class="notifications-center dropdown">
+            <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
+                <span class="bubble"></span>
+            </a>
+            <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
+                <div class="notification-panel">
+                    <div class="notification-body scrollable">
+                        <!-- START Notification Item-->
+                        <div class="notification-item unread clearfix">
+                        <!-- START Notification Item-->
+                        <div class="heading open">
+                            <a href="#" class="text-complete pull-left">
+                            <i class="pg-map fs-16 m-r-10"/>
+                            <span class="bold">Carrot Design</span>
+                            <span class="fs-12 m-l-10">David Nester</span>
+                            </a>
+                            <div class="pull-right">
+                            <div class="thumbnail-wrapper d16 circular inline m-t-15 m-r-10 toggle-more-details">
+                                <div><i class="fa fa-angle-left"/></div>
+                            </div>
+                            <span class=" time">few sec ago</span>
+                            </div>
+                            <div class="more-details">
+                            <div class="more-details-inner">
+                                <h5 class="semi-bold fs-16">
+                                    “Apple’s Motivation - Innovation<br>
+                                    distinguishes between<br>
+                                    A leader and a follower.”
+                                </h5>
+                                <p class="small hint-text">
+                                    Commented on john Smiths wall.
+                                    <br> via pages framework.
+                                </p>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- END Notification Item-->
+                        <!-- START Notification Item Right Side-->
+                        <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
+                            <a href="#" class="mark"></a>
+                        </div>
+                        <!-- END Notification Item Right Side-->
+                        </div>
+                        <!-- START Notification Body-->
+                        <!-- START Notification Item-->
+                        <div class="notification-item  clearfix">
+                        <div class="heading">
+                            <a href="#" class="text-danger pull-left">
+                            <i class="fa fa-exclamation-triangle m-r-10"></i>
+                            <span class="bold">98% Server Load</span>
+                            <span class="fs-12 m-l-10">Take Action</span>
+                            </a>
+                            <span class="pull-right time">2 mins ago</span>
+                        </div>
+                        <!-- START Notification Item Right Side-->
+                        <div class="option">
+                            <a href="#" class="mark"></a>
+                        </div>
+                        <!-- END Notification Item Right Side-->
+                        </div>
+                        <!-- END Notification Item-->
+                        <!-- START Notification Item-->
+                        <div class="notification-item  clearfix">
+                        <div class="heading">
+                            <a href="#" class="text-warning-dark pull-left">
+                            <i class="fa fa-exclamation-triangle m-r-10"></i>
+                            <span class="bold">Warning Notification</span>
+                            <span class="fs-12 m-l-10">Buy Now</span>
+                            </a>
+                            <span class="pull-right time">yesterday</span>
+                        </div>
+                        <!-- START Notification Item Right Side-->
+                        <div class="option">
+                            <a href="#" class="mark"></a>
+                        </div>
+                        <!-- END Notification Item Right Side-->
+                        </div>
+                        <!-- END Notification Item-->
+                        <!-- START Notification Item-->
+                        <div class="notification-item unread clearfix">
+                        <div class="heading">
+                            <div class="thumbnail-wrapper d24 circular b-white m-r-5 b-a b-white m-t-10 m-r-10">
+                            <img width="30" height="30" data-src-retina="assets/img/profiles/1x.jpg" data-src="assets/img/profiles/1.jpg" alt="" src="assets/img/profiles/1.jpg">
+                            </div>
+                            <a href="#" class="text-complete pull-left">
+                            <span class="bold">Revox Design Labs</span>
+                            <span class="fs-12 m-l-10">Owners</span>
+                            </a>
+                            <span class="pull-right time">11:00pm</span>
+                        </div>
+                        <!-- START Notification Item Right Side-->
+                        <div class="option" data-toggle="tooltip" data-placement="left" title="mark as read">
+                            <a href="#" class="mark"></a>
+                        </div>
+                        <!-- END Notification Item Right Side-->
+                        </div>
+                        <!-- END Notification Item-->
+                    </div>
+                    <div class="notification-footer text-center">
+                        <a href="#" class="">Read all notifications</a>
+                        <a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
+                        <i class="pg-refresh_new"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="multi-rooftop">
+            <multiselect
+                v-model="selectedCompany"
+                id="rooftop-select"
+                class="rooftop-select"
+                label="name"
+                :allow-empty="false"
+                :options="companies"
+                :searchable="false"
+                :show-labels="false"
+                @select="switchCompany"
+            />
+        </div>
+        <div class="user-bar">
+            <div class="user-name">
+                <span class="bold">{{ userData.firstname }}</span>
+                <span>{{ userData.lastname }}</span>
+            </div>
+            <div class="dropdown">
+                <div class="profile-image" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
+                </div>
+                <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
+                    <router-link to="/users/settings" class="dropdown-item">
+                        <span>User settings</span>
+                    </router-link>
+
+                    <router-link to="/settings/company" class="dropdown-item">
+                        <span>Company settings</span>
+                    </router-link>
+
+                    <a href="#" class="dropdown-item" @click="logout()">
+                        <span>Logout</span>
+                        <i class="pg-power"/>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <a href="#" class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin" data-toggle="quickview" data-toggle-element="#quickview"></a>
     </div>
-    <a href="#" class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin" data-toggle="quickview" data-toggle-element="#quickview"></a>
-</div>
 </template>
 
 <script type="text/javascript">

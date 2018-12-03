@@ -1068,10 +1068,12 @@ export default {
             showSidebar: false
         };
     },
+    created() {
+        this.$store.dispatch("Settings/getTimezones");
+    },
     mounted() {
         document.body.style.setProperty("--base-color", this.appBaseColor);
         $.Pages.init();
-        this.$store.dispatch("Settings/getTimezones");
     },
     watch: {
         "$route.path"() {
