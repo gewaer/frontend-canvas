@@ -1,13 +1,22 @@
 import { isValidJWT } from "@/utils/helpers";
-import store from "../store/index";
+import store from "@/store/index";
 
-const state = {};
+const state = {
+    languages: [],
+    timezones: []
+};
 
-const mutations = {};
+const mutations = {
+    SET_LANGUAGES(state, payload) {
+        state.languages = payload;
+    },
+    SET_TIMEZONES(state, payload) {
+        state.timezones = payload;
+    }
+};
 
 const actions = {
     getGlobalStateData({ dispatch }) {
-        // RETURN IF NO COOKIES FOUND SENT ERROR (CATCH) !Cookies.get('userID'
         if (!Cookies.get("token") || !isValidJWT(Cookies.get("token"))) {
             return new Promise((resolve, reject) => {
                 reject("ERROR");
@@ -19,7 +28,29 @@ const actions = {
             dispatch("Company/getData", null, { root: true })
         ]).then(response => {
             dispatch("setGlobalData", { userData: response[0].data, companies: response[1].data });
-        })
+        });
+    },
+    getLanguages({ commit }) {
+        if (!state.languages.length) {
+            axios({
+                url: "/languages"
+            }).then((response) => {
+                commit("SET_LANGUAGES", response.data);
+            });
+        }
+    },
+    getSettingsLists({ dispatch }) {
+        dispatch("getLanguages");
+        dispatch("getTimezones");
+    },
+    getTimezones({ commit }) {
+        if (!state.timezones.length) {
+            axios({
+                url: "/timezones"
+            }).then((response) => {
+                commit("SET_TIMEZONES", response.data);
+            });
+        }
     },
     resetGlobalData({ dispatch }) {
         dispatch("User/setData", {}, { root: true });
@@ -30,13 +61,12 @@ const actions = {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
         dispatch("Company/setData", data.companies.find((company) => company.id == data.userData.default_company), { root: true });
-        dispatch("Settings/getSettings", null, { root: true });
     }
 };
 
 const getters = {
     isStateReady() {
-        return !!store.state.User.data && !!store.state.Company.data;
+        return !!store.User.data && !!store.Company.data;
     }
 };
 

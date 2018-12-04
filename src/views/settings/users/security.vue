@@ -1,0 +1,91 @@
+<template>
+    <div class="row user-general-information">
+        <div class="col-12 col-xl m-b-20">
+            <h5>Security</h5>
+            <div class="row">
+                <div class="col-12 col-md">
+                    <div class="form-group form-group-default required">
+                        <label>Current password</label>
+                        <input
+                            v-model="currentPassword"
+                            autocomplete="off"
+                            class="form-control"
+                            type="password"
+                        >
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>New password</label>
+                        <input
+                            v-model="newPassword"
+                            autocomplete="off"
+                            class="form-control"
+                            type="password"
+                        >
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Confirm new password</label>
+                        <input
+                            v-model="confirmNewPassword"
+                            autocomplete="off"
+                            class="form-control"
+                            type="password"
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-primary" :disabled="isLoading" @click="update()">Change</button>
+            </div>
+        </div>
+        <div class="col-12 col-xl m-b-20"/>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "UserSecurity",
+    data() {
+        return {
+            confirmNewPassword: "",
+            currentPassword: "",
+            isLoading: false,
+            newPassword: ""
+        }
+    },
+    methods: {
+        update() {
+            if (this.isLoading) {
+                return;
+            }
+
+            this.isLoading = true;
+
+            axios({
+                url: `/users/${this.user.id}`,
+                method: "PUT",
+                data: {
+                    "confirm_new_password": confirmNewPassword,
+                    "current_password": currentPassword,
+                    "new_password": newPassword
+                }
+            }).then(() => {
+                this.$notify({
+                    group: null,
+                    title: "Confirmation",
+                    text: "Your password has been changed!",
+                    type: "success"
+                });
+            }).catch((error) => {
+                this.$notify({
+                    group: null,
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        }
+    }
+};
+</script>
