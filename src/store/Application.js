@@ -36,7 +36,7 @@ const actions = {
 
 const getters = {
     isStateReady() {
-        return !!store.state.User.data && !!store.state.Company.data;
+        return !!store.User.data && !!store.Company.data;
     }
 };
 

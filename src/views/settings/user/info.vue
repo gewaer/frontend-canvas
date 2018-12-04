@@ -21,11 +21,11 @@
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Last name</label>
-                    <input name='lastname' class="form-control" type="text" v-model="user.lastname">
+                    <input name="lastname" class="form-control" type="text" v-model="user.lastname">
                 </div>
                 <div class="form-group form-group-default">
                     <label>Cell phone</label>
-                    <input class="form-control" name='phone' type="text" v-model="user.phone">
+                    <input class="form-control" name="phone" type="text" v-model="user.phone">
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Email (username)</label>
@@ -47,6 +47,7 @@
             <button class="btn btn-primary" :disabled="isLoading" @click="updateUser"> Save </button>
         </div>
     </div>
+
     <div class="col-12 col-xl m-b-20">
         <h5>Security</h5>
         <div class="row">
@@ -87,7 +88,9 @@ export default {
         return {
             isLoading: false,
             security: {
-                currentPassword: ""
+                currentPassword: "",
+                password: "",
+                password2: ""
             }
         }
     },

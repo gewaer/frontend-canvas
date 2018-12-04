@@ -57,7 +57,7 @@ export default {
         })
     },
     watch: {
-        userData() {
+        userData(userData) {
             this.user = userData;
         }
     },
