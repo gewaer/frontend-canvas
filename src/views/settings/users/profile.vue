@@ -104,7 +104,7 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/users/${this.user.id}`,
+                url: `/users/${this.userData.id}`,
                 method: "PUT",
                 data: this.userData
             }).then((response) => {

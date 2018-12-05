@@ -49,8 +49,12 @@ export default {
             confirmNewPassword: "",
             currentPassword: "",
             isLoading: false,
-            newPassword: ""
+            newPassword: "",
+            userData: null
         }
+    },
+    created() {
+        this.userData = _.clone(this.$store.state.User.data);
     },
     methods: {
         update() {
@@ -61,12 +65,12 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/users/${this.user.id}`,
+                url: `/users/${this.userData.id}`,
                 method: "PUT",
                 data: {
-                    "confirm_new_password": confirmNewPassword,
-                    "current_password": currentPassword,
-                    "new_password": newPassword
+                    "confirm_new_password": this.confirmNewPassword,
+                    "current_password": this.currentPassword,
+                    "new_password": this.newPassword
                 }
             }).then(() => {
                 this.$notify({
