@@ -1,15 +1,25 @@
 <template>
     <div id="app" :class="{ is_auth : ['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)}">
         <notifications/>
-        <side-bar v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
+        <app-sidebar
+            v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
+            :showSidebar="showSidebar"
+            @handleSidebar="handleSidebar()"
+        />
         <div class="page-container">
-            <app-header v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)" :showSidebar="showSidebar" @handleSidebar="handleSidebar" />
+            <app-header
+                v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
+                :showSidebar="showSidebar"
+                @handleSidebar="handleSidebar()"
+            />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in" />
+                    <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
         </div>
+
+        <!-- START: All of this code will eventually be removed. -->
         <!--START QUICKVIEW -->
         <div id="quickview" class="quickview-wrapper" data-pages="quickview">
             <!-- Nav tabs -->
@@ -1050,17 +1060,18 @@
             </div>
         </div>
         <!-- END QUICKVIEW-->
+        <!-- END: All of this code will eventually be removed. -->
     </div>
 </template>
 
 <script>
-import appHeader from "./views/layout/header.vue";
-import sideBar from "./views/layout/side-bar.vue";
+import appHeader from "@/views/layout/header.vue";
+import appSidebar from "@/views/layout/side-bar.vue";
 
 export default {
     components: {
         appHeader,
-        sideBar
+        appSidebar
     },
     data() {
         return {
@@ -1072,19 +1083,27 @@ export default {
         document.body.style.setProperty("--base-color", this.appBaseColor);
         $.Pages.init();
     },
+    watch: {
+        "$route.path"() {
+            this.$nextTick(() => {
+                $.Pages.init();
+            });
+        }
+    },
     methods: {
-        handleSidebar(payload) {
-            this.showSidebar = payload;
+        handleSidebar(state) {
+            this.showSidebar = state;
         }
     }
 }
 </script>
 <style lang="scss">
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+    transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+    opacity: 0;
 }
 
 .btn-primary {
