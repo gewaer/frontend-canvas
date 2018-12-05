@@ -4,12 +4,12 @@ module.exports = {
         node: true
     },
     extends: [
-        "plugin:vue/essential",
+        "plugin:vue/recommended",
         "eslint:recommended"
     ],
     rules: {
         "array-bracket-newline": ["error", "consistent"],
-        "array-bracket-spacing": ["error", "never"],
+        "array-bracket-spacing": ["error"],
         "array-element-newline": ["error", "consistent"],
         "brace-style": ["error", "1tbs", {
             allowSingleLine: false
@@ -18,11 +18,9 @@ module.exports = {
             properties: "always",
             ignoreDestructuring: false
         }],
-        "comma-dangle": ["error", "never"],
-        "comma-spacing": ["error", {
-            before: false,
-            after: true
-        }],
+        "comma-dangle": ["error"],
+        "comma-spacing": ["error"],
+        "comma-style": ["error"],
         "computed-property-spacing": ["error", "never"],
         "consistent-this": ["error", "self"],
         curly: ["error", "all"],
@@ -39,6 +37,7 @@ module.exports = {
             SwitchCase: 1,
             flatTernaryExpressions: true
         }],
+        "linebreak-style": ["error"],
         "new-cap": "error",
         "newline-per-chained-call": 0,
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
@@ -52,7 +51,19 @@ module.exports = {
             allowTemplateLiterals: true
         }],
         semi: 0,
-        "space-before-function-paren": ["error", "never"]
+        "space-before-function-paren": ["error", "never"],
+        "vue/html-indent": ["error", 4, {
+            "attribute": 1,
+            "closeBracket": 0,
+            "alignAttributesVertically": true
+        }],
+        "vue/max-attributes-per-line": ["warn", {
+            "singleline": 3,
+            "multiline": {
+                "max": 1,
+                "allowFirstLine": false
+            }
+        }]
     },
     parserOptions: {
         parser: "babel-eslint"
