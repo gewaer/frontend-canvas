@@ -1,38 +1,33 @@
 <template>
 <div class="row company-general-information">
-    <div class="col">
+    <div class="col-12 col-xl m-b-20">
         <h5>Company Information</h5>
         <div class="row">
-            <div class="col-12 col-xl-7">
-                <div class="row">
-                    <div class="col-12 col-md-auto">
-                        <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
-                            </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
-                            </div>
-                        </div>
+            <div class="col-12 col-md-auto">
+                <div class="profile-image-container">
+                    <div class="profile-image">
+                        <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
                     </div>
-                    <div class="col">
-                        <div class="form-group form-group-default required">
-                            <label>Name</label>
-                            <input class="form-control" type="text" name='name' v-model="formData.name">
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Address</label>
-                            <input class="form-control" type="text" name="email" v-model="formData.address">
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Zip Code</label>
-                            <input class="form-control" type="text" name="email" v-model="formData.zipcode">
-                        </div>
+                    <div class="upload-profile-image">
+                        <label for="upload-image" class="btn btn-primary">Upload image</label>
+                        <input id="upload-image" type="file">
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl-5">
+            <div class="col-12 col-md">
+                <div class="form-group form-group-default required">
+                    <label>Name</label>
+                    <input class="form-control" type="text" name='name' v-model="formData.name">
+                </div>
+                <div class="form-group form-group-default required">
+                    <label>Address</label>
+                    <input class="form-control" type="text" name="email" v-model="formData.address">
+                </div>
+                <div class="form-group form-group-default required">
+                    <label>Zip Code</label>
+                    <input class="form-control" type="text" name="email" v-model="formData.zipcode">
+                </div>
+
                 <div class="form-group form-group-default">
                     <label>Email</label>
                     <input class="form-control" name='phone' type="email" v-model="formData.email">
@@ -43,18 +38,32 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <label>Language </label>
-                 <multiselect :options="settings.languages" v-model="formData.language"/>
-            </div>
-            <div class="col">
-                <label>Timezone</label>
-                <multiselect :options="settings.timezones" v-model="formData.timezone"/>
-            </div>
-        </div>
+
         <div class="d-flex justify-content-end mt-2">
             <button class="btn btn-primary" :disabled="isLoading" @click="updateCompany"> Save </button>
+        </div>
+    </div>
+    <div class="col-12 col-xl m-b-20">
+        <h5>&nbsp;</h5>
+         <div class="row">
+            <div class="col-12 col-md">
+                <label>Language </label>
+                <multiselect
+                    v-model="selectedLanguage"
+                    :options="languages"
+                    label="name"
+                    track-by="id"
+                    @input="setLanguage"
+                />
+            </div>
+            <div class="col-12 col-md">
+                <label>Timezone</label>
+                <multiselect
+                    v-model="formData.timezone"
+                    :maxHeight="175"
+                    :options="timezones"
+                />
+            </div>
         </div>
     </div>
 </div>
@@ -65,16 +74,11 @@ import {mapState} from "vuex";
 
 export default {
     name: "CompanyInfo",
-    props: {
-        company: {
-            type: Object,
-            required: true
-        }
-    },
     data() {
         return {
             isLoading: false,
             formData: {},
+            selectedLanguage: null,
             companySchema: {
                 createFields: ["name", "timezone", "language"]
             }
@@ -82,24 +86,21 @@ export default {
     },
 
     computed:{
-        ...mapState("Settings", {
-            settings: (state) => {
-                return {
-                    timezones: state.timezones,
-                    languages: state.languages
-                }
-            }
+        ...mapState("Application", {
+            timezones: state => state.timezones,
+            languages: state => state.languages
         })
     },
 
     watch: {
-        company(value) {
-            this.formData = value;
+        languages() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
         }
     },
 
-    mounted() {
-        this.formData = this.company;
+    created() {
+        this.$store.dispatch("Application/getSettingsLists");
+        this.formData = _.clone(this.$store.state.Company.data);
     },
 
     methods: {
@@ -109,6 +110,10 @@ export default {
                 form[field] = data[field]
             })
             return form;
+        },
+
+        setLanguage(value) {
+            this.formData.language = value.id;
         },
         updateCompany() {
             this.isLoading = true;
