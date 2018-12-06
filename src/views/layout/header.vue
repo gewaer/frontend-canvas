@@ -1,14 +1,21 @@
 <template>
     <div class="header app-header">
-        <div @click="handleSidebar(!showSidebar)" class="sidebar-toggle">
+        <div class="sidebar-toggle" @click="handleSidebar(!showSidebar)">
             <img src="../../assets/icons/hamburguer-menu.png">
         </div>
-        <router-link class="app-logo" :to="{ name: 'dashboard'}">
+        <router-link :to="{ name: 'dashboard'}" class="app-logo">
             <img src="../../assets/primary-logo.png" alt="logo">
         </router-link>
         <div class="app-switcher">
             <span class="app-mode">A1</span>
-            <a class="grid-box" id="app-grid" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+            <a
+                id="app-grid"
+                class="grid-box"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+            />
             <ul class="dropdown-menu" aria-labelledby="app-grid">
                 <li class="dropdown-item">
                     <a href="javascript:void(0)" target="_blank">
@@ -25,8 +32,13 @@
             </ul>
         </div>
         <div class="notifications-center dropdown">
-            <a href="javascript:;" id="notification-center" class="header-icon pg pg-world" data-toggle="dropdown">
-                <span class="bubble"></span>
+            <a
+                id="notification-center"
+                href="javascript:;"
+                class="header-icon pg pg-world"
+                data-toggle="dropdown"
+            >
+                <span class="bubble"/>
             </a>
             <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
                 <div class="notification-panel">
@@ -125,7 +137,7 @@
                     <div class="notification-footer text-center">
                         <a href="#" class="">Read all notifications</a>
                         <a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
-                        <i class="pg-refresh_new"></i>
+                            <i class="pg-refresh_new"/>
                         </a>
                     </div>
                 </div>
@@ -133,14 +145,14 @@
         </div>
         <div class="multi-rooftop">
             <multiselect
-                v-model="selectedCompany"
                 id="rooftop-select"
-                class="rooftop-select"
-                label="name"
+                v-model="selectedCompany"
                 :allow-empty="false"
                 :options="companies"
                 :searchable="false"
                 :show-labels="false"
+                class="rooftop-select"
+                label="name"
                 @select="switchCompany"
             />
         </div>
@@ -169,7 +181,12 @@
                 </ul>
             </div>
         </div>
-        <a href="#" class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin" data-toggle="quickview" data-toggle-element="#quickview"></a>
+        <a
+            href="#"
+            class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
+            data-toggle="quickview"
+            data-toggle-element="#quickview"
+        />
     </div>
 </template>
 
