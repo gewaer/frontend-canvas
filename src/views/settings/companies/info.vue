@@ -1,72 +1,88 @@
 <template>
-<div class="row company-general-information">
-    <div class="col-12 col-xl m-b-20">
-        <h5>Company Information</h5>
-        <div class="row">
-            <div class="col-12 col-md-auto">
-                <div class="profile-image-container">
-                    <div class="profile-image">
-                        <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
+    <div class="row company-general-information">
+        <div class="col-12 col-xl m-b-20">
+            <h5>Company Information</h5>
+            <div class="row">
+                <div class="col-12 col-md-auto">
+                    <div class="profile-image-container">
+                        <div class="profile-image">
+                            <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
+                        </div>
+                        <div class="upload-profile-image">
+                            <label for="upload-image" class="btn btn-primary">Upload image</label>
+                            <input id="upload-image" type="file">
+                        </div>
                     </div>
-                    <div class="upload-profile-image">
-                        <label for="upload-image" class="btn btn-primary">Upload image</label>
-                        <input id="upload-image" type="file">
+                </div>
+                <div class="col-12 col-md">
+                    <div class="form-group form-group-default required">
+                        <label>Name</label>
+                        <input
+                            v-model="companyData.name"
+                            class="form-control"
+                            type="text"
+                            name="name">
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Address</label>
+                        <input
+                            v-model="companyData.address"
+                            class="form-control"
+                            type="text"
+                            name="email">
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Zip Code</label>
+                        <input
+                            v-model="companyData.zipcode"
+                            class="form-control"
+                            type="text"
+                            name="email">
+                    </div>
+
+                    <div class="form-group form-group-default">
+                        <label>Email</label>
+                        <input
+                            v-model="companyData.email"
+                            class="form-control"
+                            name="phone"
+                            type="email">
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Phone</label>
+                        <input name="lastname" class="form-control" type="tel">
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md">
-                <div class="form-group form-group-default required">
-                    <label>Name</label>
-                    <input class="form-control" type="text" name='name' v-model="formData.name">
-                </div>
-                <div class="form-group form-group-default required">
-                    <label>Address</label>
-                    <input class="form-control" type="text" name="email" v-model="formData.address">
-                </div>
-                <div class="form-group form-group-default required">
-                    <label>Zip Code</label>
-                    <input class="form-control" type="text" name="email" v-model="formData.zipcode">
-                </div>
 
-                <div class="form-group form-group-default">
-                    <label>Email</label>
-                    <input class="form-control" name='phone' type="email" v-model="formData.email">
-                </div>
-                <div class="form-group form-group-default required">
-                    <label>Phone</label>
-                    <input name='lastname' class="form-control" type="tel">
-                </div>
+            <div class="d-flex justify-content-end mt-2">
+                <button :disabled="isLoading" class="btn btn-primary" @click="update()"> Save </button>
             </div>
         </div>
-
-        <div class="d-flex justify-content-end mt-2">
-            <button class="btn btn-primary" :disabled="isLoading" @click="updateCompany"> Save </button>
+        <div class="col-12 col-xl m-b-20">
+            <h5>&nbsp;</h5>
+            <div class="row">
+                <div class="col-12 col-md">
+                    <label>Language </label>
+                    <multiselect
+                        v-model="selectedLanguage"
+                        :options="languages"
+                        label="name"
+                        track-by="id"
+                        @input="setLanguage"
+                    />
+                </div>
+                <div class="col-12 col-md">
+                    <label>Timezone</label>
+                    <multiselect
+                        v-model="companyData.timezone"
+                        :max-height="175"
+                        :options="timezones"
+                    />
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-12 col-xl m-b-20">
-        <h5>&nbsp;</h5>
-         <div class="row">
-            <div class="col-12 col-md">
-                <label>Language </label>
-                <multiselect
-                    v-model="selectedLanguage"
-                    :options="languages"
-                    label="name"
-                    track-by="id"
-                    @input="setLanguage"
-                />
-            </div>
-            <div class="col-12 col-md">
-                <label>Timezone</label>
-                <multiselect
-                    v-model="formData.timezone"
-                    :maxHeight="175"
-                    :options="timezones"
-                />
-            </div>
-        </div>
-    </div>
-</div>
 </template>
 
 <script>
@@ -77,7 +93,7 @@ export default {
     data() {
         return {
             isLoading: false,
-            formData: {},
+            companyData: {},
             selectedLanguage: null,
             companySchema: {
                 createFields: ["name", "timezone", "language"]
@@ -94,46 +110,39 @@ export default {
 
     watch: {
         languages() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         }
     },
 
     created() {
         this.$store.dispatch("Application/getSettingsLists");
-        this.formData = _.clone(this.$store.state.Company.data);
+        this.companyData = _.clone(this.$store.state.Company.data);
     },
 
     methods: {
-        prepareForm(data, fields) {
-            const form = {};
-            fields.forEach(field => {
-                form[field] = data[field]
-            })
-            return form;
-        },
-
         setLanguage(value) {
-            this.formData.language = value.id;
+            this.companyData.language = value.id;
         },
-        updateCompany() {
+        update() {
+            if (this.isLoading) {
+                return;
+            }
+
             this.isLoading = true;
-            const form = this.prepareForm(this.company, this.companySchema.createFields);
 
-            axios.put(`/companies/${this.formData.id}`, form)
-                .then(({data}) => {
+            axios({
+                url: `/companies/${this.companyData.id}`,
+                method: 'PUT',
+                data: this.companyData
+            }).then(({data}) => {
                     this.isLoading = false;
-                    this.onCompanyUpdate(data)
-                })
-                .catch(() => {
-                    this.isLoading = false;
-                })
+                    this.onUpdate(data)
+            }).catch((error) => {
+                this.onAxiosError(error)
+            })
         },
 
-        readChange(event) {
-            console.log(event)
-        },
-
-        onCompanyUpdate(company) {
+        onUpdate(company) {
             this.$notify({
                 group: null,
                 title: "Confirmation",
@@ -141,6 +150,16 @@ export default {
                 type: "success"
             });
             this.$store.dispatch("Company/setData", company);
+        },
+
+        onAxiosError(error) {
+            debugger
+            this.$notify({
+                group: null,
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
+            });
         }
     }
 };
