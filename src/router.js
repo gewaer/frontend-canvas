@@ -6,6 +6,7 @@ import store from "@/store";
 import examples from "./views/examples";
 import UsersSettings from "@/views/settings/users";
 import CompaniesSettings from "@/views/settings/companies";
+import BrowseList from "@/views/browse/";
 
 Vue.use(Router);
 
@@ -83,6 +84,14 @@ const router = new Router({
             path: "/settings/companies",
             name: "companiesSettings",
             component: CompaniesSettings
+        },
+        {
+            path: "/browse",
+            name: "browse",
+            component: BrowseList,
+            meta: {
+                requiresAuth: false
+            }
         }
     ]
 });
