@@ -132,11 +132,11 @@ export default {
 
             axios({
                 url: `/companies/${this.companyData.id}`,
-                method: 'PUT',
+                method: "PUT",
                 data: this.companyData
             }).then(({data}) => {
-                    this.isLoading = false;
-                    this.onUpdate(data)
+                this.isLoading = false;
+                this.onUpdate(data)
             }).catch((error) => {
                 this.onAxiosError(error)
             })

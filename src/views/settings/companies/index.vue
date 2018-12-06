@@ -1,5 +1,5 @@
 <template>
-    <div class="user-settings">
+    <div class="company-settings">
         <h4 class="section-title p-l-10">Settings</h4>
         <div class="card card-transparent">
             <div class="card-body no-padding">
@@ -21,6 +21,9 @@
                                     <a href="#" data-toggle="tab" data-target="#users-list">Users</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="#" data-toggle="tab" data-target="#roles-list">Roles</a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="#" data-toggle="tab" data-target="#subscriptions-list">Subscriptions</a>
                                 </li>
                             </ul>
@@ -33,6 +36,9 @@
                                 </div>
                                 <div id="users-list" class="tab-pane">
                                     <company-users />
+                                </div>
+                                <div id="roles-list" class="tab-pane">
+                                    <company-roles />
                                 </div>
                                 <div id="subscriptions-list" class="tab-pane">
                                     <company-subscriptions />
@@ -52,6 +58,7 @@ import {cloneDeep} from "lodash"
 import companyInfo from "./info";
 import companiesList from "./companies";
 import companyUsers from "./users";
+import companyRoles from "./roles";
 import companySubscriptions from "./subscriptions";
 
 export default {
@@ -59,6 +66,7 @@ export default {
         companyInfo,
         companiesList,
         companyUsers,
+        companyRoles,
         companySubscriptions
     },
     data() {
