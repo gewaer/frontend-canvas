@@ -3,13 +3,13 @@
         <notifications/>
         <app-sidebar
             v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
-            :showSidebar="showSidebar"
+            :show-sidebar="showSidebar"
             @handleSidebar="handleSidebar()"
         />
         <div class="page-container">
             <app-header
                 v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
-                :showSidebar="showSidebar"
+                :show-sidebar="showSidebar"
                 @handleSidebar="handleSidebar()"
             />
             <div class="page-content-wrapper animated">
@@ -1079,16 +1079,16 @@ export default {
             showSidebar: false
         };
     },
-    mounted() {
-        document.body.style.setProperty("--base-color", this.appBaseColor);
-        $.Pages.init();
-    },
     watch: {
         "$route.path"() {
             this.$nextTick(() => {
                 $.Pages.init();
             });
         }
+    },
+    mounted() {
+        document.body.style.setProperty("--base-color", this.appBaseColor);
+        $.Pages.init();
     },
     methods: {
         handleSidebar(state) {

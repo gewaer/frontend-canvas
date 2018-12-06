@@ -3,12 +3,17 @@
         <!-- START Login Background Pic Wrapper-->
         <div class="bg-pic">
             <!-- START Background Pic-->
-            <img src="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg" data-src="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg" data-src-retina="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg" alt="" class="lazy">
+            <img
+                src="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg"
+                data-src="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg"
+                data-src-retina="https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg"
+                class="lazy"
+            >
             <!-- END Background Pic-->
             <!-- START Background Caption-->
             <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-                <h2 class="semi-bold text-white">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h2>
-                <p class="small">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                <h2 class="semi-bold text-white">Some title.</h2>
+                <p class="small">Some title text.</p>
             </div>
             <!-- END Background Caption-->
         </div>
@@ -16,16 +21,28 @@
         <!-- START Login Right Container-->
         <div class="login-container bg-white">
             <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-                <img src="../../assets/primary-logo.png" alt="logo" data-src="../../assets/primary-logo.png" style="max-height:30px;">
+                <img
+                    src="../../assets/primary-logo.png"
+                    alt="logo"
+                    data-src="../../assets/primary-logo.png"
+                    style="max-height:30px;"
+                >
                 <p class="p-t-10">{{ form.title }}</p>
                 <!-- START Login Form -->
-                <form id="form-login" class="p-t-15" role="form" @submit.prevent="submitData()">
+                <form id="form-login" class="p-t-15" @submit.prevent="submitData()">
                     <template v-if="isSignup">
                         <!-- START Form Control-->
                         <div class="form-group form-group-default">
                             <label>First Name</label>
                             <div class="controls">
-                                <input v-model="data.firstname" type="text" name="firstname" placeholder="John" class="form-control" required>
+                                <input
+                                    v-model="data.firstname"
+                                    type="text"
+                                    name="firstname"
+                                    placeholder="John"
+                                    class="form-control"
+                                    required
+                                >
                             </div>
                         </div>
                         <!-- END Form Control-->
@@ -33,7 +50,14 @@
                         <div class="form-group form-group-default">
                             <label>Last Name</label>
                             <div class="controls">
-                                <input v-model="data.lastname" type="text" name="lastname" placeholder="Smith" class="form-control" required>
+                                <input
+                                    v-model="data.lastname"
+                                    type="text"
+                                    name="lastname"
+                                    placeholder="Smith"
+                                    class="form-control"
+                                    required
+                                >
                             </div>
                         </div>
                         <!-- END Form Control-->
@@ -42,7 +66,14 @@
                     <div v-if="!isResetPassword" class="form-group form-group-default">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
-                            <input v-model="data.email" type="text" name="username" placeholder="user@example.com" class="form-control" required>
+                            <input
+                                v-model="data.email"
+                                type="text"
+                                name="username"
+                                placeholder="user@example.com"
+                                class="form-control"
+                                required
+                            >
                         </div>
                     </div>
                     <!-- END Form Control-->
@@ -50,7 +81,14 @@
                     <div v-if="!isForgotPassword" class="form-group form-group-default">
                         <label>Password</label>
                         <div class="controls">
-                            <input v-model="data.password" type="password" class="form-control" name="password" placeholder="Credentials" required>
+                            <input
+                                v-model="data.password"
+                                type="password"
+                                class="form-control"
+                                name="password"
+                                placeholder="Credentials"
+                                required
+                            >
                         </div>
                     </div>
                     <!-- END Form Control-->
@@ -58,7 +96,15 @@
                     <div v-if="isSignup || isResetPassword" class="form-group form-group-default">
                         <label>Confirm Password</label>
                         <div class="controls">
-                            <input v-model="data.password2" type="password" name="password2" placeholder="Retype Credentials" class="form-control" required>
+                            <input
+                                v-model="data.password2"
+                                type="password"
+                                name="password2"
+                                placeholder="Retype
+                                Credentials"
+                                class="form-control"
+                                required
+                            >
                         </div>
                     </div>
                     <!-- END Form Control-->
@@ -66,7 +112,14 @@
                     <div v-if="isSignup" class="form-group form-group-default">
                         <label>Company Name</label>
                         <div class="controls">
-                            <input v-model="data.company" type="text" name="company" placeholder="John Smith Co." class="form-control" required>
+                            <input
+                                v-model="data.company"
+                                type="text"
+                                name="company"
+                                placeholder="John Smith Co."
+                                class="form-control"
+                                required
+                            >
                         </div>
                     </div>
                     <!-- END Form Control-->
@@ -74,7 +127,7 @@
                     <div class="row">
                         <div class="col-md-6 no-padding sm-p-l-10">
                             <div v-if="isLogin" class="checkbox">
-                                <input type="checkbox" value="1" id="checkbox1">
+                                <input id="checkbox1" type="checkbox" value="1">
                                 <label for="checkbox1">Keep Me Signed in</label>
                             </div>
                         </div>
@@ -102,11 +155,18 @@
                 <div class="pull-bottom sm-pull-bottom">
                     <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
                         <div class="col-sm-3 col-md-2 no-padding">
-                            <img alt="" class="m-t-5" data-src="assets/img/demo/pages_icon.png" data-src-retina="assets/img/demo/pages_icon_2x.png" height="60" src="assets/img/demo/pages_icon.png" width="60">
+                            <img
+                                class="m-t-5"
+                                data-src="assets/img/demo/pages_icon.png"
+                                data-src-retina="assets/img/demo/pages_icon_2x.png"
+                                height="60"
+                                src="assets/img/demo/pages_icon.png"
+                                width="60"
+                            >
                         </div>
                         <div class="col-sm-9 no-padding m-t-10">
                             <p>
-                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                                <small>Some small text.</small>
                             </p>
                         </div>
                     </div>
