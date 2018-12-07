@@ -1065,6 +1065,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { AbilityBuilder } from "@casl/ability";
 import appHeader from "@/views/layout/header.vue";
 import appSidebar from "@/views/layout/side-bar.vue";
 
@@ -1079,7 +1081,25 @@ export default {
             showSidebar: false
         };
     },
+    computed: {
+        ...mapState({
+            accessList: state => state.User.data.access_list
+        })
+    },
     watch: {
+        accessList(permissions) {
+            const ability = AbilityBuilder.define((can, cannot) => {
+                can("manage", "all");
+
+                Object.keys(permissions).forEach((resource) => {
+                    Object.keys(permissions[resource]).forEach((action) => {
+                        cannot(action, resource);
+                    });
+                });
+            });
+
+            this.$ability.update(ability.rules);
+        },
         "$route.path"() {
             this.$nextTick(() => {
                 $.Pages.init();

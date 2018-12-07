@@ -58,10 +58,8 @@
     </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
-    name: "home"
-});
+<script>
+export default {
+    name: "Home"
+};
 </script>
