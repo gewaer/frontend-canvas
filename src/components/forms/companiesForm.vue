@@ -1,47 +1,62 @@
 <template>
-    <div class="row user-general-information">
+    <div class="row company-general-information">
         <div class="col-12 m-b-20">
-            <h5 class="form-title">{{ title }}</h5>
+            <h5> {{ title }}</h5>
             <div class="row">
+                <!-- <div class="col-12 col-md-auto">
+                    <div class="profile-image-container">
+                        <div class="profile-image">
+                            <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
+                        </div>
+                        <div class="upload-profile-image">
+                            <label for="upload-image" class="btn btn-primary">Upload image</label>
+                            <input id="upload-image" type="file">
+                        </div>
+                    </div>
+                </div> -->
                 <div class="col-6 col-md">
                     <div class="form-group form-group-default required">
-                        <label>First name</label>
+                        <label>Name</label>
                         <input
-                            v-model="userData.firstname"
+                            v-model="companyData.name"
                             class="form-control"
                             type="text"
-                            name="firstname">
+                            name="name">
                     </div>
                     <div class="form-group form-group-default required">
-                        <label>Last name</label>
+                        <label>Address</label>
                         <input
-                            v-model="userData.lastname"
-                            name="lastname"
-                            class="form-control"
-                            type="text">
-                    </div>
-                    <div class="form-group form-group-default">
-                        <label>Cell phone</label>
-                        <input
-                            v-model="userData.phone"
-                            class="form-control"
-                            name="phone"
-                            type="text">
-                    </div>
-                    <div class="form-group form-group-default required">
-                        <label>Email (username)</label>
-                        <input
-                            v-model="userData.email"
+                            v-model="companyData.address"
                             class="form-control"
                             type="text"
                             name="email">
                     </div>
+                    <div class="form-group form-group-default required">
+                        <label>Zip Code</label>
+                        <input
+                            v-model="companyData.zipcode"
+                            class="form-control"
+                            type="text"
+                            name="email">
+                    </div>
+
+                    <div class="form-group form-group-default">
+                        <label>Email</label>
+                        <input
+                            v-model="companyData.email"
+                            class="form-control"
+                            name="phone"
+                            type="email">
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Phone</label>
+                        <input name="lastname" class="form-control" type="tel">
+                    </div>
                 </div>
 
                 <div class="col-6 m-b-20">
-                    <div class="col-12 col-md">
-                        <div class="form-group">
-                            <label>Language</label>
+                        <div class="col-12 col-md">
+                            <label>Language </label>
                             <multiselect
                                 v-model="selectedLanguage"
                                 :options="languages"
@@ -50,32 +65,34 @@
                                 @input="setLanguage"
                             />
                         </div>
-                        <div class="form-group">
+
+                        <div class="col-12 col-md">
                             <label>Timezone</label>
                             <multiselect
-                                v-model="userData.timezone"
+                                v-model="companyData.timezone"
                                 :max-height="175"
                                 :options="timezones"
                             />
                         </div>
-                    </div>
                 </div>
+
             </div>
+
         </div>
 
         <div class="col-12 col-xl d-flex justify-content-end mt-2">
-            <button :disabled="isLoading" class="btn btn-primary" @click="save()">Save</button>
+            <button :disabled="isLoading" class="btn btn-primary" @click="save()"> Save </button>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 
 export default {
-    name: "UserInfo",
+    name: "CompanyInfo",
     props: {
-        user: {
+        company: {
             type: Object,
             default() {
                 return {};
@@ -85,52 +102,56 @@ export default {
     data() {
         return {
             isLoading: false,
-            selectedLanguage: null,
-            userData: null
+            companyData: null,
+            selectedLanguage: null
         }
     },
-    computed: {
+
+    computed:{
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages
         }),
         title() {
-            if (!this.userData.id) {
-                return 'New User';
+            if (!this.company.id) {
+                return "Add company";
+            } else {
+                return "Edit company";
             }
-            return 'Edit User';
         }
     },
+
     watch: {
         languages() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
-        user() {
-            this.setUser();
+        company() {
+            this.setCompany();
         }
     },
+
     created() {
         this.$store.dispatch("Application/getSettingsLists");
-        this.setUser();
+        this.setCompany();
     },
-    methods: {
-        setUser() {
-            this.userData = _.clone(this.user);
-        },
 
+    methods: {
+        setCompany() {
+            this.companyData = _.clone(this.company);
+        },
         setLanguage(value) {
-            this.userData.language = value.id;
+            this.companyData.language = value.id;
         },
 
         save() {
             let url;
             let method;
 
-            if (!this.userData.id) {
-                url = "/users";
+            if (!this.companyData.id) {
+                url = "/companies";
                 method = "POST";
             } else {
-                url = `/users/${this.userData.id}`;
+                url = `/companies/${this.companyData.id}`;
                 method = "PUT";
             }
 
@@ -146,12 +167,12 @@ export default {
             axios({
                 url,
                 method,
-                data: this.userData
-            }).then(() => {
+                data: this.companyData
+            }).then(({data}) => {
                 this.$notify({
                     group: null,
                     title: "Confirmation",
-                    text: "Your information has been updated!",
+                    text: "The company information has been changed",
                     type: "success"
                 });
             }).catch((error) => {
@@ -162,16 +183,16 @@ export default {
                     type: "error"
                 });
             }).finally(() => {
-                this.isLoading = false;
+                 this.isLoading = false;
             });
-        }
+        },
     }
 };
 </script>
 
 <style lang="scss">
-.user-general-information {
-    margin: 20px;
+.company-general-information {
+    margin: 20px 15px;
     .profile-image-container {
         display: flex;
         flex-direction: column;

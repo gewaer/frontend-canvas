@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <h5>Users
-                <button class="btn btn-primary" @click="addUser">New user</button>
+                <button class="btn btn-primary" @click="addUser()">New user</button>
             </h5>
             <div class="table-responsive">
                 <table class="table table-hover table-condensed">
@@ -96,7 +96,7 @@ export default {
             }
 
             axios({
-                url: `users/${id}`,
+                url: `/users/${id}`,
                 method: "DELETE"
             }).then(() => {
                 this.$notify({

@@ -17,24 +17,40 @@
                 <div class="col-12 col-md">
                     <div class="form-group form-group-default required">
                         <label>First name</label>
-                        <input class="form-control" type="text" name="firstname" v-model="userData.firstname">
+                        <input 
+                            v-model="userData.firstname" 
+                            class="form-control" 
+                            type="text" 
+                            name="firstname">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
-                        <input name='lastname' class="form-control" type="text" v-model="userData.lastname">
+                        <input 
+                            v-model="userData.lastname" 
+                            name="lastname" 
+                            class="form-control" 
+                            type="text">
                     </div>
                     <div class="form-group form-group-default">
                         <label>Cell phone</label>
-                        <input class="form-control" name='phone' type="text" v-model="userData.phone">
+                        <input 
+                            v-model="userData.phone" 
+                            class="form-control" 
+                            name="phone" 
+                            type="text">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Email (username)</label>
-                        <input class="form-control" type="text" name="email" v-model="userData.email">
+                        <input 
+                            v-model="userData.email" 
+                            class="form-control" 
+                            type="text" 
+                            name="email">
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <button class="btn btn-primary" :disabled="isLoading" @click="update()">Save</button>
+                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
             </div>
         </div>
         <div class="col-12 col-xl m-b-20">
@@ -55,7 +71,7 @@
                         <label>Timezone</label>
                         <multiselect
                             v-model="userData.timezone"
-                            :maxHeight="175"
+                            :max-height="175"
                             :options="timezones"
                         />
                     </div>
