@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <button class="btn btn-primary" :disabled="isLoading" @click="update()">Change</button>
+                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Change</button>
             </div>
         </div>
         <div class="col-12 col-xl m-b-20"/>

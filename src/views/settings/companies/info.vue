@@ -1,63 +1,79 @@
 <template>
-<div class="row company-general-information">
-    <div class="col">
-        <h5>Company Information</h5>
-        <div class="row">
-            <div class="col-12 col-xl-7">
-                <div class="row">
-                    <div class="col-12 col-md-auto">
-                        <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
+    <div class="row company-general-information">
+        <div class="col">
+            <h5>Company Information</h5>
+            <div class="row">
+                <div class="col-12 col-xl-7">
+                    <div class="row">
+                        <div class="col-12 col-md-auto">
+                            <div class="profile-image-container">
+                                <div class="profile-image">
+                                    <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
+                                </div>
+                                <div class="upload-profile-image">
+                                    <label for="upload-image" class="btn btn-primary">Upload image</label>
+                                    <input id="upload-image" type="file">
+                                </div>
                             </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
+                        </div>
+                        <div class="col">
+                            <div class="form-group form-group-default required">
+                                <label>Name</label>
+                                <input 
+                                    v-model="formData.name" 
+                                    class="form-control" 
+                                    type="text" 
+                                    name="name">
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Address</label>
+                                <input 
+                                    v-model="formData.address" 
+                                    class="form-control" 
+                                    type="text" 
+                                    name="email">
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Zip Code</label>
+                                <input 
+                                    v-model="formData.zipcode" 
+                                    class="form-control" 
+                                    type="text" 
+                                    name="email">
                             </div>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group form-group-default required">
-                            <label>Name</label>
-                            <input class="form-control" type="text" name='name' v-model="formData.name">
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Address</label>
-                            <input class="form-control" type="text" name="email" v-model="formData.address">
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Zip Code</label>
-                            <input class="form-control" type="text" name="email" v-model="formData.zipcode">
-                        </div>
+                </div>
+                <div class="col-12 col-xl-5">
+                    <div class="form-group form-group-default">
+                        <label>Email</label>
+                        <input 
+                            v-model="formData.email" 
+                            class="form-control" 
+                            name="phone" 
+                            type="email">
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Phone</label>
+                        <input name="lastname" class="form-control" type="tel">
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl-5">
-                <div class="form-group form-group-default">
-                    <label>Email</label>
-                    <input class="form-control" name='phone' type="email" v-model="formData.email">
+            <div class="row">
+                <div class="col">
+                    <label>Language </label>
+                    <multiselect :options="settings.languages" v-model="formData.language"/>
                 </div>
-                <div class="form-group form-group-default required">
-                    <label>Phone</label>
-                    <input name='lastname' class="form-control" type="tel">
+                <div class="col">
+                    <label>Timezone</label>
+                    <multiselect :options="settings.timezones" v-model="formData.timezone"/>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label>Language </label>
-                 <multiselect :options="settings.languages" v-model="formData.language"/>
+            <div class="d-flex justify-content-end mt-2">
+                <button :disabled="isLoading" class="btn btn-primary" @click="updateCompany"> Save </button>
             </div>
-            <div class="col">
-                <label>Timezone</label>
-                <multiselect :options="settings.timezones" v-model="formData.timezone"/>
-            </div>
-        </div>
-        <div class="d-flex justify-content-end mt-2">
-            <button class="btn btn-primary" :disabled="isLoading" @click="updateCompany"> Save </button>
         </div>
     </div>
-</div>
 </template>
 
 <script>
