@@ -21,7 +21,8 @@
                             v-model="userData.firstname"
                             class="form-control"
                             type="text"
-                            name="firstname">
+                            name="firstname"
+                        >
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
@@ -29,7 +30,8 @@
                             v-model="userData.lastname"
                             name="lastname"
                             class="form-control"
-                            type="text">
+                            type="text"
+                        >
                     </div>
                     <div class="form-group form-group-default">
                         <label>Cell phone</label>
@@ -37,7 +39,8 @@
                             v-model="userData.phone"
                             class="form-control"
                             name="phone"
-                            type="text">
+                            type="text"
+                        >
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Email (username)</label>
@@ -45,7 +48,8 @@
                             v-model="userData.email"
                             class="form-control"
                             type="text"
-                            name="email">
+                            name="email"
+                        >
                     </div>
                 </div>
             </div>
