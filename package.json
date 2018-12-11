@@ -13,6 +13,8 @@
   ],
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "@casl/ability": "^2.5.1",
+    "@casl/vue": "^0.5.0",
     "accounting": "^0.4.1",
     "axios": "^0.18.0",
     "js-cookie": "^2.2.0",
