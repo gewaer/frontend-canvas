@@ -14,6 +14,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
+                    <free-trial-bar />
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -25,24 +26,24 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li class="">
-                    <a 
-                        href="#quickview-notes" 
-                        data-target="#quickview-notes" 
-                        data-toggle="tab" 
+                    <a
+                        href="#quickview-notes"
+                        data-target="#quickview-notes"
+                        data-toggle="tab"
                         role="tab">Notes</a>
                 </li>
                 <li>
-                    <a 
-                        href="#quickview-alerts" 
-                        data-target="#quickview-alerts" 
-                        data-toggle="tab" 
+                    <a
+                        href="#quickview-alerts"
+                        data-target="#quickview-alerts"
+                        data-toggle="tab"
                         role="tab">Alerts</a>
                 </li>
                 <li class="">
-                    <a 
-                        class="active" 
-                        href="#quickview-chat" 
-                        data-toggle="tab" 
+                    <a
+                        class="active"
+                        href="#quickview-chat"
+                        data-toggle="tab"
                         role="tab">Chat</a>
                 </li>
             </ul>
@@ -60,11 +61,11 @@
                                         <a href="#" class="delete-note-link"><i class="fa fa-trash-o"/></a>
                                     </li>
                                     <li>
-                                        <a 
-                                            href="#" 
-                                            class="new-note-link" 
-                                            data-navigate="view" 
-                                            data-view-port="#note-views" 
+                                        <a
+                                            href="#"
+                                            class="new-note-link"
+                                            data-navigate="view"
+                                            data-view-port="#note-views"
                                             data-view-animation="push"><i class="fa fa-plus"/></a>
                                     </li>
                                 </ul>
@@ -88,10 +89,10 @@
                                     <div class="right pull-right">
                                         <!-- BEGIN Note Date !-->
                                         <span class="date">12/12/14</span>
-                                        <a 
-                                            href="#" 
-                                            data-navigate="view" 
-                                            data-view-port="#note-views" 
+                                        <a
+                                            href="#"
+                                            data-navigate="view"
+                                            data-view-port="#note-views"
                                             data-view-animation="push"><i class="fa fa-chevron-right"/></a>
                                             <!-- END Note Date !-->
                                     </div>
@@ -229,11 +230,11 @@
                             <div class="navbar navbar-default navbar-sm">
                                 <div class="navbar-inner">
                                     <!-- BEGIN Header Controler !-->
-                                    <a 
-                                        href="javascript:;" 
-                                        class="inline action p-l-10 link text-master" 
-                                        data-navigate="view" 
-                                        data-view-port="#chat" 
+                                    <a
+                                        href="javascript:;"
+                                        class="inline action p-l-10 link text-master"
+                                        data-navigate="view"
+                                        data-view-port="#chat"
                                         data-view-animation="push-parrallax">
                                         <i class="pg-more"/>
                                     </a>
@@ -262,11 +263,11 @@
                                         <!-- BEGIN List Group Item!-->
                                         <li class="alert-list">
                                             <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                            <a 
-                                                href="javascript:;" 
-                                                class="align-items-center" 
-                                                data-navigate="view" 
-                                                data-view-port="#chat" 
+                                            <a
+                                                href="javascript:;"
+                                                class="align-items-center"
+                                                data-navigate="view"
+                                                data-view-port="#chat"
                                                 data-view-animation="push-parrallax">
                                                 <p class="">
                                                     <span class="text-warning fs-10"><i class="fa fa-circle"/></span>
@@ -286,11 +287,11 @@
                                         <!-- BEGIN List Group Item!-->
                                         <li class="alert-list">
                                             <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                            <a 
-                                                href="#" 
-                                                class="align-items-center" 
-                                                data-navigate="view" 
-                                                data-view-port="#chat" 
+                                            <a
+                                                href="#"
+                                                class="align-items-center"
+                                                data-navigate="view"
+                                                data-view-port="#chat"
                                                 data-view-animation="push-parrallax">
                                                 <p class="">
                                                     <span class="text-warning fs-10"><i class="fa fa-circle"/></span>
@@ -318,11 +319,11 @@
                                         <!-- BEGIN List Group Item!-->
                                         <li class="alert-list">
                                             <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                            <a 
-                                                href="javascript:;" 
-                                                class="p-t-10 p-b-10 align-items-center" 
-                                                data-navigate="view" 
-                                                data-view-port="#chat" 
+                                            <a
+                                                href="javascript:;"
+                                                class="p-t-10 p-b-10 align-items-center"
+                                                data-navigate="view"
+                                                data-view-port="#chat"
                                                 data-view-animation="push-parrallax">
                                                 <p class="">
                                                     <span class="text-complete fs-10"><i class="fa fa-circle"/></span>
@@ -338,11 +339,11 @@
                                         <!-- BEGIN List Group Item!-->
                                         <li class="alert-list">
                                             <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                            <a 
-                                                href="javascript:;" 
-                                                class="p-t-10 p-b-10 align-items-center" 
-                                                data-navigate="view" 
-                                                data-view-port="#chat" 
+                                            <a
+                                                href="javascript:;"
+                                                class="p-t-10 p-b-10 align-items-center"
+                                                data-navigate="view"
+                                                data-view-port="#chat"
                                                 data-view-animation="push-parrallax">
                                                 <p class="">
                                                     <span class="text-complete fs-10"><i class="fa fa-circle"/></span>
@@ -367,11 +368,11 @@
                                         <!-- BEGIN List Group Item!-->
                                         <li class="alert-list">
                                             <!-- BEGIN Alert Item Set Animation using data-view-animation !-->
-                                            <a 
-                                                href="#" 
-                                                class="p-t-10 p-b-10 align-items-center" 
-                                                data-navigate="view" 
-                                                data-view-port="#chat" 
+                                            <a
+                                                href="#"
+                                                class="p-t-10 p-b-10 align-items-center"
+                                                data-navigate="view"
+                                                data-view-port="#chat"
                                                 data-view-animation="push-parrallax">
                                                 <p class="">
                                                     <span class="text-danger fs-10"><i class="fa fa-circle"/></span>
@@ -400,11 +401,11 @@
                             <div class="navbar navbar-default">
                                 <div class="navbar-inner">
                                     <!-- BEGIN Header Controler !-->
-                                    <a 
-                                        href="javascript:;" 
-                                        class="inline action p-l-10 link text-master" 
-                                        data-navigate="view" 
-                                        data-view-port="#chat" 
+                                    <a
+                                        href="javascript:;"
+                                        class="inline action p-l-10 link text-master"
+                                        data-navigate="view"
+                                        data-view-port="#chat"
                                         data-view-animation="push-parrallax">
                                         <i class="pg-plus"/>
                                     </a>
@@ -428,20 +429,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                                        data-src="assets/img/profiles/1.jpg" 
-                                                        src="assets/img/profiles/1x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                                        data-src="assets/img/profiles/1.jpg"
+                                                        src="assets/img/profiles/1x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -458,20 +459,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/2x.jpg" 
-                                                        data-src="assets/img/profiles/2.jpg" 
-                                                        src="assets/img/profiles/2x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/2x.jpg"
+                                                        data-src="assets/img/profiles/2.jpg"
+                                                        src="assets/img/profiles/2x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -483,20 +484,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/3x.jpg" 
-                                                        data-src="assets/img/profiles/3.jpg" 
-                                                        src="assets/img/profiles/3x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/3x.jpg"
+                                                        data-src="assets/img/profiles/3.jpg"
+                                                        src="assets/img/profiles/3x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -513,20 +514,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/4x.jpg" 
-                                                        data-src="assets/img/profiles/4.jpg" 
-                                                        src="assets/img/profiles/4x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/4x.jpg"
+                                                        data-src="assets/img/profiles/4.jpg"
+                                                        src="assets/img/profiles/4x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -538,20 +539,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/5x.jpg" 
-                                                        data-src="assets/img/profiles/5.jpg" 
-                                                        src="assets/img/profiles/5x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/5x.jpg"
+                                                        data-src="assets/img/profiles/5.jpg"
+                                                        src="assets/img/profiles/5x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -568,20 +569,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/6x.jpg" 
-                                                        data-src="assets/img/profiles/6.jpg" 
-                                                        src="assets/img/profiles/6x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/6x.jpg"
+                                                        data-src="assets/img/profiles/6.jpg"
+                                                        src="assets/img/profiles/6x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -593,20 +594,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/7x.jpg" 
-                                                        data-src="assets/img/profiles/7.jpg" 
-                                                        src="assets/img/profiles/7x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/7x.jpg"
+                                                        data-src="assets/img/profiles/7.jpg"
+                                                        src="assets/img/profiles/7x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -623,20 +624,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/8x.jpg" 
-                                                        data-src="assets/img/profiles/8.jpg" 
-                                                        src="assets/img/profiles/8x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/8x.jpg"
+                                                        data-src="assets/img/profiles/8.jpg"
+                                                        src="assets/img/profiles/8x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -648,20 +649,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/9x.jpg" 
-                                                        data-src="assets/img/profiles/9.jpg" 
-                                                        src="assets/img/profiles/9x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/9x.jpg"
+                                                        data-src="assets/img/profiles/9.jpg"
+                                                        src="assets/img/profiles/9x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -673,20 +674,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                                        data-src="assets/img/profiles/1.jpg" 
-                                                        src="assets/img/profiles/1x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                                        data-src="assets/img/profiles/1.jpg"
+                                                        src="assets/img/profiles/1x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -698,20 +699,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/2x.jpg" 
-                                                        data-src="assets/img/profiles/2.jpg" 
-                                                        src="assets/img/profiles/2x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/2x.jpg"
+                                                        data-src="assets/img/profiles/2.jpg"
+                                                        src="assets/img/profiles/2x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -723,20 +724,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/3x.jpg" 
-                                                        data-src="assets/img/profiles/3.jpg" 
-                                                        src="assets/img/profiles/3x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/3x.jpg"
+                                                        data-src="assets/img/profiles/3.jpg"
+                                                        src="assets/img/profiles/3x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -753,20 +754,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/4x.jpg" 
-                                                        data-src="assets/img/profiles/4.jpg" 
-                                                        src="assets/img/profiles/4x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/4x.jpg"
+                                                        data-src="assets/img/profiles/4.jpg"
+                                                        src="assets/img/profiles/4x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -783,20 +784,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/5x.jpg" 
-                                                        data-src="assets/img/profiles/5.jpg" 
-                                                        src="assets/img/profiles/5x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/5x.jpg"
+                                                        data-src="assets/img/profiles/5.jpg"
+                                                        src="assets/img/profiles/5x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -808,20 +809,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/6x.jpg" 
-                                                        data-src="assets/img/profiles/6.jpg" 
-                                                        src="assets/img/profiles/6x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/6x.jpg"
+                                                        data-src="assets/img/profiles/6.jpg"
+                                                        src="assets/img/profiles/6x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -838,20 +839,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/7x.jpg" 
-                                                        data-src="assets/img/profiles/7.jpg" 
-                                                        src="assets/img/profiles/7x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/7x.jpg"
+                                                        data-src="assets/img/profiles/7.jpg"
+                                                        src="assets/img/profiles/7x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -868,20 +869,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/8x.jpg" 
-                                                        data-src="assets/img/profiles/8.jpg" 
-                                                        src="assets/img/profiles/8x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/8x.jpg"
+                                                        data-src="assets/img/profiles/8.jpg"
+                                                        src="assets/img/profiles/8x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -898,20 +899,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/9x.jpg" 
-                                                        data-src="assets/img/profiles/9.jpg" 
-                                                        src="assets/img/profiles/9x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/9x.jpg"
+                                                        data-src="assets/img/profiles/9.jpg"
+                                                        src="assets/img/profiles/9x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -923,20 +924,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                                        data-src="assets/img/profiles/1.jpg" 
-                                                        src="assets/img/profiles/1x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                                        data-src="assets/img/profiles/1.jpg"
+                                                        src="assets/img/profiles/1x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -948,20 +949,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/2x.jpg" 
-                                                        data-src="assets/img/profiles/2.jpg" 
-                                                        src="assets/img/profiles/2x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/2x.jpg"
+                                                        data-src="assets/img/profiles/2.jpg"
+                                                        src="assets/img/profiles/2x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -973,20 +974,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/3x.jpg" 
-                                                        data-src="assets/img/profiles/3.jpg" 
-                                                        src="assets/img/profiles/3x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/3x.jpg"
+                                                        data-src="assets/img/profiles/3.jpg"
+                                                        src="assets/img/profiles/3x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1003,20 +1004,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/4x.jpg" 
-                                                        data-src="assets/img/profiles/4.jpg" 
-                                                        src="assets/img/profiles/4x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/4x.jpg"
+                                                        data-src="assets/img/profiles/4.jpg"
+                                                        src="assets/img/profiles/4x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1028,20 +1029,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/5x.jpg" 
-                                                        data-src="assets/img/profiles/5.jpg" 
-                                                        src="assets/img/profiles/5x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/5x.jpg"
+                                                        data-src="assets/img/profiles/5.jpg"
+                                                        src="assets/img/profiles/5x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1053,20 +1054,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/6x.jpg" 
-                                                        data-src="assets/img/profiles/6.jpg" 
-                                                        src="assets/img/profiles/6x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/6x.jpg"
+                                                        data-src="assets/img/profiles/6.jpg"
+                                                        src="assets/img/profiles/6x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1078,20 +1079,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/7x.jpg" 
-                                                        data-src="assets/img/profiles/7.jpg" 
-                                                        src="assets/img/profiles/7x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/7x.jpg"
+                                                        data-src="assets/img/profiles/7.jpg"
+                                                        src="assets/img/profiles/7x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1103,20 +1104,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/8x.jpg" 
-                                                        data-src="assets/img/profiles/8.jpg" 
-                                                        src="assets/img/profiles/8x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/8x.jpg"
+                                                        data-src="assets/img/profiles/8.jpg"
+                                                        src="assets/img/profiles/8x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1128,20 +1129,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/9x.jpg" 
-                                                        data-src="assets/img/profiles/9.jpg" 
-                                                        src="assets/img/profiles/9x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/9x.jpg"
+                                                        data-src="assets/img/profiles/9.jpg"
+                                                        src="assets/img/profiles/9x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1159,20 +1160,20 @@
                                         <!-- BEGIN Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                                        data-src="assets/img/profiles/1.jpg" 
-                                                        src="assets/img/profiles/1x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                                        data-src="assets/img/profiles/1.jpg"
+                                                        src="assets/img/profiles/1x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1189,20 +1190,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/2x.jpg" 
-                                                        data-src="assets/img/profiles/2.jpg" 
-                                                        src="assets/img/profiles/2x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/2x.jpg"
+                                                        data-src="assets/img/profiles/2.jpg"
+                                                        src="assets/img/profiles/2x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1219,20 +1220,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/3x.jpg" 
-                                                        data-src="assets/img/profiles/3.jpg" 
-                                                        src="assets/img/profiles/3x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/3x.jpg"
+                                                        data-src="assets/img/profiles/3.jpg"
+                                                        src="assets/img/profiles/3x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1244,20 +1245,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/4x.jpg" 
-                                                        data-src="assets/img/profiles/4.jpg" 
-                                                        src="assets/img/profiles/4x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/4x.jpg"
+                                                        data-src="assets/img/profiles/4.jpg"
+                                                        src="assets/img/profiles/4x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1269,20 +1270,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/5x.jpg" 
-                                                        data-src="assets/img/profiles/5.jpg" 
-                                                        src="assets/img/profiles/5x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/5x.jpg"
+                                                        data-src="assets/img/profiles/5.jpg"
+                                                        src="assets/img/profiles/5x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1299,20 +1300,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/6x.jpg" 
-                                                        data-src="assets/img/profiles/6.jpg" 
-                                                        src="assets/img/profiles/6x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/6x.jpg"
+                                                        data-src="assets/img/profiles/6.jpg"
+                                                        src="assets/img/profiles/6x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1324,20 +1325,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/7x.jpg" 
-                                                        data-src="assets/img/profiles/7.jpg" 
-                                                        src="assets/img/profiles/7x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/7x.jpg"
+                                                        data-src="assets/img/profiles/7.jpg"
+                                                        src="assets/img/profiles/7x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1349,20 +1350,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/8x.jpg" 
-                                                        data-src="assets/img/profiles/8.jpg" 
-                                                        src="assets/img/profiles/8x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/8x.jpg"
+                                                        data-src="assets/img/profiles/8.jpg"
+                                                        src="assets/img/profiles/8x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1379,20 +1380,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/9x.jpg" 
-                                                        data-src="assets/img/profiles/9.jpg" 
-                                                        src="assets/img/profiles/9x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/9x.jpg"
+                                                        data-src="assets/img/profiles/9.jpg"
+                                                        src="assets/img/profiles/9x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1404,20 +1405,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                                        data-src="assets/img/profiles/1.jpg" 
-                                                        src="assets/img/profiles/1x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                                        data-src="assets/img/profiles/1.jpg"
+                                                        src="assets/img/profiles/1x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1429,20 +1430,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/2x.jpg" 
-                                                        data-src="assets/img/profiles/2.jpg" 
-                                                        src="assets/img/profiles/2x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/2x.jpg"
+                                                        data-src="assets/img/profiles/2.jpg"
+                                                        src="assets/img/profiles/2x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1454,20 +1455,20 @@
                                         <!-- END Chat User List Item  !-->
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/3x.jpg" 
-                                                        data-src="assets/img/profiles/3.jpg" 
-                                                        src="assets/img/profiles/3x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/3x.jpg"
+                                                        data-src="assets/img/profiles/3.jpg"
+                                                        src="assets/img/profiles/3x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1484,20 +1485,20 @@
                                     <ul>
                                         <!-- BEGIN Chat User List Item  !-->
                                         <li class="chat-user-list clearfix">
-                                            <a 
-                                                data-view-animation="push-parrallax" 
-                                                data-view-port="#chat" 
-                                                data-navigate="view" 
-                                                class="" 
+                                            <a
+                                                data-view-animation="push-parrallax"
+                                                data-view-port="#chat"
+                                                data-navigate="view"
+                                                class=""
                                                 href="#">
                                                 <span class="thumbnail-wrapper d32 circular bg-success">
-                                                    <img 
-                                                        width="34" 
-                                                        height="34" 
-                                                        alt="" 
-                                                        data-src-retina="assets/img/profiles/4x.jpg" 
-                                                        data-src="assets/img/profiles/4.jpg" 
-                                                        src="assets/img/profiles/4x.jpg" 
+                                                    <img
+                                                        width="34"
+                                                        height="34"
+                                                        alt=""
+                                                        data-src-retina="assets/img/profiles/4x.jpg"
+                                                        data-src="assets/img/profiles/4.jpg"
+                                                        src="assets/img/profiles/4x.jpg"
                                                         class="col-top">
                                                 </span>
                                                 <p class="p-l-10 ">
@@ -1516,11 +1517,11 @@
                             <!-- BEGIN Header  !-->
                             <div class="navbar navbar-default">
                                 <div class="navbar-inner">
-                                    <a 
-                                        href="javascript:;" 
-                                        class="link text-master inline action p-l-10 p-r-10" 
-                                        data-navigate="view" 
-                                        data-view-port="#chat" 
+                                    <a
+                                        href="javascript:;"
+                                        class="link text-master inline action p-l-10 p-r-10"
+                                        data-navigate="view"
+                                        data-view-port="#chat"
                                         data-view-animation="push-parrallax">
                                         <i class="pg-arrow_left"/>
                                     </a>
@@ -1546,13 +1547,13 @@
                                 <!-- BEGIN From Them Message  !-->
                                 <div class="message clearfix">
                                     <div class="profile-img-wrapper m-t-5 inline">
-                                        <img 
-                                            class="col-top" 
-                                            width="30" 
-                                            height="30" 
-                                            src="assets/img/profiles/avatar_small.jpg" 
-                                            alt="" 
-                                            data-src="assets/img/profiles/avatar_small.jpg" 
+                                        <img
+                                            class="col-top"
+                                            width="30"
+                                            height="30"
+                                            src="assets/img/profiles/avatar_small.jpg"
+                                            alt=""
+                                            data-src="assets/img/profiles/avatar_small.jpg"
                                             data-src-retina="assets/img/profiles/avatar_small2x.jpg">
                                     </div>
                                     <div class="chat-bubble from-them">
@@ -1577,13 +1578,13 @@
                                 <!-- BEGIN From Them Message  !-->
                                 <div class="message clearfix">
                                     <div class="profile-img-wrapper m-t-5 inline">
-                                        <img 
-                                            class="col-top" 
-                                            width="30" 
-                                            height="30" 
-                                            src="assets/img/profiles/avatar_small.jpg" 
-                                            alt="" 
-                                            data-src="assets/img/profiles/avatar_small.jpg" 
+                                        <img
+                                            class="col-top"
+                                            width="30"
+                                            height="30"
+                                            src="assets/img/profiles/avatar_small.jpg"
+                                            alt=""
+                                            data-src="assets/img/profiles/avatar_small.jpg"
                                             data-src-retina="assets/img/profiles/avatar_small2x.jpg">
                                     </div>
                                     <div class="chat-bubble from-them">
@@ -1600,11 +1601,11 @@
                                         <a href="#" class="link text-master"><i class="fa fa-plus-circle"/></a>
                                     </div>
                                     <div class="col-8 no-padding">
-                                        <input 
-                                            type="text" 
-                                            class="form-control chat-input" 
-                                            data-chat-input="" 
-                                            data-chat-conversation="#my-conversation" 
+                                        <input
+                                            type="text"
+                                            class="form-control chat-input"
+                                            data-chat-input=""
+                                            data-chat-conversation="#my-conversation"
                                             placeholder="Say something">
                                     </div>
                                     <div class="col-2 link text-master m-l-10 m-t-15 p-l-10 b-l b-grey col-top">
@@ -1629,15 +1630,18 @@ import { mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
 import appHeader from "@/views/layout/header.vue";
 import appSidebar from "@/views/layout/side-bar.vue";
+import freeTrialBar from "@/views/layout/free-trial-banner.vue"
 
 export default {
     components: {
         appHeader,
-        appSidebar
+        appSidebar,
+        freeTrialBar
     },
     data() {
         return {
             appBaseColor: "#61c2cc",
+            appSecondaryColor: "#9ee5b5",
             showSidebar: false
         };
     },
@@ -1668,6 +1672,7 @@ export default {
     },
     mounted() {
         document.body.style.setProperty("--base-color", this.appBaseColor);
+        document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
         $.Pages.init();
     },
     methods: {

@@ -96,9 +96,9 @@ export default {
         }),
         title() {
             if (!this.userData.id) {
-                return 'New User';
+                return "New User";
             }
-            return 'Edit User';
+            return "Edit User";
         }
     },
     watch: {
