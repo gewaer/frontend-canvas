@@ -9,55 +9,70 @@
                             <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
                                     <a
-                                        :class="{active: isActive('info')}"
+                                        :class="{active: tab == 'info'}"
                                         href="#"
                                         name="info"
-                                        @click="setTab">Company Info</a>
+                                        @click="tab = 'info'"
+                                    >
+                                        Company Info
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a
-                                        :class="{active: isActive('companies')}"
+                                        :class="{active: tab == 'companies'}"
                                         href="#"
                                         name="companies"
-                                        @click="setTab">Companies</a>
+                                        @click="tab = 'companies'"
+                                    >
+                                        Companies
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a
-                                        :class="{active: isActive('users')}"
+                                        :class="{active: tab == 'users'}"
                                         href="#"
                                         name="users"
-                                        @click="setTab">Users</a>
+                                        @click="tab = 'users'"
+                                    >
+                                        Users
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a
-                                        :class="{active: isActive('roles')}"
+                                        :class="{active: tab == 'roles'}"
                                         href="#"
                                         name="roles"
-                                        @click="setTab">Roles</a>
+                                        @click="tab = 'roles'"
+                                    >
+                                        Roles
+                                    </a>
                                 </li>
                                 <li class="nav-item">
                                     <a
-                                        :class="{active: isActive('subscriptions')}"
+                                        :class="{active: tab == 'subscriptions'}"
                                         href="#"
                                         name="subscriptions"
-                                        @click="setTab">Subscriptions</a>
+                                        @click="tab = 'subscriptions'"
+                                    >
+                                        Subscriptions
+                                    </a>
                                 </li>
                             </ul>
                             <div class="tab-content bg-white">
-                                <div id="company-info" :class="{active: isActive('info')}" class="tab-pane">
-                                    <company-info/>
+                                <div id="company-info" :class="{active: tab == 'info'}" class="tab-pane">
+                                    <company-profile/>
                                 </div>
-                                <div id="companies" :class="{active: isActive('companies')}" class="tab-pane">
+                                <div id="companies" :class="{active: tab == 'companies'}" class="tab-pane">
                                     <companies-list/>
                                 </div>
-                                <div id="users-list" :class="{active: isActive('users')}" class="tab-pane" >
-                                    <company-users />
+                                <div id="users-list" :class="{active: tab == 'users'}" class="tab-pane" >
+                                    <company-users/>
                                 </div>
-                                <div id="roles-list" :class="{active: isActive('roles')}" class="tab-pane">
-                                    <company-roles />
+                                <div id="roles-list" :class="{active: tab == 'roles'}" class="tab-pane">
+                                    <company-roles/>
                                 </div>
-                                <div id="subscriptions-list" :class="{active: isActive('subscriptions')}" class="tab-pane">
-                                    <company-subscriptions />
+                                <div id="subscriptions-list" :class="{active: tab == 'subscriptions'}" class="tab-pane">
+                                    <company-subscriptions/>
                                 </div>
                             </div>
                         </div>
@@ -69,31 +84,23 @@
 </template>
 
 <script>
-import companyInfo from "./info";
-import companiesList from "./list";
-import companyUsers from "./users";
-import companyRoles from "./roles";
-import companySubscriptions from "./subscriptions";
+import CompanyProfile from "./profile";
+import CompaniesList from "./list";
+import CompanyUsers from "./users";
+import CompanyRoles from "./roles";
+import CompanySubscriptions from "./subscriptions";
 
 export default {
     components: {
-        companyInfo,
-        companiesList,
-        companyUsers,
-        companyRoles,
-        companySubscriptions
+        CompanyProfile,
+        CompaniesList,
+        CompanyUsers,
+        CompanyRoles,
+        CompanySubscriptions
     },
     data() {
         return {
             tab: "info"
-        }
-    },
-    methods: {
-        setTab(event) {
-            this.tab = event.target.name;
-        },
-        isActive(tabName) {
-            return this.tab == tabName;
         }
     }
 };

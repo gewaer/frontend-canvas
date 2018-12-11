@@ -17,34 +17,34 @@
                 <div class="col-12 col-md">
                     <div class="form-group form-group-default required">
                         <label>First name</label>
-                        <input 
-                            v-model="userData.firstname" 
-                            class="form-control" 
-                            type="text" 
+                        <input
+                            v-model="userData.firstname"
+                            class="form-control"
+                            type="text"
                             name="firstname">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
-                        <input 
-                            v-model="userData.lastname" 
-                            name="lastname" 
-                            class="form-control" 
+                        <input
+                            v-model="userData.lastname"
+                            name="lastname"
+                            class="form-control"
                             type="text">
                     </div>
                     <div class="form-group form-group-default">
                         <label>Cell phone</label>
-                        <input 
-                            v-model="userData.phone" 
-                            class="form-control" 
-                            name="phone" 
+                        <input
+                            v-model="userData.phone"
+                            class="form-control"
+                            name="phone"
                             type="text">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Email (username)</label>
-                        <input 
-                            v-model="userData.email" 
-                            class="form-control" 
-                            type="text" 
+                        <input
+                            v-model="userData.email"
+                            class="form-control"
+                            type="text"
                             name="email">
                     </div>
                 </div>
@@ -127,14 +127,12 @@ export default {
                 this.$store.dispatch("User/setData", response.data);
 
                 this.$notify({
-                    group: null,
                     title: "Confirmation",
-                    text: "Your information has been updated!",
+                    text: "Your information has been updated successfully!",
                     type: "success"
                 });
             }).catch((error) => {
                 this.$notify({
-                    group: null,
                     title: "Error",
                     text: error.response.data.errors.message,
                     type: "error"
@@ -147,7 +145,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .user-general-information {
     .profile-image-container {
         display: flex;

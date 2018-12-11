@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import UsersForm from "@/components/forms/usersForm";
+import UsersForm from "@/components/forms/users";
 
 export default {
     components: {

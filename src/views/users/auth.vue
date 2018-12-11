@@ -285,7 +285,6 @@ export default {
     methods: {
         handleForgotPassword(response) {
             this.$notify({
-                group: null,
                 title: "Confirmation",
                 text: response.data,
                 type: "success"
@@ -303,7 +302,6 @@ export default {
         },
         handleResetPassword(response) {
             this.$notify({
-                group: null,
                 title: "Confirmation",
                 text: response.data,
                 type: "success"
@@ -348,7 +346,6 @@ export default {
                 this.handleResponse(response);
             }).catch((error) => {
                 this.$notify({
-                    group: null,
                     title: "Error",
                     text: error.response.data.errors.message,
                     type: "error"

@@ -1,7 +1,7 @@
 <template>
     <div class="row company-general-information">
         <div class="col-12 col-xl m-b-20">
-            <h5>Company Information</h5>
+            <h5>Company Profile</h5>
             <div class="row">
                 <div class="col-12 col-md-auto">
                     <div class="profile-image-container">
@@ -89,36 +89,29 @@
 import {mapState} from "vuex";
 
 export default {
-    name: "CompanyInfo",
+    name: "CompanyProfile",
     data() {
         return {
             isLoading: false,
             companyData: {},
-            selectedLanguage: null,
-            companySchema: {
-                createFields: ["name", "timezone", "language"]
-            }
+            selectedLanguage: null
         }
     },
-
     computed:{
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages
         })
     },
-
     watch: {
         languages() {
             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         }
     },
-
     created() {
         this.$store.dispatch("Application/getSettingsLists");
         this.companyData = _.clone(this.$store.state.Company.data);
     },
-
     methods: {
         setLanguage(value) {
             this.companyData.language = value.id;
@@ -135,37 +128,28 @@ export default {
                 method: "PUT",
                 data: this.companyData
             }).then(({data}) => {
-                this.isLoading = false;
-                this.onUpdate(data)
+                this.$store.dispatch("Company/setData", data);
+
+                this.$notify({
+                    title: "Confirmation",
+                    text: "Company information has been updated successfully!",
+                    type: "success"
+                });
             }).catch((error) => {
-                this.onAxiosError(error)
-            })
-        },
-
-        onUpdate(company) {
-            this.$notify({
-                group: null,
-                title: "Confirmation",
-                text: "the company information has been changed",
-                type: "success"
-            });
-            this.$store.dispatch("Company/setData", company);
-        },
-
-        onAxiosError(error) {
-            debugger
-            this.$notify({
-                group: null,
-                title: "Error",
-                text: error.response.data.errors.message,
-                type: "error"
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+                this.isLoading = false;
             });
         }
     }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .company-general-information {
     .profile-image-container {
         display: flex;
