@@ -1,28 +1,16 @@
 <template>
     <div class="row user-general-information">
-        <div class="col-12 col-xl m-b-20">
-            <h5>General Information</h5>
+        <div class="col-12 m-b-20">
+            <h5 class="form-title">{{ title }}</h5>
             <div class="row">
-                <div class="col-12 col-md-auto">
-                    <div class="profile-image-container">
-                        <div class="profile-image">
-                            <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
-                        </div>
-                        <div class="upload-profile-image">
-                            <label for="upload-image" class="btn btn-primary">Upload image</label>
-                            <input id="upload-image" type="file">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md">
+                <div class="col-6 col-md">
                     <div class="form-group form-group-default required">
                         <label>First name</label>
                         <input
                             v-model="userData.firstname"
                             class="form-control"
                             type="text"
-                            name="firstname"
-                        >
+                            name="firstname">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
@@ -30,8 +18,7 @@
                             v-model="userData.lastname"
                             name="lastname"
                             class="form-control"
-                            type="text"
-                        >
+                            type="text">
                     </div>
                     <div class="form-group form-group-default">
                         <label>Cell phone</label>
@@ -39,8 +26,7 @@
                             v-model="userData.phone"
                             class="form-control"
                             name="phone"
-                            type="text"
-                        >
+                            type="text">
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Email (username)</label>
@@ -48,39 +34,37 @@
                             v-model="userData.email"
                             class="form-control"
                             type="text"
-                            name="email"
-                        >
+                            name="email">
                     </div>
                 </div>
-            </div>
-            <div class="d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
+
+                <div class="col-6 m-b-20">
+                    <div class="col-12 col-md">
+                        <div class="form-group">
+                            <label>Language</label>
+                            <multiselect
+                                v-model="selectedLanguage"
+                                :options="languages"
+                                label="name"
+                                track-by="id"
+                                @input="setLanguage"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Timezone</label>
+                            <multiselect
+                                v-model="userData.timezone"
+                                :max-height="175"
+                                :options="timezones"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-xl m-b-20">
-            <h5>&nbsp;</h5>
-            <div class="row">
-                <div class="col-12 col-md">
-                    <div class="form-group">
-                        <label>Language</label>
-                        <multiselect
-                            v-model="selectedLanguage"
-                            :options="languages"
-                            label="name"
-                            track-by="id"
-                            @input="setLanguage"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label>Timezone</label>
-                        <multiselect
-                            v-model="userData.timezone"
-                            :max-height="175"
-                            :options="timezones"
-                        />
-                    </div>
-                </div>
-            </div>
+
+        <div class="col-12 col-xl d-flex justify-content-end mt-2">
+            <button :disabled="isLoading" class="btn btn-primary" @click="save()">Save</button>
         </div>
     </div>
 </template>
@@ -90,6 +74,14 @@ import { mapState } from "vuex";
 
 export default {
     name: "UserInfo",
+    props: {
+        user: {
+            type: Object,
+            default() {
+                return {};
+            }
+        }
+    },
     data() {
         return {
             isLoading: false,
@@ -101,22 +93,50 @@ export default {
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages
-        })
+        }),
+        title() {
+            if (!this.userData.id) {
+                return 'New User';
+            }
+            return 'Edit User';
+        }
     },
     watch: {
         languages() {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+        },
+        user() {
+            this.setUser();
         }
     },
     created() {
         this.$store.dispatch("Application/getSettingsLists");
-        this.userData = _.clone(this.$store.state.User.data);
+        this.setUser();
     },
     methods: {
+        setUser() {
+            this.userData = _.clone(this.user);
+        },
+
         setLanguage(value) {
             this.userData.language = value.id;
         },
-        update() {
+
+        save() {
+            let url;
+            let method;
+
+            if (!this.userData.id) {
+                url = "/users";
+                method = "POST";
+            } else {
+                url = `/users/${this.userData.id}`;
+                method = "PUT";
+            }
+
+            this.sendRequest(url, method);
+        },
+        sendRequest(url, method) {
             if (this.isLoading) {
                 return;
             }
@@ -124,19 +144,19 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/users/${this.userData.id}`,
-                method: "PUT",
+                url,
+                method,
                 data: this.userData
-            }).then((response) => {
-                this.$store.dispatch("User/setData", response.data);
-
+            }).then(() => {
                 this.$notify({
+                    group: null,
                     title: "Confirmation",
-                    text: "Your information has been updated successfully!",
+                    text: "Your information has been updated!",
                     type: "success"
                 });
             }).catch((error) => {
                 this.$notify({
+                    group: null,
                     title: "Error",
                     text: error.response.data.errors.message,
                     type: "error"
@@ -149,8 +169,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .user-general-information {
+    margin: 20px;
     .profile-image-container {
         display: flex;
         flex-direction: column;
