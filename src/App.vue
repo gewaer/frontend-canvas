@@ -1,14 +1,14 @@
 <template>
-    <div id="app" :class="{ is_auth : ['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)}">
+    <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth}">
         <notifications/>
         <app-sidebar
-            v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
+            v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
             @handleSidebar="handleSidebar()"
         />
         <div class="page-container">
             <app-header
-                v-if="!['forgotPassword', 'login', 'resetPassword', 'signup'].includes($route.name)"
+                v-if="$route.meta.requiresAuth"
                 :show-sidebar="showSidebar"
                 @handleSidebar="handleSidebar()"
             />
@@ -1143,7 +1143,7 @@ export default {
     border-color: var(--base-color);
 }
 
-.is_auth {
+.full-height {
     height: 100%;
 
     .page-container {

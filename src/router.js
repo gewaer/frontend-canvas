@@ -17,7 +17,10 @@ const router = new Router({
         {
             path: "/",
             name: "dashboard",
-            component: Dashboard
+            component: Dashboard,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/users/login",
@@ -54,6 +57,9 @@ const router = new Router({
         {
             path: "/about",
             name: "about",
+            meta: {
+                requiresAuth: true
+            },
             // Route level code-splitting
             // this generates a separate chunk (about.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
@@ -78,12 +84,18 @@ const router = new Router({
         {
             path: "/settings/users",
             name: "usersSettings",
-            component: UsersSettings
+            component: UsersSettings,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/settings/companies",
             name: "companiesSettings",
-            component: CompaniesSettings
+            component: CompaniesSettings,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/browse",
