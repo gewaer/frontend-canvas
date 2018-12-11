@@ -8,16 +8,16 @@
                         <div class="card flex-md-row">
                             <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
-                                    <a href="#" :class="{active: tab == 'profile'}" @click="tab = 'profile'">User Profile</a>
+                                    <a :class="{active: tab == 'profile'}" href="#" @click="tab = 'profile'">User Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" :class="{active: tab == 'notifications'}" @click="tab = 'notifications'">Notifications</a>
+                                    <a :class="{active: tab == 'notifications'}" href="#" @click="tab = 'notifications'">Notifications</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" :class="{active: tab == 'social'}" @click="tab = 'social'">Social</a>
+                                    <a :class="{active: tab == 'social'}" href="#" @click="tab = 'social'">Social</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" :class="{active: tab == 'security'}" @click="tab = 'security'">Security</a>
+                                    <a :class="{active: tab == 'security'}" href="#" @click="tab = 'security'">Security</a>
                                 </li>
                             </ul>
                             <div class="tab-content bg-white">
