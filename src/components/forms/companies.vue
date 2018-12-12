@@ -55,25 +55,25 @@
                 </div>
 
                 <div class="col-6 m-b-20">
-                        <div class="col-12 col-md">
-                            <label>Language </label>
-                            <multiselect
-                                v-model="selectedLanguage"
-                                :options="languages"
-                                label="name"
-                                track-by="id"
-                                @input="setLanguage"
-                            />
-                        </div>
+                    <div class="col-12 col-md">
+                        <label>Language </label>
+                        <multiselect
+                            v-model="selectedLanguage"
+                            :options="languages"
+                            label="name"
+                            track-by="id"
+                            @input="setLanguage"
+                        />
+                    </div>
 
-                        <div class="col-12 col-md">
-                            <label>Timezone</label>
-                            <multiselect
-                                v-model="companyData.timezone"
-                                :max-height="175"
-                                :options="timezones"
-                            />
-                        </div>
+                    <div class="col-12 col-md">
+                        <label>Timezone</label>
+                        <multiselect
+                            v-model="companyData.timezone"
+                            :max-height="175"
+                            :options="timezones"
+                        />
+                    </div>
                 </div>
 
             </div>
@@ -168,7 +168,7 @@ export default {
                 url,
                 method,
                 data: this.companyData
-            }).then(({data}) => {
+            }).then(() => {
                 this.$notify({
                     group: null,
                     title: "Confirmation",
@@ -183,9 +183,9 @@ export default {
                     type: "error"
                 });
             }).finally(() => {
-                 this.isLoading = false;
+                this.isLoading = false;
             });
-        },
+        }
     }
 };
 </script>

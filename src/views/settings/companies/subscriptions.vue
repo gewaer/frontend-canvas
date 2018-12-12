@@ -1,5 +1,9 @@
 <template>
     <div class="subscriptions-plans">
+        <div class="card-yellow d-flex">
+            <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper ligula odio, id tristique lacus faucibus et. Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
+        </div>
         <div id="generic_price_table">
             <section>
                 <div class="container">
@@ -183,6 +187,306 @@
 
                 </div>
             </section>
+            <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
+            <div class="payment-details">
+                <h5>Choose your billing frequency</h5>
+                <div class="row payment-frecuency">
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-block">
+                                <input id="payment-monthtly" type="radio" name="payment-frecuency">
+                                <label for="payment-monthly">
+                                    Pay monthly
+                                    <small>$29 per seat per month</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-block">
+                                <input id="payment-annually" type="radio" name="payment-frecuency">
+                                <label for="payment-annually">
+                                    Pay annually
+                                    <small>$29 per seat per month</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Order Details</h5>
+                <div class="row order-details">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="selected-payment">
+                                    <div class="d-flex flex-column">
+                                        <strong>1 seat</strong>
+                                        <small>Gold Plan Monthly</small>
+                                    </div>
+                                    <div class="d-flex flex-column ml-auto text-right">
+                                        <strong>$29.00</strong>
+                                        <small>every month</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex m-t-10">
+                                    <div>VAT</div>
+                                    <strong class="ml-auto">$0.00</strong>
+                                </div>
+                                <div class="card-yellow">
+                                    <div class="d-flex flex-column">
+                                        <strong>Order Total</strong>
+                                        <small>Gold Plan for 1 seat monthly payment in USD</small>
+                                    </div>
+                                    <div class="final-price">$29.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Contact</h5>
+                <div class="row contact">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="first-name">First name</label>
+                                            <input 
+                                                id="first-name" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="First name">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="last-name">Last name</label>
+                                            <input 
+                                                id="last-name" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Last name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="company-name">Company name</label>
+                                            <input 
+                                                id="company-name" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Company name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="email-address">Email address</label>
+                                            <input 
+                                                id="email-address" 
+                                                type="email" 
+                                                class="form-control" 
+                                                placeholder="Email">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Address</h5>
+                <div class="row address">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="address">Address</label>
+                                            <input 
+                                                id="address" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Address">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="apt-suite">APT/SUITE</label>
+                                            <input 
+                                                id="apt-suite" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="APT/SUITE">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input 
+                                                id="city" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="City">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="country">Country</label>
+                                            <input 
+                                                id="country" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Country">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="state-province">State/Province</label>
+                                            <input 
+                                                id="state-province" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="State/Province">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="zip-postal">Zip/Postal</label>
+                                            <input 
+                                                id="zip-postal" 
+                                                type="text" 
+                                                class="form-control" 
+                                                placeholder="Zip/Postal">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5>Payment</h5>
+                <div class="row payment">
+                    <div class="col">
+                        <div class="card card-borderless">
+                            <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                                <li class="nav-item">
+                                    <a 
+                                        class="active" 
+                                        data-toggle="tab" 
+                                        role="tab" 
+                                        data-target="#credit-card" 
+                                        href="#">CREDIT CARD</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a 
+                                        href="#" 
+                                        data-toggle="tab" 
+                                        role="tab" 
+                                        data-target="#paypal">PAYPAL</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="credit-card" class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col text-center m-b-20">
+                                            <img src="/img/credit-cards-row.jpg">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="first-name-cc">First name</label>
+                                                <input 
+                                                    id="first-name-cc" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="First name">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="last-name-cc">Last name</label>
+                                                <input 
+                                                    id="last-name-cc" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="Last name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="credit-card-number">Credit Card number</label>
+                                                <input 
+                                                    id="credit-card-number" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="Credit Card number">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="cvv">CVV</label>
+                                                <input 
+                                                    id="cvv" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="CVV">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="card-expiration-month">Card epiration month</label>
+                                                <input 
+                                                    id="card-expiration-month" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="Card expiration month">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="card-expiration-year">Card expiration year</label>
+                                                <input 
+                                                    id="card-expiration-year" 
+                                                    type="text" 
+                                                    class="form-control" 
+                                                    placeholder="Card expiration year">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="paypal" class="tab-pane ">
+                                    <div class="row">
+                                        <div class="card">
+                                            <div class="card-block">
+                                                <span>Start paying with PayPal</span>
+                                                <img src="/img/checkout-paypal.png" width="170">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row update-billing-details">
+                    <button class="btn btn-block btn-primary">Update Billing Details</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -197,7 +501,78 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900);
 .subscriptions-plans {
-    #generic_price_table{
+    .payment-details {
+        max-width: 1110px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+
+        .payment-frecuency {
+            .card-block {
+                display: flex;
+                align-items: center;
+                padding: 15px;
+
+                label {
+                    display: flex;
+                    flex-direction: column;
+                    font-weight: bold;
+                    margin-bottom: 0;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        .order-details {
+            .card-block {
+                padding: 20px;
+
+                .selected-payment {
+                    display: flex;
+                    border-bottom: 1px dashed rgba(0,0,0,.125);
+                    padding-bottom: 10px;
+                }
+
+                .final-price {
+                    margin-left: auto;
+                    font-size: 28px;
+                }
+            }
+        }
+
+        .contact, .address {
+            .card-block {
+                padding: 15px;
+            }
+        }
+
+        .payment {
+            #paypal {
+                .card-block {
+                    padding: 15px;
+                    display: flex;
+                    align-items: center;
+
+                    img {
+                        cursor: pointer;
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
+    }
+
+    .card-yellow {
+        background: #fffcdc;
+        border: 1px solid rgba(250, 195, 67, 0.64);
+        box-shadow: 0px 1px 2px 0px rgba(38,41,44,0.08);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    #generic_price_table {
         background-color: #f0eded;
     }
 

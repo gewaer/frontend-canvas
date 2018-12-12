@@ -102,6 +102,11 @@ export default {
         return {
             tab: "info"
         }
+    },
+    mounted() {
+        if (this.$route.params.tab) {
+            this.tab = this.$route.params.tab;
+        }
     }
 };
 </script>

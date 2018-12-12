@@ -74,8 +74,8 @@ const router = new Router({
             }
         },
         {
-            path: '/forbidden',
-            name: '403',
+            path: "/forbidden",
+            name: "403",
             component: () => import(/* webpackChunkName: "404" */ "./views/errors/403.vue"),
             meta: {
                 requiresAuth: false
