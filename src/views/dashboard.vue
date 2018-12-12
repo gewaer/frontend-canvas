@@ -1,5 +1,14 @@
 <template>
     <div class="home">
+        <modal
+            :draggable="true"
+            :adaptive="true"
+            :scrollable="true"
+            name="unsaved-changes-modal"
+            height="auto"
+            @closed="selectedCompany = null">
+            <unsaved-changes mode="form"/>
+        </modal>
         <h4 class="section-title p-l-10">Dashboard</h4>
         <div class="row section">
             <div class="col">
@@ -7,6 +16,7 @@
                     <div class="card-title">
                         Test 1
                     </div>
+                    <button class="btn btn-primary" @click="openUnsavedChangesModal">Unsaved changes modal</button>
                     <div class="card-body">
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
                     </div>
@@ -59,7 +69,17 @@
 </template>
 
 <script>
+import unsavedChanges from './layout/unsaved-changes-modal.vue';
+
 export default {
-    name: "Home"
+    name: "Home",
+    components: {
+        unsavedChanges,
+    },
+    methods: {
+        openUnsavedChangesModal() {
+            this.$modal.show("unsaved-changes-modal");
+        }
+    }
 };
 </script>
