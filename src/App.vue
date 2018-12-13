@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth}">
+    <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
