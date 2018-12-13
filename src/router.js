@@ -55,17 +55,6 @@ const router = new Router({
             }
         },
         {
-            path: "/about",
-            name: "about",
-            meta: {
-                requiresAuth: true
-            },
-            // Route level code-splitting
-            // this generates a separate chunk (about.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import(/* webpackChunkName: "about" */ "./views/About.vue")
-        },
-        {
             path: "*",
             name: "404",
             component: () => import(/* webpackChunkName: "404" */ "./views/errors/404.vue"),
@@ -74,8 +63,8 @@ const router = new Router({
             }
         },
         {
-            path: '/forbidden',
-            name: '403',
+            path: "/forbidden",
+            name: "403",
             component: () => import(/* webpackChunkName: "404" */ "./views/errors/403.vue"),
             meta: {
                 requiresAuth: false
@@ -117,7 +106,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth == undefined)) {
+    if (to.matched.some(record => record.meta.requiresAuth == true)) {
         if (store.getters["Application/isStateReady"]) {
             next();
         } else {
