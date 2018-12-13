@@ -69,12 +69,12 @@
 </template>
 
 <script>
-import unsavedChanges from './layout/unsaved-changes-modal.vue';
+import unsavedChanges from "./layout/unsaved-changes-modal.vue";
 
 export default {
     name: "Home",
     components: {
-        unsavedChanges,
+        unsavedChanges
     },
     methods: {
         openUnsavedChangesModal() {
