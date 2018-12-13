@@ -74,10 +74,10 @@
                             </div>
                             <!-- END Notification Item-->
                             <!-- START Notification Item Right Side-->
-                            <div 
-                                class="option" 
-                                data-toggle="tooltip" 
-                                data-placement="left" 
+                            <div
+                                class="option"
+                                data-toggle="tooltip"
+                                data-placement="left"
                                 title="mark as read">
                                 <a href="#" class="mark"/>
                             </div>
@@ -122,12 +122,12 @@
                         <div class="notification-item unread clearfix">
                             <div class="heading">
                                 <div class="thumbnail-wrapper d24 circular b-white m-r-5 b-a b-white m-t-10 m-r-10">
-                                    <img 
-                                        width="30" 
-                                        height="30" 
-                                        data-src-retina="assets/img/profiles/1x.jpg" 
-                                        data-src="assets/img/profiles/1.jpg" 
-                                        alt="" 
+                                    <img
+                                        width="30"
+                                        height="30"
+                                        data-src-retina="assets/img/profiles/1x.jpg"
+                                        data-src="assets/img/profiles/1.jpg"
+                                        alt=""
                                         src="assets/img/profiles/1.jpg">
                                 </div>
                                 <a href="#" class="text-complete pull-left">
@@ -137,10 +137,10 @@
                                 <span class="pull-right time">11:00pm</span>
                             </div>
                             <!-- START Notification Item Right Side-->
-                            <div 
-                                class="option" 
-                                data-toggle="tooltip" 
-                                data-placement="left" 
+                            <div
+                                class="option"
+                                data-toggle="tooltip"
+                                data-placement="left"
                                 title="mark as read">
                                 <a href="#" class="mark"/>
                             </div>
@@ -176,10 +176,10 @@
                 <span>{{ userData.lastname }}</span>
             </div>
             <div class="dropdown">
-                <div 
-                    class="profile-image" 
-                    data-toggle="dropdown" 
-                    aria-haspopup="true" 
+                <div
+                    class="profile-image"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
                     aria-expanded="false">
                     <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
@@ -190,6 +190,10 @@
 
                     <router-link :to="{name: 'companiesSettings'}" class="dropdown-item">
                         <span>Companies Settings</span>
+                    </router-link>
+
+                    <router-link :to="{name: 'appsSettings'}" class="dropdown-item">
+                        <span>Apps Settings</span>
                     </router-link>
 
                     <a href="#" class="dropdown-item" @click="logout()">

@@ -171,7 +171,6 @@ export default {
 
 <style lang="scss">
 .user-general-information {
-    margin: 20px;
     .profile-image-container {
         display: flex;
         flex-direction: column;
