@@ -1,14 +1,5 @@
 <template>
     <div class="home">
-        <modal
-            :draggable="true"
-            :adaptive="true"
-            :scrollable="true"
-            name="unsaved-changes-modal"
-            height="auto"
-            @closed="selectedCompany = null">
-            <unsaved-changes mode="form"/>
-        </modal>
         <h4 class="section-title p-l-10">Dashboard</h4>
         <div class="row section">
             <div class="col">
@@ -69,8 +60,6 @@
 </template>
 
 <script>
-import unsavedChanges from "./layout/unsaved-changes-modal.vue";
-
 export default {
     name: "Home",
     components: {
