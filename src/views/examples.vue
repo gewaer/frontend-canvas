@@ -45,18 +45,18 @@
                                 </div>
                                 <div class="form-group  form-group-default required">
                                     <label>Placeholder</label>
-                                    <input 
-                                        type="email" 
-                                        class="form-control" 
-                                        placeholder="ex: some@example.com" 
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        placeholder="ex: some@example.com"
                                         required>
                                 </div>
                                 <div class="form-group form-group-default disabled">
                                     <label>Disabled</label>
-                                    <input 
-                                        type="email" 
-                                        class="form-control" 
-                                        value="You can put anything here" 
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        value="You can put anything here"
                                         disabled>
                                 </div>
                             </form>
@@ -90,28 +90,28 @@
                                 <div class="form-group">
                                     <label>Email</label>
                                     <span class="help">e.g. "some@example.com"</span>
-                                    <input 
-                                        type="email" 
-                                        class="form-control" 
-                                        placeholder="ex: some@example.com" 
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        placeholder="ex: some@example.com"
                                         required>
                                 </div>
                                 <div class="form-group">
                                     <label>Placeholder</label>
                                     <span class="help">e.g. "some@example.com"</span>
-                                    <input 
-                                        type="email" 
-                                        class="form-control" 
-                                        placeholder="ex: some@example.com" 
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        placeholder="ex: some@example.com"
                                         required>
                                 </div>
                                 <div class="form-group">
                                     <label>Disabled</label>
                                     <span class="help">e.g. "some@example.com"</span>
-                                    <input 
-                                        type="email" 
-                                        class="form-control" 
-                                        value="You can put anything here" 
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        value="You can put anything here"
                                         disabled>
                                 </div>
                             </form>
@@ -267,11 +267,11 @@
                                 <input id="checkbox1" type="checkbox" value="1">
                                 <label for="checkbox1">Keep Me Signed in</label>
                             </div>
-                            <div class="checkbox check-success  ">
-                                <input 
-                                    id="checkbox2" 
-                                    type="checkbox" 
-                                    checked="checked" 
+                            <div class="checkbox check-success">
+                                <input
+                                    id="checkbox2"
+                                    type="checkbox"
+                                    checked="checked"
                                     value="1">
                                 <label for="checkbox2">I agree</label>
                             </div>
@@ -284,18 +284,18 @@
                                 <label for="checkbox4">Steve Jobs</label>
                             </div>
                             <div class="checkbox check-warning">
-                                <input 
-                                    id="checkbox5" 
-                                    type="checkbox" 
-                                    checked="checked" 
+                                <input
+                                    id="checkbox5"
+                                    type="checkbox"
+                                    checked="checked"
                                     value="1">
                                 <label for="checkbox5">Action</label>
                             </div>
                             <div class="checkbox check-danger">
-                                <input 
-                                    id="checkbox6" 
-                                    type="checkbox" 
-                                    checked="checked" 
+                                <input
+                                    id="checkbox6"
+                                    type="checkbox"
+                                    checked="checked"
                                     value="1">
                                 <label for="checkbox6">Mark as read</label>
                             </div>
@@ -308,10 +308,10 @@
                             <code>.checkbox-circle</code>to change it</p>
                             <br>
                             <div class="checkbox  checkbox-circle">
-                                <input 
-                                    id="checkbox7" 
-                                    type="checkbox" 
-                                    checked="checked" 
+                                <input
+                                    id="checkbox7"
+                                    type="checkbox"
+                                    checked="checked"
                                     value="1">
                                 <label for="checkbox7">Keep Me Signed in</label>
                             </div>
@@ -320,10 +320,10 @@
                                 <label for="checkbox8">I agree</label>
                             </div>
                             <div class="checkbox check-primary checkbox-circle">
-                                <input 
-                                    id="checkbox9" 
-                                    type="checkbox" 
-                                    checked="checked" 
+                                <input
+                                    id="checkbox9"
+                                    type="checkbox"
+                                    checked="checked"
                                     value="1">
                                 <label for="checkbox9">Mark</label>
                             </div>
@@ -335,20 +335,20 @@
                             <p>These act the same way as normal HTML check boxes. Here are some states that</p>
                             <br>
                             <div class="checkbox check-success">
-                                <input 
-                                    id="check1" 
-                                    type="checkbox" 
-                                    disabled="disabled" 
-                                    value="check1" 
+                                <input
+                                    id="check1"
+                                    type="checkbox"
+                                    disabled="disabled"
+                                    value="check1"
                                     name="check">
                                 <label for="check1">Checkbox No. 1</label>
                                 <br>
-                                <input 
-                                    id="check2" 
-                                    type="checkbox" 
-                                    disabled="disabled" 
-                                    checked="checked" 
-                                    value="check2" 
+                                <input
+                                    id="check2"
+                                    type="checkbox"
+                                    disabled="disabled"
+                                    checked="checked"
+                                    value="check2"
                                     name="check">
                                 <label for="check2">Checkbox No. 2</label>
                             </div>
@@ -383,17 +383,17 @@
                             </p>
                             <br>
                             <div class="radio radio-success">
-                                <input 
-                                    id="yes" 
-                                    type="radio" 
-                                    value="yes" 
+                                <input
+                                    id="yes"
+                                    type="radio"
+                                    value="yes"
                                     name="optionyes">
                                 <label for="yes">Agree</label>
-                                <input 
-                                    id="no" 
-                                    type="radio" 
-                                    checked="checked" 
-                                    value="no" 
+                                <input
+                                    id="no"
+                                    type="radio"
+                                    checked="checked"
+                                    value="no"
                                     name="optionyes">
                                 <label for="no">Disagree</label>
                             </div>
@@ -406,19 +406,19 @@
                             </p>
                             <br>
                             <div class="radio radio-primary">
-                                <input 
-                                    id="Disabled" 
-                                    type="radio" 
-                                    disabled="disabled" 
-                                    value="Disabled" 
+                                <input
+                                    id="Disabled"
+                                    type="radio"
+                                    disabled="disabled"
+                                    value="Disabled"
                                     name="Disabled">
                                 <label for="Disabled">Disabled</label>
-                                <input 
-                                    id="ADisabled" 
-                                    type="radio" 
-                                    disabled="disabled" 
-                                    checked="checked" 
-                                    value="ADisabled" 
+                                <input
+                                    id="ADisabled"
+                                    type="radio"
+                                    disabled="disabled"
+                                    checked="checked"
+                                    value="ADisabled"
                                     name="ADisabled">
                                 <label for="ADisabled">Disabled</label>
                             </div>
@@ -431,25 +431,25 @@
                             <br>
                             <div class="row">
                                 <div class="col-6">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        checked="checked" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        checked="checked"
                                         disabled="disabled" >
                                     <input type="checkbox" data-init-plugin="switchery" checked="checked" >
                                 </div>
                                 <div class="col-6">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-size="small" 
-                                        data-color="primary" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-size="small"
+                                        data-color="primary"
                                         checked="checked" >
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-size="large" 
-                                        data-color="primary" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-size="large"
+                                        data-color="primary"
                                         checked="checked" >
                                 </div>
                             </div>
@@ -694,10 +694,10 @@
                             <div class="form-group form-group-default input-group col-md-10">
                                 <div class="form-input-group">
                                     <label>Check In</label>
-                                    <input 
-                                        id="datepicker-component2" 
-                                        type="email" 
-                                        class="form-control" 
+                                    <input
+                                        id="datepicker-component2"
+                                        type="email"
+                                        class="form-control"
                                         placeholder="Pick a date">
                                 </div>
                                 <div class="input-group-append ">
@@ -722,11 +722,11 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-calendar"/></span>
                                 </div>
-                                <input 
-                                    id="daterangepicker" 
-                                    type="text" 
-                                    name="reservation" 
-                                    class="form-control" 
+                                <input
+                                    id="daterangepicker"
+                                    type="text"
+                                    name="reservation"
+                                    class="form-control"
                                     value="08/01/2013 1:00 PM - 08/01/2013 1:30 PM" >
                             </div>
                             <br>
@@ -795,10 +795,10 @@
                             <div class="form-group">
                                 <label>Social Security Number</label>
                                 <span class="help">e.g. "432-43-2432"</span>
-                                <input 
-                                    id="ssn" 
-                                    type="text" 
-                                    class="form-control" 
+                                <input
+                                    id="ssn"
+                                    type="text"
+                                    class="form-control"
                                     placeholder="You can put anything here">
                             </div>
                         </div>
@@ -810,19 +810,19 @@
                             <div class="form-group">
                                 <label>Decimal place and comma separator</label>
                                 <span class="help">e.g. "53,000.00"</span>
-                                <input 
-                                    type="text" 
-                                    data-a-dec="." 
-                                    data-a-sep="," 
+                                <input
+                                    type="text"
+                                    data-a-dec="."
+                                    data-a-sep=","
                                     class="autonumeric form-control">
                             </div>
                             <div class="form-group">
                                 <label>Weird way but works</label>
                                 <span class="help">e.g. "45.000,00"</span>
-                                <input 
-                                    type="text" 
-                                    data-a-dec="," 
-                                    data-a-sep="." 
+                                <input
+                                    type="text"
+                                    data-a-dec=","
+                                    data-a-sep="."
                                     class="autonumeric form-control">
                             </div>
                             <div class="form-group">
@@ -833,10 +833,10 @@
                             <div class="form-group">
                                 <label>Range</label>
                                 <span class="help">e.g. "0 - 9,999"</span>
-                                <input 
-                                    type="text" 
-                                    data-v-min="0" 
-                                    data-v-max="9999" 
+                                <input
+                                    type="text"
+                                    data-v-min="0"
+                                    data-v-max="9999"
                                     class="autonumeric form-control">
                             </div>
                         </div>
