@@ -6,6 +6,7 @@ import store from "@/store";
 import examples from "./views/examples";
 import UsersSettings from "@/views/settings/users";
 import CompaniesSettings from "@/views/settings/companies";
+import AppsSettings from "@/views/settings/apps";
 import BrowseList from "@/views/browse/";
 
 Vue.use(Router);
@@ -90,6 +91,14 @@ const router = new Router({
             path: "/settings/companies",
             name: "companiesSettings",
             component: CompaniesSettings,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps",
+            name: "appsSettings",
+            component: AppsSettings,
             meta: {
                 requiresAuth: true
             }
