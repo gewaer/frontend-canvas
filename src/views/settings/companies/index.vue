@@ -86,7 +86,7 @@
 <script>
 import CompanyProfile from "./profile";
 import CompaniesList from "./list";
-import CompanyUsers from "./users";
+import CompanyUsers from "./users/";
 import CompanyRoles from "./roles";
 import CompanySubscriptions from "./subscriptions";
 
