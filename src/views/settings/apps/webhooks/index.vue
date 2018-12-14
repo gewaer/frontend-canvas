@@ -13,26 +13,26 @@
 </template>
 
 <script>
-import webhooksCRUD from './crud.vue';
-import webhooksList from './list.vue';
+import webhooksCRUD from "./crud.vue";
+import webhooksList from "./list.vue";
 
 export default {
     name: "Webhooks",
     components: {
         webhooksList,
-        webhooksCRUD,
+        webhooksCRUD
     },
     data() {
         return {
-            currentComponent: "webhooksList",
+            currentComponent: "webhooksList"
         };
     },
     methods: {
         webhooksCRUD() {
-            this.currentComponent = 'webhooksCRUD';
+            this.currentComponent = "webhooksCRUD";
         },
         webhooksList() {
-            this.currentComponent = 'webhooksList';
+            this.currentComponent = "webhooksList";
         }
     }
 };
