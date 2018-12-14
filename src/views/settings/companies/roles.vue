@@ -181,7 +181,7 @@
                                                                     type="checkbox"
                                                                     checked="checked"
                                                                     value="1">
-                                                                <label for="checkbox3"></label>
+                                                                <label for="checkbox3"/>
                                                             </div>
                                                         </div>
                                                     </div>
