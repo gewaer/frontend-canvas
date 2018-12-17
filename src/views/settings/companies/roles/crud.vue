@@ -46,32 +46,34 @@
                                 aria-labelledby="headingOne">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
-                                            <span>Permiso 1</span>
-                                        </div>
-                                        <div class="col-xs-1">
-                                            <div class="checkbox check-success">
-                                                <input
-                                                    id="checkbox1"
-                                                    type="checkbox"
-                                                    checked="checked"
-                                                    value="1">
-                                                <label for="checkbox1"/>
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 1</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <span>Permiso 1</span>
-                                        </div>
-                                        <div class="col-xs-1">
-                                            <div class="checkbox check-success">
-                                                <input
-                                                    id="checkbox1"
-                                                    type="checkbox"
-                                                    checked="checked"
-                                                    value="1">
-                                                <label for="checkbox1"/>
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 1</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -100,17 +102,66 @@
                                 aria-labelledby="headingTwo">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
-                                            <span>Permiso 2</span>
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 2</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-1">
-                                            <div class="checkbox check-success">
-                                                <input
-                                                    id="checkbox2"
-                                                    type="checkbox"
-                                                    checked="checked"
-                                                    value="1">
-                                                <label for="checkbox2"/>
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 2</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 2</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 row">
+                                            <div class="col">
+                                                <span>Permiso 2</span>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <div class="checkbox check-success">
+                                                    <input
+                                                        id="checkbox1"
+                                                        type="checkbox"
+                                                        checked="checked"
+                                                        value="1">
+                                                    <label for="checkbox1"/>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -184,3 +235,10 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+#accordion
+    .checkbox,
+        .radio{
+            margin-top: 0%;
+}
+</style>
