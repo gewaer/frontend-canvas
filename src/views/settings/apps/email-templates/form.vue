@@ -24,8 +24,8 @@
         </div>
         <div class="row">
             <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                <button class="btn btn-danger m-r-10" @click="emailTemplatesList">Cancel</button>
-                <button class="btn btn-primary" @click="save">Save</button>
+                <button class="btn btn-danger m-r-10" @click="emailTemplatesList()">Cancel</button>
+                <button class="btn btn-primary" @click="save()">Save</button>
             </div>
         </div>
     </div>
@@ -33,6 +33,7 @@
 
 <script>
 export default {
+    name: "EmailTemplatesForm",
     data() {
         return {
             emailTemplate: ""

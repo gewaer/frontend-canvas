@@ -1,11 +1,11 @@
-d<template>
+<template>
     <div class="row email-templates-section">
         <div class="col">
             <transition name="fade" mode="out-in">
                 <component
                     :is="currentComponent"
-                    @emailTemplatesCRUD="emailTemplatesCRUD"
-                    @emailTemplatesList="emailTemplatesList"
+                    @emailTemplatesForm="() => currentComponent = 'emailTemplatesForm'"
+                    @emailTemplatesList="() => currentComponent = 'emailTemplatesList'"
                 />
             </transition>
         </div>
@@ -13,27 +13,19 @@ d<template>
 </template>
 
 <script>
-import emailTemplatesCRUD from "./crud.vue";
+import emailTemplatesForm from "./form.vue";
 import emailTemplatesList from "./list.vue";
 
 export default {
-    name: "EmailsTemplates",
+    name: "EmailTemplates",
     components: {
-        emailTemplatesCRUD,
+        emailTemplatesForm,
         emailTemplatesList
     },
     data() {
         return {
             currentComponent: "emailTemplatesList"
         };
-    },
-    methods: {
-        emailTemplatesCRUD() {
-            this.currentComponent = "emailTemplatesCRUD";
-        },
-        emailTemplatesList() {
-            this.currentComponent = "emailTemplatesList";
-        }
     }
 }
 </script>

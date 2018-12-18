@@ -2,7 +2,7 @@
     <div>
         <h5>
             Email Templates
-            <button class="btn btn-primary" @click="emailTemplatesCRUD">Add template</button>
+            <button class="btn btn-primary" @click="$emit('emailTemplatesForm')">Add template</button>
         </h5>
         <div class="table-responsive">
             <table class="table table-hover table-condensed">
@@ -63,10 +63,6 @@
 
 <script>
 export default {
-    methods: {
-        emailTemplatesCRUD() {
-            this.$emit("emailTemplatesCRUD");
-        }
-    }
+    name: "EmailTemplatesList"
 }
 </script>
