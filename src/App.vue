@@ -15,7 +15,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar />
+                    <free-trial-bar v-if="$route.meta.requiresAuth" />
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>

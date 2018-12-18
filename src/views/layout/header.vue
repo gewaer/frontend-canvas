@@ -4,7 +4,7 @@
             <img src="../../assets/icons/hamburguer-menu.png">
         </div>
         <router-link :to="{ name: 'dashboard'}" class="app-logo">
-            <img src="../../assets/primary-logo.png" alt="logo">
+            <img src="/img/primary-logo.png" alt="logo">
         </router-link>
         <div class="app-switcher">
             <span class="app-mode">A1</span>

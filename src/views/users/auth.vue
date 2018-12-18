@@ -22,9 +22,9 @@
         <div class="login-container bg-white">
             <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
                 <img
-                    src="../../assets/primary-logo.png"
+                    src="/img/primary-logo.png"
                     alt="logo"
-                    data-src="../../assets/primary-logo.png"
+                    data-src="/img/primary-logo.png"
                     style="max-height:30px;"
                 >
                 <p class="p-t-10">{{ form.title }}</p>
@@ -152,25 +152,6 @@
                     </div>
                 </form>
                 <!--END Login Form-->
-                <div class="pull-bottom sm-pull-bottom">
-                    <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
-                        <div class="col-sm-3 col-md-2 no-padding">
-                            <img
-                                class="m-t-5"
-                                data-src="assets/img/demo/pages_icon.png"
-                                data-src-retina="assets/img/demo/pages_icon_2x.png"
-                                height="60"
-                                src="assets/img/demo/pages_icon.png"
-                                width="60"
-                            >
-                        </div>
-                        <div class="col-sm-9 no-padding m-t-10">
-                            <p>
-                                <small>Some small text.</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- END Login Right Container-->
