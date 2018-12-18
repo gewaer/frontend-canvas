@@ -10,10 +10,16 @@
                                 <li class="nav-item">
                                     <a :class="{active: tab == 'webhooks'}" href="#" @click="tab = 'webhooks'">Webhooks</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a :class="{active: tab == 'email-templates'}" href="#" @click="tab = 'email-templates'">Email Templates</a>
+                                </li>
                             </ul>
                             <div class="tab-content bg-white">
                                 <div id="user-profile" :class="{active: tab == 'webhooks'}" class="tab-pane">
                                     <app-webhooks />
+                                </div>
+                                <div id="email-templates" :class="{active: tab == 'email-templates'}" class="tab-pane">
+                                    <email-templates />
                                 </div>
                             </div>
                         </div>
@@ -26,10 +32,12 @@
 
 <script>
 import appWebhooks from "./webhooks/";
+import emailTemplates from "./email-templates/";
 
 export default {
     components: {
-        appWebhooks
+        appWebhooks,
+        emailTemplates
     },
     data() {
         return {
