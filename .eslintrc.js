@@ -21,6 +21,7 @@ module.exports = {
         "comma-dangle": ["error"],
         "comma-spacing": ["error"],
         "comma-style": ["error"],
+        complexity: ["error", 3],
         "computed-property-spacing": ["error", "never"],
         "consistent-this": ["error", "self"],
         curly: ["error", "all"],

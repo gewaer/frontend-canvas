@@ -1,6 +1,7 @@
 <template>
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
+        <unsaved-changes-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
@@ -1628,15 +1629,17 @@
 <script>
 import { mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import appHeader from "@/views/layout/header.vue";
-import appSidebar from "@/views/layout/side-bar.vue";
-import freeTrialBar from "@/views/layout/free-trial-banner.vue"
+import AppHeader from "@/views/layout/header.vue";
+import AppSidebar from "@/views/layout/side-bar.vue";
+import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
+import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
 
 export default {
     components: {
-        appHeader,
-        appSidebar,
-        freeTrialBar
+        AppHeader,
+        AppSidebar,
+        FreeTrialBar,
+        UnsavedChangesModal
     },
     data() {
         return {

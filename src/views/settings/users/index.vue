@@ -49,6 +49,7 @@ import userSecurity from "./security";
 import userSocial from "./social";
 
 export default {
+    name: "UserSettings",
     components: {
         userNotifications,
         userProfile,
@@ -58,6 +59,26 @@ export default {
     data() {
         return {
             tab: "profile"
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.errors.items.length) {
+            this.$modal.show("unsaved-changes", {
+                buttons: [{
+                    title: "Discard",
+                    handler: () => {
+                        next();
+                        this.$modal.hide("unsaved-changes");
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-primary",
+                    handler: () => {
+                        next(false);
+                        this.$modal.hide("unsaved-changes");
+                    }
+                }]
+            });
         }
     }
 };
