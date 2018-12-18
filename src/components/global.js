@@ -17,7 +17,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 
 Vue.use(abilitiesPlugin);
 Vue.use(Notifications);
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, { fieldsBagName: "formFields" });
 Vue.use(VModal);
 
 Vue.component("multiselect", VueMultiselect);

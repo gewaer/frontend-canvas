@@ -1,16 +1,7 @@
 <template>
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
-        <modal
-            :draggable="true"
-            :adaptive="true"
-            :scrollable="true"
-            name="unsaved-changes-modal"
-            height="auto"
-            @closed="selectedCompany = null"
-        >
-            <unsaved-changes mode="form"/>
-        </modal>
+        <unsaved-changes-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
@@ -1637,19 +1628,18 @@
 
 <script>
 import { mapState } from "vuex";
-import { abilityBuilder } from "@casl/ability";
+import { AbilityBuilder } from "@casl/ability";
 import AppHeader from "@/views/layout/header.vue";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
-import UnsavedChanges from "@/components/modals/unsaved-changes.vue";
-
+import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
 
 export default {
     components: {
         AppHeader,
         AppSidebar,
         FreeTrialBar,
-        UnsavedChanges
+        UnsavedChangesModal
     },
     data() {
         return {
@@ -1665,7 +1655,7 @@ export default {
     },
     watch: {
         accessList(permissions) {
-            const ability = abilityBuilder.define((can, cannot) => {
+            const ability = AbilityBuilder.define((can, cannot) => {
                 can("manage", "all");
 
                 Object.keys(permissions).forEach((resource) => {

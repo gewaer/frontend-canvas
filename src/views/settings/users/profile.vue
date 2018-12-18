@@ -22,10 +22,11 @@
                             v-model="userData.firstname"
                             class="form-control"
                             data-vv-as="first name"
+                            data-vv-name="first name"
                             type="text"
                             name="firstname"
                         >
-                        <span class="error">{{ errors.first('firstname') }}</span>
+                        <span class="error">{{ errors.first("first name") }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
@@ -34,10 +35,11 @@
                             v-model="userData.lastname"
                             class="form-control"
                             data-vv-as="last name"
+                            data-vv-name="last name"
                             name="lastname"
                             type="text"
                         >
-                        <span class="error">{{ errors.first('lastname') }}</span>
+                        <span class="error">{{ errors.first("last name") }}</span>
                     </div>
                     <div class="form-group form-group-default">
                         <label>Phone</label>
@@ -133,10 +135,6 @@ export default {
             this.userData.language = value.id;
         },
         update() {
-            if (this.errors.items.length) {
-                //
-            }
-
             if (this.isLoading) {
                 return;
             }
