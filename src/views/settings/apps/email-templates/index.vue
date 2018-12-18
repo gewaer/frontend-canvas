@@ -1,26 +1,26 @@
 d<template>
-<div class="row email-templates-section">
-    <div class="col">
-        <transition name="fade" mode="out-in">
-            <component
-                :is="currentComponent"
-                @emailTemplatesCRUD="emailTemplatesCRUD"
-                @emailTemplatesList="emailTemplatesList"
-            />
-        </transition>
+    <div class="row email-templates-section">
+        <div class="col">
+            <transition name="fade" mode="out-in">
+                <component
+                    :is="currentComponent"
+                    @emailTemplatesCRUD="emailTemplatesCRUD"
+                    @emailTemplatesList="emailTemplatesList"
+                />
+            </transition>
+        </div>
     </div>
-</div>
 </template>
 
 <script>
-import emailTemplatesCRUD from './crud.vue';
-import emailTemplatesList from './list.vue';
+import emailTemplatesCRUD from "./crud.vue";
+import emailTemplatesList from "./list.vue";
 
 export default {
     name: "EmailsTemplates",
     components: {
         emailTemplatesCRUD,
-        emailTemplatesList,
+        emailTemplatesList
     },
     data() {
         return {

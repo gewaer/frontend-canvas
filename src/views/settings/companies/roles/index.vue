@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import rolesList from './list.vue';
-import rolesCRUD from './crud.vue';
+import rolesList from "./list.vue";
+import rolesCRUD from "./crud.vue";
 
 export default {
     components: {
         rolesList,
-        rolesCRUD,
+        rolesCRUD
     },
     data() {
         return {

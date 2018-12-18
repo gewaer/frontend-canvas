@@ -4,10 +4,10 @@ import "./config";
 import store from "./store";
 import router from "./router";
 import "@/components/global";
-import { quillEditor } from 'vue-quill-editor';
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
-import 'quill/dist/quill.bubble.css';
+import { quillEditor } from "vue-quill-editor";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 
 Vue.component("quill-editor", quillEditor);
 
