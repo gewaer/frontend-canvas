@@ -54,8 +54,8 @@
                             :options="['Filter 1', 'Filter 2', 'Fiilter 3']"
                         >
                             <template slot="afterList" >
-                                <div class="add-custom-filter-btn option__desc"><a @click="showAddCustomFilter" class="option__title">
-                                    <i class="fa fa-plus"></i> Add custom Filter</a>
+                                <div class="add-custom-filter-btn option__desc"><a class="option__title" @click="showAddCustomFilter">
+                                <i class="fa fa-plus"/> Add custom Filter</a>
                                 </div>
                             </template>
                         </multiselect>
@@ -821,11 +821,11 @@
 </template>
 
 <script>
-import addCustomFiltersModal from '../layout/add-custom-filters-modal.vue';
+import addCustomFiltersModal from "../layout/add-custom-filters-modal.vue";
 
 export default {
     components: {
-        addCustomFiltersModal,
+        addCustomFiltersModal
     },
     data() {
         return {
