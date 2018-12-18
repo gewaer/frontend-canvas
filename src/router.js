@@ -108,7 +108,7 @@ const router = new Router({
             name: "browse",
             component: BrowseList,
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
         }
     ]
