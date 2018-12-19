@@ -1,39 +1,85 @@
 <template>
     <div>
         <h5>Roles <button class="btn btn-primary" @click="rolesCRUD">New role</button></h5>
+        <span style="width:30%">{{ 'name' | capitalize }}</span>
         <div class="table-responsive">
-            <table class="table table-hover table-condensed">
-                <thead>
-                    <tr>
-                        <th style="width:30%">Name</th>
-                        <th style="width:25%">Description</th>
-                        <th style="width:20%">Users</th>
-                        <th style="width:15%">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="role in roles" :key="`roles-${role.id}`">
-                        <td class="v-align-middle semi-bold"> {{ role.name }} </td>
-                        <td class="v-align-middle semi-bold"> {{ role.description }}</td>
-                        <td class="v-align-middle semi-bold">{{ role.some }}</td>
-                        <td class="v-align-middle semi-bold">
-                            <button class="btn btn-primary m-l-5"><i class="fa fa-eye" aria-hidden="true"/></button>
-                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
-                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"/></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <vuetable
+                :append-params="{format: 'true'}"
+                :fields="rolesFields"
+                :http-fetch="getTableData"
+                api-url="/roles"
+                class="table table-hover table-condensed"
+                pagination-path="">
+                <!--
+                <template slot="name" slot-scope="props">
+                    <span> {{ props.rowData.firstname }} {{ props.rowData.lastname }} </span>
+                </template> -->
+
+                <template slot="actions" slot-scope="props">
+                    <button class="btn btn-primary m-l-5" @click="editRole(props.rowData)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                    <button class="btn btn-complete m-l-5" @click="editRole(props.rowData)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                    <button
+                        class="btn btn-danger m-l-5"
+                        @click="deleteRole(props.rowData.id)">
+                        <i class="fa fa-trash" aria-hidden="true" />
+                    </button>
+                </template>
+            </vuetable>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            rolesFields: [{
+                name: "name",
+                title: "Name"
+            }, {
+                name: "description"
+            }, {
+                name: "users"
+            }, {
+                name: "actions",
+                title: "Actions"
+            }]
+        }
+    },
     methods: {
         rolesCRUD() {
-            this.$emit("rolesCRUD");
+            this.$emit("changeView", "rolesCrud");
+        },
+
+        deleteRole() {
+            axios({
+                url: `/roles/${id}`,
+                method: "DELETE"
+            }).then(() => {
+                this.$notify({
+                    group: null,
+                    title: "Deleted",
+                    text: "The roles has been deleted",
+                    type: "success"
+                });
+            }).catch((error) => {
+                this.$notify({
+                    group: null,
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+
+            })
+        },
+
+        editRole(role) {
+            console.log(role)
+            this.$emit("getRole", role);
         }
     }
+
 }
 </script>
