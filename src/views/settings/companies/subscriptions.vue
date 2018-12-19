@@ -1,6 +1,6 @@
 <template>
     <div class="subscriptions-plans">
-        <div class="card-yellow d-flex">
+        <div v-show="companyData.app.subscriptions_id" class="card-yellow d-flex">
             <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper ligula odio, id tristique lacus faucibus et. Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
         </div>
@@ -10,10 +10,14 @@
 
                     <!--BLOCK ROW START-->
                     <div class="row">
-                        <div class="col-md-4">
+
+                        <div
+                            v-for="plan in plans"
+                            :key="plan.stripe_id"
+                            class="col-md-4">
 
                             <!--PRICE CONTENT START-->
-                            <div class="generic_content clearfix">
+                            <div :class="plan.isSelected | selectedClass">
 
                                 <!--HEAD PRICE DETAIL START-->
                                 <div class="generic_head_price clearfix">
@@ -24,7 +28,7 @@
                                         <!--HEAD START-->
                                         <div class="head_bg"/>
                                         <div class="head">
-                                            <span>Basic</span>
+                                            <span>{{ plan.name }}}</span>
                                         </div>
                                     <!--//HEAD END-->
 
@@ -35,9 +39,9 @@
                                     <div class="generic_price_tag clearfix">
                                         <span class="price">
                                             <span class="sign">$</span>
-                                            <span class="currency">99</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
+                                            <span class="currency">{{ plan[selectedFrecuency.type] | getPrice }} </span>
+                                            <span class="cent">.00</span>
+                                            <span class="month">/{{ selectedFrecuency.frecuency }}</span>
                                         </span>
                                     </div>
                                 <!--//PRICE END-->
@@ -47,19 +51,19 @@
 
                                 <!--FEATURE LIST START-->
                                 <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
+                                    <ul v-if="plan.settings.length">
+                                        <li
+                                            v-for="planSetting in plan.settings"
+                                            :key="planSetting.key"
+                                            v-html="$options.filters.formatSetting(planSetting.value)">
+                                            {</li>
                                     </ul>
                                 </div>
                                 <!--//FEATURE LIST END-->
 
                                 <!--BUTTON START-->
                                 <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
+                                    <a @click.prevent.stop="setSubcrition(plan)" >Choose {{ plan.name }}</a>
                                 </div>
                             <!--//BUTTON END-->
 
@@ -68,147 +72,31 @@
 
                         </div>
 
-                        <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content active clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"/>
-                                        <div class="head">
-                                            <span>Standard</span>
-                                        </div>
-                                    <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">199</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                            <!--//BUTTON END-->
-
-                            </div>
-                        <!--//PRICE CONTENT END-->
-
-                        </div>
-                        <div class="col-md-4">
-
-                            <!--PRICE CONTENT START-->
-                            <div class="generic_content clearfix">
-
-                                <!--HEAD PRICE DETAIL START-->
-                                <div class="generic_head_price clearfix">
-
-                                    <!--HEAD CONTENT START-->
-                                    <div class="generic_head_content clearfix">
-
-                                        <!--HEAD START-->
-                                        <div class="head_bg"/>
-                                        <div class="head">
-                                            <span>Unlimited</span>
-                                        </div>
-                                    <!--//HEAD END-->
-
-                                    </div>
-                                    <!--//HEAD CONTENT END-->
-
-                                    <!--PRICE START-->
-                                    <div class="generic_price_tag clearfix">
-                                        <span class="price">
-                                            <span class="sign">$</span>
-                                            <span class="currency">299</span>
-                                            <span class="cent">.99</span>
-                                            <span class="month">/MON</span>
-                                        </span>
-                                    </div>
-                                <!--//PRICE END-->
-
-                                </div>
-                                <!--//HEAD PRICE DETAIL END-->
-
-                                <!--FEATURE LIST START-->
-                                <div class="generic_feature_list">
-                                    <ul>
-                                        <li><span>2GB</span> Bandwidth</li>
-                                        <li><span>150GB</span> Storage</li>
-                                        <li><span>12</span> Accounts</li>
-                                        <li><span>7</span> Host Domain</li>
-                                        <li><span>24/7</span> Support</li>
-                                    </ul>
-                                </div>
-                                <!--//FEATURE LIST END-->
-
-                                <!--BUTTON START-->
-                                <div class="generic_price_btn clearfix">
-                                    <a class="" href="">Sign up</a>
-                                </div>
-                            <!--//BUTTON END-->
-
-                            </div>
-                        <!--//PRICE CONTENT END-->
-
-                        </div>
                     </div>
                 <!--//BLOCK ROW END-->
 
                 </div>
             </section>
             <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-            <div class="payment-details">
+            <div v-if="plans.length > 0" class="payment-details">
                 <h5>Choose your billing frequency</h5>
                 <div class="row payment-frecuency">
-                    <div class="col-3">
+                    <div
+                        v-for="billing in billingFrecuency"
+                        :key="billing.type"
+                        class="col-3">
                         <div class="card">
                             <div class="card-block">
-                                <input id="payment-monthtly" type="radio" name="payment-frecuency">
-                                <label for="payment-monthly">
-                                    Pay monthly
-                                    <small>$29 per seat per month</small>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-block">
-                                <input id="payment-annually" type="radio" name="payment-frecuency">
-                                <label for="payment-annually">
-                                    Pay annually
-                                    <small>$29 per seat per month</small>
+                                <input
+                                    :id="billing.type"
+                                    :value="billing.type"
+                                    v-model="data.form.frecuency_type"
+                                    type="radio"
+                                    name="payment-frecuency"
+                                >
+                                <label :for="billing.type">
+                                    Pay {{ billing.title }}
+                                    <small>${{ billing.price }} per seat per {{ billing.frecuency }}</small>
                                 </label>
                             </div>
                         </div>
@@ -222,23 +110,23 @@
                                 <div class="selected-payment">
                                     <div class="d-flex flex-column">
                                         <strong>1 seat</strong>
-                                        <small>Gold Plan Monthly</small>
+                                        <small>Gold Plan {{ selectedFrecuency.title }}</small>
                                     </div>
                                     <div class="d-flex flex-column ml-auto text-right">
-                                        <strong>$29.00</strong>
-                                        <small>every month</small>
+                                        <strong>${{ selectedFrecuency.price }}</strong>
+                                        <small>every {{ selectedFrecuency.frecuency }}</small>
                                     </div>
                                 </div>
                                 <div class="d-flex m-t-10">
                                     <div>VAT</div>
-                                    <strong class="ml-auto">$0.00</strong>
+                                    <strong class="ml-auto">$0</strong>
                                 </div>
                                 <div class="card-yellow">
                                     <div class="d-flex flex-column">
                                         <strong>Order Total</strong>
-                                        <small>Gold Plan for 1 seat monthly payment in USD</small>
+                                        <small>Gold Plan for 1 seat {{ selectedFrecuency.title }} payment in USD</small>
                                     </div>
-                                    <div class="final-price">$29.00</div>
+                                    <div class="final-price">${{ selectedFrecuency.price }}</div>
                                 </div>
                             </div>
                         </div>
@@ -253,20 +141,20 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="first-name">First name</label>
-                                            <input 
-                                                id="first-name" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="first-name"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="First name">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="last-name">Last name</label>
-                                            <input 
-                                                id="last-name" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="last-name"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="Last name">
                                         </div>
                                     </div>
@@ -275,10 +163,10 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="company-name">Company name</label>
-                                            <input 
-                                                id="company-name" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="company-name"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="Company name">
                                         </div>
                                     </div>
@@ -287,10 +175,10 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="email-address">Email address</label>
-                                            <input 
-                                                id="email-address" 
-                                                type="email" 
-                                                class="form-control" 
+                                            <input
+                                                id="email-address"
+                                                type="email"
+                                                class="form-control"
                                                 placeholder="Email">
                                         </div>
                                     </div>
@@ -308,20 +196,20 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="address">Address</label>
-                                            <input 
-                                                id="address" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="address"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="Address">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="apt-suite">APT/SUITE</label>
-                                            <input 
-                                                id="apt-suite" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="apt-suite"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="APT/SUITE">
                                         </div>
                                     </div>
@@ -330,20 +218,20 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="city">City</label>
-                                            <input 
-                                                id="city" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="city"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="City">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="country">Country</label>
-                                            <input 
-                                                id="country" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="country"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="Country">
                                         </div>
                                     </div>
@@ -352,20 +240,20 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="state-province">State/Province</label>
-                                            <input 
-                                                id="state-province" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="state-province"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="State/Province">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="zip-postal">Zip/Postal</label>
-                                            <input 
-                                                id="zip-postal" 
-                                                type="text" 
-                                                class="form-control" 
+                                            <input
+                                                id="zip-postal"
+                                                type="text"
+                                                class="form-control"
                                                 placeholder="Zip/Postal">
                                         </div>
                                     </div>
@@ -380,20 +268,20 @@
                         <div class="card card-borderless">
                             <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
                                 <li class="nav-item">
-                                    <a 
-                                        class="active" 
-                                        data-toggle="tab" 
-                                        role="tab" 
-                                        data-target="#credit-card" 
+                                    <a
+                                        class="active"
+                                        data-toggle="tab"
+                                        role="tab"
+                                        data-target="#credit-card"
                                         href="#">CREDIT CARD</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a 
-                                        href="#" 
-                                        data-toggle="tab" 
-                                        role="tab" 
+                                <!-- <li class="nav-item">
+                                    <a
+                                        href="#"
+                                        data-toggle="tab"
+                                        role="tab"
                                         data-target="#paypal">PAYPAL</a>
-                                </li>
+                                </li> -->
                             </ul>
                             <div class="tab-content">
                                 <div id="credit-card" class="tab-pane active">
@@ -406,20 +294,20 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="first-name-cc">First name</label>
-                                                <input 
-                                                    id="first-name-cc" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="first-name-cc"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="First name">
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="last-name-cc">Last name</label>
-                                                <input 
-                                                    id="last-name-cc" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="last-name-cc"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="Last name">
                                             </div>
                                         </div>
@@ -428,20 +316,20 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="credit-card-number">Credit Card number</label>
-                                                <input 
-                                                    id="credit-card-number" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="credit-card-number"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="Credit Card number">
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="cvv">CVV</label>
-                                                <input 
-                                                    id="cvv" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="cvv"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="CVV">
                                             </div>
                                         </div>
@@ -450,26 +338,26 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="card-expiration-month">Card epiration month</label>
-                                                <input 
-                                                    id="card-expiration-month" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="card-expiration-month"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="Card expiration month">
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="card-expiration-year">Card expiration year</label>
-                                                <input 
-                                                    id="card-expiration-year" 
-                                                    type="text" 
-                                                    class="form-control" 
+                                                <input
+                                                    id="card-expiration-year"
+                                                    type="text"
+                                                    class="form-control"
                                                     placeholder="Card expiration year">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="paypal" class="tab-pane ">
+                                <!-- <div id="paypal" class="tab-pane ">
                                     <div class="row">
                                         <div class="card">
                                             <div class="card-block">
@@ -478,7 +366,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -492,7 +380,189 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
+    name: "Subscriptions",
+    filters:{
+        getPrice(value){
+            return value.split(".")[0];
+        },
+        formatSetting(value){
+            let setting= value.split("-");
+            return `<span>${setting[0]}</span> ${setting[1]}.`;
+        },
+        selectedClass(value = false){
+            return value ?"generic_content active clearfix" : "generic_content clearfix";
+        }
+    },
+    data() {
+        return {
+            data: {
+                form:{
+                    "frecuency_type":"pricing",
+                    "stripe_id":"0"
+                }
+            },
+            selectedCompany:{},
+            plans:[],
+            formOptions: {
+                data: {
+                    company: {
+                        map: "default_company",
+                        validations: "required"
+                    },
+                    email: {
+                        validations: "required|email"
+                    },
+                    contactFirstName: {
+                        map:"",
+                        validations: "alpha"
+                    },
+                    contactLastName: {
+                        map:"",
+                        validations: "alpha"
+                    },
+                    address: {
+                        validations: "alpha_spaces_field"
+                    },
+                    city: {
+                        validations: "alpha_spaces_field"
+                    },
+                    country: {
+                        validations: "alpha_spaces_field"
+                    },
+                    province: {
+                        validations: "alpha_dash_field"
+                    },
+                    zipCode: {
+                        validations: "number"
+                    },
+                    suite:{
+                        validations: "alpha_dash_field"
+                    },
+                    cardFirstName:{
+                        validations: "alpha"
+                    },
+                    cardLastName:{
+                        validations: "alpha"
+                    },
+                    cardNumber:{
+                        validations: "number"
+                    },
+                    cardCVC:{
+                        validations: "number"
+                    },
+                    cardExpMonth:{
+                        validations: "number"
+                    },
+                    cardExpYear:{
+                        validations: "number"
+                    }
+                },
+                endpoint: "apps-plans",
+                submitLabel: "Sign Up",
+                title: "Update Subscription"
+            }
+        };
+    },
+    computed:{
+        selectedPlan(){
+            return this.plans.filter(subcription => this.data.form["stripe_id"]== subcription.stripe_id)[0];
+        },
+        selectedFrecuency(){
+            return this.billingFrecuency.filter(item => item.type== this.data.form.frecuency_type)[0];
+        },
+        billingFrecuency(){
+            return[{
+                type:"pricing",
+                name:"payment-frecuency",
+                title:"Monthly",
+                price:this.selectedPlan.pricing || "10",
+                frecuency:"month"
+            }, {
+                type:"pricing_anual",
+                name:"payment-frecuency",
+                title:"Annually",
+                price:this.selectedPlan.pricing_anual || "100",
+                frecuency:"year"
+            }]
+        },
+        ...mapState("User", {
+            userData: state => state.data
+        }),
+        ...mapState("Company", {
+            companyData: state => state.data
+        })
+    },
+    beforeRouteLeave(to, from, next) {
+        this.clearFormData();
+        next();
+    },
+    created(){
+        this.getPlans();
+    },
+    methods: {
+        getPlans(){
+            let plansUrl=`apps-plans?relationships=settings`;
+            // let plansUrl=`companies?relationships=app`;
+            axios({
+                url: `/${plansUrl}`,
+                method: "get"
+            }).then((response) => {
+                this.formatPlans(response);
+            }).catch((error) => {
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+        },
+
+        formatPlans(response){
+            let plans = [];
+
+            let  subcriptions = _.cloneDeep(response.data);
+            const selectetSubcriptionId  = _.has(this.companyData, "app.stripe_id") ? this.companyData.app.stripe_id : "monthly-10-2";
+
+            this.data.form["stripe_id"] = selectetSubcriptionId;
+
+            let selectedSubcription = _.cloneDeep(subcriptions.filter(plan => plan.stripe_id == selectetSubcriptionId)[0]);
+            selectedSubcription.isSelected = true;
+            selectedSubcription.selectedClass = "selected_subcription"
+
+            plans = _.cloneDeep(subcriptions.filter(plan => plan.stripe_id != selectetSubcriptionId));
+
+            plans.map((subcription)=>{
+                subcription.isSelected = false
+                subcription.selectedClass = "subcription"
+                return subcription;
+            });
+
+            let centerOfArray = Math.floor(( plans.length /2));
+            plans.splice(centerOfArray, 0, selectedSubcription);
+
+            this.plans = _.cloneDeep(plans);
+        },
+        setSubcrition(plan = false){
+            if(!plan){
+                return ;
+            }
+            let  subcriptions = _.cloneDeep( this.plans);
+            this.data.form["stripe_id"] = plan.stripe_id;
+            subcriptions.map((subcription) =>{
+                let isSelected = false;
+                if(plan.stripe_id == subcription.stripe_id ){
+                    isSelected = true;
+                }
+                subcription.isSelected=isSelected
+                return subcription
+            } );
+
+            this.plans = subcriptions;
+        },
+        clearFormData(){}
+    }
 }
 </script>
 
