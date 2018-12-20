@@ -184,7 +184,7 @@
                     <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
                 <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                    <router-link :to="{name: 'usersSettings'}" class="dropdown-item">
+                    <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
                         <span>Users Settings</span>
                     </router-link>
 

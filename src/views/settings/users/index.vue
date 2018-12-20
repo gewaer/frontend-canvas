@@ -8,30 +8,21 @@
                         <div class="card flex-md-row">
                             <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
-                                    <a :class="{active: tab == 'profile'}" href="#" @click="tab = 'profile'">User Profile</a>
+                                    <a :class="{active: tab == 'profile'}" href="#" @click.prevent="changeTab('profile')">User Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a :class="{active: tab == 'notifications'}" href="#" @click="tab = 'notifications'">Notifications</a>
+                                    <a :class="{active: tab == 'notifications'}" href="#" @click.prevent="changeTab('notifications')">Notifications</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a :class="{active: tab == 'social'}" href="#" @click="tab = 'social'">Social</a>
+                                    <a :class="{active: tab == 'social'}" href="#" @click.prevent="changeTab('social')">Social</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a :class="{active: tab == 'security'}" href="#" @click="tab = 'security'">Security</a>
+                                    <a :class="{active: tab == 'security'}" href="#" @click.prevent="changeTab('security')">Security</a>
                                 </li>
                             </ul>
                             <div class="tab-content bg-white">
-                                <div id="user-profile" :class="{active: tab == 'profile'}" class="tab-pane">
-                                    <user-profile/>
-                                </div>
-                                <div id="user-notifications" :class="{active: tab == 'notifications'}" class="tab-pane">
-                                    <user-notifications/>
-                                </div>
-                                <div id="user-social" :class="{active: tab == 'social'}" class="tab-pane">
-                                    <user-social/>
-                                </div>
-                                <div id="user-security" :class="{active: tab == 'security'}" class="tab-pane">
-                                    <user-security/>
+                                <div id="user-profile" class="tab-pane active">
+                                    <component :is="tab"/>
                                 </div>
                             </div>
                         </div>
@@ -43,42 +34,49 @@
 </template>
 
 <script>
-import userNotifications from "./notifications";
-import userProfile from "./profile";
-import userSecurity from "./security";
-import userSocial from "./social";
-
 export default {
     name: "UserSettings",
     components: {
-        userNotifications,
-        userProfile,
-        userSecurity,
-        userSocial
+        notifications: () => import("./notifications"),
+        profile: () => import("./profile"),
+        security: () => import("./security"),
+        social: () => import("./social")
     },
     data() {
         return {
             tab: "profile"
         }
     },
+    created() {
+        this.tab = this.$route.hash.replace("#", "");
+    },
     beforeRouteLeave(to, from, next) {
-        if (this.errors.items.length) {
-            this.$modal.show("unsaved-changes", {
-                buttons: [{
-                    title: "Discard",
-                    handler: () => {
-                        next();
-                        this.$modal.hide("unsaved-changes");
-                    }
-                }, {
-                    title: "Cancel",
-                    class: "btn-primary",
-                    handler: () => {
-                        next(false);
-                        this.$modal.hide("unsaved-changes");
-                    }
-                }]
-            });
+        // if (this.formFields.some(field => field.changed)) {
+        //     this.$modal.show("unsaved-changes", {
+        //         buttons: [{
+        //             title: "Discard",
+        //             handler: () => {
+        //                 next();
+        //                 this.$modal.hide("unsaved-changes");
+        //             }
+        //         }, {
+        //             title: "Cancel",
+        //             class: "btn-primary",
+        //             handler: () => {
+        //                 next(false);
+        //                 this.$modal.hide("unsaved-changes");
+        //             }
+        //         }]
+        //     });
+        // } else {
+        //     next();
+        // }
+        next();
+    },
+    methods: {
+        changeTab(tab) {
+            this.tab = tab;
+            // this.$router.push({ name: this.$route.name, hash: `#${tab}` });
         }
     }
 };

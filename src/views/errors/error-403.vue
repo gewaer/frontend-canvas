@@ -13,7 +13,7 @@
 
 <script lang="ts">
 export default {
-    name: "403"
+    name: "Error403"
 }
 </script>
 

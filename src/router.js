@@ -4,10 +4,9 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
-import UsersSettings from "@/views/settings/users";
-import CompaniesSettings from "@/views/settings/companies";
-import AppsSettings from "@/views/settings/apps";
-import BrowseList from "@/views/browse/";
+import CompaniesSettings from "./views/settings/companies";
+import AppsSettings from "./views/settings/apps";
+import BrowseList from "./views/browse/";
 
 Vue.use(Router);
 
@@ -58,7 +57,7 @@ const router = new Router({
         {
             path: "*",
             name: "404",
-            component: () => import(/* webpackChunkName: "404" */ "./views/errors/404.vue"),
+            component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-404"),
             meta: {
                 requiresAuth: false
             }
@@ -66,7 +65,7 @@ const router = new Router({
         {
             path: "/forbidden",
             name: "403",
-            component: () => import(/* webpackChunkName: "404" */ "./views/errors/403.vue"),
+            component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-403"),
             meta: {
                 requiresAuth: false
             }
@@ -81,8 +80,42 @@ const router = new Router({
         },
         {
             path: "/settings/users",
-            name: "usersSettings",
-            component: UsersSettings,
+            name: "setingsUsers",
+            redirect: {
+                name: "setingsUsersProfile"
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/users/profile",
+            name: "setingsUsersProfile",
+            component: () => import(/* webpackChunkName: "settings-users-profile" */ "./views/settings/users/profile"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/users/notifications",
+            name: "setingsUsersNotifications",
+            component: () => import(/* webpackChunkName: "settings-users-notifications" */ "./views/settings/users/notifications"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/users/social",
+            name: "setingsUsersSocial",
+            component: () => import(/* webpackChunkName: "settings-users-social" */ "./views/settings/users/social"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/users/security",
+            name: "setingsUsersSecurity",
+            component: () => import(/* webpackChunkName: "settings-users-security" */ "./views/settings/users/security"),
             meta: {
                 requiresAuth: true
             }
