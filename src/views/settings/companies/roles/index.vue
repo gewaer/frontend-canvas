@@ -3,6 +3,7 @@
         <div class="col">
             <component
                 :is="currentComponent"
+                :access-list="accessList"
                 :role="selectedRole"
                 @getRole="getRole"
                 @changeView="changeView"
@@ -23,7 +24,8 @@ export default {
     },
     data() {
         return {
-            selectedRole: [],
+            selectedRole: null,
+            accessList: [],
             currentComponent: "rolesList",
             views: {
                 crud: "rolesCrud",
@@ -35,14 +37,15 @@ export default {
         getRole(role, forCreate) {
             axios(`/roles-acceslist?q=(roles_name:${role.name})`).then(({ data }) => {
                 if (forCreate) {
-                    for (const role in data) {
-                        if (data.hasOwnProperty(role)) {
-                            data[role].allowed = "1";
-                        }
-                    }
+                    data.forEach(access => {
+                        access.allowed = "1";
+                        access.role_name = "";
+                    });
+                    role.name = "";
                 }
 
-                this.selectedRole = data;
+                this.accessList= data;
+                this.selectedRole = role;
                 this.currentComponent = this.views.crud;
             })
         },

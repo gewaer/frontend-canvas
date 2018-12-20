@@ -7,13 +7,18 @@
                 <div class="col-md-6">
                     <div class="form-group form-group-default required">
                         <label>Name role</label>
-                        <input type="text" class="form-control" required>
+                        <input
+                            v-model="roleData.name"
+                            :disabled="isNewRole"
+                            type="text"
+                            class="form-control"
+                            required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group form-group-default">
                         <label>Description</label>
-                        <input type="text" class="form-control">
+                        <input v-model="roleData.description" type="text" class="form-control">
                     </div>
                 </div>
             </form>
@@ -26,9 +31,9 @@
                         role="tablist"
                         aria-multiselectable="true">
 
-                        <div v-for="(group, groupName) in roleGroups" :key="groupName" class="card card-default m-b-0">
+                        <div v-for="(group, groupName) in accessGroup" :key="groupName" class="card card-default m-b-0">
                             <div id="headingOne" class="card-header " role="tab">
-                                <h4 class="card-title permission-group__title">
+                                <h4 class="card-title access-group__title">
                                     <div class="checkbox check-success">
                                         <input
                                             id="checkbox1"
@@ -57,17 +62,17 @@
                                 <div class="card-body">
                                     <div class="row">
 
-                                        <div v-for="(permission, permissionName) in group" :key="`${groupName}-${permissionName}`" class="col-md-6 row">
+                                        <div v-for="(access, accessName) in group" :key="`${groupName}-${accessName}`" class="col-md-6 row">
                                             <div class="col">
-                                                <span>{{ permissionName }} {{ permission.allowed }}</span>
+                                                <span>{{ accessName }}</span>
                                             </div>
                                             <div class="col-xs-1">
                                                 <div class="checkbox check-success">
                                                     <input
-                                                        :id="`checkbox1-${groupName}-${permissionName}`"
-                                                        v-model="permission.allowed"
+                                                        :id="`checkbox1-${groupName}-${accessName}`"
+                                                        v-model="access.allowed"
                                                         type="checkbox">
-                                                    <label :for="`checkbox1-${groupName}-${permissionName}`"/>
+                                                    <label :for="`checkbox1-${groupName}-${accessName}`"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -93,21 +98,36 @@
 <script>
 export default {
     props:{
-        role: {
+        accessList: {
             type: Array,
             default() {
                 return [];
+            }
+        },
+        role: {
+            type: Object,
+            default() {
+                return {}
             }
         }
     },
     data() {
         return {
-            roleData: null,
-            roleGroups: {}
+            accessListData: null,
+            accessGroup: {},
+            roleData: {
+                name: "",
+                description: ""
+            }
+        }
+    },
+    computed: {
+        isNewRole() {
+            return Boolean(this.role.name)
         }
     },
     watch: {
-        role() {
+        accessList() {
             this.setRole();
         }
     },
@@ -119,78 +139,85 @@ export default {
             let url;
             let method;
 
-            if (!this.userData.id) {
-                url = "/roles-accesslist";
+            if (!this.isNewRole) {
+                url = "/roles-accesslist/";
                 method = "POST";
             } else {
-                url = `/roles-accesslist/`;
+                url = `/roles-accesslist/${this.role.name.toLowerCase()}`;
                 method = "PUT";
             }
 
-            this.sendRequest(url, method, this.getFalsePermissions());
+            const formData = {
+                role: this.roleData,
+                access: this.getFalsePermissions()
+            }
+
+            this.sendRequest(url, method, formData);
         },
 
         setRole() {
+            this.accessListData = _.clone(this.accessList);
             this.roleData = _.clone(this.role);
-            this.groupRoles()
+            this.groupPermissions()
         },
 
         rolesList() {
             this.$emit("changeView", "rolesList");
         },
 
-        groupRoles() {
-            this.roleData.forEach(role => {
-                if (role.access_name == "*") {
-                    return
-                }
+        groupPermissions() {
+            this.accessListData.forEach(access => {
+                if (access.access_name != "*") {
+                    access.allowed = Boolean(Number(access.allowed));
 
-                role.allowed = Boolean(Number(role.allowed));
-
-                if (!this.roleGroups[role.resources_name]) {
-                    this.roleGroups[role.resources_name] = {[role.access_name]: role};
-                } else {
-                    this.roleGroups[role.resources_name][role.access_name] = role;
+                    if (!this.accessGroup[access.resources_name]) {
+                        this.accessGroup[access.resources_name] = {[access.access_name]: access};
+                    } else {
+                        this.accessGroup[access.resources_name][access.access_name] = access;
+                    }
                 }
             });
         },
         getFalsePermissions() {
-            return this.roleData.map(role => {
-                if (!role.allowed) {
-                    role.allowed = Number(role.allowed);
-                    return role;
+            return this.accessListData.map(access => {
+                if (!access.allowed) {
+                    const accessLocal = _.clone(access);
+                    accessLocal.allowed = Number(accessLocal.allowed);
+                    return accessLocal;
                 }
-            }).filter(role => role);
+            }).filter(access => access);
         },
 
         sendRequest(url, method, formData) {
-            if (this.isLoading) {
-                return;
-            }
-            this.isLoading = true;
-            axios({
-                url,
-                method,
-                data: formData
-            }).then(() => {
-                this.$notify({
-                    group: null,
-                    title: "Confirmation",
-                    text: "The permissions has been updated!",
-                    type: "success"
-                });
+            if (!this.isLoading) {
+                this.isLoading = true;
 
-                this.rolesList();
-            }).catch((error) => {
-                this.$notify({
-                    group: null,
-                    title: "Error",
-                    text: error.response.data.errors.message,
-                    type: "error"
+                axios({
+                    url,
+                    method,
+                    data: formData
+                }).then(() => {
+                    let message = method == "PUT" ? "created" : "updated";
+
+                    this.$notify({
+                        group: null,
+                        title: "Confirmation",
+                        text: `The role has been ${message}!`,
+                        type: "success"
+                    });
+
+                    this.rolesList();
+                }).catch((error) => {
+                    this.$notify({
+                        group: null,
+                        title: "Error",
+                        text: error.response.data.errors.message,
+                        type: "error"
+                    });
+                }).finally(() => {
+                    this.isLoading = false;
                 });
-            }).finally(() => {
-                this.isLoading = false;
-            });
+            }
         }
     }
 }
@@ -203,7 +230,7 @@ export default {
             margin-top: 0%;
 }
 
-.permission-group__title {
+.access-group__title {
     display: flex !important;
 
     label {

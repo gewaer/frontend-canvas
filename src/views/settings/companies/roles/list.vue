@@ -21,7 +21,7 @@
                     <button class="btn btn-complete m-l-5" @click="editRole(props.rowData)"><i class="fa fa-edit" aria-hidden="true"/></button>
                     <button
                         class="btn btn-danger m-l-5"
-                        @click="deleteRole(props.rowData.id)">
+                        @click="confirmDelete(props.rowData.id)">
                         <i class="fa fa-trash" aria-hidden="true" />
                     </button>
                 </template>
@@ -52,7 +52,14 @@ export default {
             this.$emit("changeView", "rolesCrud");
         },
 
-        deleteRole() {
+        confirmDelete(roleId) {
+            // change for swal or any other
+            if (confirm("are you sure?")) {
+                this.deleteRole(roleId)
+            }
+        },
+
+        deleteRole(id) {
             axios({
                 url: `/roles/${id}`,
                 method: "DELETE"
@@ -76,7 +83,6 @@ export default {
         },
 
         editRole(role) {
-            console.log(role)
             this.$emit("getRole", role);
         }
     }
