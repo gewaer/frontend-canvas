@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col">
             <h5>Companies
-                <button class="btn btn-primary" @click="addCompany()">New company</button>
+                <button class="btn btn-primary" @click="toCrud">New company</button>
             </h5>
             <div class="table-responsive">
                 <vuetable
@@ -11,8 +11,7 @@
                     :http-fetch="getTableData"
                     api-url="/companies"
                     class="table table-hover table-condensed"
-                    pagination-path=""
-                >
+                    pagination-path="">
                     <img
                         slot="profile_image"
                         slot-scope="props"
@@ -39,21 +38,15 @@
             :scrollable="true"
             name="company-modal"
             height="auto"
-            @closed="selectedCompany = null">
-            <companies-form :company="selectedCompany" mode="form"/>
-        </modal>
+            @closed="selectedCompany = null"/>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import CompaniesForm from "@/components/forms/companies";
+import {mapState} from "vuex";
 
 export default {
     name: "CompaniesList",
-    components: {
-        CompaniesForm
-    },
     data() {
         return {
             companiesFields: [{
@@ -80,9 +73,8 @@ export default {
         })
     },
     methods: {
-        addCompany() {
-            this.selectedCompany = {};
-            this.$modal.show("company-modal");
+        toCrud() {
+            this.$emit("changeView", "CompaniesCRUD");
         },
         deleteCompany(id) {
             if (this.isLoading) {
@@ -110,15 +102,9 @@ export default {
                 this.isLoading = false;
             })
         },
-        async editCompany(companyId, isEditable = true) {
+        editCompany(companyId, isEditable = true) {
             this.isEditable = isEditable;
-            await this.getCompany(companyId);
-            this.$modal.show("company-modal");
-        },
-        getCompany(id) {
-            return axios(`/companies/${id}`).then(({ data }) => {
-                this.selectedCompany = data;
-            })
+            this.$emit("getCompany", companyId);
         },
         getTableData(apiUrl, options) {
             return axios({

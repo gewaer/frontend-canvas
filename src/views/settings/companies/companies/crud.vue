@@ -81,6 +81,7 @@
         </div>
 
         <div class="col-12 col-xl d-flex justify-content-end mt-2">
+            <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="cancel">Cancel</button>
             <button :disabled="isLoading" class="btn btn-primary" @click="save()"> Save </button>
         </div>
     </div>
@@ -90,7 +91,7 @@
 import {mapState} from "vuex";
 
 export default {
-    name: "CompanyInfo",
+    name: "CompanyCrud",
     props: {
         company: {
             type: Object,
@@ -175,6 +176,7 @@ export default {
                     text: "The company information has been changed",
                     type: "success"
                 });
+                this.$emit("changeView", "companiesList");
             }).catch((error) => {
                 this.$notify({
                     group: null,
@@ -185,6 +187,10 @@ export default {
             }).finally(() => {
                 this.isLoading = false;
             });
+        },
+
+        cancel() {
+            this.$emit("changeView", "companiesList");
         }
     }
 };
