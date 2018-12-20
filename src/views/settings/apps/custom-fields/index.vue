@@ -5,6 +5,7 @@
                 <component
                     :is="currentComponent"
                     @customFieldsCRUD="customFieldsCRUD"
+                    @customFieldsList="customFieldsList"
                 />
             </transition>
         </div>
@@ -28,6 +29,9 @@ export default {
     methods: {
         customFieldsCRUD() {
             this.currentComponent = "customFieldsCRUD";
+        },
+        customFieldsList() {
+            this.currentComponent = "customFieldsList";
         }
     }
 }
