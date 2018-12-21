@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="row custom-fields-container">
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
                 <div :class="{ 'selected' : selectedCustomField == 'text-field' }" class="custom-field" @click="selectedCustomField = 'text-field'">
                     <div class="custom-field__image">
                         <img src="/img/settings/custom-fields/text-field.png" class="img-fluid">
@@ -34,7 +34,7 @@
                     <span>Text</span>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
                 <div :class="{ 'selected' : selectedCustomField == 'autocomplete' }" class="custom-field" @click="selectedCustomField = 'autocomplete'">
                     <div class="custom-field__image">
                         <img src="/img/settings/custom-fields/autocomplete.png" class="img-fluid">
@@ -42,7 +42,7 @@
                     <span>Autocomplete</span>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
                 <div :class="{ 'selected' : selectedCustomField == 'large-text' }" class="custom-field" @click="selectedCustomField = 'large-text'">
                     <div class="custom-field__image">
                         <img src="/img/settings/custom-fields/large-text.png" class="img-fluid">
@@ -50,7 +50,7 @@
                     <span>Large text</span>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
                 <div :class="{ 'selected' : selectedCustomField == 'numerical' }" class="custom-field" @click="selectedCustomField = 'numerical'">
                     <div class="custom-field__image">
                         <img src="/img/settings/custom-fields/numerical.png" class="img-fluid">
@@ -58,7 +58,7 @@
                     <span>Numerical</span>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
                 <div :class="{ 'selected' : selectedCustomField == 'monetary' }" class="custom-field" @click="selectedCustomField = 'monetary'">
                     <div class="custom-field__image">
                         <img src="/img/settings/custom-fields/monetary.png" class="img-fluid">
