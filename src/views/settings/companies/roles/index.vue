@@ -6,6 +6,7 @@
                 :access-list="accessList"
                 :role="selectedRole"
                 @getRole="getRole"
+                @cloneRole="cloneRole"
                 @changeView="changeView"
             />
         </div>
@@ -41,13 +42,16 @@ export default {
                         access.allowed = "1";
                         access.role_name = "";
                     });
-                    role.name = "";
+                    role = {name: "", description: ""}
                 }
 
                 this.accessList= data;
                 this.selectedRole = role;
                 this.currentComponent = this.views.crud;
             })
+        },
+        cloneRole(role) {
+            this.getRole(role, true);
         },
 
         changeView(view) {

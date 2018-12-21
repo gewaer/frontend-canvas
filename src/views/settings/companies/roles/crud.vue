@@ -1,15 +1,17 @@
 <template>
     <div class="row">
         <div class="col">
-            <h5>Selecciona los permisos</h5>
+            <h5>Selecciona los permisos <button v-if="!isNewRole" class="btn btn-primary" @click="cloneRole">Clone role</button></h5>
             <!-- Role Form-->
             <form class="row" role="form">
                 <div class="col-md-6">
                     <div class="form-group form-group-default required">
                         <label>Name role</label>
                         <input
+                            v-validate="'required'"
                             v-model="roleData.name"
                             :disabled="isNewRole"
+                            name="name"
                             type="text"
                             class="form-control"
                             required>
@@ -123,7 +125,7 @@ export default {
     },
     computed: {
         isNewRole() {
-            return Boolean(this.role.name)
+            return !this.role.name
         }
     },
     watch: {
@@ -164,7 +166,6 @@ export default {
         rolesList() {
             this.$emit("changeView", "rolesList");
         },
-
         groupPermissions() {
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
@@ -188,6 +189,9 @@ export default {
             }).filter(access => access);
         },
 
+        cloneRole() {
+            this.$emit("cloneRole", this.role);
+        },
         sendRequest(url, method, formData) {
             if (!this.isLoading) {
                 this.isLoading = true;

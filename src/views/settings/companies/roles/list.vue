@@ -5,6 +5,7 @@
         <div class="table-responsive">
 
             <vuetable
+                ref="Vuetable"
                 :append-params="{format: 'true'}"
                 :fields="rolesFields"
                 :http-fetch="getTableData"
@@ -17,11 +18,16 @@
                 </template> -->
 
                 <template slot="actions" slot-scope="props">
-                    <button class="btn btn-primary m-l-5" @click="editRole(props.rowData)"><i class="fa fa-eye" aria-hidden="true"/></button>
-                    <button class="btn btn-complete m-l-5" @click="editRole(props.rowData)"><i class="fa fa-edit" aria-hidden="true"/></button>
-                    <button
-                        class="btn btn-danger m-l-5"
-                        @click="confirmDelete(props.rowData.id)">
+                    <button v-if="!isGlobal(props.rowData)" class="btn btn-primary m-l-5" @click="editRole(props.rowData)">
+                        <i class="fa fa-eye" aria-hidden="true"/>
+                    </button>
+                    <button v-if="!isGlobal(props.rowData)" class="btn btn-complete m-l-5" @click="editRole(props.rowData)">
+                        <i class="fa fa-edit" aria-hidden="true"/>
+                    </button>
+                    <button class="btn btn-complete m-l-5" title="clone role" @click="cloneRole(props.rowData)">
+                        <i class="fa fa-copy" aria-hidden="true"/>
+                    </button>
+                    <button v-if="!isGlobal(props.rowData)" class="btn btn-danger m-l-5" @click="confirmDelete(props.rowData.id)">
                         <i class="fa fa-trash" aria-hidden="true" />
                     </button>
                 </template>
@@ -59,6 +65,10 @@ export default {
             }
         },
 
+        isGlobal(role) {
+            return Number(role.apps_id) == 0;
+        },
+
         deleteRole(id) {
             axios({
                 url: `/roles/${id}`,
@@ -70,6 +80,7 @@ export default {
                     text: "The roles has been deleted",
                     type: "success"
                 });
+                this.$refs.Vuetable.reload();
             }).catch((error) => {
                 this.$notify({
                     group: null,
@@ -84,6 +95,10 @@ export default {
 
         editRole(role) {
             this.$emit("getRole", role);
+        },
+
+        cloneRole(role) {
+            this.$emit("cloneRole", role);
         }
     }
 
