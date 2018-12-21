@@ -9,7 +9,7 @@
                 <div class="container">
 
                     <!--BLOCK ROW START-->
-                    <div class="row">
+                    <div v-if="plans.length > 0" class="row" >
 
                         <div
                             v-for="plan in plans"
@@ -17,7 +17,7 @@
                             class="col-md-4">
 
                             <!--PRICE CONTENT START-->
-                            <div :class="plan.isSelected | selectedClass">
+                            <div :class="['generic_content', selectedPlan.stripe_id == plan.stripe_id ? 'active' : '', 'clearfix']">
 
                                 <!--HEAD PRICE DETAIL START-->
                                 <div class="generic_head_price clearfix">
@@ -63,7 +63,7 @@
 
                                 <!--BUTTON START-->
                                 <div class="generic_price_btn clearfix">
-                                    <a @click.prevent.stop="setSubcrition(plan)" >Choose {{ plan.name }}</a>
+                                    <a @click.prevent.stop="setSubcrition(plan)" >Try {{ plan.name }}</a>
                                 </div>
                             <!--//BUTTON END-->
 
@@ -79,59 +79,7 @@
             </section>
             <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
             <div v-if="plans.length > 0" class="payment-details">
-                <h5>Choose your billing frequency</h5>
-                <div class="row payment-frecuency">
-                    <div
-                        v-for="billing in billingFrecuency"
-                        :key="billing.type"
-                        class="col-3">
-                        <div class="card">
-                            <div class="card-block">
-                                <input
-                                    :id="billing.type"
-                                    :value="billing.type"
-                                    v-model="data.form.frecuency_type"
-                                    type="radio"
-                                    name="payment-frecuency"
-                                >
-                                <label :for="billing.type">
-                                    Pay {{ billing.title }}
-                                    <small>${{ billing.price }} per seat per {{ billing.frecuency }}</small>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h5>Order Details</h5>
-                <div class="row order-details">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-block">
-                                <div class="selected-payment">
-                                    <div class="d-flex flex-column">
-                                        <strong>1 seat</strong>
-                                        <small>Gold Plan {{ selectedFrecuency.title }}</small>
-                                    </div>
-                                    <div class="d-flex flex-column ml-auto text-right">
-                                        <strong>${{ selectedFrecuency.price }}</strong>
-                                        <small>every {{ selectedFrecuency.frecuency }}</small>
-                                    </div>
-                                </div>
-                                <div class="d-flex m-t-10">
-                                    <div>VAT</div>
-                                    <strong class="ml-auto">$0</strong>
-                                </div>
-                                <div class="card-yellow">
-                                    <div class="d-flex flex-column">
-                                        <strong>Order Total</strong>
-                                        <small>Gold Plan for 1 seat {{ selectedFrecuency.title }} payment in USD</small>
-                                    </div>
-                                    <div class="final-price">${{ selectedFrecuency.price }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <billing-frecuencies :plan="selectedPlan" @selectfrequency="selectFrequency"/>
                 <h5>Contact</h5>
                 <div class="row contact">
                     <div class="col">
@@ -143,6 +91,9 @@
                                             <label for="first-name">First name</label>
                                             <input
                                                 id="first-name"
+                                                v-model="contact.contactFirstName"
+                                                data-vv-as="first name"
+                                                data-vv-name="first name"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="First name">
@@ -153,6 +104,9 @@
                                             <label for="last-name">Last name</label>
                                             <input
                                                 id="last-name"
+                                                v-model="contact.contactLastName"
+                                                data-vv-as="last name"
+                                                data-vv-name="last name"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Last name">
@@ -165,6 +119,9 @@
                                             <label for="company-name">Company name</label>
                                             <input
                                                 id="company-name"
+                                                v-model="contact.contactCompany"
+                                                data-vv-as="company name"
+                                                data-vv-name="company name"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Company name">
@@ -177,6 +134,9 @@
                                             <label for="email-address">Email address</label>
                                             <input
                                                 id="email-address"
+                                                v-model="contact.email"
+                                                data-vv-as="email address"
+                                                data-vv-name="email address"
                                                 type="email"
                                                 class="form-control"
                                                 placeholder="Email">
@@ -198,6 +158,9 @@
                                             <label for="address">Address</label>
                                             <input
                                                 id="address"
+                                                v-model="address.address"
+                                                data-vv-as="address"
+                                                data-vv-name="address"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Address">
@@ -208,6 +171,9 @@
                                             <label for="apt-suite">APT/SUITE</label>
                                             <input
                                                 id="apt-suite"
+                                                v-model="address.suite"
+                                                data-vv-as="apt/suite"
+                                                data-vv-name="apt/suite"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="APT/SUITE">
@@ -220,6 +186,9 @@
                                             <label for="city">City</label>
                                             <input
                                                 id="city"
+                                                v-model="address.city"
+                                                data-vv-as="city"
+                                                data-vv-name="city"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="City">
@@ -230,6 +199,9 @@
                                             <label for="country">Country</label>
                                             <input
                                                 id="country"
+                                                v-model="address.country"
+                                                data-vv-as="country"
+                                                data-vv-name="country"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Country">
@@ -242,6 +214,9 @@
                                             <label for="state-province">State/Province</label>
                                             <input
                                                 id="state-province"
+                                                v-model="address.province"
+                                                data-vv-as="state/province"
+                                                data-vv-name="state/province"
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="State/Province">
@@ -252,7 +227,10 @@
                                             <label for="zip-postal">Zip/Postal</label>
                                             <input
                                                 id="zip-postal"
-                                                type="text"
+                                                v-model="address.zipCode"
+                                                data-vv-as="zip/postal"
+                                                data-vv-name="zip/postal"
+                                                type="number"
                                                 class="form-control"
                                                 placeholder="Zip/Postal">
                                         </div>
@@ -296,6 +274,8 @@
                                                 <label for="first-name-cc">First name</label>
                                                 <input
                                                     id="first-name-cc"
+                                                    data-vv-as="first name"
+                                                    data-vv-name="first name"
                                                     type="text"
                                                     class="form-control"
                                                     placeholder="First name">
@@ -306,6 +286,8 @@
                                                 <label for="last-name-cc">Last name</label>
                                                 <input
                                                     id="last-name-cc"
+                                                    data-vv-as="last name"
+                                                    data-vv-name="last name"
                                                     type="text"
                                                     class="form-control"
                                                     placeholder="Last name">
@@ -318,7 +300,9 @@
                                                 <label for="credit-card-number">Credit Card number</label>
                                                 <input
                                                     id="credit-card-number"
-                                                    type="text"
+                                                    data-vv-as="credit card"
+                                                    data-vv-name="credit card"
+                                                    type="number"
                                                     class="form-control"
                                                     placeholder="Credit Card number">
                                             </div>
@@ -328,7 +312,9 @@
                                                 <label for="cvv">CVV</label>
                                                 <input
                                                     id="cvv"
-                                                    type="text"
+                                                    data-vv-as="cvv"
+                                                    data-vv-name="cvv"
+                                                    type="number"
                                                     class="form-control"
                                                     placeholder="CVV">
                                             </div>
@@ -340,7 +326,9 @@
                                                 <label for="card-expiration-month">Card epiration month</label>
                                                 <input
                                                     id="card-expiration-month"
-                                                    type="text"
+                                                    data-vv-as="card expiration month"
+                                                    data-vv-name="card expiration month"
+                                                    type="number"
                                                     class="form-control"
                                                     placeholder="Card expiration month">
                                             </div>
@@ -350,7 +338,9 @@
                                                 <label for="card-expiration-year">Card expiration year</label>
                                                 <input
                                                     id="card-expiration-year"
-                                                    type="text"
+                                                    data-vv-as="card expiration year"
+                                                    data-vv-name="card expiration year"
+                                                    type="number"
                                                     class="form-control"
                                                     placeholder="Card expiration year">
                                             </div>
@@ -381,8 +371,10 @@
 
 <script>
 import {mapState} from "vuex";
+import billingFrecuencies from "./billing-frequency.vue"
 export default {
     name: "Subscriptions",
+    components:{billingFrecuencies},
     filters:{
         getPrice(value){
             return value.split(".")[0];
@@ -390,21 +382,43 @@ export default {
         formatSetting(value){
             let setting= value.split("-");
             return `<span>${setting[0]}</span> ${setting[1]}.`;
-        },
-        selectedClass(value = false){
-            return value ?"generic_content active clearfix" : "generic_content clearfix";
         }
     },
     data() {
         return {
-            data: {
-                form:{
-                    "frecuency_type":"pricing",
-                    "stripe_id":"0"
-                }
-            },
-            selectedCompany:{},
             plans:[],
+            contact:{
+                contactCompany:"",
+                email:"",
+                contactFirstName:"",
+                contactLastName:""
+            },
+            planData :{
+                "frecuency_type":"pricing",
+                "stripe_id":"0"
+            },
+            address:{
+                address:"",
+                city:"",
+                country:"",
+                province:"",
+                zipCode:"",
+                suite:""
+            },
+            payment: {
+                cardFirstName:"",
+                cardLastName:"",
+                cardNumber:"",
+                cardCVC:"",
+                cardExpMonth:"",
+                cardExpYear:""
+            },
+            selectedFrecuency: {
+                type:"pricing",
+                title: "Monthly",
+                price: "10",
+                frecuency: "month"
+            },
             formOptions: {
                 data: {
                     company: {
@@ -450,7 +464,7 @@ export default {
                         validations: "number"
                     },
                     cardCVC:{
-                        validations: "number"
+                        validations: "length:3"
                     },
                     cardExpMonth:{
                         validations: "number"
@@ -463,29 +477,12 @@ export default {
                 submitLabel: "Sign Up",
                 title: "Update Subscription"
             }
+
         };
     },
     computed:{
         selectedPlan(){
-            return this.plans.filter(subcription => this.data.form["stripe_id"]== subcription.stripe_id)[0];
-        },
-        selectedFrecuency(){
-            return this.billingFrecuency.filter(item => item.type== this.data.form.frecuency_type)[0];
-        },
-        billingFrecuency(){
-            return[{
-                type:"pricing",
-                name:"payment-frecuency",
-                title:"Monthly",
-                price:this.selectedPlan.pricing || "10",
-                frecuency:"month"
-            }, {
-                type:"pricing_anual",
-                name:"payment-frecuency",
-                title:"Annually",
-                price:this.selectedPlan.pricing_anual || "100",
-                frecuency:"year"
-            }]
+            return this.plans.find(subcription => subcription.stripe_id == this.planData["stripe_id"]);
         },
         ...mapState("User", {
             userData: state => state.data
@@ -500,16 +497,14 @@ export default {
     },
     created(){
         this.getPlans();
+        this.getFormDefaultData();
     },
     methods: {
         getPlans(){
-            let plansUrl=`apps-plans?relationships=settings`;
-            // let plansUrl=`companies?relationships=app`;
             axios({
-                url: `/${plansUrl}`,
-                method: "get"
+                url: "/apps-plans?relationships=settings"
             }).then((response) => {
-                this.formatPlans(response);
+                this.handleAppPlans(response);
             }).catch((error) => {
                 this.$notify({
                     title: "Error",
@@ -518,50 +513,37 @@ export default {
                 });
             });
         },
-
-        formatPlans(response){
-            let plans = [];
-
-            let  subcriptions = _.cloneDeep(response.data);
-            const selectetSubcriptionId  = _.has(this.companyData, "app.stripe_id") ? this.companyData.app.stripe_id : "monthly-10-2";
-
-            this.data.form["stripe_id"] = selectetSubcriptionId;
-
-            let selectedSubcription = _.cloneDeep(subcriptions.filter(plan => plan.stripe_id == selectetSubcriptionId)[0]);
-            selectedSubcription.isSelected = true;
-            selectedSubcription.selectedClass = "selected_subcription"
-
-            plans = _.cloneDeep(subcriptions.filter(plan => plan.stripe_id != selectetSubcriptionId));
-
-            plans.map((subcription)=>{
-                subcription.isSelected = false
-                subcription.selectedClass = "subcription"
-                return subcription;
-            });
-
-            let centerOfArray = Math.floor(( plans.length /2));
-            plans.splice(centerOfArray, 0, selectedSubcription);
-
-            this.plans = _.cloneDeep(plans);
-        },
-        setSubcrition(plan = false){
-            if(!plan){
-                return ;
+        handleAppPlans(response){
+            if(_.has(this.companyData, "app")){
+                this.planData["stripe_id"] = this.companyData.app["stripe_id"];
             }
-            let  subcriptions = _.cloneDeep( this.plans);
-            this.data.form["stripe_id"] = plan.stripe_id;
-            subcriptions.map((subcription) =>{
-                let isSelected = false;
-                if(plan.stripe_id == subcription.stripe_id ){
-                    isSelected = true;
-                }
-                subcription.isSelected=isSelected
-                return subcription
-            } );
-
-            this.plans = subcriptions;
+            this.plans = response.data;
         },
-        clearFormData(){}
+        setSubcrition(plan){
+            this.planData["stripe_id"] = plan["stripe_id"];
+        },
+        selectFrequency(type, frecuency){
+            this.selectedFrecuency=frecuency;
+        },
+        clearFormData(){
+            let formKeys=[
+                "cardFirstName",
+                "cardLastName",
+                "cardNumber",
+                "cardCVC",
+                "cardExpMonth",
+                "cardExpYear"
+            ];
+            formKeys.forEach(key=>  this.payment[key] = "");
+        },
+        getFormDefaultData(){
+            let formKeys={
+                email : "email",
+                contactFirstName : "firstname",
+                contactLastName : "lastname" };
+            this.contact["contactCompany"]=   this.companyData.name;
+            Object.keys(formKeys).forEach(key=> this.contact[key] = this.userData[formKeys[key]]);
+        }
     }
 }
 </script>

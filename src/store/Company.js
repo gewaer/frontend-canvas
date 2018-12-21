@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
     getData() {
         return axios({
-            url: "/companies?relationships=app"
+            url: "/companies?relationships=app,hasActivities"
         });
     },
     setData({ commit }, data) {
