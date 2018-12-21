@@ -63,7 +63,7 @@
 
                                 <!--BUTTON START-->
                                 <div class="generic_price_btn clearfix">
-                                    <a @click.prevent.stop="setSubcrition(plan)" >Try {{ plan.name }}</a>
+                                    <a @click.prevent.stop="changeSubscription(plan)" >Try {{ plan.name }}</a>
                                 </div>
                             <!--//BUTTON END-->
 
@@ -78,7 +78,10 @@
                 </div>
             </section>
             <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-            <div v-if="plans.length > 0" class="payment-details">
+            <div v-show="!showBilligInfo" class="row update-billing-details">
+                <button class="btn btn-block btn-primary" @click="displayBilligInfo">Show Billing Details</button>
+            </div>
+            <div v-if="showBilligInfo" class="payment-details">
                 <billing-frecuencies :plan="selectedPlan" @selectfrequency="selectFrequency"/>
                 <h5>Contact</h5>
                 <div class="row contact">
@@ -90,6 +93,7 @@
                                         <div class="form-group">
                                             <label for="first-name">First name</label>
                                             <input
+                                                v-validate="'required,alpha_spaces,min:2'"
                                                 id="first-name"
                                                 v-model="contact.contactFirstName"
                                                 data-vv-as="first name"
@@ -103,6 +107,7 @@
                                         <div class="form-group">
                                             <label for="last-name">Last name</label>
                                             <input
+                                                v-validate="'required,alpha_spaces,min:2'"
                                                 id="last-name"
                                                 v-model="contact.contactLastName"
                                                 data-vv-as="last name"
@@ -118,6 +123,7 @@
                                         <div class="form-group">
                                             <label for="company-name">Company name</label>
                                             <input
+                                                v-validate="'required,alpha_spaces,min:2'"
                                                 id="company-name"
                                                 v-model="contact.contactCompany"
                                                 data-vv-as="company name"
@@ -133,6 +139,7 @@
                                         <div class="form-group">
                                             <label for="email-address">Email address</label>
                                             <input
+                                                v-validate="'required|email'"
                                                 id="email-address"
                                                 v-model="contact.email"
                                                 data-vv-as="email address"
@@ -273,6 +280,7 @@
                                             <div class="form-group">
                                                 <label for="first-name-cc">First name</label>
                                                 <input
+                                                    v-validate="'required,alpha_spaces,min:2'"
                                                     id="first-name-cc"
                                                     data-vv-as="first name"
                                                     data-vv-name="first name"
@@ -285,6 +293,7 @@
                                             <div class="form-group">
                                                 <label for="last-name-cc">Last name</label>
                                                 <input
+                                                    v-validate="'required,alpha_spaces,min:2'"
                                                     id="last-name-cc"
                                                     data-vv-as="last name"
                                                     data-vv-name="last name"
@@ -299,6 +308,7 @@
                                             <div class="form-group">
                                                 <label for="credit-card-number">Credit Card number</label>
                                                 <input
+                                                    v-validate="'required,credit_card'"
                                                     id="credit-card-number"
                                                     data-vv-as="credit card"
                                                     data-vv-name="credit card"
@@ -311,6 +321,7 @@
                                             <div class="form-group">
                                                 <label for="cvv">CVV</label>
                                                 <input
+                                                    v-validate="'required,numeric,length:3'"
                                                     id="cvv"
                                                     data-vv-as="cvv"
                                                     data-vv-name="cvv"
@@ -325,6 +336,7 @@
                                             <div class="form-group">
                                                 <label for="card-expiration-month">Card epiration month</label>
                                                 <input
+                                                    v-validate="'requeried,numeric,min_value:01,max_value:12'"
                                                     id="card-expiration-month"
                                                     data-vv-as="card expiration month"
                                                     data-vv-name="card expiration month"
@@ -337,6 +349,7 @@
                                             <div class="form-group">
                                                 <label for="card-expiration-year">Card expiration year</label>
                                                 <input
+                                                    v-validate="'requeried,numeric,min_value:01,max_value:99'"
                                                     id="card-expiration-year"
                                                     data-vv-as="card expiration year"
                                                     data-vv-name="card expiration year"
@@ -362,7 +375,7 @@
                     </div>
                 </div>
                 <div class="row update-billing-details">
-                    <button class="btn btn-block btn-primary">Update Billing Details</button>
+                    <button class="btn btn-block btn-primary" @click="createAppPlan()">Update Billing Details</button>
                 </div>
             </div>
         </div>
@@ -419,65 +432,7 @@ export default {
                 price: "10",
                 frecuency: "month"
             },
-            formOptions: {
-                data: {
-                    company: {
-                        map: "default_company",
-                        validations: "required"
-                    },
-                    email: {
-                        validations: "required|email"
-                    },
-                    contactFirstName: {
-                        map:"",
-                        validations: "alpha"
-                    },
-                    contactLastName: {
-                        map:"",
-                        validations: "alpha"
-                    },
-                    address: {
-                        validations: "alpha_spaces_field"
-                    },
-                    city: {
-                        validations: "alpha_spaces_field"
-                    },
-                    country: {
-                        validations: "alpha_spaces_field"
-                    },
-                    province: {
-                        validations: "alpha_dash_field"
-                    },
-                    zipCode: {
-                        validations: "number"
-                    },
-                    suite:{
-                        validations: "alpha_dash_field"
-                    },
-                    cardFirstName:{
-                        validations: "alpha"
-                    },
-                    cardLastName:{
-                        validations: "alpha"
-                    },
-                    cardNumber:{
-                        validations: "number"
-                    },
-                    cardCVC:{
-                        validations: "length:3"
-                    },
-                    cardExpMonth:{
-                        validations: "number"
-                    },
-                    cardExpYear:{
-                        validations: "number"
-                    }
-                },
-                endpoint: "apps-plans",
-                submitLabel: "Sign Up",
-                title: "Update Subscription"
-            }
-
+            showBilligInfo:false
         };
     },
     computed:{
@@ -516,14 +471,68 @@ export default {
         handleAppPlans(response){
             if(_.has(this.companyData, "app")){
                 this.planData["stripe_id"] = this.companyData.app["stripe_id"];
+                let subcription = this.companyData.app["subscriptions_id"];
+                this.showBilligInfo = !!(subcription == 0) ;
             }
             this.plans = response.data;
         },
-        setSubcrition(plan){
-            this.planData["stripe_id"] = plan["stripe_id"];
+        prepareData(formData) {
+            const data = new FormData();
+            Object.keys(formData).forEach((field) => {
+                let apiField = field;
+                data.append(apiField, formData[field]);
+            });
+            return data;
         },
-        selectFrequency(type, frecuency){
+        updateAppPlan(){
+            //this.$modal.show("hello-world");
+        },
+        changePlan(planId){
+            axios({
+                url: `/apps-plans/${planId}`,
+                method: "PUT"
+            }).then(() => {
+                this.planData["stripe_id"] =planId;
+                this.$store.commit("Company/getData", null, { root: true });
+            }).catch((error) => {
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+        },
+        createAppPlan(){
+            const appPlan ={...this.planData,
+                ... this.payment,
+                ... this.address,
+                ...this.contact};
+
+            const data = this.prepareData(appPlan);
+            axios({
+                url: "/apps-plans",
+                method: "POST",
+                data
+            }).then(() => {
+                this.$store.commit("Company/getData", null, { root: true });
+            }).catch((error) => {
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+        },
+        changeSubscription(plan){
+            /// show modal confirmation here
+            this.changePlan(plan["stripe_id"]);
+        },
+        displayBilligInfo(){
+            this.showBilligInfo = !this.showBilligInfo ;
+        },
+        selectFrequency(frecuencyType, frecuency){
             this.selectedFrecuency=frecuency;
+            this.planData["frecuency_type"] = frecuencyType;
         },
         clearFormData(){
             let formKeys=[
