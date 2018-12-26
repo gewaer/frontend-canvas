@@ -13,6 +13,9 @@
                                 <li class="nav-item">
                                     <a :class="{active: tab == 'email-templates'}" href="#" @click="tab = 'email-templates'">Email Templates</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a :class="{active: tab == 'custom-fields'}" href="#" @click="tab = 'custom-fields'">Custom fields</a>
+                                </li>
                             </ul>
                             <div class="tab-content bg-white">
                                 <div id="user-profile" :class="{active: tab == 'webhooks'}" class="tab-pane">
@@ -20,6 +23,9 @@
                                 </div>
                                 <div id="email-templates" :class="{active: tab == 'email-templates'}" class="tab-pane">
                                     <email-templates />
+                                </div>
+                                <div id="custom-fields" :class="{active: tab == 'custom-fields'}" class="tab-pane">
+                                    <custom-fields />
                                 </div>
                             </div>
                         </div>
@@ -33,11 +39,13 @@
 <script>
 import appWebhooks from "./webhooks/";
 import emailTemplates from "./email-templates/";
+import customFields from "./custom-fields/";
 
 export default {
     components: {
         appWebhooks,
-        emailTemplates
+        emailTemplates,
+        customFields
     },
     data() {
         return {

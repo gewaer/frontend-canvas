@@ -2,7 +2,7 @@
     <div>
         <h5>Add a webhook</h5>
         <div class="row">
-            <div class="col">
+            <div class="col-12 col-sm">
                 <label>Event</label>
                 <multiselect
                     :show-labels="false"
@@ -26,7 +26,7 @@
                     ]"
                 />
             </div>
-            <div class="col">
+            <div class="col-12 col-sm">
                 <label>Format</label>
                 <multiselect
                     :show-labels="false"
