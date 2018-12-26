@@ -1,14 +1,20 @@
 <template>
-    <div class="socials-connect">
-        <div class="social-connect google">
-            <img src="/img/google-g.png" alt="">
-            <span>connect with <strong>Google</strong></span>
+    <settings-template>
+        <div class="socials-connect">
+            <div class="social-connect google">
+                <img src="/img/google-g.png" alt="">
+                <span>connect with <strong>Google</strong></span>
+            </div>
         </div>
-    </div>
+    </settings-template>
 </template>
 
 <script>
 export default {
+    name: "UsersSocial",
+    components: {
+        SettingsTemplate: () => import("./tab-container")
+    }
 };
 </script>
 

@@ -22,8 +22,8 @@
                     <div class="row">
                         <div class="col-12">
                             <ul>
-                                <li v-for="(error, index) in errors.items" :key="'error-' + index">
-                                    {{ error.field | capitalize }}
+                                <li v-for="(field, index) in fields" :key="'error-' + index">
+                                    {{ field | capitalize }}
                                 </li>
                             </ul>
                         </div>
@@ -44,12 +44,14 @@ export default {
     name: "UnsavedChangesModal",
     data() {
         return {
-            buttons: []
+            buttons: [],
+            fields: []
         }
     },
     methods: {
         beforeOpen(event) {
             this.buttons = event.params.buttons;
+            this.fields = Object.keys(event.params.fields);
         }
     }
 }

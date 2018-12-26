@@ -1655,17 +1655,19 @@ export default {
     },
     watch: {
         accessList(permissions) {
-            const ability = AbilityBuilder.define((can, cannot) => {
-                can("manage", "all");
+            if (permissions) {
+                const ability = AbilityBuilder.define((can, cannot) => {
+                    can("manage", "all");
 
-                Object.keys(permissions).forEach((resource) => {
-                    Object.keys(permissions[resource]).forEach((action) => {
-                        cannot(action, resource);
+                    Object.keys(permissions).forEach((resource) => {
+                        Object.keys(permissions[resource]).forEach((action) => {
+                            cannot(action, resource);
+                        });
                     });
                 });
-            });
 
-            this.$ability.update(ability.rules);
+                this.$ability.update(ability.rules);
+            }
         },
         "$route.path"() {
             this.$nextTick(() => {

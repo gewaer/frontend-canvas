@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <settings-template>
         <h5>General Information</h5>
         <div class="row user-general-information">
             <div class="col-12 col-xl">
@@ -98,17 +98,24 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-end">
+        <div class="d-flex justify-content-end mt-2">
             <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
         </div>
-    </div>
+    </settings-template>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import { vueRouterMixins } from "@/utils/mixins";
 
 export default {
     name: "UserProfile",
+    components: {
+        SettingsTemplate: () => import("./tab-container")
+    },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             isLoading: false,
@@ -136,7 +143,7 @@ export default {
             this.userData.language = value.id;
         },
         update() {
-            if (this.isLoading) {
+            if (this.errors.items.length || this.isLoading) {
                 return;
             }
 
