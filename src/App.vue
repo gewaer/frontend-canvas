@@ -5,13 +5,13 @@
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
-            @handleSidebar="handleSidebar()"
+            @handleSidebar="handleSidebar"
         />
         <div class="page-container">
             <app-header
                 v-if="$route.meta.requiresAuth"
                 :show-sidebar="showSidebar"
-                @handleSidebar="handleSidebar()"
+                @handleSidebar="handleSidebar"
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
@@ -1729,6 +1729,24 @@ export default {
                 background-color: var(--base-color);
             }
         }
+    }
+}
+
+[data-toggle-pin=sidebar]>i:before {
+    content: "\f111";
+}
+
+.page-sidebar .sidebar-header .sidebar-header-controls {
+    transform: translate3d(-18px,0,0);
+}
+
+body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
+    transform: translate3d(38px,0,0);
+}
+
+@media only screen and (min-width: 980px) {
+    body.menu-pin .page-sidebar {
+        width: 280px;
     }
 }
 </style>

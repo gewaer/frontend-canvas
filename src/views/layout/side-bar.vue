@@ -14,6 +14,11 @@
             <a :to="{ name: 'dashboard'}" class="app-secondary-logo">
                 <img src="/img/secondary-logo.png">
             </a>
+            <div class="sidebar-header-controls">
+                <button type="button" class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" data-toggle-pin="sidebar">
+                    <i class="fa fs-12"></i>
+                </button>
+            </div>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="../../assets/icons/hamburguer-menu.png">
             </div>
