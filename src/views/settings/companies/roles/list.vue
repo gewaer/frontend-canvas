@@ -71,7 +71,7 @@ export default {
 
         deleteRole(id) {
             axios({
-                url: `/roles/${id}`,
+                url: `/roles-acceslist/${id}`,
                 method: "DELETE"
             }).then(() => {
                 this.$notify({

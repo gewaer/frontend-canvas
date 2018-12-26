@@ -10,7 +10,6 @@
                         <input
                             v-validate="'required'"
                             v-model="roleData.name"
-                            :disabled="isNewRole"
                             name="name"
                             type="text"
                             class="form-control"
@@ -125,7 +124,7 @@ export default {
     },
     computed: {
         isNewRole() {
-            return !this.role.name
+            return !this.role.id
         }
     },
     watch: {
@@ -141,16 +140,16 @@ export default {
             let url;
             let method;
 
-            if (!this.isNewRole) {
-                url = "/roles-accesslist/";
+            if (this.isNewRole) {
+                url = "/roles-acceslist/";
                 method = "POST";
             } else {
-                url = `/roles-accesslist/${this.role.name.toLowerCase()}`;
+                url = `/roles-acceslist/${this.role.id}`;
                 method = "PUT";
             }
 
             const formData = {
-                role: this.roleData,
+                roles: this.roleData,
                 access: this.getFalsePermissions()
             }
 
@@ -201,7 +200,7 @@ export default {
                     method,
                     data: formData
                 }).then(() => {
-                    let message = method == "PUT" ? "created" : "updated";
+                    let message = method == "POST" ? "created" : "updated";
 
                     this.$notify({
                         group: null,
