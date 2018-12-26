@@ -1,3 +1,5 @@
+import * as titleCase from "lodash/capitalize";
+
 export function capitalize(value) {
-    return _.capitalize(value);
+    return titleCase(value);
 }

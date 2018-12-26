@@ -106,12 +106,16 @@
 
 <script>
 import { mapState } from "vuex";
+import { vueRouterMixins } from "@/utils/mixins";
 
 export default {
     name: "UserProfile",
     components: {
         SettingsTemplate: () => import("./tab-container")
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             isLoading: false,
@@ -139,7 +143,7 @@ export default {
             this.userData.language = value.id;
         },
         update() {
-            if (this.isLoading) {
+            if (this.errors.items.length || this.isLoading) {
                 return;
             }
 

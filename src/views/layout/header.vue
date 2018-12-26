@@ -187,16 +187,13 @@
                     <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
                         <span>Users Settings</span>
                     </router-link>
-
                     <router-link :to="{name: 'companiesSettings'}" class="dropdown-item">
                         <span>Companies Settings</span>
                     </router-link>
-
                     <router-link :to="{name: 'appsSettings'}" class="dropdown-item">
                         <span>Apps Settings</span>
                     </router-link>
-
-                    <a href="#" class="dropdown-item" @click="logout()">
+                    <a href="#" class="dropdown-item" @click.prevent="logout()">
                         <span>Logout</span>
                         <i class="pg-power"/>
                     </a>

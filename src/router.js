@@ -78,6 +78,7 @@ const router = new Router({
                 requiresAuth: false
             }
         },
+        // ===== Settings Users Routes =====
         {
             path: "/settings/users",
             name: "setingsUsers",
@@ -104,14 +105,14 @@ const router = new Router({
                 requiresAuth: true
             }
         },
-        {
-            path: "/settings/users/social",
-            name: "setingsUsersSocial",
-            component: () => import(/* webpackChunkName: "settings-users-social" */ "./views/settings/users/social"),
-            meta: {
-                requiresAuth: true
-            }
-        },
+        // {
+        //     path: "/settings/users/social",
+        //     name: "setingsUsersSocial",
+        //     component: () => import(/* webpackChunkName: "settings-users-social" */ "./views/settings/users/social"),
+        //     meta: {
+        //         requiresAuth: true
+        //     }
+        // },
         {
             path: "/settings/users/security",
             name: "setingsUsersSecurity",
