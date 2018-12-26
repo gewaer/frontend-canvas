@@ -1,8 +1,8 @@
 <template>
     <settings-template>
+        <h5>General Information</h5>
         <div class="row user-general-information">
-            <div class="col-12 col-xl m-b-20">
-                <h5>General Information</h5>
+            <div class="col-12 col-xl">
                 <div class="row">
                     <div class="col-12 col-md-auto">
                         <div class="profile-image-container">
@@ -66,12 +66,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
-                </div>
             </div>
-            <div class="col-12 col-xl m-b-20">
-                <h5>&nbsp;</h5>
+            <div class="col-12 col-xl">
                 <div class="row">
                     <div class="col-12 col-md">
                         <div class="form-group">
@@ -101,6 +97,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="d-flex justify-content-end mt-2">
+            <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
         </div>
     </settings-template>
 </template>

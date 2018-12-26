@@ -173,7 +173,7 @@
         <div class="user-bar">
             <div class="user-name">
                 <span class="bold">{{ userData.firstname }}</span>
-                <span>{{ userData.lastname }}</span>
+                <span> {{ userData.lastname }}</span>
             </div>
             <div class="dropdown">
                 <div
