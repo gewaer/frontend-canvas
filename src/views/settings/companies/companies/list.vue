@@ -6,7 +6,7 @@
             </h5>
             <div class="table-responsive">
                 <vuetable
-                    :append-params="{format: 'true'}"
+                    :append-params="appendParams"
                     :fields="companiesFields"
                     :http-fetch="getTableData"
                     api-url="/companies"
@@ -24,7 +24,7 @@
                         <button
                             :disabled="isCurrentCompany(props.rowData.id)"
                             class="btn btn-danger m-l-5"
-                            @click="deleteCompany(props.rowData.id)">
+                            @click="deleteCompany(props.rowData)">
                             <i class="fa fa-trash" aria-hidden="true" />
                         </button>
                     </template>
@@ -61,6 +61,10 @@ export default {
                 name: "actions",
                 title: "Actions"
             }],
+            appendParams:{
+                format: "true",
+                relationships: "hasActivities"
+            },
             defaultImage: "https://mctekk.com/images/logo-o.svg",
             isEditable: true,
             isLoading: false,
@@ -76,15 +80,23 @@ export default {
         toCrud() {
             this.$emit("changeView", "CompaniesCRUD");
         },
-        deleteCompany(id) {
+        deleteCompany(company) {
             if (this.isLoading) {
                 return
             }
 
+            if(!_.isEmpty(company.hasActivities)){
+                this.$notify({
+                    title: "Error",
+                    text: "No puede eliminar esta compañia por que tiene actividades",
+                    type: "error"
+                });
+                return ;
+            }
             this.isLoading = true;
 
             axios({
-                url: `/companies/${id}`,
+                url: `/companies/${company.id}`,
                 method: "DELETE"
             }).then(() => {
                 this.$notify({
