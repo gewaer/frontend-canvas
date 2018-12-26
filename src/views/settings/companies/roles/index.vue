@@ -3,8 +3,11 @@
         <div class="col">
             <component
                 :is="currentComponent"
-                @rolesCRUD="rolesCRUD"
-                @rolesList="rolesList"
+                :access-list="accessList"
+                :role="selectedRole"
+                @getRole="getRole"
+                @cloneRole="cloneRole"
+                @changeView="changeView"
             />
         </div>
     </div>
@@ -13,33 +16,50 @@
 
 <script>
 import rolesList from "./list.vue";
-import rolesCRUD from "./crud.vue";
+import rolesCrud from "./crud.vue";
 
 export default {
     components: {
         rolesList,
-        rolesCRUD
+        rolesCrud
     },
     data() {
         return {
-            roles: [],
-            currentComponent: "rolesList"
+            selectedRole: null,
+            accessList: [],
+            currentComponent: "rolesList",
+            views: {
+                crud: "rolesCrud",
+                list: "rolesList"
+            }
         }
     },
-    mounted() {
-        this.getRoles();
-    },
     methods: {
-        getRoles() {
-            axios("/roles").then(({ data }) => {
-                this.roles = data;
+        getRole(role, forCreate) {
+            axios(`/roles-acceslist?q=(roles_name:${role.name})`).then(({ data }) => {
+                if (forCreate) {
+                    data.forEach(access => {
+                        access.allowed = "1";
+                        access.role_name = "";
+                    });
+                    role = {name: "", description: ""}
+                }
+
+                this.accessList= data;
+                this.selectedRole = role;
+                this.currentComponent = this.views.crud;
             })
         },
-        rolesCRUD() {
-            this.currentComponent = "rolesCRUD";
+        cloneRole(role) {
+            this.getRole(role, true);
         },
-        rolesList() {
-            this.currentComponent = "rolesList";
+
+        changeView(view) {
+            if (view == this.views.crud) {
+                this.getRole({name: "Admins"}, true);
+                return
+            }
+            this.currentComponent = view;
         }
     }
 };
