@@ -16,7 +16,7 @@
             </a>
             <div class="sidebar-header-controls">
                 <button type="button" class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" data-toggle-pin="sidebar">
-                    <i class="fa fs-12"></i>
+                    <i class="fa fs-12"/>
                 </button>
             </div>
             <div class="menu-icon d-none d-lg-inline-block">
