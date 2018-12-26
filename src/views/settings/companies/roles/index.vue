@@ -36,7 +36,8 @@ export default {
     },
     methods: {
         getRole(role, forCreate) {
-            axios(`/roles-acceslist?q=(roles_name:${role.name})`).then(({ data }) => {
+            const roleId = role.id || 1;
+            axios(`/roles-acceslist?q=(roles_id:${roleId})`).then(({ data }) => {
                 if (forCreate) {
                     data.forEach(access => {
                         access.allowed = "1";
@@ -50,8 +51,11 @@ export default {
                 this.currentComponent = this.views.crud;
             })
         },
+
         cloneRole(role) {
-            this.getRole(role, true);
+            axios.post(`/roles-acceslist/${role.id}/copy`).then(({ data }) => {
+                this.getRole(data);
+            })
         },
 
         changeView(view) {

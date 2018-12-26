@@ -50,7 +50,11 @@
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Phone</label>
-                        <input name="lastname" class="form-control" type="tel">
+                        <input 
+                            v-model="companyData.phone_number" 
+                            name="lastname" 
+                            class="form-control"  
+                            type="tel">
                     </div>
                 </div>
 
