@@ -13,9 +13,9 @@
                                 <li class="nav-item">
                                     <a :class="{active: tab == 'notifications'}" href="#" @click="tab = 'notifications'">Notifications</a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a :class="{active: tab == 'social'}" href="#" @click="tab = 'social'">Social</a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a :class="{active: tab == 'security'}" href="#" @click="tab = 'security'">Security</a>
                                 </li>
@@ -27,9 +27,9 @@
                                 <div id="user-notifications" :class="{active: tab == 'notifications'}" class="tab-pane">
                                     <user-notifications/>
                                 </div>
-                                <div id="user-social" :class="{active: tab == 'social'}" class="tab-pane">
+                                <!-- <div id="user-social" :class="{active: tab == 'social'}" class="tab-pane">
                                     <user-social/>
-                                </div>
+                                </div> -->
                                 <div id="user-security" :class="{active: tab == 'security'}" class="tab-pane">
                                     <user-security/>
                                 </div>
