@@ -1674,11 +1674,17 @@ export default {
         }
     },
     mounted() {
-        document.body.style.setProperty("--base-color", this.appBaseColor);
-        document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+        this.appInitialize();
+
         $.Pages.init();
     },
     methods: {
+        appInitialize() {
+            document.body.style.setProperty("--base-color", this.appBaseColor);
+            document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+
+            $.Pages.init();
+        },
         handleSidebar(state) {
             this.showSidebar = state;
         }
