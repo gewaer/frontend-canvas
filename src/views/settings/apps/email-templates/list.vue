@@ -7,7 +7,7 @@
                     <router-link :to="{ name: 'settingsAppsEmailTemplatesForm' }" class="btn btn-primary">Create</router-link>
                 </h5>
                 <div class="table-responsive">
-                    <table class="table table-hover table-condensed">
+                    <table v-if="list.length" class="table table-hover table-condensed">
                         <thead>
                             <tr>
                                 <th style="width:50%">Template name</th>
@@ -24,6 +24,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p v-else>
+                        There are not email templates. Create one.
+                    </p>
                 </div>
             </div>
         </div>
@@ -35,6 +38,11 @@ export default {
     name: "List",
     components: {
         SettingsTemplate: () => import("../tab-container")
+    },
+    data() {
+        return {
+            list: []
+        }
     }
 }
 </script>

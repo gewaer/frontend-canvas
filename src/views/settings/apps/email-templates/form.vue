@@ -8,9 +8,10 @@
                         <div class="form-group  required">
                             <label>Title</label>
                             <input
+                                v-model="title"
                                 class="form-control"
                                 type="text"
-                                name="url"
+                                name="title"
                                 placeholder="Title for email template">
                         </div>
                     </div>
@@ -19,7 +20,7 @@
                     <div class="col">
                         <quill-editor
                             ref="editor"
-                            v-model="emailTemplate"
+                            v-model="content"
                             class="emailTemplatesEditor"
                         />
                     </div>
@@ -43,7 +44,8 @@ export default {
     },
     data() {
         return {
-            emailTemplate: ""
+            content: "",
+            title: ""
         };
     },
     computed: {
