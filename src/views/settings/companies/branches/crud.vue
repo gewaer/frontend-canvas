@@ -43,9 +43,7 @@
                     </div>
                 </div>
 
-                <div class="col-6 m-b-20">
-
-                </div>
+                <div class="col-6 m-b-20"/>
 
             </div>
 
@@ -59,8 +57,6 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
-
 export default {
     name: "BranchCrud",
     props: {

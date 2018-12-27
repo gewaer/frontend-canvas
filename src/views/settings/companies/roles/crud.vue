@@ -38,9 +38,10 @@
                                     <div class="checkbox check-success">
                                         <input
                                             id="checkbox1"
+                                            v-model="group.isGroupSelected"
                                             type="checkbox"
                                             checked="checked"
-                                            value="1">
+                                            @click="checkGroup($event, groupName)">
                                         <label for="checkbox1"/>
                                     </div>
 
@@ -63,16 +64,17 @@
                                 <div class="card-body">
                                     <div class="row">
 
-                                        <div v-for="(access, accessName) in group" :key="`${groupName}-${accessName}`" class="col-md-6 row">
+                                        <div v-for="(access, accessName) in group.permissions" :key="`${groupName}-${accessName}`" class="col-md-6 row">
                                             <div class="col">
-                                                <span>{{ accessName }}</span>
+                                                <span>{{ accessName | capitalize }}</span>
                                             </div>
                                             <div class="col-xs-1">
                                                 <div class="checkbox check-success">
                                                     <input
                                                         :id="`checkbox1-${groupName}-${accessName}`"
                                                         v-model="access.allowed"
-                                                        type="checkbox">
+                                                        type="checkbox"
+                                                        @change="checkSelected(groupName)">
                                                     <label :for="`checkbox1-${groupName}-${accessName}`"/>
                                                 </div>
                                             </div>
@@ -136,6 +138,24 @@ export default {
         this.setRole();
     },
     methods: {
+        isGroupChecked(resourcesName) {
+            const group = this.accessGroup[resourcesName].permissions;
+            const allowedAccesses = Object.values(group);
+            return allowedAccesses.every(access => access.allowed);
+        },
+
+        checkGroup(event, resourcesName) {
+            const group = this.accessGroup[resourcesName];
+            for (const access in group.permissions) {
+                if (group.permissions.hasOwnProperty(access)) {
+                    group.permissions[access].allowed = event.target.checked;
+                }
+            }
+        },
+
+        checkSelected(resourcesName) {
+            this.accessGroup[resourcesName]["isGroupSelected"] = this.isGroupChecked(resourcesName);
+        },
         save() {
             let url;
             let method;
@@ -171,12 +191,19 @@ export default {
                     access.allowed = Boolean(Number(access.allowed));
 
                     if (!this.accessGroup[access.resources_name]) {
-                        this.accessGroup[access.resources_name] = {[access.access_name]: access};
+                        this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
                     } else {
-                        this.accessGroup[access.resources_name][access.access_name] = access;
+                        this.accessGroup[access.resources_name]["permissions"][access.access_name] = access;
                     }
                 }
             });
+
+            for (const accessName in this.accessGroup) {
+                if (this.accessGroup.hasOwnProperty(accessName)) {
+                    this.checkSelected(accessName);
+                }
+            }
+
         },
         getFalsePermissions() {
             return this.accessListData.map(access => {
