@@ -5,7 +5,6 @@ import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
 import CompaniesSettings from "./views/settings/companies";
-import AppsSettings from "./views/settings/apps";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
@@ -121,18 +120,37 @@ const router = new Router({
                 requiresAuth: true
             }
         },
+        // ===== Settings Apps Routes =====
         {
-            path: "/settings/companies",
-            name: "companiesSettings",
-            component: CompaniesSettings,
+            path: "/settings/apps",
+            name: "settingsApps",
+            redirect: {
+                name: "settingsAppsCustomFieldsList"
+            },
             meta: {
                 requiresAuth: true
             }
         },
         {
-            path: "/settings/apps",
-            name: "appsSettings",
-            component: AppsSettings,
+            path: "/settings/apps/custom-fields",
+            name: "settingsAppsCustomFieldsList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/custom-fields/list"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/custom-fields/add",
+            name: "settingsAppsCustomFieldsForm",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/companies",
+            name: "companiesSettings",
+            component: CompaniesSettings,
             meta: {
                 requiresAuth: true
             }

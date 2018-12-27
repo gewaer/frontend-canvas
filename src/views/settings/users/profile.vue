@@ -109,7 +109,7 @@ import { mapState } from "vuex";
 import { vueRouterMixins } from "@/utils/mixins";
 
 export default {
-    name: "UserProfile",
+    name: "Profile",
     components: {
         SettingsTemplate: () => import("./tab-container")
     },

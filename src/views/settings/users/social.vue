@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: "UsersSocial",
+    name: "Social",
     components: {
         SettingsTemplate: () => import("./tab-container")
     }

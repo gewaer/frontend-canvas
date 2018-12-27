@@ -45,7 +45,7 @@
 
 <script>
 export default {
-    name: "UserSecurity",
+    name: "Security",
     components: {
         SettingsTemplate: () => import("./tab-container")
     },

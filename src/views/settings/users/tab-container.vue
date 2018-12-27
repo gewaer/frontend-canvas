@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="card flex-md-row">
-                            <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
+                            <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
                                     <router-link :to="{ name: 'setingsUsersProfile' }" :class="{active: $route.name == 'setingsUsersProfile'}">Profile</router-link>
                                 </li>
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: "UserSettingsTemplate"
+    name: "SettingsUsersContainer"
 };
 </script>
 
