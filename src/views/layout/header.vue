@@ -190,8 +190,8 @@
                     <router-link :to="{name: 'companiesSettings'}" class="dropdown-item">
                         <span>Companies Settings</span>
                     </router-link>
-                    <router-link :to="{name: 'appsSettings'}" class="dropdown-item">
-                        <span>Apps Settings</span>
+                    <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
+                        <span>App Settings</span>
                     </router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout()">
                         <span>Logout</span>
