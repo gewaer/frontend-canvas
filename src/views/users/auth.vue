@@ -231,6 +231,7 @@ export default {
                             validations: "required|min:8"
                         },
                         password2: {
+                            map: "verify_password",
                             validations: "required|min:8"
                         }
                     },

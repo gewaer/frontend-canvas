@@ -85,7 +85,7 @@ export default {
                 return
             }
 
-            if(!_.isEmpty(company.hasActivities)){
+            if(company.hasActivities == "1"){
                 this.$notify({
                     title: "Error",
                     text: "No puede eliminar esta compañia por que tiene actividades",

@@ -15,7 +15,7 @@ module.exports = {
             allowSingleLine: false
         }],
         camelcase: ["error", {
-            properties: "always",
+            properties: "never",
             ignoreDestructuring: false
         }],
         "comma-dangle": ["error"],

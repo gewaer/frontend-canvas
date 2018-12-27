@@ -1,28 +1,9 @@
 <template>
     <div>
-        <h5>Choose your billing frequency</h5>
-        <div class="row payment-frecuency">
-            <div
-                v-for="billing in billingFrecuency"
-                :key="billing.type"
-                class="col-3"
-                @click="selectBillig(billing)">
-                <div class="card">
-                    <div class="card-block">
-                        <input
-                            :id="billing.type"
-                            :value="billing.type"
-                            v-model="frecuencyType"
-                            type="radio"
-                            name="payment-frecuency">
-                        <label :for="billing.type">
-                            Pay {{ billing.title }}
-                            <small>${{ billing.price }} per seat per {{ billing.frecuency }}</small>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <billing-item
+            :frecuency-type="frecuencyType"
+            :billing-frecuency="billingFrecuencies"
+            @selectfrequency="selectBilling" />
         <h5>Order Details</h5>
         <div class="row order-details">
             <div class="col">
@@ -57,12 +38,19 @@
 </template>
 
 <script>
+import BillingItem from "./billing-frequency-item.vue";
+
 export default {
     name: "BilligFrecuency",
+    components:{BillingItem},
     props: {
         plan: {
             required: true,
             type: Object
+        },
+        frecuencyType:{
+            required: true,
+            type: Number|String
         }
     },
     data() {
@@ -78,37 +66,38 @@ export default {
                 title: "Annually",
                 price: "100",
                 frecuency: "year"
-            },
-            frecuencyType:"pricing"
+            }
         }
     },
     computed: {
-        billingFrecuency() {
+        billingFrecuencies() {
             return [
                 this.pricingMonthly,
                 this.pricingAnual
             ];
         },
         selectedFrecuency(){
-            return this.billingFrecuency.find(billig => billig.type == this.frecuencyType);
+            return this.billingFrecuencies.find(billig => billig.type == this.frecuencyType);
         }
     },
     watch: {
-        plan: {
+        "plan.id": {
             deep: true,
-            handler(current) {
-                this.formatFrecuencys(current);
+            handler() {
+                this.formatFrecuencys();
             }
         }
     },
+    mounted(){
+        this.formatFrecuencys();
+    },
     methods: {
-        formatFrecuencys(plan) {
-            this.pricingMonthly.price = plan["pricing"];
-            this.pricingAnual.price= plan["pricing_anual"];
+        formatFrecuencys() {
+            this.pricingMonthly.price = this.plan.pricing;
+            this.pricingAnual.price = this.plan.pricing_anual;
         },
-        selectBillig(billing){
-            this.frecuencyType = billing.type;
-            this.$emit("selectfrequency", this.frecuencyType, billing);
+        selectBilling(billing){
+            this.$emit("selectbillingtype", billing.type, billing);
         }
     }
 }
