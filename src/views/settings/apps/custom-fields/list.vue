@@ -4,24 +4,45 @@
             <div class="col">
                 <h5>
                     Custom Fields
-                    <router-link :to="{ name: 'settingsAppsCustomFieldsForm' }" class="btn btn-primary">Create</router-link>
+                    <router-link :to="{ name: 'settingsAppsCustomFieldsForm', params: { module: tab } }" class="btn btn-primary">Create</router-link>
                 </h5>
                 <div class="card card-borderless">
                     <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
-                        <li class="nav-item">
+                        <li v-for="module in modules" :key="'modules-' + module.id" class="nav-item">
                             <a
-                                class="active"
+                                :class="{ active: tab == module.name }"
                                 href="#"
+                                @click.prevent="changeModule(module.name)"
                             >
-                                Category 1
+                                {{ module.name.replace("_", " ") }}
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div id="category1" class="tab-pane active">
+                        <div class="tab-pane active">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="table-responsive">
+                                        <!-- <vuetable
+                                            :append-params="appendParams"
+                                            :fields="companiesFields"
+                                            :http-fetch="getTableData"
+                                            api-url="/companies"
+                                            class="table table-hover table-condensed"
+                                            pagination-path=""
+                                        >
+                                            <template slot="actions" slot-scope="props">
+                                                <button class="btn btn-primary m-l-5" @click="editCompany(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                                                <button class="btn btn-complete m-l-5" @click="editCompany(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                                                <button
+                                                    :disabled="isCurrentCompany(props.rowData.id)"
+                                                    class="btn btn-danger m-l-5"
+                                                    @click="deleteCompany(props.rowData)">
+                                                    <i class="fa fa-trash" aria-hidden="true" />
+                                                </button>
+                                            </template>
+                                        </vuetable> -->
+
                                         <table class="table table-hover table-condensed">
                                             <thead>
                                                 <tr>
@@ -59,6 +80,31 @@ export default {
     name: "List",
     components: {
         SettingsTemplate: () => import("../tab-container")
+    },
+    data() {
+        return {
+            fields: [],
+            modules: [],
+            tab: ""
+        }
+    },
+    created() {
+        this.getModules();
+    },
+    methods: {
+        changeModule(name) {
+            this.tab = name;
+
+            //
+        },
+        getModules() {
+            axios({
+                url: "/custom-fields-modules"
+            }).then(({ data }) => {
+                this.modules = data;
+                this.tab = data[0].name;
+            });
+        }
     }
 }
 </script>

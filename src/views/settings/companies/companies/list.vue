@@ -12,7 +12,8 @@
                     :http-fetch="getTableData"
                     api-url="/companies"
                     class="table table-hover table-condensed"
-                    pagination-path="">
+                    pagination-path=""
+                >
                     <img
                         slot="profile_image"
                         slot-scope="props"
