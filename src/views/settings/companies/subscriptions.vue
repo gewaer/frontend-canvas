@@ -1,6 +1,6 @@
 <template>
     <div class="subscriptions-plans">
-        <div v-show="companyData.subscription.id" class="card-yellow d-flex">
+        <div class="card-yellow d-flex">
             <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper ligula odio, id tristique lacus faucibus et. Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
         </div>
@@ -28,7 +28,7 @@
                                         <!--HEAD START-->
                                         <div class="head_bg"/>
                                         <div class="head">
-                                            <span>{{ plan.name }}}</span>
+                                            <span>{{ plan.name }}</span>
                                         </div>
                                     <!--//HEAD END-->
 
@@ -172,6 +172,7 @@
                                         <div class="form-group">
                                             <label for="address">Address</label>
                                             <input
+                                                v-validate="'required:true||min:2'"
                                                 id="address"
                                                 v-model="address.address"
                                                 data-vv-as="address"
@@ -179,12 +180,14 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Address">
+                                            <span>{{ errors.first("address") }}</span>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="apt-suite">APT/SUITE</label>
                                             <input
+                                                v-validate="'required:true|min:1'"
                                                 id="apt-suite"
                                                 v-model="address.suite"
                                                 data-vv-as="apt/suite"
@@ -192,6 +195,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="APT/SUITE">
+                                            <span>{{ errors.first("apt/suite") }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -200,6 +204,7 @@
                                         <div class="form-group">
                                             <label for="city">City</label>
                                             <input
+                                                v-validate="'required:true|min:3'"
                                                 id="city"
                                                 v-model="address.city"
                                                 data-vv-as="city"
@@ -207,12 +212,14 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="City">
+                                            <span>{{ errors.first("city") }}</span>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="country">Country</label>
                                             <input
+                                                v-validate="'required:true|min:3'"
                                                 id="country"
                                                 v-model="address.country"
                                                 data-vv-as="country"
@@ -220,6 +227,7 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="Country">
+                                            <span>{{ errors.first("country") }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -228,6 +236,7 @@
                                         <div class="form-group">
                                             <label for="state-province">State/Province</label>
                                             <input
+                                                v-validate="'required:true|min:2'"
                                                 id="state-province"
                                                 v-model="address.state"
                                                 data-vv-as="state/province"
@@ -235,12 +244,14 @@
                                                 type="text"
                                                 class="form-control"
                                                 placeholder="State/Province">
+                                            <span>{{ errors.first("state/province") }}</span>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="zip-postal">Zip/Postal</label>
                                             <input
+                                                v-validate="'required:true|min:2|numeric'"
                                                 id="zip-postal"
                                                 v-model="address.zipcode"
                                                 data-vv-as="zip/postal"
@@ -248,6 +259,7 @@
                                                 type="number"
                                                 class="form-control"
                                                 placeholder="Zip/Postal">
+                                            <span>{{ errors.first("zip/postal") }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -337,7 +349,7 @@
                                             <div class="form-group">
                                                 <label for="cvv">CVV</label>
                                                 <input
-                                                    v-validate="'required:true|numeric|length:4'"
+                                                    v-validate="'required:true|numeric|max:4|min:3'"
                                                     id="cvv"
                                                     v-model="payment.card_cvc"
                                                     data-vv-as="cvv"
@@ -354,7 +366,7 @@
                                             <div class="form-group">
                                                 <label for="card-expiration-month">Card epiration month</label>
                                                 <input
-                                                    v-validate="'required:true|numeric|min_value:01|max_value:12'"
+                                                    v-validate="'required:true|numeric|min_value:01|max_value:12|max:2|min:2'"
                                                     id="card-expiration-month"
                                                     v-model="payment.card_exp_month"
                                                     data-vv-as="card expiration month"
@@ -372,7 +384,7 @@
                                             <div class="form-group">
                                                 <label for="card-expiration-year">Card expiration year</label>
                                                 <input
-                                                    v-validate="'required:true|numeric|min_value:01|max_value:99'"
+                                                    v-validate="'required:true|numeric|min_value:01|max_value:99|max:2|min:2'"
                                                     id="card-expiration-year"
                                                     v-model="payment.card_exp_year"
                                                     data-vv-as="card expiration year"
@@ -402,7 +414,7 @@
                     </div>
                 </div>
                 <div class="row update-billing-details">
-                    <button class="btn btn-block btn-primary" @click="subscribeToPlan()">Update Billing Details</button>
+                    <button class="btn btn-block btn-primary" @click="verifyPlanPayment()">Update Billing Details</button>
                 </div>
             </div>
         </div>
@@ -509,11 +521,10 @@ export default {
             }
             this.plans = response.data;
         },
-        prepareData(formData) {
-            const data = new FormData();
-            Object.keys(formData).forEach((field) => {
-                let apiField = field;
-                data.append(apiField, formData[field]);
+        prepareData(jsonData) {
+            let data = new FormData();
+            Object.keys(jsonData).forEach((field) => {
+                data.append(field, jsonData[field]);
             });
             return data;
         },
@@ -522,7 +533,24 @@ export default {
             companyData.then(res => this.$store.dispatch("Company/setData", res.data[0]));
         },
         changeSubscription(plan){
-            this.changePlan(plan.stripe_id);
+            this.$modal.show("basic-modal", {
+                title:"Change Subcription!",
+                message:`Did you want to Update your Subcription?`,
+                buttons: [{
+                    title: "Accept",
+                    class: "btn-success",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                        this.changePlan(plan.stripe_id);
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-danger",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                    }
+                }]
+            });
         },
         changePlan(planId){
             axios({
@@ -531,6 +559,7 @@ export default {
             }).then(() => {
                 this.planData["stripe_id"] = planId;
                 this. updateCompanyData();
+                this.changeSubscriptionSuccess("Subscriptión updated successfully.");
             }).catch((error) => {
                 this.$notify({
                     title: "Error",
@@ -540,24 +569,44 @@ export default {
             });
         },
 
-        subscribeToPlan(){
+        verifyPlanPayment(){
             if(this.errors.items.length){
                 let verificationMessage = this.errors.items[0].msg;
-                let verificationTitle = `$Please verify the ${this.errors.items[0].field}`;
+                let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
                 this.$notify({
                     title: verificationTitle,
                     text: verificationMessage,
                     type: "warn"
                 });
-                return ;
+            } else {
+                this.confirmPaymentUpdate();
             }
+        },
+        confirmPaymentUpdate(){
             this.$validator.validate().then(result => {
                 if (result) {
-                    this.createAppPlan();
+                    this.$modal.show("basic-modal", {
+                        title:"Change Subcription!",
+                        message:`Did you want to Update your Payment Methods ?`,
+                        buttons: [{
+                            title: "Accept",
+                            class: "btn-success",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                                this.updatePlanPayment();
+                            }
+                        }, {
+                            title: "Cancel",
+                            class: "btn-danger",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                            }
+                        }]
+                    });
                 }
             });
         },
-        createAppPlan(){
+        updatePlanPayment(){
             const appPlan = {
                 ...this.planData,
                 ...this.payment,
@@ -565,12 +614,14 @@ export default {
                 ...this.contact};
 
             const data = this.prepareData(appPlan);
+
             axios({
                 url: "/apps-plans",
                 method: "POST",
                 data
             }).then(() => {
                 this. updateCompanyData();
+                this.changeSubscriptionSuccess("Payment Informatión updated successfully.");
             }).catch((error) => {
                 this.$notify({
                     title: "Error",
@@ -579,7 +630,13 @@ export default {
                 });
             });
         },
-
+        changeSubscriptionSuccess(text =""){
+            this.$notify({
+                title: "Success",
+                text,
+                type: "success"
+            });
+        },
         displayBilligInfo(){
             this.showBilligInfo = !this.showBilligInfo ;
         },

@@ -2,6 +2,7 @@
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
         <unsaved-changes-modal/>
+        <basic-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
@@ -1633,13 +1634,15 @@ import AppHeader from "@/views/layout/header.vue";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
+import BasicModal from "@/components/modals/basic-modal.vue";
 
 export default {
     components: {
         AppHeader,
         AppSidebar,
         FreeTrialBar,
-        UnsavedChangesModal
+        UnsavedChangesModal,
+        BasicModal
     },
     data() {
         return {
