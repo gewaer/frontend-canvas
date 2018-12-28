@@ -10,59 +10,15 @@
         </modal>
 
         <h4 class="section-title p-l-10">Leads</h4>
-        <div class="card">
-            <div class="card-block">
-                <div class="browse-list-row">
-                    <div class="dropdown bulk-actions">
-                        <button
-                            id="bulk-actions"
-                            class="btn btn-info dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false">
-                            Bulk actions
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="bulk-actions">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
 
-                    <button class="add-record-btn btn btn-primary">
-                        <i class="fa fa-plus-circle"/> Add lead
-                    </button>
+        <table-search
+            :search-options="searchOptions"
+            :filterable-fields="filterableFields"
+            :bulk-actions="bulkActions"
+            @getData="getData()"
+        />
 
-                    <div class="input-group search-bar">
-                        <input type="text" class="form-control" v-model="searchOptions.text" @keydown.13="getData">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" @click="getData">
-                                <i class="fa fa-search"/> Search
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="browse-list-filters d-flex align-items-center">
-                        <span class="mr-3">Filters</span>
-                        <multiselect
-                            v-model="searchOptions.filters"
-                            :multiple="true"
-                            :show-labels="false"
-                            :options="filterableFields"
-                        >
-                            <template slot="afterList" >
-                                <div class="add-custom-filter-btn option__desc"><a class="option__title" @click="showAddCustomFilter">
-                                <i class="fa fa-plus"/> Add custom Filter</a>
-                                </div>
-                            </template>
-                        </multiselect>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+         <!-- Table  -->
         <div class="card">
             <div class="card-block">
                 <div class="table-responsive">
@@ -71,9 +27,12 @@
                         :append-params="appendParams"
                         :fields="tableFields"
                         :http-fetch="getTableData"
+                        :query-params="queryParams"
+                        :per-page="perPage"
                         api-url="/roles"
                         class="table table-hover table-condensed"
-                        pagination-path="">
+                        pagination-path=""
+                        @vuetable:pagination-data="onPaginationData">
 
                         <template slot="actions" slot-scope="props">
                             <div class="btn-group vehicle-edit">
@@ -94,6 +53,10 @@
                             </div>
                         </template>
                     </vuetable>
+
+                    <vuetable-pagination
+                        ref="pagination"
+                        @vuetable-pagination:change-page="onChangePage"/>
                 </div>
             </div>
         </div>
@@ -101,48 +64,55 @@
 </template>
 
 <script>
-import addCustomFiltersModal from "../layout/add-custom-filters-modal.vue";
-import VuetableFieldCheckbox from 'vuetable-2/src/components/VuetableFieldCheckbox';
+import addCustomFiltersModal from "../layout/add-custom-filters-modal";
+import TableSearch from "./TableSearch";
+import VuetableFieldCheckbox from "vuetable-2/src/components/VuetableFieldCheckbox";
 
 export default {
-    name: "browse",
-    components: {
-        addCustomFiltersModal
-    },
+    name: "Browse",
     comments: {
         VuetableFieldCheckbox
+    },
+    components: {
+        addCustomFiltersModal,
+        TableSearch
     },
     data() {
         return {
             appendParams: {
                 format: "true"
             },
+            perPage: 1,
+            queryParams: {
+                sort: "sort",
+                page: "page",
+                perPage: "limit"
+            },
             searchOptions: {
                 text: "",
                 filters: []
             },
             tableFields: [{
-                    name: VuetableFieldCheckbox,
-                    title: "checkbox",
-                    titleClass: 'text-center',
-                    dataClass: 'text-center',
-                    width: "5%"
-                }, {
-                    name: "name",
-                    title: "Name",
-                    filterable: true,
-                    searchable: true
-                }, {
-                    name: "description",
-                    filterable: true,
-                    searchable: true
-                }, {
-                    name: "users",
-                }, {
-                    name: "actions",
-                    title: "Actions"
-                }
-            ]
+                name: VuetableFieldCheckbox,
+                title: "checkbox",
+                titleClass: "text-center",
+                dataClass: "text-center",
+                width: "5%"
+            }, {
+                name: "name",
+                title: "Name",
+                filterable: true,
+                searchable: true
+            }, {
+                name: "description",
+                filterable: true,
+                searchable: true
+            }, {
+                name: "users"
+            }, {
+                name: "actions",
+                title: "Actions"
+            }]
         };
     },
     computed: {
@@ -151,6 +121,20 @@ export default {
         },
         searchableFields() {
             return this.tableFields.filter(field => field.searchable).map(field => field.name);
+        },
+        bulkActions() {
+            return [
+                {
+                    name: 'Action 1',
+                    action: this.deleteRows
+                }, {
+                    name: 'Action 2',
+                    action: this.deleteRows
+                }, {
+                    name: 'Action 3',
+                    action: this.deleteRows
+                }
+            ]
         }
     },
     methods: {
@@ -163,7 +147,7 @@ export default {
             if (this.searchOptions.text){
                 if ( !this.searchOptions.filters.length) {
                     params += this.getParams(this.searchableFields);
-                } else if (this.searchOptions.filters.lenght) {
+                } else {
                     params += this.getParams(this.searchOptions.filters);
                 }
             }
@@ -176,17 +160,37 @@ export default {
             return  fields.map(field => `${field}:${separator}${encodeURIComponent(this.searchOptions.text.trim())}${separator}`).join(";");
         },
 
+        // pagination data
+        onPaginationData(data) {
+            const paginationData = {
+                total: data.total_pages,
+                per_page: data.limit,
+                current_page: data.page,
+                last_page: data.total_pages
+            }
+            this.$refs.pagination.setPaginationData(paginationData);
+        },
+
+        onChangePage(page) {
+            // Vuetable.changePage() wasn't working as espected
+            this.$refs.Vuetable.currentPage = page;
+            this.$refs.Vuetable.reload();
+        },
         //row actions
         deleteRow() {
+            // your delete function here
 
         },
         editRow() {
-
+            // your edit function here
         },
         // bulk actions
         deleteRows() {
-
+            // yout function here
+            alert("rows deleted")
         }
+
+
     }
 }
 </script>
@@ -249,6 +253,7 @@ export default {
                     padding-bottom: 0;
                     font-weight: bold;
                     color: black;
+                    height: 50px;
                 }
             }
         }
