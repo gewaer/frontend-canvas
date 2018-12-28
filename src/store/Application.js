@@ -4,7 +4,8 @@ import store from "@/store/index";
 
 const state = {
     languages: [],
-    timezones: []
+    timezones: [],
+    roles: []
 };
 
 const mutations = {
@@ -13,6 +14,9 @@ const mutations = {
     },
     SET_TIMEZONES(state, payload) {
         state.timezones = payload;
+    },
+    SET_ROLES(state, payload) {
+        state.roles = payload;
     }
 };
 
@@ -43,6 +47,7 @@ const actions = {
     getSettingsLists({ dispatch }) {
         dispatch("getLanguages");
         dispatch("getTimezones");
+        dispatch("getRoles");
     },
     getTimezones({ commit }) {
         if (!state.timezones.length) {
@@ -50,6 +55,15 @@ const actions = {
                 url: "/timezones"
             }).then((response) => {
                 commit("SET_TIMEZONES", response.data);
+            });
+        }
+    },
+    getRoles({ commit }) {
+        if (!state.roles.length) {
+            axios({
+                url: "/roles"
+            }).then((response) => {
+                commit("SET_ROLES", response.data);
             });
         }
     },
