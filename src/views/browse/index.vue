@@ -18,7 +18,7 @@
             @getData="getData()"
         />
 
-         <!-- Table  -->
+        <!-- Table  -->
         <div class="card">
             <div class="card-block">
                 <div class="table-responsive">
@@ -29,6 +29,7 @@
                         :http-fetch="getTableData"
                         :query-params="queryParams"
                         :per-page="perPage"
+                        :show-sort-icons="true"
                         api-url="/roles"
                         class="table table-hover table-condensed"
                         pagination-path=""
@@ -101,10 +102,12 @@ export default {
             }, {
                 name: "name",
                 title: "Name",
+                sortField: "name",
                 filterable: true,
                 searchable: true
             }, {
                 name: "description",
+                sortField: "description",
                 filterable: true,
                 searchable: true
             }, {
@@ -125,13 +128,13 @@ export default {
         bulkActions() {
             return [
                 {
-                    name: 'Action 1',
+                    name: "Action 1",
                     action: this.deleteRows
                 }, {
-                    name: 'Action 2',
+                    name: "Action 2",
                     action: this.deleteRows
                 }, {
-                    name: 'Action 3',
+                    name: "Action 3",
                     action: this.deleteRows
                 }
             ]

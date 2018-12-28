@@ -13,11 +13,12 @@
                         Bulk actions
                     </button>
                     <div class="dropdown-menu" aria-labelledby="bulk-actions">
-                        <a class="dropdown-item"
-                           href="#"
-                           v-for="action in bulkActions"
-                           :key="action.name"
-                           @click="action.action">
+                        <a
+                            v-for="action in bulkActions"
+                            :key="action.name"
+                            class="dropdown-item"
+                            href="#"
+                            @click="action.action">
                             {{ action.name }}
                         </a>
                     </div>
@@ -75,12 +76,14 @@ export default {
         },
         bulkActions: {
             type: Array,
-
+            default() {
+                return []
+            }
         }
     },
     methods: {
         getData() {
-            this.$emit('getData')
+            this.$emit("getData")
         }
     }
 }

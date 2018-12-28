@@ -15,7 +15,11 @@
                 <img src="/img/secondary-logo.png">
             </router-link>
             <div class="sidebar-header-controls">
-                <button @click="togglePinSidebar" type="button" class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" data-toggle-pin="sidebar">
+                <button 
+                    type="button" 
+                    class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" 
+                    data-toggle-pin="sidebar" 
+                    @click="togglePinSidebar">
                     <i class="fa fs-12"/>
                 </button>
             </div>
@@ -28,7 +32,7 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul class="menu-items">
                 <li class="m-t-30">
-                    <router-link :to="{ name: 'dashboard'}" id="dashboard-menu-link">
+                    <router-link id="dashboard-menu-link" :to="{ name: 'dashboard'}">
                         <span class="title">Dashboard</span>
                     </router-link>
                     <span class="icon-thumbnail ">
@@ -105,7 +109,9 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            if (localStorage.getItem("pin-menu")) $('[data-pages="sidebar"]').data('pg.sidebar').togglePinSidebar();
+            if (localStorage.getItem("pin-menu")) {
+                $('[data-pages="sidebar"]').data("pg.sidebar").togglePinSidebar();
+            }
         });
     },
     methods: {
