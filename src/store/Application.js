@@ -1,4 +1,5 @@
 import { isValidJWT } from "@/utils/helpers";
+import isEmpty from "lodash/isEmpty";
 import store from "@/store/index";
 
 const state = {
@@ -80,7 +81,7 @@ const actions = {
 
 const getters = {
     isStateReady() {
-        return !!store.User.data && !!store.Company.data;
+        return !isEmpty(store.User.state.data) && !!store.Company.state.data;
     }
 };
 

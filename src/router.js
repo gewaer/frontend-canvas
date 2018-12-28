@@ -4,10 +4,8 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
-import UsersSettings from "@/views/settings/users";
-import CompaniesSettings from "@/views/settings/companies";
-import AppsSettings from "@/views/settings/apps";
-import BrowseList from "@/views/browse/";
+import CompaniesSettings from "./views/settings/companies";
+import BrowseList from "./views/browse/";
 
 Vue.use(Router);
 
@@ -58,7 +56,7 @@ const router = new Router({
         {
             path: "*",
             name: "404",
-            component: () => import(/* webpackChunkName: "404" */ "./views/errors/404.vue"),
+            component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-404"),
             meta: {
                 requiresAuth: false
             }
@@ -66,39 +64,151 @@ const router = new Router({
         {
             path: "/forbidden",
             name: "403",
-            component: () => import(/* webpackChunkName: "404" */ "./views/errors/403.vue"),
+            component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-403"),
             meta: {
                 requiresAuth: false
             }
         },
-        {
-            path: "/example-page",
-            name: "examplePage",
-            component: examples,
-            meta: {
-                requiresAuth: false
-            }
-        },
+        // ===== Settings Users Routes =====
         {
             path: "/settings/users",
-            name: "usersSettings",
-            component: UsersSettings,
+            name: "setingsUsers",
+            redirect: {
+                name: "setingsUsersProfile"
+            },
             meta: {
                 requiresAuth: true
             }
         },
+        {
+            path: "/settings/users/profile",
+            name: "setingsUsersProfile",
+            component: () => import(/* webpackChunkName: "settings-users-profile" */ "./views/settings/users/profile"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/users/notifications",
+            name: "setingsUsersNotifications",
+            component: () => import(/* webpackChunkName: "settings-users-notifications" */ "./views/settings/users/notifications"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        // {
+        //     path: "/settings/users/social",
+        //     name: "setingsUsersSocial",
+        //     component: () => import(/* webpackChunkName: "settings-users-social" */ "./views/settings/users/social"),
+        //     meta: {
+        //         requiresAuth: true
+        //     }
+        // },
+        {
+            path: "/settings/users/security",
+            name: "setingsUsersSecurity",
+            component: () => import(/* webpackChunkName: "settings-users-security" */ "./views/settings/users/security"),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        // ===== Settings Apps Routes =====
+        {
+            path: "/settings/apps",
+            name: "settingsApps",
+            redirect: {
+                name: "settingsAppsCustomFieldsList"
+            },
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/custom-fields",
+            name: "settingsAppsCustomFieldsList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/custom-fields/list"),
+            meta: {
+                group: "settingsAppsCustomFields",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/custom-fields/add",
+            name: "settingsAppsCustomFieldsForm",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
+            meta: {
+                group: "settingsAppsCustomFields",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/custom-fields/edit/:id",
+            name: "settingsAppsCustomFieldsFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
+            meta: {
+                group: "settingsAppsCustomFields",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates",
+            name: "settingsAppsEmailTemplatesList",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-list" */ "./views/settings/apps/email-templates/list"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates/add",
+            name: "settingsAppsEmailTemplatesForm",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates/edit/:id",
+            name: "settingsAppsEmailTemplatesFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks",
+            name: "settingsAppsWebhooksList",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-list" */ "./views/settings/apps/webhooks/list"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks/add",
+            name: "settingsAppsWebhooksForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks/edit/:id",
+            name: "settingsAppsWebhooksFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        // ======================================================
         {
             path: "/settings/companies",
             name: "companiesSettings",
             component: CompaniesSettings,
-            meta: {
-                requiresAuth: true
-            }
-        },
-        {
-            path: "/settings/apps",
-            name: "appsSettings",
-            component: AppsSettings,
             meta: {
                 requiresAuth: true
             }
@@ -109,6 +219,14 @@ const router = new Router({
             component: BrowseList,
             meta: {
                 requiresAuth: true
+            }
+        },
+        {
+            path: "/example-page",
+            name: "examplePage",
+            component: examples,
+            meta: {
+                requiresAuth: false
             }
         }
     ]

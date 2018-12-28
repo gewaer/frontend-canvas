@@ -97,11 +97,10 @@
                         <label>Confirm Password</label>
                         <div class="controls">
                             <input
-                                v-model="data.password2"
+                                v-model="data.verifyPassword"
                                 type="password"
-                                name="password2"
-                                placeholder="Retype
-                                Credentials"
+                                name="verifyPassword"
+                                placeholder="Retype Credentials"
                                 class="form-control"
                                 required
                             >
@@ -202,7 +201,7 @@ export default {
                             map: "new_password",
                             validations: "required|min:8"
                         },
-                        password2: {
+                        verifyPassword: {
                             map: "verify_password",
                             validations: "required|min:8"
                         }
@@ -230,7 +229,7 @@ export default {
                         password: {
                             validations: "required|min:8"
                         },
-                        password2: {
+                        verifyPassword: {
                             map: "verify_password",
                             validations: "required|min:8"
                         }
@@ -290,7 +289,7 @@ export default {
             });
 
             this.data.password = "";
-            this.data.password2 = "";
+            this.data.verifyPassword = "";
             this.$router.push({ name: "login" });
         },
         handleResponse(response) {

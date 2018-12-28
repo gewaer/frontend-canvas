@@ -16,7 +16,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar v-if="$route.meta.requiresAuth" />
+                    <free-trial-bar v-if="$route.meta.requiresAuth"/>
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -1658,17 +1658,19 @@ export default {
     },
     watch: {
         accessList(permissions) {
-            const ability = AbilityBuilder.define((can, cannot) => {
-                can("manage", "all");
+            if (permissions) {
+                const ability = AbilityBuilder.define((can, cannot) => {
+                    can("manage", "all");
 
-                Object.keys(permissions).forEach((resource) => {
-                    Object.keys(permissions[resource]).forEach((action) => {
-                        cannot(action, resource);
+                    Object.keys(permissions).forEach((resource) => {
+                        Object.keys(permissions[resource]).forEach((action) => {
+                            cannot(action, resource);
+                        });
                     });
                 });
-            });
 
-            this.$ability.update(ability.rules);
+                this.$ability.update(ability.rules);
+            }
         },
         "$route.path"() {
             this.$nextTick(() => {
@@ -1677,11 +1679,17 @@ export default {
         }
     },
     mounted() {
-        document.body.style.setProperty("--base-color", this.appBaseColor);
-        document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+        this.appInitialize();
+
         $.Pages.init();
     },
     methods: {
+        appInitialize() {
+            document.body.style.setProperty("--base-color", this.appBaseColor);
+            document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+
+            $.Pages.init();
+        },
         handleSidebar(state) {
             this.showSidebar = state;
         }

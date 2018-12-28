@@ -12,7 +12,7 @@
                                         :class="{active: tab == 'info'}"
                                         href="#"
                                         name="info"
-                                        @click="tab = 'info'"
+                                        @click.prevent="tab = 'info'"
                                     >
                                         Company Info
                                     </a>
@@ -22,9 +22,19 @@
                                         :class="{active: tab == 'companies'}"
                                         href="#"
                                         name="companies"
-                                        @click="tab = 'companies'"
+                                        @click.prevent="tab = 'companies'"
                                     >
                                         Companies
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        :class="{active: tab == 'branches'}"
+                                        href="#"
+                                        name="branches"
+                                        @click.prevent="tab = 'branches'"
+                                    >
+                                        Branches
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -32,7 +42,7 @@
                                         :class="{active: tab == 'users'}"
                                         href="#"
                                         name="users"
-                                        @click="tab = 'users'"
+                                        @click.prevent="tab = 'users'"
                                     >
                                         Users
                                     </a>
@@ -42,7 +52,7 @@
                                         :class="{active: tab == 'roles'}"
                                         href="#"
                                         name="roles"
-                                        @click="tab = 'roles'"
+                                        @click.prevent="tab = 'roles'"
                                     >
                                         Roles
                                     </a>
@@ -52,7 +62,7 @@
                                         :class="{active: tab == 'subscriptions'}"
                                         href="#"
                                         name="subscriptions"
-                                        @click="tab = 'subscriptions'"
+                                        @click.prevent="tab = 'subscriptions'"
                                     >
                                         Subscriptions
                                     </a>
@@ -64,6 +74,9 @@
                                 </div>
                                 <div id="companies" :class="{active: tab == 'companies'}" class="tab-pane">
                                     <companies-list/>
+                                </div>
+                                <div id="branches" :class="{active: tab == 'branches'}" class="tab-pane">
+                                    <company-branches/>
                                 </div>
                                 <div id="users-list" :class="{active: tab == 'users'}" class="tab-pane" >
                                     <company-users/>
@@ -85,15 +98,17 @@
 
 <script>
 import CompanyProfile from "./profile";
-import CompaniesList from "./companies";
+import CompaniesList from "./companies/";
+import CompanyBranches from "./branches/";
 import CompanyUsers from "./users/";
-import CompanyRoles from "./roles";
+import CompanyRoles from "./roles/";
 import CompanySubscriptions from "./subscriptions";
 
 export default {
     components: {
         CompanyProfile,
         CompaniesList,
+        CompanyBranches,
         CompanyUsers,
         CompanyRoles,
         CompanySubscriptions
@@ -103,9 +118,14 @@ export default {
             tab: "info"
         }
     },
+    watch: {
+        tab(tab) {
+            history.pushState({}, null, `${this.$route.path}?tab=${tab}`);
+        }
+    },
     mounted() {
-        if (this.$route.params.tab) {
-            this.tab = this.$route.params.tab;
+        if (this.$route.query.tab) {
+            this.tab = this.$route.query.tab;
         }
     }
 };
