@@ -8,6 +8,7 @@
             height="auto">
             <add-custom-filters-modal mode="form" />
         </modal>
+
         <h4 class="section-title p-l-10">Leads</h4>
         <div class="card">
             <div class="card-block">
@@ -28,30 +29,27 @@
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </div>
+
                     <button class="add-record-btn btn btn-primary">
                         <i class="fa fa-plus-circle"/> Add lead
                     </button>
+
                     <div class="input-group search-bar">
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" v-model="searchOptions.text" @keydown.13="getData">
                         <div class="input-group-append">
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary" @click="getData">
                                 <i class="fa fa-search"/> Search
                             </button>
                         </div>
                     </div>
+
                     <div class="browse-list-filters d-flex align-items-center">
                         <span class="mr-3">Filters</span>
-                        <!-- <select id="multi" class="full-width" data-init-plugin="select2" multiple>
-                            <option value="1">Filter 1</option>
-                            <option value="2">Filter 2</option>
-                            <option value="3">Filter 3</option>
-                            <option class="add-custom-filter" @click.stop="addCustomFilter">Add custom filter</option>
-                        </select> -->
                         <multiselect
-                            v-model="currentFilters"
+                            v-model="searchOptions.filters"
                             :multiple="true"
                             :show-labels="false"
-                            :options="['Filter 1', 'Filter 2', 'Fiilter 3']"
+                            :options="filterableFields"
                         >
                             <template slot="afterList" >
                                 <div class="add-custom-filter-btn option__desc"><a class="option__title" @click="showAddCustomFilter">
@@ -60,760 +58,42 @@
                             </template>
                         </multiselect>
                     </div>
+
                 </div>
             </div>
         </div>
+
         <div class="card">
             <div class="card-block">
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <!-- NOTE * : Inline Style Width For Table Cell is Required as it may differ from user to user
-                                                Comman Practice Followed
-                                                -->
-                                <th style="width:1%" class="text-center">
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </th>
-                                <th>Deal name</th>
-                                <th>Stage</th>
-                                <th>Owner</th>
-                                <th>Source</th>
-                                <th>Contact person</th>
-                                <th>Total Leads</th>
-                                <th>Actions</th>
-                                <th>Won/Lost</th>
-                                <th style="width: 1px;">
-                                    <button class="btn btn-link"><i class="fa fa-cog"/></button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox text-center">
-                                        <input id="checkbox1" type="checkbox" value="3">
-                                        <label for="checkbox1" class="no-padding no-margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez 2012 Toyota Corolla</p>
-                                </td>
-                                <td>
-                                    <p>New Lead</p>
-                                </td>
-                                <td>
-                                    <p>Jose Rivera</p>
-                                </td>
-                                <td>
-                                    <p>Facebook</p>
-                                </td>
-                                <td>
-                                    <p>Juan Rodriguez</p>
-                                </td>
-                                <td>
-                                    <p>5</p>
-                                </td>
-                                <td>
-                                    <div class="btn-group vehicle-edit">
-                                        <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button
-                                            type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                            class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                            <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-link"><i class="fa fa-smile-o"/></button>
-                                    <button class="btn btn-link"><i class="fa fa-frown-o"/></button>
-                                </td>
-                                <td/>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <vuetable
+                        ref="Vuetable"
+                        :append-params="appendParams"
+                        :fields="tableFields"
+                        :http-fetch="getTableData"
+                        api-url="/roles"
+                        class="table table-hover table-condensed"
+                        pagination-path="">
+
+                        <template slot="actions" slot-scope="props">
+                            <div class="btn-group vehicle-edit">
+                                <button type="button" class="btn btn-default smaller-btn">Edit</button>
+                                <button
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    class="btn btn-default dropdown-toggle dropdown-toggle-split">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <ul class="dropdown-menu">
+                                    <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
+                                    <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
+                                </ul>
+                            </div>
+                        </template>
+                    </vuetable>
                 </div>
             </div>
         </div>
@@ -822,19 +102,90 @@
 
 <script>
 import addCustomFiltersModal from "../layout/add-custom-filters-modal.vue";
+import VuetableFieldCheckbox from 'vuetable-2/src/components/VuetableFieldCheckbox';
 
 export default {
+    name: "browse",
     components: {
         addCustomFiltersModal
     },
+    comments: {
+        VuetableFieldCheckbox
+    },
     data() {
         return {
-            currentFilters: []
+            appendParams: {
+                format: "true"
+            },
+            searchOptions: {
+                text: "",
+                filters: []
+            },
+            tableFields: [{
+                    name: VuetableFieldCheckbox,
+                    title: "checkbox",
+                    titleClass: 'text-center',
+                    dataClass: 'text-center',
+                    width: "5%"
+                }, {
+                    name: "name",
+                    title: "Name",
+                    filterable: true,
+                    searchable: true
+                }, {
+                    name: "description",
+                    filterable: true,
+                    searchable: true
+                }, {
+                    name: "users",
+                }, {
+                    name: "actions",
+                    title: "Actions"
+                }
+            ]
         };
+    },
+    computed: {
+        filterableFields() {
+            return this.tableFields.filter(field => field.filterable).map(field => field.name);
+        },
+        searchableFields() {
+            return this.tableFields.filter(field => field.searchable).map(field => field.name);
+        }
     },
     methods: {
         showAddCustomFilter() {
             this.$modal.show("add-custom-filter");
+        },
+        //table methods
+        getData() {
+            let params = "";
+            if (this.searchOptions.text){
+                if ( !this.searchOptions.filters.length) {
+                    params += this.getParams(this.searchableFields);
+                } else if (this.searchOptions.filters.lenght) {
+                    params += this.getParams(this.searchOptions.filters);
+                }
+            }
+
+            this.appendParams.q = `(${params})`;
+            this.$refs.Vuetable.refresh();
+        },
+
+        getParams(fields, separator="%") {
+            return  fields.map(field => `${field}:${separator}${encodeURIComponent(this.searchOptions.text.trim())}${separator}`).join(";");
+        },
+
+        //row actions
+        deleteRow() {
+
+        },
+        editRow() {
+
+        },
+        // bulk actions
+        deleteRows() {
+
         }
     }
 }
@@ -918,3 +269,4 @@ export default {
     }
 }
 </style>
+
