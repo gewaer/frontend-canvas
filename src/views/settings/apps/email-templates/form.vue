@@ -8,21 +8,27 @@
                         <div class="form-group  required">
                             <label>Title</label>
                             <input
-                                v-model="title"
+                                v-validate="'required'"
+                                v-model="formData.name"
                                 class="form-control"
                                 type="text"
-                                name="title"
-                                placeholder="Title for email template">
+                                name="name"
+                                placeholder="Title for email template"
+                            >
+                            <span class="error">{{ errors.first("name") }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <quill-editor
+                            v-validate="'required'"
                             ref="editor"
-                            v-model="content"
-                            class="emailTemplatesEditor"
+                            v-model="formData.template"
+                            class="template-editor"
+                            name="template"
                         />
+                        <span class="error">{{ errors.first("template") }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -44,8 +50,10 @@ export default {
     },
     data() {
         return {
-            content: "",
-            title: ""
+            formData: {
+                name: "",
+                template: ""
+            }
         };
     },
     computed: {
@@ -61,8 +69,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.emailTemplatesEditor {
+<style lang="scss" scoped>
+.template-editor /deep/ {
     .ql-editor {
         min-height: 250px;
     }
