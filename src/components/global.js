@@ -22,7 +22,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
 Vue.use(VeeValidate, { fieldsBagName: "formFields" });
-Vue.use(VModal, { dialog: true });
+Vue.use(VModal);
 
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);

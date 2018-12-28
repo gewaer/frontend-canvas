@@ -418,8 +418,6 @@
                 </div>
             </div>
         </div>
-        <modal name="subcriptions-modal"/>
-        <v-dialog/>
     </div>
 </template>
 
