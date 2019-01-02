@@ -41,7 +41,8 @@
                                     :data-vv-name="`filter-field-${index}`"
                                     :show-labels="false"
                                     :options="fields"
-                                    data-vv-as="role"/>
+                                    data-vv-as="name"/>
+                                <span>{{ errors.first(`filter-field-${index}`) }}</span>
                             </div>
 
                             <div class="form-group filters-conditions col">
@@ -50,7 +51,9 @@
                                     v-model="filter.condition"
                                     :data-vv-name="`filter-condition-${index}`"
                                     :show-labels="false"
-                                    :options="['like', 'equal']"/>
+                                    :options="conditions"
+                                    data-vv-as="condition"/>
+                                <span>{{ errors.first(`filter-condition-${index}`) }}</span>
                             </div>
 
                             <div class="form-group form-group-default required col">
@@ -63,6 +66,10 @@
                                     class="form-control"
                                     placeholder="value">
                                 <span>{{ errors.first(`filter-value-${index}`) }}</span>
+                            </div>
+
+                            <div class="col">
+                                <a href="#" @click="removeFilter(index)"><i class="fa fa-minus-circle"/> remove</a>
                             </div>
                         </div>
                         <a href="#" @click="addFilter()"><i class="fa fa-plus-circle"/> Add a condition</a>
@@ -119,7 +126,8 @@ export default {
                 name: "",
                 conditions_match: "any"
             },
-            filters: []
+            filters: [],
+            conditions: ['=', 'like', '<>', '>', '<']
         }
     },
     mounted() {
@@ -133,6 +141,12 @@ export default {
                 condition: "",
                 value: ""
             })
+        },
+
+        removeFilter(index) {
+            if (this.filters.length > 1) {
+                this.filters.splice(index, 1);
+            }
         },
 
         save() {
@@ -176,6 +190,7 @@ export default {
                         type: "success"
                     });
 
+                    this.isLoading = false;
                     this.$emit("saved");
                 }).catch((error) => {
                     this.$notify({
@@ -184,9 +199,8 @@ export default {
                         text: error.response.data.errors.message,
                         type: "error"
                     });
-                }).finally(() => {
                     this.isLoading = false;
-                });
+                })
             }
         },
 
