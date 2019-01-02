@@ -7,6 +7,7 @@ import examples from "./views/examples";
 import UsersSettings from "@/views/settings/users";
 import CompaniesSettings from "@/views/settings/companies";
 import BrowseList from "@/views/browse/";
+import Kanban from "@/views/kanban/kanban";
 
 Vue.use(Router);
 
@@ -100,6 +101,14 @@ const router = new Router({
             component: BrowseList,
             meta: {
                 requiresAuth: false
+            }
+        },
+        {
+            path: "/kanban",
+            name: "kanban",
+            component: Kanban,
+            meta: {
+                requiresAuth: true
             }
         }
     ]
