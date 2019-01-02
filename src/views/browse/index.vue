@@ -15,6 +15,7 @@
             :search-options="searchOptions"
             :filterable-fields="filterableFields"
             :bulk-actions="bulkActions"
+            @show-add-custom-filter="showAddCustomFilter"
             @getData="getData()"
         />
 
@@ -38,19 +39,7 @@
                         <template slot="actions" slot-scope="props">
                             <div class="btn-group vehicle-edit">
                                 <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                <button
-                                    type="button"
-                                    data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    class="btn btn-default dropdown-toggle dropdown-toggle-split">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-
-                                <ul class="dropdown-menu">
-                                    <a href="javascript:void(0)" class="dropdown-item">Action 1</a>
-                                    <a href="javascript:void(0)" class="dropdown-item">Action 2</a>
-                                </ul>
+                                <button type="button" class="btn btn-default smaller-btn">Delete</button>
                             </div>
                         </template>
                     </vuetable>
@@ -128,13 +117,10 @@ export default {
         bulkActions() {
             return [
                 {
-                    name: "Action 1",
-                    action: this.deleteRows
+                    name: "Export",
+                    action: this.exportRows
                 }, {
-                    name: "Action 2",
-                    action: this.deleteRows
-                }, {
-                    name: "Action 3",
+                    name: "Delete",
                     action: this.deleteRows
                 }
             ]
@@ -191,6 +177,10 @@ export default {
         deleteRows() {
             // yout function here
             alert("rows deleted")
+        },
+        exportRows() {
+            // yout function here
+            alert("rows exported")
         }
 
 
@@ -274,6 +264,19 @@ export default {
                 }
             }
         }
+    }
+
+    .sorted-desc {
+        ::after {
+            content: 'down'
+        }
+        // add icons
+    }
+    .sorted-asc {
+        ::after {
+            content: 'up'
+        }
+        // add icons
     }
 }
 </style>

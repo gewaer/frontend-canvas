@@ -84,6 +84,9 @@ export default {
     methods: {
         getData() {
             this.$emit("getData")
+        },
+        showAddCustomFilter() {
+            this.$emit('show-add-custom-filter');
         }
     }
 }
