@@ -34,7 +34,7 @@
                     <div class="col">
                         <label>Add a condition</label>
                         <div v-for="(filter, index) in filters" :key="filter.indexId" class="row filter-row">
-                            <div class="form-group filters-conditions col">
+                            <div class="form-group filters-conditions col-md-3">
                                 <multiselect
                                     v-validate="'required'"
                                     v-model="filter.field"
@@ -45,7 +45,7 @@
                                 <span>{{ errors.first(`filter-field-${index}`) }}</span>
                             </div>
 
-                            <div class="form-group filters-conditions col">
+                            <div class="form-group filters-conditions col-md-1">
                                 <multiselect
                                     v-validate="'required'"
                                     v-model="filter.condition"
@@ -56,7 +56,7 @@
                                 <span>{{ errors.first(`filter-condition-${index}`) }}</span>
                             </div>
 
-                            <div class="form-group form-group-default required col">
+                            <div class="form-group required col-md-3">
                                 <input
                                     v-validate="'required'"
                                     v-model="filter.value"
@@ -68,7 +68,19 @@
                                 <span>{{ errors.first(`filter-value-${index}`) }}</span>
                             </div>
 
-                            <div class="col">
+                            <div class="form-group filters-conditions col-md-2">
+                                <multiselect
+                                    v-validate="'required'"
+                                    v-model="filter.conector"
+                                    :data-vv-name="`filter-condition-${index}`"
+                                    :show-labels="false"
+                                    :options="['and', 'or']"
+                                    data-vv-as="condition"/>
+                                <span>{{ errors.first(`filter-condition-${index}`) }}</span>
+                            </div>
+
+
+                            <div class="col-2">
                                 <a href="#" @click="removeFilter(index)"><i class="fa fa-minus-circle"/> remove</a>
                             </div>
                         </div>
@@ -76,29 +88,6 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center m-b-20">
-                    <div class="col-auto">
-                        <div class="step-number">3</div>
-                    </div>
-                    <div class="col">
-                        <div class="radio radio-success">
-                            <input
-                                id="match-all"
-                                v-model="filterData.conditions_match"
-                                type="radio"
-                                value="all"
-                                name="conditions-match">
-                            <label for="match-all">Match ALL the conditions</label>
-                            <input
-                                id="match-any"
-                                v-model="filterData.conditions_match"
-                                type="radio"
-                                value="any"
-                                name="conditions-match">
-                            <label for="match-any">Match ANY condition</label>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="row modal-footer">
@@ -118,13 +107,16 @@ export default {
         fields: {
             type: Array,
             required: true
+        },
+        resourceName: {
+            type: String,
+            required: true
         }
     },
     data() {
         return {
             filterData: {
-                name: "",
-                conditions_match: "any"
+                name: ""
             },
             filters: [],
             conditions: ["=", "like", "<>", ">", "<"]
@@ -138,7 +130,8 @@ export default {
             this.filters.push({
                 indexId:  Math.random().toString(16).replace(".", ""),
                 field: "",
-                condition: "",
+                condition: "like",
+                conector: "or",
                 value: ""
             })
         },
@@ -162,7 +155,10 @@ export default {
             }
 
             const formData = {
-                data: this.filterData,
+                data: {
+                    resource_name: this.resourceName,
+                    ...this.filterData
+                },
                 filters: this.getFilters()
             }
 
@@ -181,6 +177,7 @@ export default {
                     method,
                     data: formData
                 }).then(() => {
+                    this.isLoading = false;
                     let message = method == "POST" ? "created" : "updated";
 
                     this.$notify({
@@ -190,16 +187,16 @@ export default {
                         type: "success"
                     });
 
-                    this.isLoading = false;
                     this.$emit("saved");
                 }).catch((error) => {
+                    this.isLoading = false;
+
                     this.$notify({
                         group: null,
                         title: "Error",
                         text: error.response.data.errors.message,
                         type: "error"
                     });
-                    this.isLoading = false;
                 })
             }
         },

@@ -8,6 +8,7 @@
             height="auto">
             <add-custom-filters-modal
                 :fields="filterableFields"
+                :resource-name="resourceName"
                 mode="form"
                 @saved="closeAddCustomFilter"/>
         </modal>
@@ -72,6 +73,7 @@ export default {
     },
     data() {
         return {
+            resourceName: "roles",
             appendParams: {
                 format: "true"
             },
