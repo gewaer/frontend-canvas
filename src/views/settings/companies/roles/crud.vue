@@ -92,7 +92,7 @@
             <div class="row">
                 <div class="col-12 col-xl d-flex justify-content-end mt-2">
                     <button class="btn btn-danger m-r-10" @click="rolesList">Cancel</button>
-                    <button class="btn btn-primary" @click="save" :disabled="!hasChanged">Save</button>
+                    <button :disabled="!hasChanged" class="btn btn-primary" @click="save">Save</button>
                 </div>
             </div>
         </div>
@@ -149,11 +149,9 @@ export default {
             this.checkSelectedGroups();
         },
         groupPermissions() {
-            this.accessListData = _.clone(this.accessList);
+            this.accessListData = _.cloneDeep(this.accessList);
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
-                    access.allowed = this.toBoolean(access.allowed);
-
                     if (!this.accessGroup[access.resources_name]) {
                         this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
                     } else {
@@ -161,8 +159,6 @@ export default {
                     }
                 }
             });
-
-            this.accessListData = _.cloneDeep(this.accessList);
         },
 
         // checkbox related
@@ -217,11 +213,11 @@ export default {
                     method,
                     data: formData
                 })
-                .then(this.onSuccess(method))
-                .catch(this.onError)
-                .finally(() => {
-                    this.isLoading = false;
-                });
+                    .then(this.onSuccess(method))
+                    .catch(this.onError)
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
             }
         },
 
@@ -249,27 +245,16 @@ export default {
 
         // utilities
         getDisabledPermissions() {
-            return this.accessListData.map(access => {
-                if (!access.allowed) {
-                    return this.formatAllowedProperty(access);
-                }
-            }).filter(access => access);
+            return this.accessListData.map(this.formatAllowedProperty).filter(access => access);
         },
-        formatAllowedProperty(access, unformat = false) {
-            const formatFunction = unformat ? this.toNumber : this.toBoolean
-            const accessLocal = _.clone(access);
-            accessLocal.allowed = formatFunction(accessLocal.allowed);
-            return accessLocal;
+        formatAllowedProperty(access) {
+            if (!access.allowed) {
+                const accessLocal = _.clone(access);
+                accessLocal.roles_name = this.roleData.name;
+                accessLocal.allowed = Number(accessLocal.allowed);
+                return accessLocal;
+            }
         },
-
-        toNumber(value) {
-            return Number(value)
-        },
-
-        toBoolean(value) {
-            return Boolean(Number(value))
-        },
-
         // events up
         rolesList() {
             this.$emit("changeView", "rolesList");
