@@ -6,7 +6,7 @@
             v-model.lazy.trim="value"
             :data-vv-name="item.label"
             :error="fieldError"
-            :is="`App-${getComponent}`"
+            :is="`app-${getComponent}`"
             :item="item"
         />
         <component

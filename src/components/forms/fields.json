@@ -1,0 +1,114 @@
+[
+  {
+      "label": "Company Name",
+      "type": "text",
+      "placeholder": "Company Name",
+      "attributes": {
+          "class": "form-control"
+      }
+  },
+  {
+    "label": "Age",
+    "type": "number",
+    "placeholder": "eg: 19"
+  },
+  [
+    {
+      "label": "First Name",
+      "value": "fir",
+      "minLength": 4,
+      "maxLength": 20
+    },
+    {
+      "label": "Last Name",
+      "placeholder": "Last Name placeholder",
+      "minLength": 3
+    }
+  ],
+  {
+    "html": "<div class='box'><article class='media'><div class='media-left'><figure class='image is-64x64'><img src='https://bulma.io/images/placeholders/64x64.png' alt='Image'></figure></div><div class='media-content'><div class='content'><p><strong class='has-text-info'>Info</strong><br>You can also pass html like this box</p></div>"
+  },
+  [
+    {
+      "label": "Email",
+      "type": "email"
+    },
+    {
+      "label": "Phone Number",
+      "type": "tel",
+      "isRequired": false
+    }
+  ],
+  {
+    "label": "Address",
+    "placeholder": "Address"
+  },
+  [
+    {
+      "label": "Zip",
+      "type": "number",
+      "placeholder": "Zip",
+      "showLabel": false
+    },
+    {
+      "label": "City",
+      "placeholder": "City",
+      "showLabel": false
+    }
+  ],
+  {
+    "label": "Country",
+    "type": "select",
+    "iconLeft": "globe-americas",
+    "placeholder": "Select your option",
+    "options": [
+      "Afghanistan",
+      "Åland Islands",
+      "Albania",
+      "Algeria",
+      "...",
+      "Western Sahara",
+      {"text": "Yemen", "value": "YE"},
+      {"text": "Zambia", "value": "ZB", "selected": true},
+      "Zimbabwe"
+    ]
+  },
+  [
+    {
+      "label": "Age",
+      "type": "number",
+      "min": 18,
+      "max": 99,
+      "help": "( >= 18 <= 99 )"
+    },
+    {
+      "label": "Password",
+      "type": "password",
+      "pattern": ".[0-9]{4,}$",
+      "help": "(5 digits at least)"
+    }
+  ],
+  {
+    "label": "Message",
+    "type": "textarea",
+    "isRequired": false
+  },
+  {
+    "label": "Checkbox",
+    "type": "checkbox",
+    "items": [
+      {"text": "one", "value": 1, "checked": true},
+      {"text": "two", "checked": true},
+      "three"
+    ]
+  },
+  {
+    "label": "Radio",
+    "type": "radio",
+    "items": [
+      {"text": "RadioOne", "value": "Radio-One", "checked": true},
+      "RadioTwo",
+      "RadioThree"
+    ]
+  }
+]

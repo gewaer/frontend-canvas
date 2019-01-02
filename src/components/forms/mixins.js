@@ -13,12 +13,12 @@ export default {
             required: true
         }
     },
+    created() {
+        this.item.value && (this.$parent.value = this.item.value);
+    },
     methods: {
         updateValue(event) {
             this.$emit("input", event.target.value);
         }
-    },
-    created() {
-        this.item.value && (this.$parent.value = this.item.value);
     }
 }

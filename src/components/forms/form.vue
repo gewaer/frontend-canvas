@@ -37,10 +37,7 @@
 </template>
 
 <script>
-import flatten from "ramda/src/flatten";
-import pickAll from "ramda/src/pickAll";
-import pipe from "ramda/src/pipe";
-import map from "ramda/src/map";
+import { flatten, pickAll, pipe, map } from "ramda";
 
 import Label from "./fields/label";
 import Control from "./fields/control";

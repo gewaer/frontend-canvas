@@ -39,7 +39,7 @@ const router = new Router({
         },
         {
             path: "/users/forgot-password",
-            name: "forgotPassword",
+            name: "forgotPa",
             component: Auth,
             meta: {
                 requiresAuth: false
@@ -225,6 +225,14 @@ const router = new Router({
             path: "/example-page",
             name: "examplePage",
             component: examples,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/example-form",
+            name: "exampleForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./components/forms/example"),
             meta: {
                 requiresAuth: false
             }
