@@ -6,7 +6,10 @@
             :scrollable="true"
             name="add-custom-filter"
             height="auto">
-            <add-custom-filters-modal mode="form" />
+            <add-custom-filters-modal
+                :fields="filterableFields"
+                mode="form"
+                @saved="closeAddCustomFilter"/>
         </modal>
 
         <h4 class="section-title p-l-10">Leads</h4>
@@ -130,6 +133,9 @@ export default {
         showAddCustomFilter() {
             this.$modal.show("add-custom-filter");
         },
+        closeAddCustomFilter() {
+            this.$modal.hide("add-custom-filter");
+        },
         //table methods
         getData() {
             let params = "";
@@ -175,11 +181,11 @@ export default {
         },
         // bulk actions
         deleteRows() {
-            // yout function here
+            // your function here
             alert("rows deleted")
         },
         exportRows() {
-            // yout function here
+            // your function here
             alert("rows exported")
         }
 
