@@ -22,6 +22,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-block">
+                        <div class="row no-gutters w-100">
+                            <div class="col-9">
+                                <div class="form-group m-b-0">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Redeem a coupon">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-block btn-primary">Redeem</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>

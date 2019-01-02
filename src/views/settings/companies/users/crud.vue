@@ -199,7 +199,7 @@ export default {
                         message:`Did you want to Update your Payment Methods ?`,
                         buttons: [{
                             title: "Accept",
-                            class: "btn-success",
+                            class: "btn-primary",
                             handler: () => {
                                 this.$modal.hide("basic-modal");
                                 this.save();
