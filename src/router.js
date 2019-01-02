@@ -69,14 +69,6 @@ const router = new Router({
                 requiresAuth: false
             }
         },
-        {
-            path: "/example-page",
-            name: "examplePage",
-            component: examples,
-            meta: {
-                requiresAuth: false
-            }
-        },
         // ===== Settings Users Routes =====
         {
             path: "/settings/users",
@@ -136,6 +128,7 @@ const router = new Router({
             name: "settingsAppsCustomFieldsList",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/custom-fields/list"),
             meta: {
+                group: "settingsAppsCustomFields",
                 requiresAuth: true
             }
         },
@@ -144,9 +137,74 @@ const router = new Router({
             name: "settingsAppsCustomFieldsForm",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
             meta: {
+                group: "settingsAppsCustomFields",
                 requiresAuth: true
             }
         },
+        {
+            path: "/settings/apps/custom-fields/edit/:id",
+            name: "settingsAppsCustomFieldsFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
+            meta: {
+                group: "settingsAppsCustomFields",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates",
+            name: "settingsAppsEmailTemplatesList",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-list" */ "./views/settings/apps/email-templates/list"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates/add",
+            name: "settingsAppsEmailTemplatesForm",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/email-templates/edit/:id",
+            name: "settingsAppsEmailTemplatesFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
+            meta: {
+                group: "settingsAppsEmailTemplates",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks",
+            name: "settingsAppsWebhooksList",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-list" */ "./views/settings/apps/webhooks/list"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks/add",
+            name: "settingsAppsWebhooksForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/webhooks/edit/:id",
+            name: "settingsAppsWebhooksFormEdit",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
+            meta: {
+                group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        // ======================================================
         {
             path: "/settings/companies",
             name: "companiesSettings",
@@ -161,6 +219,14 @@ const router = new Router({
             component: BrowseList,
             meta: {
                 requiresAuth: true
+            }
+        },
+        {
+            path: "/example-page",
+            name: "examplePage",
+            component: examples,
+            meta: {
+                requiresAuth: false
             }
         }
     ]

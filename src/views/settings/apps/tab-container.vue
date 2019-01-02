@@ -8,13 +8,28 @@
                         <div class="card flex-md-row">
                             <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
-                                    <router-link :to="{ name: 'settingsAppsCustomFieldsList' }" :class="{active: $route.name == 'settingsAppsCustomFieldsList'}">Custom Fields</router-link>
+                                    <router-link
+                                        :to="{ name: 'settingsAppsCustomFieldsList' }"
+                                        :class="{ active: $route.meta.group == 'settingsAppsCustomFields' }"
+                                    >
+                                        Custom Fields
+                                    </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <!-- <router-link :to="{ name: 'settingsAppsWebhooks' }" :class="{active: $route.name == 'settingsAppsWebhooks'}">Webhooks</router-link> -->
+                                    <router-link
+                                        :to="{ name: 'settingsAppsWebhooksList' }"
+                                        :class="{ active: $route.meta.group == 'settingsAppsWebhooks' }"
+                                    >
+                                        Webhooks
+                                    </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <!-- <router-link :to="{ name: 'settingsAppsEmailTemplates' }" :class="{active: $route.name == 'settingsAppsEmailTemplates'}">Email Templates</router-link> -->
+                                    <router-link
+                                        :to="{ name: 'settingsAppsEmailTemplatesList' }"
+                                        :class="{ active: $route.meta.group == 'settingsAppsEmailTemplates' }"
+                                    >
+                                        Email Templates
+                                    </router-link>
                                 </li>
                             </ul>
                             <div class="tab-content bg-white">

@@ -6,12 +6,14 @@
             </h5>
             <div class="table-responsive">
                 <vuetable
+                    ref="Vuetable"
                     :append-params="appendParams"
                     :fields="companiesFields"
                     :http-fetch="getTableData"
                     api-url="/companies"
                     class="table table-hover table-condensed"
-                    pagination-path="">
+                    pagination-path=""
+                >
                     <img
                         slot="profile_image"
                         slot-scope="props"
@@ -24,7 +26,7 @@
                         <button
                             :disabled="isCurrentCompany(props.rowData.id)"
                             class="btn btn-danger m-l-5"
-                            @click="deleteCompany(props.rowData)">
+                            @click="beforeDeleteCompany(props.rowData)">
                             <i class="fa fa-trash" aria-hidden="true" />
                         </button>
                     </template>
@@ -63,7 +65,8 @@ export default {
             }],
             appendParams:{
                 format: "true",
-                relationships: "hasActivities"
+                relationships: "hasActivities",
+                q: "(is_deleted:0)"
             },
             defaultImage: "https://mctekk.com/images/logo-o.svg",
             isEditable: true,
@@ -80,12 +83,11 @@ export default {
         toCrud() {
             this.$emit("changeView", "CompaniesCRUD");
         },
-        deleteCompany(company) {
+        beforeDeleteCompany(company){
             if (this.isLoading) {
-                return
+                return ;
             }
-
-            if(!_.isEmpty(company.hasActivities)){
+            if(company.hasActivities == "1"){
                 this.$notify({
                     title: "Error",
                     text: "No puede eliminar esta compañia por que tiene actividades",
@@ -93,10 +95,33 @@ export default {
                 });
                 return ;
             }
+            this.confirmDeleteCompany(company);
+        },
+        confirmDeleteCompany(company){
+            this.$modal.show("basic-modal", {
+                title:"Delete Company",
+                message:`Did you want to delete ${company.name} company ?`,
+                buttons: [{
+                    title: "Accept",
+                    class: "btn-success",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                        this.deleteCompany(company.id);
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-danger",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                    }
+                }]
+            });
+        },
+        deleteCompany(companyId) {
             this.isLoading = true;
 
             axios({
-                url: `/companies/${company.id}`,
+                url: `/companies/${companyId}`,
                 method: "DELETE"
             }).then(() => {
                 this.$notify({
@@ -104,6 +129,7 @@ export default {
                     text: "The company has been deleted",
                     type: "success"
                 });
+                this.$refs.Vuetable.reload();
             }).catch((error) => {
                 this.$notify({
                     title: "Error",

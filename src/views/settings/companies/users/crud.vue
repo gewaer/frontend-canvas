@@ -5,43 +5,59 @@
             <div class="col-12 m-b-20">
                 <div class="row">
                     <div class="col-6 col-md">
-                        <div class="form-group form-group-default required">
+                        <div v-if="isEditUser" class="form-group form-group-default required">
                             <label>First name</label>
                             <input
+                                v-validate="'required:true|min:2|alpha_spaces'"
                                 v-model="userData.firstname"
                                 class="form-control"
                                 type="text"
-                                name="firstname">
+                                name="firstname"
+                                data-vv-as="First Name"
+                                data-vv-name="First Name">
+                            <span>{{ errors.first("First Name") }}</span>
                         </div>
-                        <div class="form-group form-group-default required">
+                        <div v-if="isEditUser" class="form-group form-group-default required">
                             <label>Last name</label>
                             <input
+                                v-validate="'required:true|min:2|alpha_spaces'"
                                 v-model="userData.lastname"
+                                data-vv-as="Last Name"
+                                data-vv-name="Last Name"
                                 name="lastname"
                                 class="form-control"
                                 type="text">
+                            <span>{{ errors.first("Last Name") }}</span>
                         </div>
-                        <div class="form-group form-group-default">
+                        <div v-if="isEditUser" class="form-group form-group-default">
                             <label>Cell phone</label>
                             <input
+                                v-validate="'min:2|numeric'"
                                 v-model="userData.phone"
+                                data-vv-as="Cell phone"
+                                data-vv-name="Cell phone"
                                 class="form-control"
                                 name="phone"
                                 type="text">
+                            <span>{{ errors.first("Cell phone") }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Email (username)</label>
                             <input
+                                v-validate="'required:true|email'"
                                 v-model="userData.email"
+                                data-vv-as="Email (username)"
+                                data-vv-name="Email (username)"
                                 class="form-control"
                                 type="text"
                                 name="email">
+                            <span>{{ errors.first("Email (username)") }}</span>
                         </div>
                     </div>
 
                     <div class="col-6 m-b-20">
                         <div class="col-12 col-md">
-                            <div class="form-group">
+                            <div v-if="isEditUser" class="form-group">
                                 <label>Language</label>
                                 <multiselect
                                     v-model="selectedLanguage"
@@ -51,13 +67,30 @@
                                     @input="setLanguage"
                                 />
                             </div>
-                            <div class="form-group">
+                            <div v-if="isEditUser" class="form-group">
                                 <label>Timezone</label>
                                 <multiselect
                                     v-model="userData.timezone"
                                     :max-height="175"
                                     :options="timezones"
                                 />
+                            </div>
+                            <div class="form-group ">
+                                <label>Role
+                                    <span class="multiseletc-required">*</span>
+                                </label>
+                                <multiselect
+                                    v-validate="'required:true'"
+                                    v-model="selectedRole"
+                                    :max-height="175"
+                                    :options="roles"
+                                    data-vv-as="role"
+                                    data-vv-name="role"
+                                    label="name"
+                                    track-by="id"
+                                    @input="setRole"
+                                />
+                                <span>{{ errors.first("role") }}</span>
                             </div>
                         </div>
                     </div>
@@ -66,7 +99,7 @@
 
             <div class="col-12 col-xl d-flex justify-content-end mt-2">
                 <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="cancel">Cancel</button>
-                <button :disabled="isLoading" class="btn btn-primary" @click="save">Save</button>
+                <button :disabled="isLoading" class="btn btn-primary" @click="verifyFields">Save</button>
             </div>
         </div>
     </div>
@@ -89,19 +122,29 @@ export default {
         return {
             isLoading: false,
             selectedLanguage: null,
-            userData: null
+            selectedRole: null,
+            userData:null
         }
     },
     computed: {
         ...mapState("Application", {
             timezones: state => state.timezones,
-            languages: state => state.languages
+            languages: state => state.languages,
+            roles: state => state.roles
         }),
         title() {
-            if (!this.userData.id) {
-                return "New User";
+            let title = "New User"
+            if (this.isEditUser) {
+                title= "Edit User";
             }
-            return "Edit User";
+            return title;
+        },
+        isEditUser(){
+            let value = true;
+            if (!this.userData.id){
+                value = false;
+            }
+            return value;
         }
     },
     watch: {
@@ -110,6 +153,15 @@ export default {
         },
         user() {
             this.setUser();
+        },
+        roles(){
+            this.selectedRole = this.roles.find(role => role.id == this.userData.roles_id);
+        },
+        "userData.language"() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+        },
+        "userData.roles_id"() {
+            this.selectedRole = this.roles.find(role => role.id == this.userData.roles_id);
         }
     },
     created() {
@@ -120,26 +172,68 @@ export default {
         setUser() {
             this.userData = _.clone(this.user);
         },
-
         setLanguage(value) {
             this.userData.language = value.id;
         },
-
+        setRole(value) {
+            this.userData.roles_id = value.id;
+        },
+        verifyFields(){
+            if(this.errors.items.length){
+                let verificationMessage = this.errors.items[0].msg;
+                let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
+                this.$notify({
+                    title: verificationTitle,
+                    text: verificationMessage,
+                    type: "warn"
+                });
+            } else {
+                this.validateFields();
+            }
+        },
+        validateFields(){
+            this.$validator.validate().then(result => {
+                if (result) {
+                    this.$modal.show("basic-modal", {
+                        title:"Change Subcription!",
+                        message:`Did you want to Update your Payment Methods ?`,
+                        buttons: [{
+                            title: "Accept",
+                            class: "btn-primary",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                                this.save();
+                            }
+                        }, {
+                            title: "Cancel",
+                            class: "btn-danger",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                            }
+                        }]
+                    });
+                }
+            });
+        },
         save() {
             let url;
             let method;
-
+            let data;
             if (!this.userData.id) {
-                url = "/users";
+                url = "/users/invite";
                 method = "POST";
+                let form = new FormData();
+                form.append("email", this.userData.email);
+                form.append("role", this.selectedRole.name);
+                data = form;
             } else {
                 url = `/users/${this.userData.id}`;
                 method = "PUT";
+                data =  this.userData;
             }
-
-            this.sendRequest(url, method);
+            this.sendRequest(url, method, data);
         },
-        sendRequest(url, method) {
+        sendRequest(url, method, data) {
             if (this.isLoading) {
                 return;
             }
@@ -149,7 +243,7 @@ export default {
             axios({
                 url,
                 method,
-                data: this.userData
+                data
             }).then(() => {
                 this.$notify({
                     group: null,
@@ -205,6 +299,12 @@ export default {
         input[type='file'] {
             display: none;
         }
+    }
+
+    .multiseletc-required {
+        color: #f55753;
+        font-family: arial;
+        font-size: 20px;
     }
 }
 </style>

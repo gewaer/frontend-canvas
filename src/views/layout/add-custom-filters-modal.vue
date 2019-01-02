@@ -127,7 +127,7 @@ export default {
                 conditions_match: "any"
             },
             filters: [],
-            conditions: ['=', 'like', '<>', '>', '<']
+            conditions: ["=", "like", "<>", ">", "<"]
         }
     },
     mounted() {

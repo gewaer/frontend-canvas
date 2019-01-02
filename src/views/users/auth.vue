@@ -32,7 +32,7 @@
                 <form id="form-login" class="p-t-15" @submit.prevent="submitData()">
                     <template v-if="isSignup">
                         <!-- START Form Control-->
-                        <div class="form-group form-group-default">
+                        <div class="form-group form-group-default required">
                             <label>First Name</label>
                             <div class="controls">
                                 <input
@@ -47,7 +47,7 @@
                         </div>
                         <!-- END Form Control-->
                         <!-- START Form Control-->
-                        <div class="form-group form-group-default">
+                        <div class="form-group form-group-default required">
                             <label>Last Name</label>
                             <div class="controls">
                                 <input
@@ -63,7 +63,7 @@
                         <!-- END Form Control-->
                     </template>
                     <!-- START Form Control-->
-                    <div v-if="!isResetPassword" class="form-group form-group-default">
+                    <div v-if="!isResetPassword" class="form-group form-group-default required">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
                             <input
@@ -78,7 +78,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="!isForgotPassword" class="form-group form-group-default">
+                    <div v-if="!isForgotPassword" class="form-group form-group-default required">
                         <label>Password</label>
                         <div class="controls">
                             <input
@@ -93,15 +93,14 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="isSignup || isResetPassword" class="form-group form-group-default">
+                    <div v-if="isSignup || isResetPassword" class="form-group form-group-default required">
                         <label>Confirm Password</label>
                         <div class="controls">
                             <input
-                                v-model="data.password2"
+                                v-model="data.verifyPassword"
                                 type="password"
-                                name="password2"
-                                placeholder="Retype
-                                Credentials"
+                                name="verifyPassword"
+                                placeholder="Retype Credentials"
                                 class="form-control"
                                 required
                             >
@@ -109,7 +108,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="isSignup" class="form-group form-group-default">
+                    <div v-if="isSignup" class="form-group form-group-default required">
                         <label>Company Name</label>
                         <div class="controls">
                             <input
@@ -119,6 +118,16 @@
                                 placeholder="John Smith Co."
                                 class="form-control"
                                 required
+                            >
+                        </div>
+                    </div>
+                    <div v-if="isSignup" class="form-group form-group-default">
+                        <label>Have a promo code?</label>
+                        <div class="controls">
+                            <input
+                                type="text"
+                                name="company"
+                                class="form-control"
                             >
                         </div>
                     </div>
@@ -137,18 +146,16 @@
                     </div>
                     <!-- END Form Control-->
                     <button class="btn btn-primary btn-cons m-t-10" type="submit">{{ form.submitLabel }}</button>
-                    <div class="row">
-                        <div v-if="isLogin" class="col-md-12">
-                            Don't have an account?
-                            <router-link :to="{ name: 'signup' }">Create one!</router-link>
-                        </div>
-                        <div v-if="isLogin" class="col-md-12">
-                            <router-link :to="{ name: 'forgotPassword' }">Forgot Password?</router-link>
-                        </div>
-                        <div v-if="isSignup" class="col-md-12">
-                            Already have an account?
-                            <router-link :to="{ name: 'login' }">Log in!</router-link>
-                        </div>
+                    <div v-if="isLogin" class="m-t-10">
+                        Don't have an account?
+                        <router-link :to="{ name: 'signup' }">Create one!</router-link>
+                    </div>
+                    <div v-if="isLogin" class="m-t-10">
+                        <router-link :to="{ name: 'forgotPassword' }">Forgot Password?</router-link>
+                    </div>
+                    <div v-if="isSignup" class="m-t-10">
+                        Already have an account?
+                        <router-link :to="{ name: 'login' }">Log in!</router-link>
                     </div>
                 </form>
                 <!--END Login Form-->
@@ -202,7 +209,7 @@ export default {
                             map: "new_password",
                             validations: "required|min:8"
                         },
-                        password2: {
+                        verifyPassword: {
                             map: "verify_password",
                             validations: "required|min:8"
                         }
@@ -230,7 +237,8 @@ export default {
                         password: {
                             validations: "required|min:8"
                         },
-                        password2: {
+                        verifyPassword: {
+                            map: "verify_password",
                             validations: "required|min:8"
                         }
                     },
@@ -289,7 +297,7 @@ export default {
             });
 
             this.data.password = "";
-            this.data.password2 = "";
+            this.data.verifyPassword = "";
             this.$router.push({ name: "login" });
         },
         handleResponse(response) {

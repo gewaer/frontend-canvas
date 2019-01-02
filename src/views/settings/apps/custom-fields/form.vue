@@ -4,27 +4,37 @@
             <div class="col">
                 <div class="custom-fields">
                     <h5>
-                        Add custom field
+                        Add Custom Field
                     </h5>
                     <div class="row">
                         <div class="col">
                             <div class="form-group required">
                                 <label>Field name</label>
                                 <input
-                                    class="form-control"
-                                    type="text"
+                                    v-validate="'required'"
+                                    v-model="formData.name"
                                     name="field-name"
-                                    placeholder="Field Name">
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Field Name"
+                                >
+                                <span class="error">{{ errors.first("field-name") }}</span>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group required">
                                 <label>Category</label>
                                 <multiselect
+                                    v-validate="'required'"
+                                    v-model="selectedModules"
                                     :multiple="true"
                                     :show-labels="false"
-                                    :options="['Category 1', 'Category 2', 'Category 3']"
+                                    :options="modules"
+                                    label="name"
+                                    name="modules"
+                                    track-by="id"
                                 />
+                                <span class="error">{{ errors.first("modules") }}</span>
                             </div>
                         </div>
                     </div>
@@ -90,13 +100,37 @@ export default {
     },
     data() {
         return {
-            selectedCustomField: "text-field"
+            formData: {
+                name: ""
+            },
+            modules: [],
+            selectedCustomField: "text-field",
+            selectedModules: []
         };
     },
+    created() {
+        this.getModules();
+    },
     methods: {
-        save() {
-            //
-        }
+        getModules() {
+            axios({
+                url: "/custom-fields-modules"
+            }).then(({ data }) => {
+                if (data) {
+                    let preSelectedModule = null;
+                    this.modules = data;
+
+                    if (this.$route.params.module) {
+                        preSelectedModule = data.find(module => module.name == this.$route.params.module);
+
+                        if (preSelectedModule) {
+                            this.selectedModules.push(preSelectedModule);
+                        }
+                    }
+                }
+            });
+        },
+        save() {}
     }
 };
 </script>
