@@ -85,7 +85,7 @@
                         <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
                     </div>
                 </div>
-                <div class="m-t-20" v-if="showBilligInfo">
+                <div v-if="showBilligInfo" class="m-t-20">
                     <billing-frecuencies
                         :plan="selectedPlan"
                         :frecuency-type="planData.frecuency_type"
