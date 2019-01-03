@@ -289,9 +289,7 @@ export default {
             this.$store.dispatch("User/setToken", auth.token);
 
             if (this.isSignup) {
-                this.$nextTick(() => {
-                    this.$modal.show("after-signup-wizard") 
-                });
+                this.$modal.show("after-signup-wizard")
             }
 
             this.$router.push({ name: "dashboard" });
