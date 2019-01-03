@@ -8,7 +8,8 @@
                         :user="selectedUser"
                         :current-user="currentUser"
                         @getUser="getUser"
-                        @changeView="changeView"/>
+                        @changeView="changeView"
+                        @form-fields="setFormFields"/>
                 </transition>
             </div>
         </div>
@@ -37,7 +38,8 @@ export default {
             users: [],
             currentUser: null,
             selectedUser: null,
-            isEditable: true
+            isEditable: true,
+            formFields: {}
         }
     },
     mounted() {
@@ -55,7 +57,11 @@ export default {
             if (view == "UsersCRUD") {
                 this.selectedUser = {};
             }
+            this.formFields = {};
             this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.formFields = formFields;
         }
     }
 };

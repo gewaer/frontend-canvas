@@ -9,6 +9,7 @@
                     @getRole="getRole"
                     @cloneRole="cloneRole"
                     @changeView="changeView"
+                    @form-fields="setFormFields"
                 />
             </div>
         </div>
@@ -39,7 +40,8 @@ export default {
             views: {
                 crud: "rolesCrud",
                 list: "rolesList"
-            }
+            },
+            formFields: {}
         }
     },
     methods: {
@@ -79,7 +81,11 @@ export default {
                 this.getRole({name: "Admins"}, true);
                 return
             }
+            this.formFields = {};
             this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.formFields = formFields;
         },
 
         setRole(accessList, role) {

@@ -183,6 +183,14 @@ export default {
             this.userData.roles_id = value.id;
         },
         verifyFields(){
+            let dialogProps = {
+                title:"Invite User!",
+                message:`Did you want to invite a new user to your company?`};
+
+                if (this.userData.id) {
+                    dialogProps = { title:"Edit User!",
+                    message:`Did you want to Edit this user?`};
+                }
             if(this.errors.items.length){
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
@@ -192,15 +200,14 @@ export default {
                     type: "warn"
                 });
             } else {
-                this.validateFields();
+                this.validateFields(dialogProps);
             }
         },
-        validateFields(){
+        validateFields(modalProps){
             this.$validator.validate().then(result => {
                 if (result) {
                     this.$modal.show("basic-modal", {
-                        title:"Change Subcription!",
-                        message:`Did you want to Update your Payment Methods ?`,
+                        ...modalProps,
                         buttons: [{
                             title: "Accept",
                             class: "btn-primary",
