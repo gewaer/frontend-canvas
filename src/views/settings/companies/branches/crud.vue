@@ -4,7 +4,7 @@
             <h5> {{ title }}</h5>
             <div class="row">
                 <div class="col-6 col-md">
-               <div class="form-group form-group-default required">
+                    <div class="form-group form-group-default required">
                         <label>Name</label>
                         <input
                             v-validate="'required:true|min:2'"

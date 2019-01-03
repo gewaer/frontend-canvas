@@ -135,10 +135,6 @@ export default {
         }
     },
 
-    mounted() {
-        this.setInitialLanguage();
-    },
-
     watch: {
         "companyData.language"() {
             this.setInitialLanguage();
@@ -146,6 +142,10 @@ export default {
         company() {
             this.setCompany();
         }
+    },
+
+    mounted() {
+        this.setInitialLanguage();
     },
 
     created() {
@@ -162,7 +162,7 @@ export default {
         },
 
         setInitialLanguage() {
-             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
 
         save() {

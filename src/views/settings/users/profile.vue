@@ -120,7 +120,14 @@ export default {
         return {
             isLoading: false,
             selectedLanguage: null,
-            userData: null
+            userData: {
+                firstname: "",
+                languages: null,
+                lastname: "",
+                email: "",
+                phone: "",
+                timezone: ""
+            }
         }
     },
     computed: {
@@ -130,7 +137,7 @@ export default {
         })
     },
     watch: {
-        languages() {
+        "userData.languages"() {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
         }
     },

@@ -157,7 +157,7 @@ export default {
         },
 
         setInitialLanguage() {
-             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
 
         processUpdate() {
