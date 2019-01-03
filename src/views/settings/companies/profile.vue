@@ -139,7 +139,7 @@ export default {
         }
     },
     watch: {
-        languages() {
+        "company.language"() {
             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
         company(company) {
@@ -149,10 +149,15 @@ export default {
     created() {
         this.$store.dispatch("Application/getSettingsLists");
         this.companyData = _.clone(this.$store.state.Company.data);
+        this.setInitialLanguage()
     },
     methods: {
         setLanguage(value) {
             this.companyData.language = value.id;
+        },
+
+        setInitialLanguage() {
+             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
 
         processUpdate() {

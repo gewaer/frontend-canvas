@@ -22,6 +22,7 @@ import rolesList from "./list.vue";
 import rolesCrud from "./crud.vue";
 
 export default {
+    name: "SettingsCompaniesRoles",
     components: {
         rolesList,
         rolesCrud,

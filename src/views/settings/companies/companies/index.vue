@@ -8,7 +8,8 @@
                         :company="selectedCompany"
                         @getCompany="getCompany"
                         @changeView="changeView"
-                        @companies="companies"/>
+                        @companies="companies"
+                        @form-fields="setFormFields"/>
                 </transition>
             </div>
         </div>
@@ -22,6 +23,7 @@ import CompaniesCRUD from "./crud.vue";
 import CompaniesList from "./list.vue";
 
 export default {
+    name: "SettingsCompaniesList",
     components: {
         CompaniesCRUD,
         CompaniesList,
@@ -35,7 +37,8 @@ export default {
             currentComponent: "CompaniesList",
             companies: [],
             selectedCompany: null,
-            isEditable: true
+            isEditable: true,
+            formFields: {}
         }
     },
     mounted() {
@@ -59,7 +62,11 @@ export default {
             if (view == "CompaniesCRUD") {
                 this.selectedCompany = {};
             }
+            this.formFields = {};
             this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.formFields = formFields;
         }
     }
 };

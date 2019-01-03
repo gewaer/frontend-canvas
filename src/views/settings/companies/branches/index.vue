@@ -7,7 +7,8 @@
                         :is="currentComponent"
                         :branch="selectedBranch"
                         @getBranch="getBranch"
-                        @changeView="changeView"/>
+                        @changeView="changeView"
+                        @form-fields="setFormFields"/>
                 </transition>
             </div>
         </div>
@@ -21,6 +22,7 @@ import BranchesCrud from "./crud.vue";
 import BranchesList from "./list.vue";
 
 export default {
+    name: "SettingsCompaniesBranches",
     components: {
         BranchesCrud,
         BranchesList,
@@ -37,7 +39,8 @@ export default {
                 list: "BranchesList"
             },
             selectedBranch: null,
-            isEditable: true
+            isEditable: true,
+            formFields: {}
         }
     },
     mounted() {
@@ -61,7 +64,12 @@ export default {
             if (view == this.views.crud) {
                 this.selectedBranch = {};
             }
+            this.formFields = {};
             this.currentComponent = view;
+        },
+
+        setFormFields(formFields) {
+            this.formFields = formFields;
         }
     }
 };

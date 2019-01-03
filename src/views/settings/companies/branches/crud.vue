@@ -4,42 +4,59 @@
             <h5> {{ title }}</h5>
             <div class="row">
                 <div class="col-6 col-md">
-                    <div class="form-group form-group-default required">
+               <div class="form-group form-group-default required">
                         <label>Name</label>
                         <input
+                            v-validate="'required:true|min:2'"
                             v-model="branchData.name"
                             class="form-control"
                             type="text"
                             name="name">
+                        <span> {{ errors.first('name') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Address</label>
                         <input
+                            v-validate="'required:true|min:2'"
                             v-model="branchData.address"
                             class="form-control"
                             type="text"
-                            name="email">
+                            data-vv-as="branch address"
+                            name="branch-address">
+                        <span> {{ errors.first('branch-address') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Zip Code</label>
                         <input
+                            v-validate="'required:true|numeric|min:2'"
                             v-model="branchData.zipcode"
                             class="form-control"
                             type="text"
-                            name="email">
+                            data-vv-as="zip code"
+                            name="zipcode">
+                        <span> {{ errors.first('zipcode') }}</span>
                     </div>
 
                     <div class="form-group form-group-default">
                         <label>Email</label>
                         <input
+                            v-validate="'required|email'"
                             v-model="branchData.email"
                             class="form-control"
-                            name="phone"
+                            name="email"
                             type="email">
+                        <span> {{ errors.first('email') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Phone</label>
-                        <input name="lastname" class="form-control" type="tel">
+                        <input
+                            v-validate="'required|numeric'"
+                            v-model="branchData.phone"
+                            class="form-control"
+                            data-vv-as="phone number"
+                            name="phone"
+                            type="tel">
+                        <span> {{ errors.first('phone') }}</span>
                     </div>
                 </div>
 
@@ -50,15 +67,20 @@
         </div>
 
         <div class="col-12 col-xl d-flex justify-content-end mt-2">
-            <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="cancel">Cancel</button>
-            <button :disabled="isLoading" class="btn btn-primary" @click="save()"> Save </button>
+            <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
+            <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="save()"> Save </button>
         </div>
     </div>
 </template>
 
 <script>
+import { vueCrudMixins } from "@/utils/mixins";
+
 export default {
     name: "BranchCrud",
+    mixins: [
+        vueCrudMixins
+    ],
     props: {
         branch: {
             type: Object,
@@ -82,6 +104,10 @@ export default {
             } else {
                 return "Edit branch";
             }
+        },
+
+        hasChanged() {
+            return !_.isEqual(this.branchData, this.branch);
         }
     },
 
@@ -112,7 +138,12 @@ export default {
                 method = "PUT";
             }
 
-            this.sendRequest(url, method);
+            this.$validator.validate().then(result => {
+                if (result) {
+                    this.sendRequest(url, method);
+                }
+            })
+
         },
         sendRequest(url, method) {
             if (this.isLoading) {

@@ -22,6 +22,7 @@ import UsersCRUD from "./crud.vue";
 import UsersList from "./list.vue";
 
 export default {
+    name: "SettingsCompaniesUsers",
     components: {
         UsersCRUD,
         UsersList,

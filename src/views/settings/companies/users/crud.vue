@@ -98,7 +98,7 @@
             </div>
 
             <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="cancel">Cancel</button>
+                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
                 <button :disabled="isLoading" class="btn btn-primary" @click="verifyFields">Save</button>
             </div>
         </div>
@@ -107,9 +107,13 @@
 
 <script>
 import { mapState } from "vuex";
+import { vueCrudMixins } from "@/utils/mixins";
 
 export default {
     name: "UserCrud",
+    mixins: [
+        vueCrudMixins
+    ],
     props: {
         user: {
             type: Object,
