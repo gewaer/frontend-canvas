@@ -13,7 +13,7 @@
                         <div class="step-number">1</div>
                     </div>
                     <div class="col">
-                        <div class="form-group form-group-default required">
+                        <div class="form-group required">
                             <input
                                 v-validate="'required'"
                                 v-model="filterData.name"
@@ -33,58 +33,67 @@
                     </div>
                     <div class="col">
                         <label>Add a condition</label>
-                        <div v-for="(filter, index) in filters" :key="filter.indexId" class="row filter-row">
-                            <div class="form-group filters-conditions col-md-3">
-                                <multiselect
-                                    v-validate="'required'"
-                                    v-model="filter.field"
-                                    :data-vv-name="`filter-field-${index}`"
-                                    :show-labels="false"
-                                    :options="fields"
-                                    data-vv-as="name"/>
-                                <span>{{ errors.first(`filter-field-${index}`) }}</span>
+                        <div v-for="(filter, index) in filters" :key="filter.indexId" class="row filters-conditions-row align-items-center">
+                            <div class="col-12 col-sm">
+                                <div class="row filter-row">
+                                    <div class="form-group filters-conditions col-12">
+                                        <multiselect
+                                            :allow-empty="false"
+                                            v-validate="'required'"
+                                            v-model="filter.field"
+                                            :data-vv-name="`filter-field-${index}`"
+                                            :show-labels="false"
+                                            :options="fields"
+                                            data-vv-as="name"/>
+                                        <span class="text-danger">{{ errors.first(`filter-field-${index}`) }}</span>
+                                    </div>
+
+                                    <div class="form-group filters-conditions col-12 col-sm-auto">
+                                        <multiselect
+                                            :allow-empty="false"
+                                            v-validate="'required'"
+                                            v-model="filter.condition"
+                                            :data-vv-name="`filter-condition-${index}`"
+                                            :show-labels="false"
+                                            :options="conditions"
+                                            data-vv-as="condition"/>
+                                        <span class="text-danger">{{ errors.first(`filter-condition-${index}`) }}</span>
+                                    </div>
+
+                                    <div class="form-group required col-12 col-sm">
+                                        <input
+                                            v-validate="'required'"
+                                            v-model="filter.value"
+                                            :name="`filter-value-${index}`"
+                                            type="text"
+                                            data-vv-as="filter value"
+                                            class="form-control"
+                                            placeholder="value">
+                                        <span class="text-danger">{{ errors.first(`filter-value-${index}`) }}</span>
+                                    </div>
+
+                                    <div class="form-group filters-conditions col-12 col-sm-auto">
+                                        <multiselect
+                                            :allow-empty="false"
+                                            v-validate="'required'"
+                                            v-model="filter.conector"
+                                            :data-vv-name="`filter-condition-${index}`"
+                                            :show-labels="false"
+                                            :options="['and', 'or']"
+                                            data-vv-as="condition"/>
+                                        <span class="text-danger">{{ errors.first(`filter-condition-${index}`) }}</span>
+                                    </div>
+
+
+                                </div>
                             </div>
-
-                            <div class="form-group filters-conditions col-md-1">
-                                <multiselect
-                                    v-validate="'required'"
-                                    v-model="filter.condition"
-                                    :data-vv-name="`filter-condition-${index}`"
-                                    :show-labels="false"
-                                    :options="conditions"
-                                    data-vv-as="condition"/>
-                                <span>{{ errors.first(`filter-condition-${index}`) }}</span>
-                            </div>
-
-                            <div class="form-group required col-md-3">
-                                <input
-                                    v-validate="'required'"
-                                    v-model="filter.value"
-                                    :name="`filter-value-${index}`"
-                                    type="text"
-                                    data-vv-as="filter value"
-                                    class="form-control"
-                                    placeholder="value">
-                                <span>{{ errors.first(`filter-value-${index}`) }}</span>
-                            </div>
-
-                            <div class="form-group filters-conditions col-md-2">
-                                <multiselect
-                                    v-validate="'required'"
-                                    v-model="filter.conector"
-                                    :data-vv-name="`filter-condition-${index}`"
-                                    :show-labels="false"
-                                    :options="['and', 'or']"
-                                    data-vv-as="condition"/>
-                                <span>{{ errors.first(`filter-condition-${index}`) }}</span>
-                            </div>
-
-
-                            <div class="col-2">
-                                <a href="#" @click="removeFilter(index)"><i class="fa fa-minus-circle"/> remove</a>
+                            <div class="col-auto">
+                                <a class="d-flex flex-column" href="#" @click="removeFilter(index)">
+                                    <i class="fa fa-minus-circle d-flex justify-content-center"/> remove
+                                </a>
                             </div>
                         </div>
-                        <a href="#" @click="addFilter()"><i class="fa fa-plus-circle"/> Add a condition</a>
+                        <a class="d-flex align-items-center justify-content-center" href="#" @click="addFilter()"><i class="fa fa-plus-circle"/> Add a condition</a>
                     </div>
                 </div>
 
@@ -212,6 +221,19 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.add-custom-filter-modal {
+    .filters-conditions {
+        .multiselect {
+            .multiselect__placeholder {
+                margin-bottom: 8px;
+                padding-top: 0;
+            }
+        }
+    }
+}
+</style>
+
 
 <style lang="scss" scoped>
 .add-custom-filter-modal {
@@ -227,20 +249,31 @@ export default {
 
     .form-group {
         margin-bottom: 0;
+
+        input {
+            height: 40px;
+        }
     }
 
-    .filters-conditions {
+    .filters-conditions-row {
+        padding: 15px 15px 0;
         margin-bottom: 10px;
+        background-color: #f1f1f1;
 
-        select {
-            height: 34px;
-            color: #999;
+        .filters-conditions {
+            margin-bottom: 10px;
 
-            option {
-                color: black;
+            select {
+                height: 34px;
+                color: #999;
+
+                option {
+                    color: black;
+                }
             }
         }
     }
+
 
     .radio label {
         margin-bottom: 0;
