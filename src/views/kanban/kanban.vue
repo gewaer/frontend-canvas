@@ -36,8 +36,6 @@
 <script>
 
 import { Container, Draggable } from "vue-smooth-dnd";
-import { applyDrag } from "./kanban-helpers";
-
 
 const lanes = [
     {
@@ -73,7 +71,7 @@ const lanes = [
 ]
 
 
-const baseDevUrl = 'https://apidev.gewaer.io/v1/';
+const baseDevUrl = "https://apidev.gewaer.io/v1/";
 
 
 export default {
@@ -113,7 +111,7 @@ export default {
         },
         fetchData() {
             axios({
-                url: baseDevUrl + 'leads?limit=10',
+                url: baseDevUrl + "leads?limit=10",
                 method: "GET"
             }).then((response) => {
                 this.prepareLanes(response.data);
@@ -134,14 +132,14 @@ export default {
                 const columnIndex = this.lanes.indexOf(column)
 
                 const newColumn = Object.assign({}, column);
-                newColumn.cards = applyDrag(newColumn.cards, dropResult);
+                newColumn.cards = this.applyDrag(newColumn.cards, dropResult);
                 lane.splice(columnIndex, 1, newColumn)
 
                 this.lanes = lane;
 
                 if (dropResult.removedIndex == null) {
                     let leadStatusId = dropResult.payload.id;
-                    let requestUrl = baseDevUrl + 'leads/' + leadStatusId;
+                    let requestUrl = baseDevUrl + "leads/" + leadStatusId;
                     axios.put(requestUrl, {"leads_status_id": columnId})
                         .catch((error) => {
                             console.log(error);
@@ -151,8 +149,27 @@ export default {
         },
         getCardPayload(columnId) {
             return index => {
-                return this.lanes.filter(p => p.id === columnId)[0].cards[index]
+                return this.lanes.filter(p => p.id === columnId)[0].cards[index];
             }
+        },
+        applyDrag(arr, dragResult) {
+            const { removedIndex, addedIndex, payload } = dragResult
+            if (removedIndex === null && addedIndex === null) {
+                return arr;
+            }
+
+            const result = [...arr];
+            let itemToAdd = payload;
+
+            if (removedIndex !== null) {
+                itemToAdd = result.splice(removedIndex, 1)[0];
+            }
+
+            if (addedIndex !== null) {
+                result.splice(addedIndex, 0, itemToAdd);
+            }
+
+            return result;
         }
     }
 };
