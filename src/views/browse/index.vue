@@ -49,8 +49,8 @@
                     </vuetable>
 
                     <vuetable-pagination
-                        class="justify-content-end"
                         ref="pagination"
+                        class="justify-content-end"
                         @vuetable-pagination:change-page="onChangePage"/>
                 </div>
             </div>
