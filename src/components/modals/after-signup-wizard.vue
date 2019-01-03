@@ -3,10 +3,10 @@
         :adaptive="true"
         :scrollable="true"
         :click-to-close="false"
+        :delay="1000"
         name="after-signup-wizard"
         height="auto"
         width="900"
-        :delay="1000"
     >
         <form-wizard class="after-signup-wizard-component" shape="tab" color="var(--base-color)">
             <h2 slot="title">This will replace a title</h2>
