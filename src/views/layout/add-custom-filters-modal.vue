@@ -38,8 +38,8 @@
                                 <div class="row filter-row">
                                     <div class="form-group filters-conditions col-12">
                                         <multiselect
-                                            :allow-empty="false"
                                             v-validate="'required'"
+                                            :allow-empty="false"
                                             v-model="filter.field"
                                             :data-vv-name="`filter-field-${index}`"
                                             :show-labels="false"
@@ -50,8 +50,8 @@
 
                                     <div class="form-group filters-conditions col-12 col-sm-auto">
                                         <multiselect
-                                            :allow-empty="false"
                                             v-validate="'required'"
+                                            :allow-empty="false"
                                             v-model="filter.condition"
                                             :data-vv-name="`filter-condition-${index}`"
                                             :show-labels="false"
@@ -74,8 +74,8 @@
 
                                     <div class="form-group filters-conditions col-12 col-sm-auto">
                                         <multiselect
-                                            :allow-empty="false"
                                             v-validate="'required'"
+                                            :allow-empty="false"
                                             v-model="filter.conector"
                                             :data-vv-name="`filter-condition-${index}`"
                                             :show-labels="false"
