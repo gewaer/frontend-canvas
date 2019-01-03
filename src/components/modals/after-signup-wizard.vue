@@ -6,6 +6,7 @@
         name="after-signup-wizard"
         height="auto"
         width="900"
+        :delay="1000"
     >
         <form-wizard class="after-signup-wizard-component" shape="tab" color="var(--base-color)">
             <h2 slot="title">This will replace a title</h2>
@@ -24,15 +25,15 @@
                     <wizard-button v-if="props.activeTabIndex > 0 && !props.isLastStep" :style="props.fillButtonStyle" @click.native="props.prevTab()">Previous</wizard-button>
                 </div>
                 <div class="wizard-footer-right">
-                    <wizard-button 
-                        v-if="!props.isLastStep" 
-                        :style="props.fillButtonStyle" 
-                        class="wizard-footer-right" 
+                    <wizard-button
+                        v-if="!props.isLastStep"
+                        :style="props.fillButtonStyle"
+                        class="wizard-footer-right"
                         @click.native="props.nextTab()">Next</wizard-button>
-                    <wizard-button 
-                        v-else 
-                        :style="props.fillButtonStyle" 
-                        class="wizard-footer-right finish-button" 
+                    <wizard-button
+                        v-else
+                        :style="props.fillButtonStyle"
+                        class="wizard-footer-right finish-button"
                         @click.native="$modal.hide('after-signup-wizard')">{{ props.isLastStep ? 'Done' : 'Next' }}</wizard-button>
                 </div>
             </template>

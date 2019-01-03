@@ -1685,10 +1685,6 @@ export default {
         this.appInitialize();
 
         $.Pages.init();
-
-        setTimeout(() => {
-            this.$modal.show("after-signup-wizard");
-        }, 1000);
     },
     methods: {
         appInitialize() {
