@@ -1,4 +1,5 @@
 import { slugify } from "@/utils/helpers";
+import { merge, zipObject } from "lodash";
 
 export default {
     filters: {
@@ -11,6 +12,21 @@ export default {
         },
         error: {
             required: true
+        }
+    },
+    computed: {
+        attributes() {
+            const attributes = {
+                class: {
+                    "text-danger": !!this.error
+                },
+                title: ""
+            }
+
+            let fieldClass = (this.item.attributes && this.item.attributes.class) || [];
+            fieldClass = zipObject(fieldClass, fieldClass);
+
+            return merge(attributes, this.item.attributes || {}, { class: fieldClass });
         }
     },
     created() {

@@ -1,114 +1,146 @@
 [
-  {
-      "label": "Company Name",
-      "type": "text",
-      "placeholder": "Company Name",
-      "attributes": {
-          "class": "form-control"
-      }
-  },
-  {
-    "label": "Age",
-    "type": "number",
-    "placeholder": "eg: 19"
-  },
-  [
     {
-      "label": "First Name",
-      "value": "fir",
-      "minLength": 4,
-      "maxLength": 20
+        "label": "Company Name",
+        "type": "text",
+        "attributes": {
+            "class": ["form-control"],
+            "placeholder": "Company Name"
+        },
+        "validations": {
+            "required": true
+        }
     },
     {
-      "label": "Last Name",
-      "placeholder": "Last Name placeholder",
-      "minLength": 3
-    }
-  ],
-  {
-    "html": "<div class='box'><article class='media'><div class='media-left'><figure class='image is-64x64'><img src='https://bulma.io/images/placeholders/64x64.png' alt='Image'></figure></div><div class='media-content'><div class='content'><p><strong class='has-text-info'>Info</strong><br>You can also pass html like this box</p></div>"
-  },
-  [
+        "label": "Age",
+        "type": "number",
+        "attributes": {
+            "placeholder": "eg: 19",
+            "step": 3
+        },
+        "validations": {
+            "required": true
+        }
+    },
+    [
+        {
+            "label": "First Name",
+            "value": "fir",
+            "attributes": {
+                "minLength": 4,
+                "maxLength": 20
+            }
+        },
+        {
+            "label": "Last Name",
+            "placeholder": "Last Name placeholder",
+            "attributes": {
+                "minLength": 3
+            }
+        }
+    ],
     {
-      "label": "Email",
-      "type": "email"
+        "html": "<div class='box'><article class='media'><div class='media-left'><figure class='image is-64x64'><img src='https://bulma.io/images/placeholders/64x64.png' alt='Image'></figure></div><div class='media-content'><div class='content'><p><strong class='has-text-info'>Info</strong><br>You can also pass html like this box</p></div>"
+    },
+    [
+        {
+            "label": "Email",
+            "type": "email",
+            "attributes": {
+                "title": "Your email"
+            }
+        },
+        {
+            "label": "Phone Number",
+            "type": "tel",
+            "validations": {
+                "required": true
+            }
+        }
+    ],
+    {
+        "label": "Address",
+        "attributes": {
+            "placeholder": "Address"
+        }
+    },
+    [
+        {
+            "label": "Zip",
+            "type": "number",
+            "attributes": {
+                "placeholder": "Zip"
+            },
+            "showLabel": false
+        },
+        {
+            "label": "City",
+            "attributes": {
+                "placeholder": "City"
+            },
+            "showLabel": false
+        }
+    ],
+    {
+        "label": "Country",
+        "type": "select",
+        "iconLeft": "globe-americas",
+        "attributes": {
+            "placeholder": "Select your option"
+        },
+        "options": [
+            "Afghanistan",
+            "Åland Islands",
+            "Albania",
+            "Algeria",
+            "...",
+            "Western Sahara",
+            {"text": "Yemen", "value": "YE"},
+            {"text": "Zambia", "value": "ZB", "selected": true},
+            "Zimbabwe"
+        ]
+    },
+    [
+        {
+            "label": "Age",
+            "type": "number",
+            "attributes": {
+                "min": 18,
+                "max": 99
+            },
+            "help": "( >= 18 <= 99 )"
+        },
+        {
+            "label": "Password",
+            "type": "password",
+            "validations": {
+                "regex": ".[0-9]{4,}$"
+            },
+            "help": "(5 digits at least)"
+        }
+    ],
+    {
+        "label": "Message",
+        "type": "textarea",
+        "validations": {
+            "required": true
+        }
     },
     {
-      "label": "Phone Number",
-      "type": "tel",
-      "isRequired": false
-    }
-  ],
-  {
-    "label": "Address",
-    "placeholder": "Address"
-  },
-  [
-    {
-      "label": "Zip",
-      "type": "number",
-      "placeholder": "Zip",
-      "showLabel": false
+        "label": "Checkbox",
+        "type": "checkbox",
+        "items": [
+            {"text": "one", "value": 1, "checked": true},
+            {"text": "two", "checked": true},
+            "three"
+        ]
     },
     {
-      "label": "City",
-      "placeholder": "City",
-      "showLabel": false
+        "label": "Radio",
+        "type": "radio",
+        "items": [
+            {"text": "RadioOne", "value": "Radio-One", "checked": true},
+            "RadioTwo",
+            "RadioThree"
+        ]
     }
-  ],
-  {
-    "label": "Country",
-    "type": "select",
-    "iconLeft": "globe-americas",
-    "placeholder": "Select your option",
-    "options": [
-      "Afghanistan",
-      "Åland Islands",
-      "Albania",
-      "Algeria",
-      "...",
-      "Western Sahara",
-      {"text": "Yemen", "value": "YE"},
-      {"text": "Zambia", "value": "ZB", "selected": true},
-      "Zimbabwe"
-    ]
-  },
-  [
-    {
-      "label": "Age",
-      "type": "number",
-      "min": 18,
-      "max": 99,
-      "help": "( >= 18 <= 99 )"
-    },
-    {
-      "label": "Password",
-      "type": "password",
-      "pattern": ".[0-9]{4,}$",
-      "help": "(5 digits at least)"
-    }
-  ],
-  {
-    "label": "Message",
-    "type": "textarea",
-    "isRequired": false
-  },
-  {
-    "label": "Checkbox",
-    "type": "checkbox",
-    "items": [
-      {"text": "one", "value": 1, "checked": true},
-      {"text": "two", "checked": true},
-      "three"
-    ]
-  },
-  {
-    "label": "Radio",
-    "type": "radio",
-    "items": [
-      {"text": "RadioOne", "value": "Radio-One", "checked": true},
-      "RadioTwo",
-      "RadioThree"
-    ]
-  }
 ]

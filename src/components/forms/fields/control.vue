@@ -81,24 +81,24 @@ export default {
             return this.isNormalInput ? "input" : this.item.type;
         },
         getValidation() {
-            const { type, minLength, maxLength, min, max, pattern } = this.item;
+            const { type } = this.item;
+            const { minLength, maxLength, min, max } = this.item.attributes || {};
+            const { regex } = this.item.validations || {};
             const { defaultMinLength, defaultMaxLength, defaultMin, defaultMax } = this.$parent;
             const isNormalInputOrTextarea = this.isNormalInput || type === "textarea";
             const isInputNumber = type === "number";
-            let validation = { required: this.isRequired }
+            const pattern = regex;
 
-            pattern
-                ? validation = { ...validation, regex: new RegExp(pattern) }
-                : isNormalInputOrTextarea && (validation = {
-                    ...validation,
-                    email: type === "email",
-                    min: !isInputNumber ? minLength || defaultMinLength : false,
-                    max: !isInputNumber ? maxLength || defaultMaxLength : false,
-                    min_value: isInputNumber ? min || defaultMin : false,
-                    max_value: isInputNumber ? max || defaultMax : false
-                });
-
-            return validation;
+            return isNormalInputOrTextarea && ({
+                ...(this.item.validations || {}),
+                regex: this.isNormalInput && !isInputNumber && pattern && new RegExp(pattern) || false,
+                email: type === "email",
+                min: !isInputNumber ? minLength || defaultMinLength : false,
+                max: !isInputNumber ? maxLength || defaultMaxLength : false,
+                min_value: isInputNumber ? min || defaultMin : false,
+                max_value: isInputNumber ? max || defaultMax : false,
+                numeric: isInputNumber
+            });
         }
     },
     watch: {
