@@ -187,10 +187,10 @@ export default {
                 title:"Invite User!",
                 message:`Did you want to invite a new user to your company?`};
 
-                if (this.userData.id) {
-                    dialogProps = { title:"Edit User!",
+            if (this.userData.id) {
+                dialogProps = { title:"Edit User!",
                     message:`Did you want to Edit this user?`};
-                }
+            }
             if(this.errors.items.length){
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;

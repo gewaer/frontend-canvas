@@ -20,8 +20,8 @@
                     <div class="form-group form-group-default">
                         <label>Description</label>
                         <input
-                            v-model="roleData.description"
                             v-validate="''"
+                            v-model="roleData.description"
                             type="text"
                             name="description"
                             class="form-control" >
@@ -30,7 +30,7 @@
             </form>
             <!-- Role Select -->
             <div class="row">
-                <div class="col" v-if="accessGroup">
+                <div v-if="accessGroup" class="col">
                     <div
                         id="accordion"
                         class="card-group horizontal"
@@ -76,9 +76,9 @@
                                             <div class="col-xs-1">
                                                 <div class="checkbox check-success">
                                                     <input
+                                                        v-validate="''"
                                                         :id="`checkbox1-${groupName}-${accessName}`"
                                                         :name="`checkbox1-${groupName}-${accessName}`"
-                                                        v-validate="''"
                                                         v-model="access.allowed"
                                                         type="checkbox"
                                                         @change="checkSelectedGroup(groupName)">
