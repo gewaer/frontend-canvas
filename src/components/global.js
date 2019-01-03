@@ -13,8 +13,8 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import VeeValidate from "vee-validate";
 import Vuetable from "vuetable-2";
-import VueFormWizard from 'vue-form-wizard';
-import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+import VueFormWizard from "vue-form-wizard";
+import "vue-form-wizard/dist/vue-form-wizard.min.css";
 
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
