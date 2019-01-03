@@ -16,8 +16,7 @@
                         group-name="col"
                         drag-class="card-ghost"
                         drop-class="card-ghost-drop"
-                        @drop="(e) => onCardDrop(lane.id, e)"
-                    >
+                        @drop="(e) => onCardDrop(lane.id, e)">
                         <Draggable v-for="card in lane.cards" :key="card.id">
                             <div class="card" style="backgroundColor: azure">
                                 <p>Name: {{ card.data.firstName }}</p>
@@ -74,7 +73,7 @@ const lanes = [
 ]
 
 
-const baseDevUrl = `http://apidev.gewaer.io/v1/`;
+const baseDevUrl = 'https://apidev.gewaer.io/v1/';
 
 
 export default {
@@ -112,10 +111,9 @@ export default {
                 this.lanes[Number(value.leads_status_id)].cards.push(newObj);
             });
         },
-
         fetchData() {
             axios({
-                url: baseDevUrl + `leads?q=(id:157)&limit=10`,
+                url: baseDevUrl + 'leads?limit=10',
                 method: "GET"
             }).then((response) => {
                 this.prepareLanes(response.data);
@@ -128,7 +126,6 @@ export default {
                 });
             });
         },
-
         onCardDrop(columnId, dropResult) {
             if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
 
@@ -144,7 +141,7 @@ export default {
 
                 if (dropResult.removedIndex == null) {
                     let leadStatusId = dropResult.payload.id;
-                    let requestUrl = baseDevUrl + `leads/` + leadStatusId;
+                    let requestUrl = baseDevUrl + 'leads/' + leadStatusId;
                     axios.put(requestUrl, {"leads_status_id": columnId})
                         .catch((error) => {
                             console.log(error);
