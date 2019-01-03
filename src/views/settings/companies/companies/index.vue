@@ -1,27 +1,35 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <transition name="fade" mode="out-in">
-                <component
-                    :is="currentComponent"
-                    :company="selectedCompany"
-                    @getCompany="getCompany"
-                    @changeView="changeView"
-                    @companies="companies"/>
-            </transition>
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <transition name="fade" mode="out-in">
+                    <component
+                        :is="currentComponent"
+                        :company="selectedCompany"
+                        @getCompany="getCompany"
+                        @changeView="changeView"
+                        @companies="companies"/>
+                </transition>
+            </div>
         </div>
-    </div>
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import CompaniesCRUD from "./crud.vue";
 import CompaniesList from "./list.vue";
 
 export default {
     components: {
         CompaniesCRUD,
-        CompaniesList
+        CompaniesList,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             currentComponent: "CompaniesList",

@@ -1,27 +1,35 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <transition name="fade" mode="out-in">
-                <component
-                    :is="currentComponent"
-                    :user="selectedUser"
-                    :current-user="currentUser"
-                    @getUser="getUser"
-                    @changeView="changeView"/>
-            </transition>
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <transition name="fade" mode="out-in">
+                    <component
+                        :is="currentComponent"
+                        :user="selectedUser"
+                        :current-user="currentUser"
+                        @getUser="getUser"
+                        @changeView="changeView"/>
+                </transition>
+            </div>
         </div>
-    </div>
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import UsersCRUD from "./crud.vue";
 import UsersList from "./list.vue";
 
 export default {
     components: {
         UsersCRUD,
-        UsersList
+        UsersList,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             currentComponent: "UsersList",

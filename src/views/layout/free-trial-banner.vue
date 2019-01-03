@@ -1,6 +1,6 @@
 <template>
     <div class="free-trial-banner">
-        <h6>Your free trial is 14 days left, please upgrade <router-link :to="{ name: 'companiesSettings', params: { tab: 'subscriptions' }}">here</router-link></h6>
+        <h6>Your free trial is 14 days left, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
     </div>
 </template>
 

@@ -1,28 +1,35 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <component
-                :is="currentComponent"
-                :access-list="accessList"
-                :role="selectedRole"
-                @getRole="getRole"
-                @cloneRole="cloneRole"
-                @changeView="changeView"
-            />
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <component
+                    :is="currentComponent"
+                    :access-list="accessList"
+                    :role="selectedRole"
+                    @getRole="getRole"
+                    @cloneRole="cloneRole"
+                    @changeView="changeView"
+                />
+            </div>
         </div>
-    </div>
-
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import rolesList from "./list.vue";
 import rolesCrud from "./crud.vue";
 
 export default {
     components: {
         rolesList,
-        rolesCrud
+        rolesCrud,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             selectedRole: null,
