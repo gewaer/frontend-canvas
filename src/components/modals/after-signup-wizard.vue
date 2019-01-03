@@ -1,0 +1,50 @@
+<template>
+    <modal
+        :draggable="true"
+        :adaptive="true"
+        :scrollable="true"
+        name="after-signup-wizard"
+        height="auto"
+        width="900"
+    >
+         <form-wizard class="after-signup-wizard-component" @on-complete="onComplete" shape="tab" color="var(--base-color)">
+            <h2 slot="title">This will replace a title</h2>
+            <tab-content title="Step 1" icon="fa fa-cog">
+                <h1>Step 1</h1>
+            </tab-content>
+            <tab-content title="Step 2" icon="fa fa-cog">
+                <h1>Step 2</h1>
+            </tab-content>
+            <tab-content title="Step 3" icon="fa fa-cog">
+                <h1>Step 3</h1>
+            </tab-content>
+
+            <template slot="footer" slot-scope="props">
+                <div class="wizard-footer-left">
+                    <wizard-button v-if="props.activeTabIndex > 0 && !props.isLastStep" @click.native="props.prevTab()" :style="props.fillButtonStyle">Previous</wizard-button>
+                </div>
+                <div class="wizard-footer-right">
+                    <wizard-button v-if="!props.isLastStep" @click.native="props.nextTab()" class="wizard-footer-right" :style="props.fillButtonStyle">Next</wizard-button>
+                    <wizard-button v-else @click.native="alert('Done')" class="wizard-footer-right finish-button" :style="props.fillButtonStyle">{{props.isLastStep ? 'Done' : 'Next'}}</wizard-button>
+                </div>
+            </template>
+        </form-wizard>
+    </modal>
+</template>
+
+<script>
+export default {
+    name: "AfterSignupWizard",
+    methods: {
+        onComplete(){
+            alert('Yay. Done!');
+        }
+    }
+}
+</script>
+
+<style lang="scss">
+.after-signup-wizard-component ul li {
+    padding-left: 0 !important;
+}
+</style>
