@@ -49,6 +49,7 @@
                     </vuetable>
 
                     <vuetable-pagination
+                        class="justify-content-end"
                         ref="pagination"
                         @vuetable-pagination:change-page="onChangePage"/>
                 </div>
@@ -285,6 +286,26 @@ export default {
             content: 'up'
         }
         // add icons
+    }
+
+    .pagination.menu {
+        padding: 10px;
+
+        .item {
+            background-color: var(--base-color);
+            color: white;
+            padding: 5px;
+            margin-left: 5px;
+            border-radius: 100%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 0;
+            font-weight: bold;
+            cursor: pointer;
+        }
     }
 }
 </style>
