@@ -125,8 +125,7 @@ export default {
     computed:{
         ...mapState("Application", {
             timezones: state => state.timezones,
-            languages: state => state.languages,
-            company: state => state.company.data
+            languages: state => state.languages
         }),
         ...mapState("Company", {
             company: state => state.data
@@ -163,7 +162,6 @@ export default {
         processUpdate() {
             this.$validator.validate().then(result => {
                 if (result) {
-                    console.log("update")
                     this.update();
                 }
             })
