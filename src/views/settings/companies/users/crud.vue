@@ -235,7 +235,7 @@ export default {
                 method = "POST";
                 let form = new FormData();
                 form.append("email", this.userData.email);
-                form.append("role", this.selectedRole.name);
+                form.append("role_id", this.selectedRole.id);
                 data = form;
             } else {
                 url = `/users/${this.userData.id}`;
