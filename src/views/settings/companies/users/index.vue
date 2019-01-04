@@ -39,7 +39,7 @@ export default {
             currentUser: null,
             selectedUser: null,
             isEditable: true,
-            formFields: {}
+            crudFormFields: {}
         }
     },
     mounted() {
@@ -57,11 +57,11 @@ export default {
             if (view == "UsersCRUD") {
                 this.selectedUser = {};
             }
-            this.formFields = {};
+            this.crudFormFields = {};
             this.currentComponent = view;
         },
         setFormFields(formFields) {
-            this.formFields = formFields;
+            this.crudFormFields = formFields;
         }
     }
 };

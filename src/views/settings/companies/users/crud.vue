@@ -15,7 +15,7 @@
                                 name="firstname"
                                 data-vv-as="First Name"
                                 data-vv-name="First Name">
-                            <span>{{ errors.first("First Name") }}</span>
+                            <span class="text-danger">{{ errors.first("First Name") }}</span>
                         </div>
                         <div v-if="isEditUser" class="form-group form-group-default required">
                             <label>Last name</label>
@@ -27,7 +27,7 @@
                                 name="lastname"
                                 class="form-control"
                                 type="text">
-                            <span>{{ errors.first("Last Name") }}</span>
+                            <span class="text-danger">{{ errors.first("Last Name") }}</span>
                         </div>
                         <div v-if="isEditUser" class="form-group form-group-default">
                             <label>Cell phone</label>
@@ -39,7 +39,7 @@
                                 class="form-control"
                                 name="phone"
                                 type="text">
-                            <span>{{ errors.first("Cell phone") }}</span>
+                            <span class="text-danger">{{ errors.first("Cell phone") }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Email (username)</label>
@@ -51,7 +51,7 @@
                                 class="form-control"
                                 type="text"
                                 name="email">
-                            <span>{{ errors.first("Email (username)") }}</span>
+                            <span class="text-danger">{{ errors.first("Email (username)") }}</span>
                         </div>
                     </div>
 
@@ -90,7 +90,7 @@
                                     track-by="id"
                                     @input="setRole"
                                 />
-                                <span>{{ errors.first("role") }}</span>
+                                <span class="text-danger">{{ errors.first("role") }}</span>
                             </div>
                         </div>
                     </div>
@@ -242,12 +242,13 @@ export default {
                 method = "PUT";
                 data =  this.userData;
             }
-            this.sendRequest(url, method, data);
+
+            if (!this.isLoading) {
+                this.sendRequest(url, method, data);
+            }
         },
         sendRequest(url, method, data) {
-            if (this.isLoading) {
-                return;
-            }
+
 
             this.isLoading = true;
 

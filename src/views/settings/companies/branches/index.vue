@@ -40,7 +40,7 @@ export default {
             },
             selectedBranch: null,
             isEditable: true,
-            formFields: {}
+            crudFormFields: {}
         }
     },
     mounted() {
@@ -64,12 +64,12 @@ export default {
             if (view == this.views.crud) {
                 this.selectedBranch = {};
             }
-            this.formFields = {};
+            this.crudFormFields = {};
             this.currentComponent = view;
         },
 
         setFormFields(formFields) {
-            this.formFields = formFields;
+            this.crudFormFields = formFields;
         }
     }
 };

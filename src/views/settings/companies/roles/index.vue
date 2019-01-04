@@ -41,7 +41,7 @@ export default {
                 crud: "rolesCrud",
                 list: "rolesList"
             },
-            formFields: {}
+            crudFormFields: {}
         }
     },
     methods: {
@@ -81,11 +81,11 @@ export default {
                 this.getRole({name: "Admins"}, true);
                 return
             }
-            this.formFields = {};
+            this.crudFormFields = {};
             this.currentComponent = view;
         },
         setFormFields(formFields) {
-            this.formFields = formFields;
+            this.crudFormFields = formFields;
         },
 
         setRole(accessList, role) {

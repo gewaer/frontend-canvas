@@ -24,7 +24,7 @@
                                 class="form-control"
                                 type="text"
                                 name="name">
-                            <span> {{ errors.first('name') }}</span>
+                            <span class="text-danger"> {{ errors.first('name') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Address</label>
@@ -35,7 +35,7 @@
                                 type="text"
                                 data-vv-as="company address"
                                 name="company-address">
-                            <span> {{ errors.first('company-address') }}</span>
+                            <span class="text-danger"> {{ errors.first('company-address') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Zip Code</label>
@@ -46,7 +46,7 @@
                                 type="text"
                                 data-vv-as="zip code"
                                 name="zipcode">
-                            <span> {{ errors.first('zipcode') }}</span>
+                            <span class="text-danger"> {{ errors.first('zipcode') }}</span>
                         </div>
 
                         <div class="form-group form-group-default">
@@ -57,7 +57,7 @@
                                 class="form-control"
                                 name="email"
                                 type="email">
-                            <span> {{ errors.first('email') }}</span>
+                            <span class="text-danger"> {{ errors.first('email') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Phone</label>
@@ -68,7 +68,7 @@
                                 data-vv-as="phone number"
                                 name="phone"
                                 type="tel">
-                            <span> {{ errors.first('phone') }}</span>
+                            <span class="text-danger"> {{ errors.first('phone') }}</span>
                         </div>
                     </div>
                 </div>

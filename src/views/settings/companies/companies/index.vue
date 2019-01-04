@@ -38,7 +38,7 @@ export default {
             companies: [],
             selectedCompany: null,
             isEditable: true,
-            formFields: {}
+            crudFormFields: {}
         }
     },
     mounted() {
@@ -62,11 +62,11 @@ export default {
             if (view == "CompaniesCRUD") {
                 this.selectedCompany = {};
             }
-            this.formFields = {};
+            this.crudFormFields = {};
             this.currentComponent = view;
         },
         setFormFields(formFields) {
-            this.formFields = formFields;
+            this.crudFormFields = formFields;
         }
     }
 };

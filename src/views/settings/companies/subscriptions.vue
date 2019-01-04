@@ -120,7 +120,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="First name">
-                                                        <span>{{ errors.first("contact first name") }}</span>
+                                                        <span class="text-danger">{{ errors.first("contact first name") }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -135,7 +135,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="Last name">
-                                                        <span>{{ errors.first("contact last name") }}</span>
+                                                        <span class="text-danger">{{ errors.first("contact last name") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,7 +152,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="Company name">
-                                                        <span>{{ errors.first("company name") }}</span>
+                                                        <span class="text-danger">{{ errors.first("company name") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@
                                                             type="email"
                                                             class="form-control"
                                                             placeholder="Email">
-                                                        <span>{{ errors.first("contact email address") }}</span>
+                                                        <span class="text-danger">{{ errors.first("contact email address") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,7 +195,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="Address">
-                                                        <span>{{ errors.first("address") }}</span>
+                                                        <span class="text-danger">{{ errors.first("address") }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -210,7 +210,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="APT/SUITE">
-                                                        <span>{{ errors.first("apt/suite") }}</span>
+                                                        <span class="text-danger">{{ errors.first("apt/suite") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -227,7 +227,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="City">
-                                                        <span>{{ errors.first("city") }}</span>
+                                                        <span class="text-danger">{{ errors.first("city") }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -242,7 +242,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="Country">
-                                                        <span>{{ errors.first("country") }}</span>
+                                                        <span class="text-danger">{{ errors.first("country") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -259,7 +259,7 @@
                                                             type="text"
                                                             class="form-control"
                                                             placeholder="State/Province">
-                                                        <span>{{ errors.first("state/province") }}</span>
+                                                        <span class="text-danger">{{ errors.first("state/province") }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -274,7 +274,7 @@
                                                             type="number"
                                                             class="form-control"
                                                             placeholder="Zip/Postal">
-                                                        <span>{{ errors.first("zip/postal") }}</span>
+                                                        <span class="text-danger">{{ errors.first("zip/postal") }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +323,7 @@
                                                                 type="text"
                                                                 class="form-control"
                                                                 placeholder="First name">
-                                                            <span>{{ errors.first("first name") }}</span>
+                                                            <span class="text-danger">{{ errors.first("first name") }}</span>
                                                         </div>
                                                     </div>
                                                     <div class="col">
@@ -338,7 +338,7 @@
                                                                 type="text"
                                                                 class="form-control"
                                                                 placeholder="Last name">
-                                                            <span>{{ errors.first("last name") }}</span>
+                                                            <span class="text-danger">{{ errors.first("last name") }}</span>
 
                                                         </div>
                                                     </div>
@@ -356,7 +356,7 @@
                                                                 type="number"
                                                                 class="form-control"
                                                                 placeholder="4111111111111111">
-                                                            <span>{{ errors.first("credit card") }}</span>
+                                                            <span class="text-danger">{{ errors.first("credit card") }}</span>
 
                                                         </div>
                                                     </div>
@@ -372,7 +372,7 @@
                                                                 type="number"
                                                                 class="form-control"
                                                                 placeholder="010">
-                                                            <span>{{ errors.first("cvv") }}</span>
+                                                            <span class="text-danger">{{ errors.first("cvv") }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -391,7 +391,7 @@
                                                                 placeholder="12"
                                                                 min="01"
                                                                 max="12">
-                                                            <span>{{ errors.first("card expiration month") }}</span>
+                                                            <span class="text-danger">{{ errors.first("card expiration month") }}</span>
 
                                                         </div>
                                                     </div>
@@ -409,7 +409,7 @@
                                                                 placeholder="99"
                                                                 min="01"
                                                                 max="99">
-                                                            <span>{{ errors.first("card expiration year") }}</span>
+                                                            <span class="text-danger">{{ errors.first("card expiration year") }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
