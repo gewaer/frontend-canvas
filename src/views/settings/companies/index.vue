@@ -49,6 +49,16 @@
                                 </li>
                                 <li class="nav-item">
                                     <a
+                                        :class="{active: tab == 'teams'}"
+                                        href="#"
+                                        name="teams"
+                                        @click.prevent="tab = 'teams'"
+                                    >
+                                        Teams
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a
                                         :class="{active: tab == 'roles'}"
                                         href="#"
                                         name="roles"
@@ -81,6 +91,9 @@
                                 <div id="users-list" :class="{active: tab == 'users'}" class="tab-pane" >
                                     <company-users/>
                                 </div>
+                                <div id="teams-list" :class="{active: tab == 'teams'}" class="tab-pane" >
+                                    <company-teams/>
+                                </div>
                                 <div id="roles-list" :class="{active: tab == 'roles'}" class="tab-pane">
                                     <company-roles/>
                                 </div>
@@ -101,6 +114,7 @@ import CompanyProfile from "./profile";
 import CompaniesList from "./companies/";
 import CompanyBranches from "./branches/";
 import CompanyUsers from "./users/";
+import CompanyTeams from "./teams/";
 import CompanyRoles from "./roles/";
 import CompanySubscriptions from "./subscriptions";
 
@@ -110,6 +124,7 @@ export default {
         CompaniesList,
         CompanyBranches,
         CompanyUsers,
+        CompanyTeams,
         CompanyRoles,
         CompanySubscriptions
     },

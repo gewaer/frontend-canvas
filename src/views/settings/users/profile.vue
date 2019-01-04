@@ -94,6 +94,26 @@
                                 select-label=""
                             />
                         </div>
+                        <div class="form-group">
+                            <label>Locale</label>
+                            <multiselect
+                                :allow-empty="false"
+                                :max-height="175"
+                                :options="[ 'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Nicaragua' ]"
+                                deselect-label=""
+                                select-label=""
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Default Currency</label>
+                            <multiselect
+                                :allow-empty="false"
+                                :max-height="175"
+                                :options="[ 'Dominican Peso (DOP)', 'US DOllar (USD)', 'Venezuelan Bolivar (VEB)' ]"
+                                deselect-label=""
+                                select-label=""
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

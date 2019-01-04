@@ -75,7 +75,7 @@
                                     :options="timezones"
                                 />
                             </div>
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label>Role
                                     <span class="multiseletc-required">*</span>
                                 </label>

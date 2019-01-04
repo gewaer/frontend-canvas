@@ -50,10 +50,10 @@
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Phone</label>
-                        <input 
-                            v-model="companyData.phone_number" 
-                            name="lastname" 
-                            class="form-control"  
+                        <input
+                            v-model="companyData.phone_number"
+                            name="lastname"
+                            class="form-control"
                             type="tel">
                     </div>
                 </div>
@@ -202,7 +202,6 @@ export default {
 
 <style lang="scss">
 .company-general-information {
-    margin: 20px 15px;
     .profile-image-container {
         display: flex;
         flex-direction: column;
