@@ -1755,6 +1755,13 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
     transform: translate3d(38px,0,0);
 }
 
+.multiselect {
+    .multiselect__placeholder {
+        margin-bottom: 8px;
+        padding-top: 0;
+    }
+}
+
 @media only screen and (min-width: 980px) {
     body.menu-pin .page-sidebar {
         width: 280px;

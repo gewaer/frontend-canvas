@@ -221,20 +221,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.add-custom-filter-modal {
-    .filters-conditions {
-        .multiselect {
-            .multiselect__placeholder {
-                margin-bottom: 8px;
-                padding-top: 0;
-            }
-        }
-    }
-}
-</style>
-
-
 <style lang="scss" scoped>
 .add-custom-filter-modal {
     .step-number {
