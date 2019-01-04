@@ -13,6 +13,8 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import VeeValidate from "vee-validate";
 import Vuetable from "vuetable-2";
+import VueFormWizard from "vue-form-wizard";
+import "vue-form-wizard/dist/vue-form-wizard.min.css";
 
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -23,6 +25,7 @@ Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
 Vue.use(VeeValidate, { fieldsBagName: "formFields" });
 Vue.use(VModal);
+Vue.use(VueFormWizard);
 
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);

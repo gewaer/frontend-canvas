@@ -287,6 +287,11 @@ export default {
 
             Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
             this.$store.dispatch("User/setToken", auth.token);
+
+            if (this.isSignup) {
+                this.$modal.show("after-signup-wizard")
+            }
+
             this.$router.push({ name: "dashboard" });
         },
         handleResetPassword(response) {
