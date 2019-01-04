@@ -2,13 +2,13 @@
     <input
         v-model="value"
         v-bind="attributes"
-        :id="item.label | slugify"
-        :name="item.label | slugify"
+        :id="item.label | slugify | lowercase"
+        :name="item.label | slugify | lowercase"
         :type="item.type || 'text'"
-        :minlength="!isInputNumber && !hasPattern ? item.minLength || defaultMinLength : undefined"
-        :maxlength="!isInputNumber && !hasPattern ? item.maxLength || defaultMaxLength : undefined"
-        :min="isInputNumber ? item.min || defaultMin : undefined"
-        :max="isInputNumber ? item.max || defaultMax : undefined"
+        :minlength="minLength"
+        :maxlength="maxLength"
+        :min="minValue"
+        :max="maxValue"
         class="input"
         @input="updateValue"
         @change="updateValue"
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { FORMS } from "@/config/constants";
 import fieldsMixin from "../mixins";
 
 export default {
@@ -31,22 +32,22 @@ export default {
     },
     computed: {
         hasPattern() {
-            return !!this.item.pattern;
+            return !!(this.item.validations && this.item.validations.regex);
         },
         isInputNumber() {
             return this.item.type === "number";
         },
-        defaultMin() {
-            return this.$parent.$parent.defaultMin;
+        minLength() {
+            return !this.isInputNumber && !this.hasPattern && this.item.validations && this.item.validations.min || undefined;
         },
-        defaultMax() {
-            return this.$parent.$parent.defaultMax;
+        maxLength() {
+            return !this.isInputNumber && !this.hasPattern && this.item.validations ? this.item.validations.max || FORMS.DEFAULT_MAX_LENGTH_INPUT : undefined;
         },
-        defaultMinLength() {
-            return this.$parent.$parent.defaultMinLength;
+        minValue() {
+            return this.isInputNumber && this.item.validations && this.item.validations.min_value || undefined;
         },
-        defaultMaxLength() {
-            return this.$parent.$parent.defaultMaxLength;
+        maxValue() {
+            return this.isInputNumber && this.item.validations && this.item.validations.max_value || undefined;
         }
     },
     mounted() {

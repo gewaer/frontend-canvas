@@ -24,13 +24,14 @@
         <span v-if="shouldShowErrorIcon" class="icon is-small is-right">
             <i class="fas fa-exclamation-triangle"/>
         </span>
-        <p v-if="fieldError" class="help is-danger">
+        <p v-if="fieldError" class="text-danger">
             {{ fieldError.msg }}
         </p>
     </div>
 </template>
 
 <script>
+import { FORMS } from "@/config/constants";
 import Input from "./input";
 import Select from "./select";
 import Textarea from "./textarea";
@@ -82,23 +83,16 @@ export default {
         },
         getValidation() {
             const { type } = this.item;
-            const { minLength, maxLength, min, max } = this.item.attributes || {};
-            const { regex } = this.item.validations || {};
-            const { defaultMinLength, defaultMaxLength, defaultMin, defaultMax } = this.$parent;
+            const { min, max, min_value: minValue, max_value: maxValue } = this.item.validations || {};
             const isNormalInputOrTextarea = this.isNormalInput || type === "textarea";
             const isInputNumber = type === "number";
-            const pattern = regex;
 
-            return isNormalInputOrTextarea && ({
-                ...(this.item.validations || {}),
-                regex: this.isNormalInput && !isInputNumber && pattern && new RegExp(pattern) || false,
-                email: type === "email",
-                min: !isInputNumber ? minLength || defaultMinLength : false,
-                max: !isInputNumber ? maxLength || defaultMaxLength : false,
-                min_value: isInputNumber ? min || defaultMin : false,
-                max_value: isInputNumber ? max || defaultMax : false,
-                numeric: isInputNumber
-            });
+            return isNormalInputOrTextarea && {
+                min: !isInputNumber && min || false,
+                max: !isInputNumber && max || type === "textarea" ? FORMS.DEFAULT_MAX_LENGTH_TEXTAREA : FORMS.DEFAULT_MAX_LENGTH_INPUT,
+                min_value: isInputNumber && minValue || false,
+                max_value: isInputNumber && maxValue || false
+            }
         }
     },
     watch: {

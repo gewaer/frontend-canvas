@@ -7,7 +7,8 @@
             "placeholder": "Company Name"
         },
         "validations": {
-            "required": true
+            "required": true,
+            "max": 4
         }
     },
     {
@@ -25,16 +26,16 @@
         {
             "label": "First Name",
             "value": "fir",
-            "attributes": {
-                "minLength": 4,
-                "maxLength": 20
+            "validations": {
+                "min": 4,
+                "max": 20
             }
         },
         {
             "label": "Last Name",
             "placeholder": "Last Name placeholder",
-            "attributes": {
-                "minLength": 3
+            "validations": {
+                "min": 3
             }
         }
     ],
@@ -47,6 +48,9 @@
             "type": "email",
             "attributes": {
                 "title": "Your email"
+            },
+            "validations": {
+                "email": true
             }
         },
         {
@@ -70,7 +74,10 @@
             "attributes": {
                 "placeholder": "Zip"
             },
-            "showLabel": false
+            "validations": {
+                "min_value": 1,
+                "max_value": 5
+            }
         },
         {
             "label": "City",
@@ -103,11 +110,10 @@
         {
             "label": "Age",
             "type": "number",
-            "attributes": {
-                "min": 18,
-                "max": 99
-            },
-            "help": "( >= 18 <= 99 )"
+            "help": "( >= 18 <= 99 )",
+            "validations": {
+                "max_value": 18
+            }
         },
         {
             "label": "Password",

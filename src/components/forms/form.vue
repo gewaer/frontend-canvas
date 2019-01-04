@@ -61,22 +61,6 @@ export default {
             type: String,
             default: "Submit"
         },
-        defaultMinLength: {
-            type: [Boolean, Number],
-            default: false
-        },
-        defaultMaxLength: {
-            type: [Boolean, Number],
-            default: false
-        },
-        defaultMin: {
-            type: [Boolean, Number],
-            default: 0
-        },
-        defaultMax: {
-            type: [Boolean, Number],
-            default: false
-        },
         formFields: {
             type: Array,
             required: true

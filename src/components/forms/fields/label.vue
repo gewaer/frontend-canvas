@@ -7,7 +7,7 @@
         <p>
             {{ item.label }}
             <span v-if="item.help" class="helpLabel has-text-grey-light is-size-7 is-italic">{{ item.help }}</span>
-            <span v-if="item.isRequired !== false">
+            <span v-if="item.validations && item.validations.required">
                 <sup class="has-text-grey-light is-size-7"> *</sup>
             </span>
         </p>

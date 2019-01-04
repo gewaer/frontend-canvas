@@ -1,13 +1,12 @@
 <template>
     <textarea
         v-model="item.value"
-        :id="item.label | slugify"
-        :name="item.label | slugify"
-        :class="{ 'is-danger': !!error }"
+        v-bind="attributes"
+        :id="item.label | slugify | lowercase"
+        :name="item.label | slugify | lowercase"
         :data-vv-name="item.label"
-        :required="item.isRequired !== false"
-        :minlength="item.minLength || defaultMinLength"
-        :maxlength="item.maxLength || defaultMaxLength"
+        :minlength="minLength"
+        :maxlength="maxLength"
         class="textarea"
         @input="updateValue"
         @change="updateValue"
@@ -16,6 +15,7 @@
 </template>
 
 <script>
+import { FORMS } from "@/config/constants";
 import fieldsMixin from "../mixins";
 
 export default {
@@ -24,11 +24,11 @@ export default {
         fieldsMixin
     ],
     computed: {
-        defaultMinLength() {
-            return this.$parent.$parent.defaultMinLength;
+        minLength() {
+            return !this.isInputNumber && !this.hasPattern && this.item.validations && this.item.validations.min || undefined;
         },
-        defaultMaxLength() {
-            return this.$parent.$parent.defaultMaxLength;
+        maxLength() {
+            return !this.isInputNumber && !this.hasPattern && this.item.validations ? this.item.validations.max || FORMS.DEFAULT_MAX_LENGTH_TEXTAREA : undefined;
         }
     }
 }
