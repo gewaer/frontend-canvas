@@ -35,6 +35,7 @@
                         :query-params="queryParams"
                         :per-page="perPage"
                         :show-sort-icons="true"
+                        track-by="id"
                         api-url="/roles"
                         class="table table-hover table-condensed"
                         pagination-path=""
@@ -50,6 +51,7 @@
 
                     <vuetable-pagination
                         ref="pagination"
+                        :css="pagination"
                         class="justify-content-end"
                         @vuetable-pagination:change-page="onChangePage"/>
                 </div>
@@ -60,8 +62,8 @@
 
 <script>
 import addCustomFiltersModal from "../layout/add-custom-filters-modal";
-import TableSearch from "./TableSearch";
-import VuetableFieldCheckbox from "vuetable-2/src/components/VuetableFieldCheckbox";
+import TableSearch from "@/components/vuetable/table-search";
+import VuetableFieldCheckbox from "@/components/vuetable/custom-checkbox";
 
 export default {
     name: "Browse",
@@ -78,7 +80,7 @@ export default {
             appendParams: {
                 format: "true"
             },
-            perPage: 1,
+            perPage: 2,
             queryParams: {
                 sort: "sort",
                 page: "page",
@@ -110,7 +112,15 @@ export default {
             }, {
                 name: "actions",
                 title: "Actions"
-            }]
+            }],
+            pagination: {
+                icons: {
+                    first: "fa fa-chevron-left",
+                    prev:  "fa fa-chevron-left",
+                    next:  "fa fa-chevron-right",
+                    last:  "fa fa-chevron-right"
+                }
+            }
         };
     },
     computed: {
@@ -190,6 +200,9 @@ export default {
         exportRows() {
             // your function here
             alert("rows exported")
+        },
+        getSelectedRows() {
+            return this.$refs.Vuetable.selectedTo;
         }
 
 
@@ -277,13 +290,17 @@ export default {
 
     .sorted-desc {
         ::after {
-            content: 'down'
+            font-family: "Font Awesome 5 Free";
+            font-style: normal;
+            content: "\f0d8"
         }
         // add icons
     }
     .sorted-asc {
         ::after {
-            content: 'up'
+            font-family: "Font Awesome 5 Free";
+            font-style: normal;
+            content: "\f0d7"
         }
         // add icons
     }
