@@ -19,31 +19,31 @@
                     <tr>
                         <td class="v-align-middle semi-bold">Team Test</td>
                         <td class="v-align-middle semi-bold">User 1</td>
-                        <td class="v-align-middle semi-bold"></td>
+                        <td class="v-align-middle semi-bold"/>
                         <td class="v-align-middle semi-bold">User 1, User 2, User 3, User 4, User 5</td>
                         <td class="v-align-middle semi-bold">
-                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
+                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"/></button>
                         </td>
                     </tr>
                     <tr>
                         <td class="v-align-middle semi-bold">Team Test</td>
                         <td class="v-align-middle semi-bold">User 1</td>
-                        <td class="v-align-middle semi-bold"></td>
+                        <td class="v-align-middle semi-bold"/>
                         <td class="v-align-middle semi-bold">User 1, User 2, User 3, User 4, User 5</td>
                         <td class="v-align-middle semi-bold">
-                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
+                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"/></button>
                         </td>
                     </tr>
                     <tr>
                         <td class="v-align-middle semi-bold">Team Test</td>
                         <td class="v-align-middle semi-bold">User 1</td>
-                        <td class="v-align-middle semi-bold"></td>
+                        <td class="v-align-middle semi-bold"/>
                         <td class="v-align-middle semi-bold">User 1, User 2, User 3, User 4, User 5</td>
                         <td class="v-align-middle semi-bold">
-                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
+                            <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"/></button>
                         </td>
                     </tr>
                 </tbody>
@@ -57,7 +57,7 @@ export default {
     methods: {
         teamsCRUD() {
             this.$emit("changeView", "TeamsCRUD");
-        },
+        }
     }
 }
 </script>
