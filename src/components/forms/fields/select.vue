@@ -1,31 +1,31 @@
 <template>
-    <div :class="{ 'is-danger': !!error }" class="select is-block">
-        <select
-            :id="item.label | slugify"
-            :name="item.label | slugify"
-            :required="item.isRequired !== false"
-            class="is-fullwidth"
-            @change="updateValue"
-            @blur="updateValue"
+    <!-- <div :class="{ 'is-danger': !!error }" class="select is-block"> -->
+    <select
+        :id="item.label | slugify"
+        :name="item.label | slugify"
+        :required="item.isRequired !== false"
+        class="form-control"
+        @change="updateValue"
+        @blur="updateValue"
+    >
+        <option
+            v-if="item.placeholder"
+            disabled="disabled"
+            selected="selected"
+            value=""
         >
-            <option
-                v-if="item.placeholder"
-                disabled="disabled"
-                selected="selected"
-                value=""
-            >
-                {{ item.placeholder }}
-            </option>
-            <option
-                v-for="(option, index) in item.options"
-                :key="index"
-                :selected="option.selected"
-                :value="option.value || option.text || option"
-            >
-                {{ option.text || option }}
-            </option>
-        </select>
-    </div>
+            {{ item.placeholder }}
+        </option>
+        <option
+            v-for="(option, index) in item.options"
+            :key="index"
+            :selected="option.selected"
+            :value="option.value || option.text || option"
+        >
+            {{ option.text || option }}
+        </option>
+    </select>
+    <!-- </div> -->
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.is-fullwidth {
-    width: 100%;
+.form-control {
+    -webkit-appearance: menulist;
 }
 </style>

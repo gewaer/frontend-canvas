@@ -19,6 +19,7 @@ export default {
         attributes() {
             const attributes = {
                 class: {
+                    "form-control": true,
                     "text-danger": !!this.error
                 },
                 title: ""

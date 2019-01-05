@@ -1,23 +1,34 @@
 <template>
-    <form :data-vv-scope="formName" @submit.prevent="beforeSubmit">
-        <div v-for="(item, index) in formFields" :key="index">
-            <div v-if="Array.isArray(item)" class="field-body">
-                <div v-for="x in item" :key="x.label" class="field">
-                    <form-label :item="x"/>
-                    <form-control ref="control" :item="x"/>
+    <form :data-vv-scope="formName" role="form" @submit.prevent="beforeSubmit">
+        <template v-for="(item, index) in formFields">
+            <div v-if="Array.isArray(item)" :key="index" class="row">
+                <div v-for="x in item" :key="x.label" class="col-md-6">
+                    <div
+                        :class="{ required: x.validations && x.validations.required }"
+                        class="form-group form-group-default"
+                    >
+                        <form-label :item="x"/>
+                        <form-control ref="control" :item="x"/>
+                    </div>
                 </div>
             </div>
             <div
                 v-else-if="Object.keys(item) == 'html'"
+                :key="index"
                 class="field"
                 data-test="htmlContentFromFormFields"
                 v-html="Object.values(item)[0]"
             />
-            <div v-else class="field">
+            <div
+                v-else
+                :key="index"
+                :class="{ required: item.validations && item.validations.required }"
+                class="form-group form-group-default"
+            >
                 <form-label :item="item"/>
                 <form-control ref="control" :item="item"/>
             </div>
-        </div>
+        </template>
         <div class="field form-footer is-grouped is-opposed">
             <input
                 :value="btnResetText"
@@ -82,13 +93,15 @@ export default {
             default: false
         }
     },
-    data: () => ({
-        formValues: undefined,
-        allControls: []
-    }),
+    data() {
+        return {
+            formValues: undefined,
+            allControls: []
+        }
+    },
     computed: {
         isFormValid() {
-            const allControlRequire = this.allControls.filter(({ item }) => item.isRequired !== false)
+            const allControlRequire = this.allControls.filter(({ item }) => item.validations && item.validations.required)
             const isAllControlRequireWithValue = allControlRequire.every(({ value }) => !!value)
             const isFormValuesEmpty = Object.values(this.formValues).every(x => x === undefined)
             const hasError = !!this.$validator.errors.items.length
@@ -96,7 +109,7 @@ export default {
         }
     },
     created() {
-        this.formValues = pipe(flatten, map(getLabels), valueToProp)(this.formFields)
+        this.formValues = pipe(flatten, map(getLabels), valueToProp)(this.formFields);
     },
     mounted() {
         this.allControls = this.$refs.control
@@ -161,54 +174,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-form {
-    max-width: 28rem;
-}
-
-.field {
-    margin-bottom: 0.75rem;
-}
-
-.field-body {
-    margin-bottom: 0.75rem;
-    display: block;
-    .field {
-        width: 100%;
-    }
-}
-
-@media (min-width: 496px) {
-    .field-body {
-        display: flex;
-        justify-content: space-between;
-    }
-}
-
-@media (min-width: 496px) {
-    .field-body .field {
-        width: 13.625rem;
-    }
-}
-
-.form-footer .button:not(:last-child) {
-    margin-right: 0.75rem;
-}
-
-.fieldRequiredLegend {
-    margin-top: 1.5rem;
-}
-
-.field.is-grouped.is-opposed {
-    display: flex;
-    justify-content: space-between;
-    .control {
-        line-height: 36px;
-    }
-}
-
-.error-title {
-    margin-bottom: 0;
-}
-</style>

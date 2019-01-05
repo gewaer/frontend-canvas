@@ -1,9 +1,13 @@
 <template>
-    <div class="section">
-        <app-form
-            :form-fields="jsonFields"
-            :form-name="'userProfile'"
-        />
+    <div class="container-fluid container-fixed-lg">
+        <div class="row">
+            <div class="col-md-6">
+                <app-form
+                    :form-fields="jsonFields"
+                    :form-name="'userProfile'"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -24,7 +28,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    @import "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css";
-</style>

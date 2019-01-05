@@ -2,15 +2,9 @@
     <label
         v-if="item.showLabel !== false"
         :for="item.label | slugify"
-        class="label"
     >
-        <p>
-            {{ item.label }}
-            <span v-if="item.help" class="helpLabel has-text-grey-light is-size-7 is-italic">{{ item.help }}</span>
-            <span v-if="item.validations && item.validations.required">
-                <sup class="has-text-grey-light is-size-7"> *</sup>
-            </span>
-        </p>
+        {{ item.label }}
+        <span v-if="item.help" class="help">{{ item.help }}</span>
     </label>
 </template>
 
@@ -32,8 +26,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.helpLabel {
-    margin-left: 0.5rem;
-    font-weight: normal;
+label {
+    .help {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+        margin-left: 0;
+        text-transform: none;
+    }
 }
 </style>

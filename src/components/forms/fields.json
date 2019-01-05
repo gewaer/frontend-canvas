@@ -3,7 +3,6 @@
         "label": "Company Name",
         "type": "text",
         "attributes": {
-            "class": ["form-control"],
             "placeholder": "Company Name"
         },
         "validations": {
@@ -106,6 +105,24 @@
             "Zimbabwe"
         ]
     },
+    {
+        "label": "Country",
+        "type": "mselect",
+        "iconLeft": "globe-americas",
+        "attributes": {
+            "placeholder": "Select your option"
+        },
+        "options": [
+            "Afghanistan",
+            "Åland Islands",
+            "Albania",
+            "Algeria",
+            "...",
+            "Western Sahara",
+            "Zimbabwe"
+        ],
+        "value": "Western Sahara"
+    },
     [
         {
             "label": "Age",
@@ -135,18 +152,7 @@
         "label": "Checkbox",
         "type": "checkbox",
         "items": [
-            {"text": "one", "value": 1, "checked": true},
-            {"text": "two", "checked": true},
-            "three"
-        ]
-    },
-    {
-        "label": "Radio",
-        "type": "radio",
-        "items": [
-            {"text": "RadioOne", "value": "Radio-One", "checked": true},
-            "RadioTwo",
-            "RadioThree"
+            {"text": "one", "value": 1, "checked": true}
         ]
     }
 ]
