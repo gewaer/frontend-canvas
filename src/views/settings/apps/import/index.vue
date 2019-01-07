@@ -6,13 +6,13 @@
                     Import
                 </h5>
                 <form-wizard class="wizard-component import-wizard" shape="tab" color="var(--base-color)">
-                    <span slot="title"></span>
+                    <span slot="title"/>
                     <tab-content title="Upload" icon="fa fa-file-upload">
-                        <vue-dropzone ref="importUpload" id="dropzone" :options="dropzoneOptions"></vue-dropzone>
+                        <vue-dropzone id="dropzone" ref="importUpload" :options="dropzoneOptions"/>
                     </tab-content>
                     <tab-content title="File Mapping" icon="fa fa-map-signs">
                         <div class="table-responsive">
-                            <table class="table table-hover table-condensed" id="condensedTable">
+                            <table id="condensedTable" class="table table-hover table-condensed">
                                 <thead>
                                     <tr>
                                         <th style="width:20%">Imported File</th>
@@ -113,8 +113,8 @@
 </template>
 
 <script>
-import vueDropzone from 'vue2-dropzone';
-import 'vue2-dropzone/dist/vue2Dropzone.min.css';
+import vueDropzone from "vue2-dropzone";
+import "vue2-dropzone/dist/vue2Dropzone.min.css";
 
 export default {
     name: "List",
@@ -125,7 +125,7 @@ export default {
     data() {
         return {
             dropzoneOptions: {
-                url: '#',
+                url: "#"
                 // thumbnailWidth: 150,
                 // maxFilesize: 0.5,
                 // headers: { "My-Awesome-Header": "header value" }
