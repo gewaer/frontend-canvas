@@ -1,7 +1,8 @@
 <template>
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
-        <unsaved-changes-modal/>
+        <unsaved-changes-modal />
+        <after-signup-wizard />
         <basic-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
@@ -1633,6 +1634,7 @@ import { AbilityBuilder } from "@casl/ability";
 import AppHeader from "@/views/layout/header.vue";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
+import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
 
@@ -1641,6 +1643,7 @@ export default {
         AppHeader,
         AppSidebar,
         FreeTrialBar,
+        AfterSignupWizard,
         UnsavedChangesModal,
         BasicModal
     },
@@ -1697,6 +1700,10 @@ export default {
 }
 </script>
 <style lang="scss">
+.v--modal-overlay {
+    z-index: 99999 !important;
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity .2s;
 }
