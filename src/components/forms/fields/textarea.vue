@@ -1,6 +1,6 @@
 <template>
     <textarea
-        v-model="item.value"
+        v-model="value"
         v-bind="attributes"
         :id="item.label | slugify | lowercase"
         :name="item.label | slugify | lowercase"
@@ -23,6 +23,11 @@ export default {
     mixins: [
         fieldsMixin
     ],
+    data() {
+        return {
+            value: undefined
+        }
+    },
     computed: {
         minLength() {
             return !this.isInputNumber && !this.hasPattern && this.item.validations && this.item.validations.min || undefined;
@@ -30,6 +35,9 @@ export default {
         maxLength() {
             return !this.isInputNumber && !this.hasPattern && this.item.validations ? this.item.validations.max || FORMS.DEFAULT_MAX_LENGTH_TEXTAREA : undefined;
         }
+    },
+    mounted() {
+        this.value = this.item.value;
     }
 }
 </script>

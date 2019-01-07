@@ -1,6 +1,6 @@
 <template>
     <multiselect
-        v-model="option"
+        v-model="value"
         :options="item.options"
         :show-labels="false"
         @input="updateValue"
@@ -9,6 +9,7 @@
 
 <script>
 import clone from "lodash/clone";
+import isObject from "lodash/isObject";
 import fieldsMixin from "../mixins";
 
 export default {
@@ -18,11 +19,11 @@ export default {
     ],
     data() {
         return {
-            option: null
+            value: null
         }
     },
     created() {
-        this.option = clone(this.item.value);
+        this.value = isObject(this.item.value) ? clone(this.item.value) : this.item.value;
     },
     methods: {
         updateValue(value) {

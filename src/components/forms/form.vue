@@ -129,7 +129,7 @@ export default {
             isValidated && this.resetFormAfterSubmit && this.resetForm(ev)
         },
         emitValues(data) {
-            this.$root.$emit("formSubmitted", data)
+            this.$emit("formSubmitted", data);
         },
         clearValues() {
             this.allControls.map(x => {

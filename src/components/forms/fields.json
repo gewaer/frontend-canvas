@@ -11,14 +11,15 @@
         }
     },
     {
-        "label": "Age",
+        "label": "Agex",
         "type": "number",
         "attributes": {
             "placeholder": "eg: 19",
             "step": 3
         },
         "validations": {
-            "required": true
+            "required": true,
+            "step": 3
         }
     },
     [
@@ -106,7 +107,7 @@
         ]
     },
     {
-        "label": "Country",
+        "label": "Countryx",
         "type": "mselect",
         "iconLeft": "globe-americas",
         "attributes": {
@@ -129,7 +130,8 @@
             "type": "number",
             "help": "( >= 18 <= 99 )",
             "validations": {
-                "max_value": 18
+                "min_value": 18,
+                "max_value": 99
             }
         },
         {

@@ -93,7 +93,8 @@ export default {
                 min: !isInputNumber && min || false,
                 max: !isInputNumber && max || type === "textarea" ? FORMS.DEFAULT_MAX_LENGTH_TEXTAREA : FORMS.DEFAULT_MAX_LENGTH_INPUT,
                 min_value: isInputNumber && minValue || false,
-                max_value: isInputNumber && maxValue || false
+                max_value: isInputNumber && maxValue || false,
+                ...(this.item.validations || {})
             }
         }
     },

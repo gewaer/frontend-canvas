@@ -5,6 +5,7 @@
                 <app-form
                     :form-fields="jsonFields"
                     :form-name="'userProfile'"
+                    @formSubmitted="formSubmitted"
                 />
             </div>
         </div>
@@ -23,8 +24,10 @@ export default {
     data: () => ({
         jsonFields
     }),
-    mounted() {
-        this.$root.$on("formSubmitted", values => alert(JSON.stringify(values)));
+    methods: {
+        formSubmitted(values) {
+            alert(JSON.stringify(values));
+        }
     }
 }
 </script>
