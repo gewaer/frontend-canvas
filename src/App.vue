@@ -1762,6 +1762,14 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
     transform: translate3d(38px,0,0);
 }
 
+.wizard-component ul li {
+    padding-left: 0 !important;
+}
+
+.table.table-condensed tbody tr td :not(.dropdown-default) {
+    overflow: visible;
+}
+
 @media only screen and (min-width: 980px) {
     body.menu-pin .page-sidebar {
         width: 280px;

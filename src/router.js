@@ -117,9 +117,27 @@ const router = new Router({
             path: "/settings/apps",
             name: "settingsApps",
             redirect: {
-                name: "settingsAppsCustomFieldsList"
+                name: "settingsAppsImportList"
             },
             meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/import",
+            name: "settingsAppsImportList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/import/"),
+            meta: {
+                group: "settingsAppsImport",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/themes",
+            name: "settingsAppsThemesList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/themes"),
+            meta: {
+                group: "settingsAppsThemes",
                 requiresAuth: true
             }
         },
