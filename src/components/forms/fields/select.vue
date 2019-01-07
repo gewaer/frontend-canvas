@@ -1,34 +1,17 @@
 <template>
-    <!-- <div :class="{ 'is-danger': !!error }" class="select is-block"> -->
-    <select
-        :id="item.label | slugify"
-        :name="item.label | slugify"
-        :required="item.isRequired !== false"
-        class="form-control"
-        @change="updateValue"
-        @blur="updateValue"
-    >
-        <option
-            v-if="item.placeholder"
-            disabled="disabled"
-            selected="selected"
-            value=""
-        >
-            {{ item.placeholder }}
-        </option>
-        <option
-            v-for="(option, index) in item.options"
-            :key="index"
-            :selected="option.selected"
-            :value="option.value || option.text || option"
-        >
-            {{ option.text || option }}
-        </option>
-    </select>
-    <!-- </div> -->
+    <multiselect
+        v-model="value"
+        v-bind="attributes"
+        :loading="isLoading"
+        :options="options"
+        v-on="attachEvents"
+        @input="updateValue"
+    />
 </template>
 
 <script>
+import clone from "lodash/clone";
+import isObject from "lodash/isObject";
 import fieldsMixin from "../mixins";
 
 export default {
@@ -36,17 +19,52 @@ export default {
     mixins: [
         fieldsMixin
     ],
-    mounted() {
-        const optionSelected = this.item.options && this.item.options.find(x => typeof x === "object" && x.selected);
-        this.$parent.value = optionSelected
-            ? optionSelected.value || optionSelected.text
-            : undefined;
+    data() {
+        return {
+            isLoading: false,
+            options: [],
+            value: null
+        }
+    },
+    computed: {
+        attachEvents() {
+            const events = this.item.url ? { "search-change": this.fetchData} : {};
+
+            if (this.item.searchOnOpen) {
+                events.open = this.fetchData;
+            }
+
+            return events;
+        }
+    },
+    created() {
+        this.options = this.item.options ? clone(this.item.options) : [];
+        this.value = isObject(this.item.value) ? clone(this.item.value) : this.item.value;
+    },
+    methods: {
+        fetchData(query) {
+            const searchField = this.item.searchField || this.item.attributes.label;
+            let params = "";
+
+            if (query && query.length) {
+                params = {
+                    q: `(${searchField}:%${query || ""}%)`
+                };
+            }
+
+            this.isLoading = true;
+            axios({
+                url: this.item.url,
+                params
+            }).then(({ data }) => {
+                this.options = data;
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        },
+        updateValue(value) {
+            this.$emit("input", value);
+        }
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.form-control {
-    -webkit-appearance: menulist;
-}
-</style>

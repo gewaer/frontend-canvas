@@ -37,9 +37,8 @@ import Select from "./select";
 import Textarea from "./textarea";
 import Checkbox from "./checkbox";
 import Radio from "./radio";
-import MSelect from "./mselect";
 
-const NOT_NORMAL_INPUT = ["textarea", "select", "mselect", "checkbox", "radio"];
+const NOT_NORMAL_INPUT = ["textarea", "select", "checkbox", "radio"];
 
 export default {
     name: "Control",
@@ -48,8 +47,7 @@ export default {
         AppSelect: Select,
         AppTextarea: Textarea,
         AppCheckbox: Checkbox,
-        AppRadio: Radio,
-        AppMselect: MSelect
+        AppRadio: Radio
     },
     props: {
         item: {

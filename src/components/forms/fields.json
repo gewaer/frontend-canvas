@@ -90,39 +90,18 @@
     {
         "label": "Country",
         "type": "select",
-        "iconLeft": "globe-americas",
+        "url": "/custom-fields-modules",
+        "searchOnOpen": true,
         "attributes": {
-            "placeholder": "Select your option"
-        },
-        "options": [
-            "Afghanistan",
-            "Åland Islands",
-            "Albania",
-            "Algeria",
-            "...",
-            "Western Sahara",
-            {"text": "Yemen", "value": "YE"},
-            {"text": "Zambia", "value": "ZB", "selected": true},
-            "Zimbabwe"
-        ]
-    },
-    {
-        "label": "Countryx",
-        "type": "mselect",
-        "iconLeft": "globe-americas",
-        "attributes": {
-            "placeholder": "Select your option"
-        },
-        "options": [
-            "Afghanistan",
-            "Åland Islands",
-            "Albania",
-            "Algeria",
-            "...",
-            "Western Sahara",
-            "Zimbabwe"
-        ],
-        "value": "Western Sahara"
+            "allowEmpty": false,
+            "clearOnSelect": false,
+            "closeOnSelect": false,
+            "internalSearch": false,
+            "label": "name",
+            "multiple": true,
+            "show=labels": false,
+            "track-by": "id"
+        }
     },
     [
         {

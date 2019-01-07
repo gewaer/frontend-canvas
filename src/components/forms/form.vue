@@ -24,26 +24,29 @@
                 :key="index"
                 :class="{ required: item.validations && item.validations.required }"
                 class="form-group form-group-default"
+                style="overflow: visible;"
             >
                 <form-label :item="item"/>
                 <form-control ref="control" :item="item"/>
             </div>
         </template>
-        <div class="field form-footer is-grouped is-opposed">
-            <input
-                :value="btnResetText"
-                class="button"
-                type="reset"
-                @click="resetForm"
-            >
-            <input
-                :value="btnSubmitText"
-                :disabled="!isFormValid"
-                class="button is-primary"
-                type="submit"
-            >
-        </div>
-        <p class="is-size-7 fieldRequiredLegend">{{ mandatoryAsteriskLegend }}</p>
+        <template v-if="$children.length">
+            <div class="field form-footer is-grouped is-opposed">
+                <input
+                    :value="btnResetText"
+                    class="button"
+                    type="reset"
+                    @click="resetForm"
+                >
+                <input
+                    :value="btnSubmitText"
+                    :disabled="!isFormValid"
+                    class="button is-primary"
+                    type="submit"
+                >
+            </div>
+            <p class="is-size-7 fieldRequiredLegend">{{ mandatoryAsteriskLegend }}</p>
+        </template>
     </form>
 </template>
 
@@ -112,7 +115,7 @@ export default {
         this.formValues = pipe(flatten, map(getLabels), valueToProp)(this.formFields);
     },
     mounted() {
-        this.allControls = this.$refs.control
+        this.allControls = this.$refs.control || []
     },
     methods: {
         async beforeSubmit(ev) {
