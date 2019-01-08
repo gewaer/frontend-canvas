@@ -3,54 +3,60 @@
         <div class="col-12 m-b-20">
             <h5> {{ title }}</h5>
             <div class="row">
-                <!-- <div class="col-12 col-md-auto">
-                    <div class="profile-image-container">
-                        <div class="profile-image">
-                            <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
-                        </div>
-                        <div class="upload-profile-image">
-                            <label for="upload-image" class="btn btn-primary">Upload image</label>
-                            <input id="upload-image" type="file">
-                        </div>
-                    </div>
-                </div> -->
                 <div class="col-6 col-md">
                     <div class="form-group form-group-default required">
                         <label>Name</label>
                         <input
+                            v-validate="'required:true|min:2|alpha_spaces'"
                             v-model="companyData.name"
                             class="form-control"
                             type="text"
                             name="name">
+                        <span class="text-danger"> {{ errors.first('name') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Address</label>
                         <input
+                            v-validate="'required:true|min:2'"
                             v-model="companyData.address"
                             class="form-control"
                             type="text"
-                            name="email">
+                            data-vv-as="company address"
+                            name="company-address">
+                        <span class="text-danger"> {{ errors.first('company-address') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Zip Code</label>
                         <input
+                            v-validate="'required:true|numeric|min:2'"
                             v-model="companyData.zipcode"
                             class="form-control"
                             type="text"
-                            name="email">
+                            data-vv-as="zip code"
+                            name="zipcode">
+                        <span class="text-danger"> {{ errors.first('zipcode') }}</span>
                     </div>
 
                     <div class="form-group form-group-default">
                         <label>Email</label>
                         <input
+                            v-validate="'required|email'"
                             v-model="companyData.email"
                             class="form-control"
-                            name="phone"
+                            name="email"
                             type="email">
+                        <span class="text-danger"> {{ errors.first('email') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Phone</label>
-                        <input name="lastname" class="form-control" type="tel">
+                        <input
+                            v-validate="'required|numeric'"
+                            v-model="companyData.phone"
+                            class="form-control"
+                            data-vv-as="phone number"
+                            name="phone"
+                            type="tel">
+                        <span class="text-danger"> {{ errors.first('phone') }}</span>
                     </div>
                 </div>
 
@@ -81,16 +87,21 @@
         </div>
 
         <div class="col-12 col-xl d-flex justify-content-end mt-2">
-            <button :disabled="isLoading" class="btn btn-primary" @click="save()"> Save </button>
+            <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
+            <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="save()"> Save </button>
         </div>
     </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import { vueCrudMixins } from "@/utils/mixins";
 
 export default {
-    name: "CompanyInfo",
+    name: "CompanyCrud",
+    mixins: [
+        vueCrudMixins
+    ],
     props: {
         company: {
             type: Object,
@@ -118,16 +129,23 @@ export default {
             } else {
                 return "Edit company";
             }
+        },
+        hasChanged() {
+            return !_.isEqual(this.companyData, this.company);
         }
     },
 
     watch: {
-        languages() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        "companyData.language"() {
+            this.setInitialLanguage();
         },
         company() {
             this.setCompany();
         }
+    },
+
+    mounted() {
+        this.setInitialLanguage();
     },
 
     created() {
@@ -143,6 +161,10 @@ export default {
             this.companyData.language = value.id;
         },
 
+        setInitialLanguage() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        },
+
         save() {
             let url;
             let method;
@@ -155,7 +177,12 @@ export default {
                 method = "PUT";
             }
 
-            this.sendRequest(url, method);
+            this.$validator.validate().then((result) => {
+                if (result) {
+                    this.sendRequest(url, method);
+                }
+            })
+
         },
         sendRequest(url, method) {
             if (this.isLoading) {
@@ -175,6 +202,7 @@ export default {
                     text: "The company information has been changed",
                     type: "success"
                 });
+                this.$emit("changeView", "companiesList");
             }).catch((error) => {
                 this.$notify({
                     group: null,
@@ -185,6 +213,10 @@ export default {
             }).finally(() => {
                 this.isLoading = false;
             });
+        },
+
+        cancel() {
+            this.$emit("changeView", "companiesList");
         }
     }
 };

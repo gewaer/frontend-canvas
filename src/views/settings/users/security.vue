@@ -1,49 +1,54 @@
 <template>
-    <div class="row user-general-information">
-        <div class="col-12 col-xl m-b-20">
-            <h5>Security</h5>
-            <div class="row">
-                <div class="col-12 col-md">
-                    <div class="form-group form-group-default required">
-                        <label>Current password</label>
-                        <input
-                            v-model="currentPassword"
-                            autocomplete="off"
-                            class="form-control"
-                            type="password"
-                        >
-                    </div>
-                    <div class="form-group form-group-default required">
-                        <label>New password</label>
-                        <input
-                            v-model="newPassword"
-                            autocomplete="off"
-                            class="form-control"
-                            type="password"
-                        >
-                    </div>
-                    <div class="form-group form-group-default required">
-                        <label>Confirm new password</label>
-                        <input
-                            v-model="confirmNewPassword"
-                            autocomplete="off"
-                            class="form-control"
-                            type="password"
-                        >
+    <settings-template>
+        <div class="row user-general-information">
+            <div class="col-12 col-xl m-b-20">
+                <h5>Security</h5>
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <div class="form-group form-group-default required">
+                            <label>Current password</label>
+                            <input
+                                v-model="currentPassword"
+                                autocomplete="off"
+                                class="form-control"
+                                type="password"
+                            >
+                        </div>
+                        <div class="form-group form-group-default required">
+                            <label>New password</label>
+                            <input
+                                v-model="newPassword"
+                                autocomplete="off"
+                                class="form-control"
+                                type="password"
+                            >
+                        </div>
+                        <div class="form-group form-group-default required">
+                            <label>Confirm new password</label>
+                            <input
+                                v-model="confirmNewPassword"
+                                autocomplete="off"
+                                class="form-control"
+                                type="password"
+                            >
+                        </div>
                     </div>
                 </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button :disabled="isLoading" class="btn btn-primary" @click="update()">Change</button>
+                </div>
             </div>
-            <div class="d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Change</button>
-            </div>
+            <div class="col-12 col-xl m-b-20"/>
         </div>
-        <div class="col-12 col-xl m-b-20"/>
-    </div>
+    </settings-template>
 </template>
 
 <script>
 export default {
-    name: "UserSecurity",
+    name: "Security",
+    components: {
+        SettingsTemplate: () => import("./tab-container")
+    },
     data() {
         return {
             confirmNewPassword: "",

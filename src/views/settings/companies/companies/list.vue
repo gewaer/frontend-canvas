@@ -2,11 +2,12 @@
     <div class="row">
         <div class="col">
             <h5>Companies
-                <button class="btn btn-primary" @click="addCompany()">New company</button>
+                <button class="btn btn-primary" @click="toCrud">New company</button>
             </h5>
             <div class="table-responsive">
                 <vuetable
-                    :append-params="{format: 'true'}"
+                    ref="Vuetable"
+                    :append-params="appendParams"
                     :fields="companiesFields"
                     :http-fetch="getTableData"
                     api-url="/companies"
@@ -25,7 +26,7 @@
                         <button
                             :disabled="isCurrentCompany(props.rowData.id)"
                             class="btn btn-danger m-l-5"
-                            @click="deleteCompany(props.rowData.id)">
+                            @click="beforeDeleteCompany(props.rowData)">
                             <i class="fa fa-trash" aria-hidden="true" />
                         </button>
                     </template>
@@ -39,21 +40,15 @@
             :scrollable="true"
             name="company-modal"
             height="auto"
-            @closed="selectedCompany = null">
-            <companies-form :company="selectedCompany" mode="form"/>
-        </modal>
+            @closed="selectedCompany = null"/>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import CompaniesForm from "@/components/forms/companies";
+import {mapState} from "vuex";
 
 export default {
     name: "CompaniesList",
-    components: {
-        CompaniesForm
-    },
     data() {
         return {
             companiesFields: [{
@@ -68,6 +63,11 @@ export default {
                 name: "actions",
                 title: "Actions"
             }],
+            appendParams:{
+                format: "true",
+                relationships: "hasActivities",
+                q: "(is_deleted:0)"
+            },
             defaultImage: "https://mctekk.com/images/logo-o.svg",
             isEditable: true,
             isLoading: false,
@@ -80,19 +80,48 @@ export default {
         })
     },
     methods: {
-        addCompany() {
-            this.selectedCompany = {};
-            this.$modal.show("company-modal");
+        toCrud() {
+            this.$emit("changeView", "CompaniesCRUD");
         },
-        deleteCompany(id) {
+        beforeDeleteCompany(company){
             if (this.isLoading) {
-                return
+                return ;
             }
-
+            if(company.hasActivities == "1"){
+                this.$notify({
+                    title: "Error",
+                    text: "No puede eliminar esta compañia por que tiene actividades",
+                    type: "error"
+                });
+                return ;
+            }
+            this.confirmDeleteCompany(company);
+        },
+        confirmDeleteCompany(company){
+            this.$modal.show("basic-modal", {
+                title:"Delete Company",
+                message:`Did you want to delete ${company.name} company ?`,
+                buttons: [{
+                    title: "Accept",
+                    class: "btn-success",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                        this.deleteCompany(company.id);
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-danger",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                    }
+                }]
+            });
+        },
+        deleteCompany(companyId) {
             this.isLoading = true;
 
             axios({
-                url: `/companies/${id}`,
+                url: `/companies/${companyId}`,
                 method: "DELETE"
             }).then(() => {
                 this.$notify({
@@ -100,6 +129,7 @@ export default {
                     text: "The company has been deleted",
                     type: "success"
                 });
+                this.$refs.Vuetable.reload();
             }).catch((error) => {
                 this.$notify({
                     title: "Error",
@@ -110,15 +140,9 @@ export default {
                 this.isLoading = false;
             })
         },
-        async editCompany(companyId, isEditable = true) {
+        editCompany(companyId, isEditable = true) {
             this.isEditable = isEditable;
-            await this.getCompany(companyId);
-            this.$modal.show("company-modal");
-        },
-        getCompany(id) {
-            return axios(`/companies/${id}`).then(({ data }) => {
-                this.selectedCompany = data;
-            })
+            this.$emit("getCompany", companyId);
         },
         getTableData(apiUrl, options) {
             return axios({

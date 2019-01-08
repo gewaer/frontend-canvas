@@ -15,13 +15,12 @@ module.exports = {
             allowSingleLine: false
         }],
         camelcase: ["error", {
-            properties: "always",
+            properties: "never",
             ignoreDestructuring: false
         }],
         "comma-dangle": ["error"],
         "comma-spacing": ["error"],
         "comma-style": ["error"],
-        complexity: ["error", 3],
         "computed-property-spacing": ["error", "never"],
         "consistent-this": ["error", "self"],
         curly: ["error", "all"],

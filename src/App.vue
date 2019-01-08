@@ -1,21 +1,23 @@
 <template>
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
-        <unsaved-changes-modal/>
+        <unsaved-changes-modal />
+        <after-signup-wizard />
+        <basic-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
-            @handleSidebar="handleSidebar()"
+            @handleSidebar="handleSidebar"
         />
         <div class="page-container">
             <app-header
                 v-if="$route.meta.requiresAuth"
                 :show-sidebar="showSidebar"
-                @handleSidebar="handleSidebar()"
+                @handleSidebar="handleSidebar"
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar v-if="$route.meta.requiresAuth" />
+                    <free-trial-bar v-if="$route.meta.requiresAuth"/>
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -1632,14 +1634,18 @@ import { AbilityBuilder } from "@casl/ability";
 import AppHeader from "@/views/layout/header.vue";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
+import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
+import BasicModal from "@/components/modals/basic-modal.vue";
 
 export default {
     components: {
         AppHeader,
         AppSidebar,
         FreeTrialBar,
-        UnsavedChangesModal
+        AfterSignupWizard,
+        UnsavedChangesModal,
+        BasicModal
     },
     data() {
         return {
@@ -1655,17 +1661,19 @@ export default {
     },
     watch: {
         accessList(permissions) {
-            const ability = AbilityBuilder.define((can, cannot) => {
-                can("manage", "all");
+            if (permissions) {
+                const ability = AbilityBuilder.define((can, cannot) => {
+                    can("manage", "all");
 
-                Object.keys(permissions).forEach((resource) => {
-                    Object.keys(permissions[resource]).forEach((action) => {
-                        cannot(action, resource);
+                    Object.keys(permissions).forEach((resource) => {
+                        Object.keys(permissions[resource]).forEach((action) => {
+                            cannot(action, resource);
+                        });
                     });
                 });
-            });
 
-            this.$ability.update(ability.rules);
+                this.$ability.update(ability.rules);
+            }
         },
         "$route.path"() {
             this.$nextTick(() => {
@@ -1674,11 +1682,17 @@ export default {
         }
     },
     mounted() {
-        document.body.style.setProperty("--base-color", this.appBaseColor);
-        document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+        this.appInitialize();
+
         $.Pages.init();
     },
     methods: {
+        appInitialize() {
+            document.body.style.setProperty("--base-color", this.appBaseColor);
+            document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+
+            $.Pages.init();
+        },
         handleSidebar(state) {
             this.showSidebar = state;
         }
@@ -1686,6 +1700,10 @@ export default {
 }
 </script>
 <style lang="scss">
+.v--modal-overlay {
+    z-index: 99999 !important;
+}
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity .2s;
 }
@@ -1729,6 +1747,31 @@ export default {
                 background-color: var(--base-color);
             }
         }
+    }
+}
+
+[data-toggle-pin=sidebar]>i:before {
+    content: "\f111";
+}
+
+.page-sidebar .sidebar-header .sidebar-header-controls {
+    transform: translate3d(-18px,0,0);
+}
+
+body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
+    transform: translate3d(38px,0,0);
+}
+
+.multiselect {
+    .multiselect__placeholder {
+        margin-bottom: 8px;
+        padding-top: 0;
+    }
+}
+
+@media only screen and (min-width: 980px) {
+    body.menu-pin .page-sidebar {
+        width: 280px;
     }
 }
 </style>

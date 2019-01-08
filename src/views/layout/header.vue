@@ -173,7 +173,7 @@
         <div class="user-bar">
             <div class="user-name">
                 <span class="bold">{{ userData.firstname }}</span>
-                <span>{{ userData.lastname }}</span>
+                <span> {{ userData.lastname }}</span>
             </div>
             <div class="dropdown">
                 <div
@@ -184,19 +184,16 @@
                     <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
                 <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                    <router-link :to="{name: 'usersSettings'}" class="dropdown-item">
+                    <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
                         <span>Users Settings</span>
                     </router-link>
-
-                    <router-link :to="{name: 'companiesSettings'}" class="dropdown-item">
+                    <router-link :to="{name: 'settingsCompanies'}" class="dropdown-item">
                         <span>Companies Settings</span>
                     </router-link>
-
-                    <router-link :to="{name: 'appsSettings'}" class="dropdown-item">
-                        <span>Apps Settings</span>
+                    <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
+                        <span>App Settings</span>
                     </router-link>
-
-                    <a href="#" class="dropdown-item" @click="logout()">
+                    <a href="#" class="dropdown-item" @click.prevent="logout()">
                         <span>Logout</span>
                         <i class="pg-power"/>
                     </a>

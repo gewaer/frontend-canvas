@@ -11,9 +11,18 @@
         <div id="appMenu" class="sidebar-overlay-slide from-top"/>
         <!-- BEGIN SIDEBAR HEADER -->
         <div class="sidebar-header">
-            <a :to="{ name: 'dashboard'}" class="app-secondary-logo">
+            <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
                 <img src="/img/secondary-logo.png">
-            </a>
+            </router-link>
+            <div class="sidebar-header-controls">
+                <button 
+                    type="button" 
+                    class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none" 
+                    data-toggle-pin="sidebar" 
+                    @click="togglePinSidebar">
+                    <i class="fa fs-12"/>
+                </button>
+            </div>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="../../assets/icons/hamburguer-menu.png">
             </div>
@@ -23,9 +32,9 @@
         <div id="sidebar-menu" class="sidebar-menu">
             <ul class="menu-items">
                 <li class="m-t-30">
-                    <a id="dashboard-menu-link" href="#">
+                    <router-link id="dashboard-menu-link" :to="{ name: 'dashboard'}">
                         <span class="title">Dashboard</span>
-                    </a>
+                    </router-link>
                     <span class="icon-thumbnail ">
                         <i class="fas fa-chart-pie"/>
                     </span>
@@ -98,9 +107,23 @@ export default {
             default: false
         }
     },
+    mounted() {
+        this.$nextTick(() => {
+            if (localStorage.getItem("pin-menu")) {
+                $('[data-pages="sidebar"]').data("pg.sidebar").togglePinSidebar();
+            }
+        });
+    },
     methods: {
         handleSidebar(payload) {
             this.$emit("handleSidebar", payload);
+        },
+        togglePinSidebar() {
+            if (localStorage.getItem("pin-menu")) {
+                localStorage.removeItem("pin-menu")
+            } else {
+                window.localStorage.setItem("pin-menu", true);
+            }
         }
     }
 };
@@ -232,7 +255,7 @@ export default {
         right: 25px;
     }
 
-    .sidebar-visible .menu-icon {
+    .sidebar-visible .menu-icon, .menu-pin .menu-icon {
         display: none !important;
     }
 
