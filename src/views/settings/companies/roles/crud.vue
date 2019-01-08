@@ -11,6 +11,7 @@
                             v-validate="'required'"
                             v-model="roleData.name"
                             name="name"
+                            vee-validate="required"
                             type="text"
                             class="form-control"
                             required>
@@ -97,7 +98,7 @@
 
             <div class="row">
                 <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                    <button class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
+                    <button class="btn btn-danger m-r-10" @click="rolesList">Cancel</button>
                     <button :disabled="!hasChanged" class="btn btn-primary" @click="save">Save</button>
                 </div>
             </div>
