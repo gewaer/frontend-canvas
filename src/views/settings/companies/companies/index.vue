@@ -1,33 +1,44 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <transition name="fade" mode="out-in">
-                <component
-                    :is="currentComponent"
-                    :company="selectedCompany"
-                    @getCompany="getCompany"
-                    @changeView="changeView"
-                    @companies="companies"/>
-            </transition>
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <transition name="fade" mode="out-in">
+                    <component
+                        :is="currentComponent"
+                        :company="selectedCompany"
+                        @getCompany="getCompany"
+                        @changeView="changeView"
+                        @companies="companies"
+                        @form-fields="setFormFields"/>
+                </transition>
+            </div>
         </div>
-    </div>
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import CompaniesCRUD from "./crud.vue";
 import CompaniesList from "./list.vue";
 
 export default {
+    name: "SettingsCompaniesList",
     components: {
         CompaniesCRUD,
-        CompaniesList
+        CompaniesList,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             currentComponent: "CompaniesList",
             companies: [],
             selectedCompany: null,
-            isEditable: true
+            isEditable: true,
+            crudFormFields: {}
         }
     },
     mounted() {
@@ -51,7 +62,11 @@ export default {
             if (view == "CompaniesCRUD") {
                 this.selectedCompany = {};
             }
+            this.crudFormFields = {};
             this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.crudFormFields = formFields;
         }
     }
 };

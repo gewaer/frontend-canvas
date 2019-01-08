@@ -20,13 +20,18 @@
                 <div class="col-md-6">
                     <div class="form-group form-group-default">
                         <label>Description</label>
-                        <input v-model="roleData.description" type="text" class="form-control">
+                        <input
+                            v-validate="''"
+                            v-model="roleData.description"
+                            type="text"
+                            name="description"
+                            class="form-control" >
                     </div>
                 </div>
             </form>
             <!-- Role Select -->
             <div class="row">
-                <div class="col">
+                <div v-if="accessGroup" class="col">
                     <div
                         id="accordion"
                         class="card-group horizontal"
@@ -72,7 +77,9 @@
                                             <div class="col-xs-1">
                                                 <div class="checkbox check-success">
                                                     <input
+                                                        v-validate="''"
                                                         :id="`checkbox1-${groupName}-${accessName}`"
+                                                        :name="`checkbox1-${groupName}-${accessName}`"
                                                         v-model="access.allowed"
                                                         type="checkbox"
                                                         @change="checkSelectedGroup(groupName)">
@@ -100,7 +107,12 @@
 </template>
 
 <script>
+import { vueCrudMixins } from "@/utils/mixins";
+
 export default {
+    mixins: [
+        vueCrudMixins
+    ],
     props:{
         accessList: {
             type: Array,
@@ -254,6 +266,9 @@ export default {
                 accessLocal.allowed = Number(accessLocal.allowed);
                 return accessLocal;
             }
+        },
+        cancel() {
+            this.rolesList();
         },
         // events up
         rolesList() {

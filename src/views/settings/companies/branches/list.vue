@@ -7,7 +7,7 @@
             <div class="table-responsive">
                 <vuetable
                     ref="Vuetable"
-                    :append-params="{format: 'true'}"
+                    :append-params="appendParams"
                     :fields="branchesFields"
                     :http-fetch="getTableData"
                     api-url="/companies-branches"
@@ -23,6 +23,7 @@
                         <button class="btn btn-primary m-l-5" @click="editBranch(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
                         <button class="btn btn-complete m-l-5" @click="editBranch(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
                         <button
+                            :disabled="isCurrentBranch(props.rowData.id)"
                             class="btn btn-danger m-l-5"
                             @click="confirmDelete(props.rowData.id)">
                             <i class="fa fa-trash" aria-hidden="true" />
@@ -36,6 +37,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
     name: "BranchesList",
     data() {
@@ -52,11 +55,20 @@ export default {
                 name: "actions",
                 title: "Actions"
             }],
+            appendParams:{
+                format: "true",
+                q: "(is_deleted:0)"
+            },
             defaultImage: "https://mctekk.com/images/logo-o.svg",
             isEditable: true,
             isLoading: false,
             selectedBranch: null
         }
+    },
+    computed: {
+        ...mapState("Company", {
+            branch: state => state.data.branch
+        })
     },
     methods: {
         toCrud() {
@@ -69,7 +81,7 @@ export default {
             }
         },
         delete(id) {
-            if (this.isLoading) {
+            if (this.isLoading || this.branch.id == id) {
                 return
             }
 
@@ -95,13 +107,14 @@ export default {
                 this.isLoading = false;
             })
         },
+
         editBranch(branchId, isEditable = true) {
             this.isEditable = isEditable;
             this.$emit("getBranch", branchId);
         },
 
-        isCurrentBranch(BranchId) {
-            return this.Branch.id == BranchId;
+        isCurrentBranch(branchId) {
+            return this.branch.id == branchId;
         }
     }
 };

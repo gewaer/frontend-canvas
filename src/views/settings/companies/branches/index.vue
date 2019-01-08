@@ -1,26 +1,36 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <transition name="fade" mode="out-in">
-                <component
-                    :is="currentComponent"
-                    :branch="selectedBranch"
-                    @getBranch="getBranch"
-                    @changeView="changeView"/>
-            </transition>
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <transition name="fade" mode="out-in">
+                    <component
+                        :is="currentComponent"
+                        :branch="selectedBranch"
+                        @getBranch="getBranch"
+                        @changeView="changeView"
+                        @form-fields="setFormFields"/>
+                </transition>
+            </div>
         </div>
-    </div>
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import BranchesCrud from "./crud.vue";
 import BranchesList from "./list.vue";
 
 export default {
+    name: "SettingsCompaniesBranches",
     components: {
         BranchesCrud,
-        BranchesList
+        BranchesList,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             currentComponent: "BranchesList",
@@ -29,7 +39,8 @@ export default {
                 list: "BranchesList"
             },
             selectedBranch: null,
-            isEditable: true
+            isEditable: true,
+            crudFormFields: {}
         }
     },
     mounted() {
@@ -53,7 +64,12 @@ export default {
             if (view == this.views.crud) {
                 this.selectedBranch = {};
             }
+            this.crudFormFields = {};
             this.currentComponent = view;
+        },
+
+        setFormFields(formFields) {
+            this.crudFormFields = formFields;
         }
     }
 };

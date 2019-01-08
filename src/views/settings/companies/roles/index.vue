@@ -1,28 +1,37 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <component
-                :is="currentComponent"
-                :access-list="accessList"
-                :role="selectedRole"
-                @getRole="getRole"
-                @cloneRole="cloneRole"
-                @changeView="changeView"
-            />
+    <tab-container>
+        <div class="row">
+            <div class="col">
+                <component
+                    :is="currentComponent"
+                    :access-list="accessList"
+                    :role="selectedRole"
+                    @getRole="getRole"
+                    @cloneRole="cloneRole"
+                    @changeView="changeView"
+                    @form-fields="setFormFields"
+                />
+            </div>
         </div>
-    </div>
-
+    </tab-container>
 </template>
 
 <script>
+import { vueRouterMixins } from "@/utils/mixins";
+import TabContainer from "../tab-container";
 import rolesList from "./list.vue";
 import rolesCrud from "./crud.vue";
 
 export default {
+    name: "SettingsCompaniesRoles",
     components: {
         rolesList,
-        rolesCrud
+        rolesCrud,
+        TabContainer
     },
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             selectedRole: null,
@@ -31,7 +40,8 @@ export default {
             views: {
                 crud: "rolesCrud",
                 list: "rolesList"
-            }
+            },
+            crudFormFields: {}
         }
     },
     methods: {
@@ -71,7 +81,11 @@ export default {
                 this.getRole({name: "Admins"}, true);
                 return
             }
+            this.crudFormFields = {};
             this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.crudFormFields = formFields;
         },
 
         setRole(accessList, role) {
