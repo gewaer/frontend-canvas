@@ -6,13 +6,10 @@
                 <div class="row">
                     <div class="col-12 col-md-auto">
                         <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
-                            </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
-                            </div>
+                            <profile-upload
+                                :endpoint="fileUploadEndpoint"
+                                avatar-url="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png"
+                            />
                         </div>
                     </div>
                     <div class="col-12 col-md">
@@ -108,17 +105,21 @@
 import {mapState} from "vuex";
 import TabContainer from "./tab-container";
 import { vueRouterMixins } from "@/utils/mixins";
+import ProfileUpload from "@/components/profile-upload";
 
 export default {
     name: "CompanyProfile",
     components: {
-        TabContainer
+        TabContainer,
+        ProfileUpload
     },
     mixins: [vueRouterMixins],
     data() {
         return {
             isLoading: false,
-            companyData: {},
+            companyData: {
+                language: null
+            },
             selectedLanguage: null
         }
     },
@@ -135,11 +136,17 @@ export default {
         },
         hasChanged() {
             return !_.isEqual(this.companyData, this.$store.state.Company.data);
+        },
+        fileUploadEndpoint() {
+            return `companies/${this.companyData.id}/resources`
         }
     },
     watch: {
-        "company.language"() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        languages() {
+            this.setInitialLanguage()
+        },
+        "companyData.languages"() {
+            this.setInitialLanguage()
         },
         company(company) {
             this.companyData = _.clone(company);

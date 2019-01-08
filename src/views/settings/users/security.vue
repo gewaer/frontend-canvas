@@ -8,37 +8,37 @@
                         <div class="form-group form-group-default required">
                             <label>Current password</label>
                             <input
+                                v-validate="'required'"
                                 v-model="currentPassword"
                                 autocomplete="off"
                                 class="form-control"
                                 type="password"
-                                v-validate="'required'"
                                 data-vv-as="password"
                                 name="password"
                             >
-                             <span class="text-danger">{{ errors.first("password") }}</span>
+                            <span class="text-danger">{{ errors.first("password") }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>New password</label>
                             <input
+                                v-validate="'required'"
                                 v-model="newPassword"
                                 autocomplete="off"
                                 class="form-control"
                                 type="password"
-                                v-validate="'required'"
                                 data-vv-as="new password"
                                 name="new-password"
                             >
-                             <span class="text-danger">{{ errors.first("new-password") }}</span>
+                            <span class="text-danger">{{ errors.first("new-password") }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Confirm new password</label>
                             <input
+                                v-validate="'required'"
                                 v-model="confirmNewPassword"
                                 autocomplete="off"
                                 class="form-control"
                                 type="password"
-                                v-validate="'required'"
                                 data-vv-as="confirm new password"
                                 name="confirm-new-password"
                             >
