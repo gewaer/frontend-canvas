@@ -47,7 +47,8 @@ export default {
                 }
 
                 let accessesTemplate = await this.getAccess(role);
-                const accessList = this.mergeAccesses(data, accessesTemplate);
+                let accessList = this.mergeAccesses(data, accessesTemplate);
+                accessList = this.formatAccesses(accessList);
                 this.setRole(accessList, role);
             })
         },
@@ -60,13 +61,7 @@ export default {
 
         getAccess(role) {
             return axios.get("/permissions-resources-access").then(({data}) => {
-                const accessList = data.map(access => {
-                    delete access.resources_id;
-                    access.roles_id = role.roles_id;
-                    access.allowed = true;
-                    access.roles_name = role.name;
-                    return access;
-                });
+                const accessList = this.formatAccesses(data, role);
                 return accessList;
             })
         },
@@ -87,12 +82,30 @@ export default {
 
         mergeAccesses(accessList, accessesTemplate) {
             accessesTemplate.forEach(access => {
-                const localAccess = accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name)
+                const localAccess = this.findLocalAccess(accessList, access);
                 if (!localAccess) {
                     accessList.push(access)
                 }
             })
             return accessList;
+        },
+
+        findLocalAccess(accessList, access) {
+            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+        },
+
+        formatAccesses(accesList, role ) {
+            return accesList.map(access => {
+                if (role) {
+                    delete access.resources_id;
+                    access.roles_id = role.roles_id;
+                    access.allowed = true;
+                    access.roles_name = role.name;
+                }
+
+                access.allowed = Boolean(Number(access.allowed))
+                return access
+            })
         }
     }
 };
