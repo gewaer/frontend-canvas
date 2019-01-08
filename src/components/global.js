@@ -13,6 +13,7 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import VeeValidate from "vee-validate";
 import Vuetable from "vuetable-2";
+import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
 import VueFormWizard from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 
@@ -30,3 +31,4 @@ Vue.use(VueFormWizard);
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);
 Vue.component("vuetable", Vuetable);
+Vue.component("vuetable-pagination", VuetablePagination);

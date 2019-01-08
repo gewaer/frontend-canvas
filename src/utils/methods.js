@@ -5,5 +5,8 @@ export default {
             url: apiUrl,
             params: options.params
         });
+    },
+    uids() {
+        return Math.random().toString(16).replace(".", "");
     }
 }
