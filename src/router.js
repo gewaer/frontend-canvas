@@ -4,8 +4,6 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
-
-import AppsSettings from "@/views/settings/apps";
 import Kanban from "@/views/kanban/kanban";
 import SettingsCompaniesProfile from "./views/settings/companies/profile";
 import SettingsCompaniesList from "./views/settings/companies/companies/";
