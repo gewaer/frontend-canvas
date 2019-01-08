@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-9">
                             <custom-fields-form
-                                :form-fields="jsonFields"
+                                :form-fields="fieldsSchema"
                                 :form-name="'customFields'"
                                 @formSubmitted="formSubmitted"
                             />
@@ -71,7 +71,8 @@ export default {
             formData: {
                 name: ""
             },
-            jsonFields: [],
+            fieldsSchema: [],
+            fieldsType: null,
             modules: [],
             selectedCustomField: "text-field",
             selectedModules: []
@@ -103,8 +104,9 @@ export default {
             });
         },
         save() {},
-        setSchema(schema) {
-            this.jsonFields = schema;
+        setSchema(schema, type) {
+            this.fieldsSchema = schema;
+            this.fieldsType = type;
         }
     }
 };

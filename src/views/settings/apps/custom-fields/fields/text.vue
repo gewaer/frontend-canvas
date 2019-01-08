@@ -40,7 +40,7 @@ export default {
     },
     methods: {
         sendSchema() {
-            this.$emit("schema", this.schema);
+            this.$emit("schema", this.schema, "text");
         }
     }
 }
