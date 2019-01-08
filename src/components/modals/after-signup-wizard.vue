@@ -8,7 +8,7 @@
         height="auto"
         width="900"
     >
-        <form-wizard class="after-signup-wizard-component" shape="tab" color="var(--base-color)">
+        <form-wizard class="wizard-component" shape="tab" color="var(--base-color)">
             <h2 slot="title">This will replace a title</h2>
             <tab-content title="Step 1" icon="fa fa-cog">
                 <h1>Step 1</h1>
@@ -48,7 +48,5 @@ export default {
 </script>
 
 <style lang="scss">
-.after-signup-wizard-component ul li {
-    padding-left: 0 !important;
-}
+
 </style>
