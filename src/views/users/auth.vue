@@ -319,7 +319,7 @@ export default {
             this.$router.push({ name: "login" });
         },
         handleLoginSignupInvite(response) {
-            const auth = this.isLogin ? response.data : response.data.session;
+            const auth = this.isSignup ? response.data.session : response.data ;
 
             Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
             this.$store.dispatch("User/setToken", auth.token);
@@ -385,20 +385,18 @@ export default {
             });
         },
         validateInvitation(){
-            let url = `${this.form.endpoint}/validate`
+            let url = `users-invite/validate/${this.$route.params.hash}`;
             axios({
                 url
-            }).then((response) => {
-                let  newTitle = `${this.usersInvites.title}: ${response.email} `
-                this.usersInvites.title = newTitle;
-            }).catch((error) => {
-                this.$notify({
-                    title: "Error",
-                    text: error.response.data.errors.message,
-                    type: "error"
+            }).then((response) => this.data.email = response.data.email)
+                .catch((error) => {
+                    this.$notify({
+                        title: "Error",
+                        text: error.response.data.errors.message,
+                        type: "error"
+                    });
+                    this.$router.push({ name: "404" });
                 });
-                // this.$router.push({ name: "404" });
-            });
         }
     }
 }
