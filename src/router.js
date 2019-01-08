@@ -39,7 +39,7 @@ const router = new Router({
         },
         {
             path: "/users/forgot-password",
-            name: "forgotPa",
+            name: "forgotPassword",
             component: Auth,
             meta: {
                 requiresAuth: false
