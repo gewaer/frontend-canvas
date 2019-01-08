@@ -9,7 +9,7 @@ import SettingsCompaniesList from "./views/settings/companies/companies/";
 import SettingsCompaniesBranches from "./views/settings/companies/branches/";
 import SettingsCompaniesUsers from "./views/settings/companies/users/";
 import SettingsCompaniesRoles from "./views/settings/companies/roles/";
-import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions";
+import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions/";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
