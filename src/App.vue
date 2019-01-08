@@ -1,6 +1,7 @@
 <template>
     <div id="app" :class="{ 'full-height' : !$route.meta.requiresAuth }">
         <notifications/>
+        <unsaved-changes-modal/>
         <app-sidebar
             v-if="$route.meta.requiresAuth"
             :show-sidebar="showSidebar"
@@ -14,6 +15,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
+                    <free-trial-bar v-if="$route.meta.requiresAuth" />
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -1627,17 +1629,22 @@
 <script>
 import { mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import appHeader from "@/views/layout/header.vue";
-import appSidebar from "@/views/layout/side-bar.vue";
+import AppHeader from "@/views/layout/header.vue";
+import AppSidebar from "@/views/layout/side-bar.vue";
+import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
+import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
 
 export default {
     components: {
-        appHeader,
-        appSidebar
+        AppHeader,
+        AppSidebar,
+        FreeTrialBar,
+        UnsavedChangesModal
     },
     data() {
         return {
             appBaseColor: "#61c2cc",
+            appSecondaryColor: "#9ee5b5",
             showSidebar: false
         };
     },
@@ -1668,6 +1675,7 @@ export default {
     },
     mounted() {
         document.body.style.setProperty("--base-color", this.appBaseColor);
+        document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
         $.Pages.init();
     },
     methods: {
@@ -1679,7 +1687,7 @@ export default {
 </script>
 <style lang="scss">
 .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+    transition: opacity .2s;
 }
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {

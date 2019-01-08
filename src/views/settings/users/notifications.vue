@@ -6,62 +6,62 @@
                 <div id="condensedTable_wrapper" class="table table-hover table-condensed">
                     <table id="basicTable" class="table table-hover table-condensed dataTable no-footer">
                         <thead>
-                            <th style="width:90%">Name</th>
-                            <th style="width:10%">Status</th>
+                            <th style="width:95%">Name</th>
+                            <th style="width:5%">Status</th>
                         </thead>
                         <tbody>
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="even">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="even">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
@@ -81,55 +81,55 @@
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="even">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="even">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>
                             <tr class="odd">
                                 <td class="v-align-middle">Lipsum Dolor sit amet</td>
                                 <td class="v-align-middle ">
-                                    <input 
-                                        type="checkbox" 
-                                        data-init-plugin="switchery" 
-                                        data-color="primary" 
-                                        data-size="small" 
+                                    <input
+                                        type="checkbox"
+                                        data-init-plugin="switchery"
+                                        data-color="primary"
+                                        data-size="small"
                                         checked="checked" >
                                 </td>
                             </tr>

@@ -6,6 +6,7 @@ import store from "@/store";
 import examples from "./views/examples";
 import UsersSettings from "@/views/settings/users";
 import CompaniesSettings from "@/views/settings/companies";
+import AppsSettings from "@/views/settings/apps";
 import BrowseList from "@/views/browse/";
 import Kanban from "@/views/kanban/kanban";
 
@@ -96,11 +97,19 @@ const router = new Router({
             }
         },
         {
+            path: "/settings/apps",
+            name: "appsSettings",
+            component: AppsSettings,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: "/browse",
             name: "browse",
             component: BrowseList,
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
         },
         {

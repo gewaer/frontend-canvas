@@ -12,7 +12,7 @@
         <!-- BEGIN SIDEBAR HEADER -->
         <div class="sidebar-header">
             <a :to="{ name: 'dashboard'}" class="app-secondary-logo">
-                <img src="../../assets/secondary-logo.png">
+                <img src="/img/secondary-logo.png">
             </a>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="../../assets/icons/hamburguer-menu.png">

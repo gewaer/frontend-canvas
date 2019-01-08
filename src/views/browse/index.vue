@@ -1,16 +1,24 @@
 <template>
     <div class="browse-list">
+        <modal
+            :draggable="true"
+            :adaptive="true"
+            :scrollable="true"
+            name="add-custom-filter"
+            height="auto">
+            <add-custom-filters-modal mode="form" />
+        </modal>
         <h4 class="section-title p-l-10">Leads</h4>
         <div class="card">
             <div class="card-block">
                 <div class="browse-list-row">
                     <div class="dropdown bulk-actions">
-                        <button 
-                            id="bulk-actions" 
-                            class="btn btn-info dropdown-toggle" 
-                            type="button" 
-                            data-toggle="dropdown" 
-                            aria-haspopup="true" 
+                        <button
+                            id="bulk-actions"
+                            class="btn btn-info dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
                             aria-expanded="false">
                             Bulk actions
                         </button>
@@ -33,11 +41,24 @@
                     </div>
                     <div class="browse-list-filters d-flex align-items-center">
                         <span class="mr-3">Filters</span>
-                        <select id="multi" class="full-width" multiple>
-                            <option value="Jim">This is a filter</option>
-                            <option value="John">and this another one too</option>
-                            <option value="Lucy">and this another one</option>
-                        </select>
+                        <!-- <select id="multi" class="full-width" data-init-plugin="select2" multiple>
+                            <option value="1">Filter 1</option>
+                            <option value="2">Filter 2</option>
+                            <option value="3">Filter 3</option>
+                            <option class="add-custom-filter" @click.stop="addCustomFilter">Add custom filter</option>
+                        </select> -->
+                        <multiselect
+                            v-model="currentFilters"
+                            :multiple="true"
+                            :show-labels="false"
+                            :options="['Filter 1', 'Filter 2', 'Fiilter 3']"
+                        >
+                            <template slot="afterList" >
+                                <div class="add-custom-filter-btn option__desc"><a class="option__title" @click="showAddCustomFilter">
+                                <i class="fa fa-plus"/> Add custom Filter</a>
+                                </div>
+                            </template>
+                        </multiselect>
                     </div>
                 </div>
             </div>
@@ -99,11 +120,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -147,11 +168,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -195,11 +216,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -243,11 +264,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -291,11 +312,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -339,11 +360,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -387,11 +408,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -435,11 +456,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -483,11 +504,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -531,11 +552,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -579,11 +600,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -627,11 +648,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -675,11 +696,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -723,11 +744,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -771,11 +792,11 @@
                                 <td>
                                     <div class="btn-group vehicle-edit">
                                         <button type="button" class="btn btn-default smaller-btn">Edit</button>
-                                        <button 
-                                            type="button" 
-                                            data-toggle="dropdown" 
-                                            aria-haspopup="true" 
-                                            aria-expanded="false" 
+                                        <button
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
                                             class="btn btn-default dropdown-toggle dropdown-toggle-split">
                                             <span class="sr-only">Toggle Dropdown</span>
                                         </button>
@@ -799,6 +820,27 @@
     </div>
 </template>
 
+<script>
+import addCustomFiltersModal from "../layout/add-custom-filters-modal.vue";
+
+export default {
+    components: {
+        addCustomFiltersModal
+    },
+    data() {
+        return {
+            currentFilters: []
+        };
+    },
+    methods: {
+        showAddCustomFilter() {
+            this.$modal.show("add-custom-filter");
+        }
+    }
+}
+</script>
+
+
 <style lang="scss">
 .browse-list {
     .browse-list-row {
@@ -819,6 +861,17 @@
         .browse-list-filters {
             margin-left: auto;
             max-width: 450px;
+
+            .multiselect__tags {
+                min-width: 280px;
+            }
+
+            .add-custom-filter-btn {
+                background-color: var(--base-color);
+                color: white;
+                padding: 5px;
+                cursor: pointer;
+            }
         }
     }
 

@@ -125,27 +125,28 @@ export default {
             });
         },
         onCardDrop(columnId, dropResult) {
-            if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
+            const lane =  Object.assign([], this.lanes);
+            const column = lane.filter(c => c.id === columnId)[0];
+            const columnIndex = this.lanes.indexOf(column)
 
-                const lane =  Object.assign([], this.lanes);
-                const column = lane.filter(c => c.id === columnId)[0];
-                const columnIndex = this.lanes.indexOf(column)
+            const newColumn = Object.assign({}, column);
 
-                const newColumn = Object.assign({}, column);
+            if (dropResult.addedIndex !== null) {
+                
                 newColumn.cards = this.applyDrag(newColumn.cards, dropResult);
-                lane.splice(columnIndex, 1, newColumn)
 
-                this.lanes = lane;
+                let leadStatusId = dropResult.payload.id;
+                let requestUrl = baseDevUrl + "leads/" + leadStatusId;
+                axios.put(requestUrl, {"leads_status_id": columnId})
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else if (dropResult.removedIndex !== null) {
+                newColumn.cards = this.applyDrag(newColumn.cards, dropResult);                
+            }
 
-                if (dropResult.removedIndex == null) {
-                    let leadStatusId = dropResult.payload.id;
-                    let requestUrl = baseDevUrl + "leads/" + leadStatusId;
-                    axios.put(requestUrl, {"leads_status_id": columnId})
-                        .catch((error) => {
-                            console.log(error);
-                        });
-                }
-            } 
+            lane.splice(columnIndex, 1, newColumn);
+            this.lanes = lane;
         },
         getCardPayload(columnId) {
             return index => {
@@ -154,9 +155,6 @@ export default {
         },
         applyDrag(arr, dragResult) {
             const { removedIndex, addedIndex, payload } = dragResult
-            if (removedIndex === null && addedIndex === null) {
-                return arr;
-            }
 
             const result = [...arr];
             let itemToAdd = payload;

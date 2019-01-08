@@ -17,35 +17,51 @@
                 <div class="col-12 col-md">
                     <div class="form-group form-group-default required">
                         <label>First name</label>
-                        <input 
-                            v-model="userData.firstname" 
-                            class="form-control" 
-                            type="text" 
-                            name="firstname">
+                        <input
+                            v-validate="'required'"
+                            v-model="userData.firstname"
+                            class="form-control"
+                            data-vv-as="first name"
+                            data-vv-name="first name"
+                            type="text"
+                            name="firstname"
+                        >
+                        <span class="error">{{ errors.first("first name") }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Last name</label>
-                        <input 
-                            v-model="userData.lastname" 
-                            name="lastname" 
-                            class="form-control" 
-                            type="text">
+                        <input
+                            v-validate="'required'"
+                            v-model="userData.lastname"
+                            class="form-control"
+                            data-vv-as="last name"
+                            data-vv-name="last name"
+                            name="lastname"
+                            type="text"
+                        >
+                        <span class="error">{{ errors.first("last name") }}</span>
                     </div>
                     <div class="form-group form-group-default">
-                        <label>Cell phone</label>
-                        <input 
-                            v-model="userData.phone" 
-                            class="form-control" 
-                            name="phone" 
-                            type="text">
+                        <label>Phone</label>
+                        <input
+                            v-validate="'numeric'"
+                            v-model="userData.phone"
+                            class="form-control"
+                            name="phone"
+                            type="text"
+                        >
+                        <span class="error">{{ errors.first('phone') }}</span>
                     </div>
                     <div class="form-group form-group-default required">
                         <label>Email (username)</label>
-                        <input 
-                            v-model="userData.email" 
-                            class="form-control" 
-                            type="text" 
-                            name="email">
+                        <input
+                            v-validate="'required|email'"
+                            v-model="userData.email"
+                            class="form-control"
+                            type="text"
+                            name="email"
+                        >
+                        <span class="error">{{ errors.first('email') }}</span>
                     </div>
                 </div>
             </div>
@@ -61,8 +77,11 @@
                         <label>Language</label>
                         <multiselect
                             v-model="selectedLanguage"
+                            :allow-empty="false"
                             :options="languages"
+                            deselect-label=""
                             label="name"
+                            select-label=""
                             track-by="id"
                             @input="setLanguage"
                         />
@@ -71,8 +90,11 @@
                         <label>Timezone</label>
                         <multiselect
                             v-model="userData.timezone"
+                            :allow-empty="false"
                             :max-height="175"
                             :options="timezones"
+                            deselect-label=""
+                            select-label=""
                         />
                     </div>
                 </div>
@@ -85,7 +107,7 @@
 import { mapState } from "vuex";
 
 export default {
-    name: "UserInfo",
+    name: "UserProfile",
     data() {
         return {
             isLoading: false,
@@ -127,14 +149,12 @@ export default {
                 this.$store.dispatch("User/setData", response.data);
 
                 this.$notify({
-                    group: null,
                     title: "Confirmation",
-                    text: "Your information has been updated!",
+                    text: "Your information has been updated successfully!",
                     type: "success"
                 });
             }).catch((error) => {
                 this.$notify({
-                    group: null,
                     title: "Error",
                     text: error.response.data.errors.message,
                     type: "error"
@@ -147,7 +167,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .user-general-information {
     .profile-image-container {
         display: flex;
