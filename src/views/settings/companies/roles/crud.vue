@@ -11,6 +11,7 @@
                             v-validate="'required'"
                             v-model="roleData.name"
                             name="name"
+                            vee-validate="required"
                             type="text"
                             class="form-control"
                             required>
@@ -19,13 +20,18 @@
                 <div class="col-md-6">
                     <div class="form-group form-group-default">
                         <label>Description</label>
-                        <input v-model="roleData.description" type="text" class="form-control">
+                        <input
+                            v-validate="''"
+                            v-model="roleData.description"
+                            type="text"
+                            name="description"
+                            class="form-control" >
                     </div>
                 </div>
             </form>
             <!-- Role Select -->
             <div class="row">
-                <div class="col">
+                <div v-if="accessGroup" class="col">
                     <div
                         id="accordion"
                         class="card-group horizontal"
@@ -71,10 +77,12 @@
                                             <div class="col-xs-1">
                                                 <div class="checkbox check-success">
                                                     <input
+                                                        v-validate="''"
                                                         :id="`checkbox1-${groupName}-${accessName}`"
+                                                        :name="`checkbox1-${groupName}-${accessName}`"
                                                         v-model="access.allowed"
                                                         type="checkbox"
-                                                        @change="checkSelected(groupName)">
+                                                        @change="checkSelectedGroup(groupName)">
                                                     <label :for="`checkbox1-${groupName}-${accessName}`"/>
                                                 </div>
                                             </div>
@@ -91,7 +99,7 @@
             <div class="row">
                 <div class="col-12 col-xl d-flex justify-content-end mt-2">
                     <button class="btn btn-danger m-r-10" @click="rolesList">Cancel</button>
-                    <button class="btn btn-primary" @click="save">Save</button>
+                    <button :disabled="!hasChanged" class="btn btn-primary" @click="save">Save</button>
                 </div>
             </div>
         </div>
@@ -99,7 +107,12 @@
 </template>
 
 <script>
+import { vueCrudMixins } from "@/utils/mixins";
+
 export default {
+    mixins: [
+        vueCrudMixins
+    ],
     props:{
         accessList: {
             type: Array,
@@ -127,6 +140,9 @@ export default {
     computed: {
         isNewRole() {
             return !this.role.id
+        },
+        hasChanged() {
+            return !_.isEqual(this.accessListData, this.accessList) || !_.isEqual(this.role, this.roleData);
         }
     },
     watch: {
@@ -138,12 +154,31 @@ export default {
         this.setRole();
     },
     methods: {
+        // initialization
+        setRole() {
+            this.roleData = _.clone(this.role);
+            this.groupPermissions();
+            this.checkSelectedGroups();
+        },
+        groupPermissions() {
+            this.accessListData = _.cloneDeep(this.accessList);
+            this.accessListData.forEach(access => {
+                if (access.access_name != "*") {
+                    if (!this.accessGroup[access.resources_name]) {
+                        this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
+                    } else {
+                        this.accessGroup[access.resources_name]["permissions"][access.access_name] = access;
+                    }
+                }
+            });
+        },
+
+        // checkbox related
         isGroupChecked(resourcesName) {
             const group = this.accessGroup[resourcesName].permissions;
             const allowedAccesses = Object.values(group);
             return allowedAccesses.every(access => access.allowed);
         },
-
         checkGroup(event, resourcesName) {
             const group = this.accessGroup[resourcesName];
             for (const access in group.permissions) {
@@ -152,10 +187,16 @@ export default {
                 }
             }
         },
-
-        checkSelected(resourcesName) {
+        checkSelectedGroup(resourcesName) {
             this.accessGroup[resourcesName]["isGroupSelected"] = this.isGroupChecked(resourcesName);
         },
+        checkSelectedGroups() {
+            for (const resourcesName in this.accessGroup) {
+                this.checkSelectedGroup(resourcesName);
+            }
+        },
+
+        // form related
         save() {
             let url;
             let method;
@@ -170,53 +211,10 @@ export default {
 
             const formData = {
                 roles: this.roleData,
-                access: this.getFalsePermissions()
+                access: this.getDisabledPermissions()
             }
 
             this.sendRequest(url, method, formData);
-        },
-
-        setRole() {
-            this.accessListData = _.clone(this.accessList);
-            this.roleData = _.clone(this.role);
-            this.groupPermissions()
-        },
-
-        rolesList() {
-            this.$emit("changeView", "rolesList");
-        },
-        groupPermissions() {
-            this.accessListData.forEach(access => {
-                if (access.access_name != "*") {
-                    access.allowed = Boolean(Number(access.allowed));
-
-                    if (!this.accessGroup[access.resources_name]) {
-                        this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
-                    } else {
-                        this.accessGroup[access.resources_name]["permissions"][access.access_name] = access;
-                    }
-                }
-            });
-
-            for (const accessName in this.accessGroup) {
-                if (this.accessGroup.hasOwnProperty(accessName)) {
-                    this.checkSelected(accessName);
-                }
-            }
-
-        },
-        getFalsePermissions() {
-            return this.accessListData.map(access => {
-                if (!access.allowed) {
-                    const accessLocal = _.clone(access);
-                    accessLocal.allowed = Number(accessLocal.allowed);
-                    return accessLocal;
-                }
-            }).filter(access => access);
-        },
-
-        cloneRole() {
-            this.$emit("cloneRole", this.role);
         },
         sendRequest(url, method, formData) {
             if (!this.isLoading) {
@@ -226,28 +224,58 @@ export default {
                     url,
                     method,
                     data: formData
-                }).then(() => {
-                    let message = method == "POST" ? "created" : "updated";
-
-                    this.$notify({
-                        group: null,
-                        title: "Confirmation",
-                        text: `The role has been ${message}!`,
-                        type: "success"
+                })
+                    .then(this.onSuccess(method))
+                    .catch(this.onError)
+                    .finally(() => {
+                        this.isLoading = false;
                     });
-
-                    this.rolesList();
-                }).catch((error) => {
-                    this.$notify({
-                        group: null,
-                        title: "Error",
-                        text: error.response.data.errors.message,
-                        type: "error"
-                    });
-                }).finally(() => {
-                    this.isLoading = false;
-                });
             }
+        },
+
+        onSuccess(method) {
+            let message = method == "POST" ? "created" : "updated";
+
+            this.$notify({
+                group: null,
+                title: "Confirmation",
+                text: `The role has been ${message}!`,
+                type: "success"
+            });
+
+            this.rolesList();
+        },
+
+        onError(error) {
+            this.$notify({
+                group: null,
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
+            });
+        },
+
+        // utilities
+        getDisabledPermissions() {
+            return this.accessListData.map(this.formatAllowedProperty).filter(access => access);
+        },
+        formatAllowedProperty(access) {
+            if (!access.allowed) {
+                const accessLocal = _.clone(access);
+                accessLocal.roles_name = this.roleData.name;
+                accessLocal.allowed = Number(accessLocal.allowed);
+                return accessLocal;
+            }
+        },
+        cancel() {
+            this.rolesList();
+        },
+        // events up
+        rolesList() {
+            this.$emit("changeView", "rolesList");
+        },
+        cloneRole() {
+            this.$emit("cloneRole", this.role);
         }
     }
 }

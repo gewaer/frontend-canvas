@@ -27,7 +27,7 @@
                                 type="text"
                                 name="firstname"
                             >
-                            <span class="error">{{ errors.first("first name") }}</span>
+                            <span class="text-danger">{{ errors.first("first name") }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Last name</label>
@@ -40,7 +40,7 @@
                                 name="lastname"
                                 type="text"
                             >
-                            <span class="error">{{ errors.first("last name") }}</span>
+                            <span class="text-danger">{{ errors.first("last name") }}</span>
                         </div>
                         <div class="form-group form-group-default">
                             <label>Phone</label>
@@ -51,7 +51,7 @@
                                 name="phone"
                                 type="text"
                             >
-                            <span class="error">{{ errors.first('phone') }}</span>
+                            <span class="text-danger">{{ errors.first('phone') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Email (username)</label>
@@ -62,7 +62,7 @@
                                 type="text"
                                 name="email"
                             >
-                            <span class="error">{{ errors.first('email') }}</span>
+                            <span class="text-danger">{{ errors.first('email') }}</span>
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,14 @@ export default {
         return {
             isLoading: false,
             selectedLanguage: null,
-            userData: null
+            userData: {
+                firstname: "",
+                languages: null,
+                lastname: "",
+                email: "",
+                phone: "",
+                timezone: ""
+            }
         }
     },
     computed: {
@@ -150,7 +157,7 @@ export default {
         })
     },
     watch: {
-        languages() {
+        "userData.languages"() {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
         }
     },

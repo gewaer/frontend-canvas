@@ -1770,6 +1770,13 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
     overflow: visible;
 }
 
+.multiselect {
+    .multiselect__placeholder {
+        margin-bottom: 8px;
+        padding-top: 0;
+    }
+}
+
 @media only screen and (min-width: 980px) {
     body.menu-pin .page-sidebar {
         width: 280px;

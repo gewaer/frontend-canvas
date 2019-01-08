@@ -4,7 +4,12 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
-import CompaniesSettings from "./views/settings/companies";
+import SettingsCompaniesProfile from "./views/settings/companies/profile";
+import SettingsCompaniesList from "./views/settings/companies/companies/";
+import SettingsCompaniesBranches from "./views/settings/companies/branches/";
+import SettingsCompaniesUsers from "./views/settings/companies/users/";
+import SettingsCompaniesRoles from "./views/settings/companies/roles/";
+import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
@@ -222,15 +227,57 @@ const router = new Router({
                 requiresAuth: true
             }
         },
-        // ======================================================
+        // ============== Settings Companies Routes ==============
         {
             path: "/settings/companies",
-            name: "companiesSettings",
-            component: CompaniesSettings,
+            name: "settingsCompanies",
+            component: SettingsCompaniesProfile,
             meta: {
                 requiresAuth: true
             }
         },
+        {
+            path: "/settings/companies/list",
+            name: "settingsCompaniesList",
+            component: SettingsCompaniesList,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/companies/branches",
+            name: "settingsCompaniesBranches",
+            component: SettingsCompaniesBranches,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/companies/users",
+            name: "settingsCompaniesUsers",
+            component: SettingsCompaniesUsers,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/companies/roles",
+            name: "settingsCompaniesRoles",
+            component: SettingsCompaniesRoles,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/companies/subscriptions",
+            name: "settingsCompaniesSubscriptions",
+            component: SettingsCompaniesSubscriptions,
+            meta: {
+                requiresAuth: true
+            }
+        },
+
+        // ======================================================
         {
             path: "/browse",
             name: "browse",
@@ -243,6 +290,14 @@ const router = new Router({
             path: "/example-page",
             name: "examplePage",
             component: examples,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/example-form",
+            name: "exampleForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./components/forms/example"),
             meta: {
                 requiresAuth: false
             }
