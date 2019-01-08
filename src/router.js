@@ -275,6 +275,14 @@ const router = new Router({
             meta: {
                 requiresAuth: false
             }
+        },
+        {
+            path: "/example-form",
+            name: "exampleForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./components/forms/example"),
+            meta: {
+                requiresAuth: false
+            }
         }
     ]
 });
