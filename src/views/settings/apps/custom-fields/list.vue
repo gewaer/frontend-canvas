@@ -12,7 +12,7 @@
                             <a
                                 :class="{ active: tab == module.name }"
                                 href="#"
-                                @click.prevent="changeModule(module.name)"
+                                @click.prevent="changeModule(module)"
                             >
                                 {{ module.name.replace("_", " ") }}
                             </a>
@@ -92,17 +92,23 @@ export default {
         this.getModules();
     },
     methods: {
-        changeModule(name) {
-            this.tab = name;
-
-            //
+        changeModule(module) {
+            this.tab = module.name;
+            this.getFields(module.id);
+        },
+        getFields(moduleId) {
+            axios({
+                url: `/custom-fields-modules/${moduleId}/fields`
+            }).then(({ data }) => {
+                this.fields = data;
+            });
         },
         getModules() {
             axios({
                 url: "/custom-fields-modules"
             }).then(({ data }) => {
                 this.modules = data;
-                this.tab = data[0].name;
+                this.changeModule(data[0]);
             });
         }
     }
