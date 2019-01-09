@@ -7,30 +7,9 @@
                     <router-link :to="{ name: 'settingsAppsWebhooksForm' }" class="btn btn-primary">Create</router-link>
                 </h5>
                 <div class="table-responsive">
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th style="width:45%">Event</th>
-                                <th style="width:20%">Format</th>
-                                <th style="width:20%">URL</th>
-                                <th style="width:15%">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="v-align-middle semi-bold">Cart creation</td>
-                                <td class="v-align-middle semi-bold">JSON</td>
-                                <td class="v-align-middle semi-bold">www.google.com</td>
-                                <td class="v-align-middle semi-bold">
-                                    <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
-                                    <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true" /></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <vuetable
                         ref="Vuetable"
-                        :append-params="{format: 'true'}"
+                        :append-params="appendParams"
                         :fields="webhooksFields"
                         :http-fetch="getTableData"
                         api-url="/user-webhooks"
@@ -38,7 +17,6 @@
                         pagination-path="">
 
                         <template slot="actions" slot-scope="props">
-                            <button class="btn btn-primary m-l-5" @click="editWebhook(props.rowData)"><i class="fa fa-eye" aria-hidden="true"/></button>
                             <button class="btn btn-complete m-l-5" @click="editWebhook(props.rowData)"><i class="fa fa-edit" aria-hidden="true"/></button>
                             <button
                                 class="btn btn-danger m-l-5"
@@ -61,17 +39,24 @@ export default {
     },
     data(){
         return{
+            appendParams:{
+                format: "true",
+                relationships:"webhooks",
+                q:"(is_deleted:0)"
+            },
             webhooksFields: [{
-                name: "name",
-                title: "Name (Event)"
+                name: "webhooks.name",
+                title: "Name (Event)",
+                width: "50%"
+
             }, {
                 name: "format",
-                sortField: "format"
-                // width: "30%"
+                sortField: "format",
+                width: "20%"
             }, {
                 name: "url",
-                sortField: "url"
-                // width: "30%"
+                sortField: "url",
+                width: "30%"
             }, {
                 name: "actions",
                 title: "Actions"
@@ -86,12 +71,13 @@ export default {
             });
         },
         editWebhook(userWebhook) {
-            this.$router.push({ name: "settingsAppsEmailTemplatesFormEdit", params:{id:userWebhook.id} });
+            this.$router.push({ name: "settingsAppsWebhooksFormEdit", params:{id:userWebhook.id} });
         },
         confirmDeleteWebhook(userWebhook){
             this.$modal.show("basic-modal", {
                 title:"Delete Webhook",
-                message:`Did you want to delete ${userWebhook.webhook.name} webhook ?`,
+                message:`Did you want to delete  webhook ?`,
+                // message:`Did you want to delete ${userWebhook.webhook.name} webhook ?`,
                 buttons: [{
                     title: "Accept",
                     class: "btn-success",
