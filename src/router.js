@@ -9,7 +9,7 @@ import SettingsCompaniesList from "./views/settings/companies/companies/";
 import SettingsCompaniesBranches from "./views/settings/companies/branches/";
 import SettingsCompaniesUsers from "./views/settings/companies/users/";
 import SettingsCompaniesRoles from "./views/settings/companies/roles/";
-import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions";
+import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions/";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
@@ -53,6 +53,14 @@ const router = new Router({
         {
             path: "/users/reset-password/:resetKey",
             name: "resetPassword",
+            component: Auth,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/users/invites/:hash",
+            name: "usersInvites",
             component: Auth,
             meta: {
                 requiresAuth: false
