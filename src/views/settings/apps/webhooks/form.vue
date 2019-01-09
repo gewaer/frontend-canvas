@@ -67,6 +67,11 @@ export default {
     components: {
         SettingsTemplate: () => import("../tab-container")
     },
+    data(){
+        return {
+            apiUrl:"user-webhooks"
+        }
+    },
     methods: {
         save() {
             // Save code and then show the webhooks list
