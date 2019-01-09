@@ -236,6 +236,7 @@ export default {
             if (this.isEditWebhook) {
                 url = `/user-webhooks/${this.webhookData.id}`;
                 method = "PUT";
+                data = this.webhookData;
             }
 
             if (!this.isLoading) {
