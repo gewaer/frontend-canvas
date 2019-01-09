@@ -122,27 +122,9 @@ const router = new Router({
             path: "/settings/apps",
             name: "settingsApps",
             redirect: {
-                name: "settingsAppsImportList"
+                name: "settingsAppsCustomFieldsList"
             },
             meta: {
-                requiresAuth: true
-            }
-        },
-        {
-            path: "/settings/apps/import",
-            name: "settingsAppsImportList",
-            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/import/"),
-            meta: {
-                group: "settingsAppsImport",
-                requiresAuth: true
-            }
-        },
-        {
-            path: "/settings/apps/themes",
-            name: "settingsAppsThemesList",
-            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/themes"),
-            meta: {
-                group: "settingsAppsThemes",
                 requiresAuth: true
             }
         },
@@ -224,6 +206,24 @@ const router = new Router({
             component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
             meta: {
                 group: "settingsAppsWebhooks",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/import",
+            name: "settingsAppsImportList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/import/"),
+            meta: {
+                group: "settingsAppsImport",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/themes",
+            name: "settingsAppsThemesList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/themes"),
+            meta: {
+                group: "settingsAppsThemes",
                 requiresAuth: true
             }
         },
