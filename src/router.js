@@ -217,6 +217,24 @@ const router = new Router({
                 requiresAuth: true
             }
         },
+        {
+            path: "/settings/apps/import",
+            name: "settingsAppsImportList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/import/"),
+            meta: {
+                group: "settingsAppsImport",
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/settings/apps/themes",
+            name: "settingsAppsThemesList",
+            component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/themes"),
+            meta: {
+                group: "settingsAppsThemes",
+                requiresAuth: true
+            }
+        },
         // ============== Settings Companies Routes ==============
         {
             path: "/settings/companies",
@@ -280,6 +298,14 @@ const router = new Router({
             path: "/example-page",
             name: "examplePage",
             component: examples,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: "/example-form",
+            name: "exampleForm",
+            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./components/forms/example"),
             meta: {
                 requiresAuth: false
             }

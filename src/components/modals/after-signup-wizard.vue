@@ -8,7 +8,7 @@
         height="auto"
         width="900"
     >
-        <form-wizard class="after-signup-wizard-component" shape="tab" color="var(--base-color)">
+        <form-wizard class="wizard-component" shape="tab" color="var(--base-color)">
             <h2 slot="title">This will replace a title</h2>
             <tab-content title="Step 1" icon="fa fa-cog">
                 <h1>Step 1</h1>
@@ -19,22 +19,33 @@
             <tab-content title="Step 3" icon="fa fa-cog">
                 <h1>Step 3</h1>
             </tab-content>
-
             <template slot="footer" slot-scope="props">
                 <div class="wizard-footer-left">
-                    <wizard-button v-if="props.activeTabIndex > 0 && !props.isLastStep" :style="props.fillButtonStyle" @click.native="props.prevTab()">Previous</wizard-button>
+                    <wizard-button
+                        v-if="props.activeTabIndex && !props.isLastStep"
+                        :style="props.fillButtonStyle"
+                        @click.native="props.prevTab()"
+                    >
+                        Previous
+                    </wizard-button>
                 </div>
                 <div class="wizard-footer-right">
                     <wizard-button
                         v-if="!props.isLastStep"
                         :style="props.fillButtonStyle"
                         class="wizard-footer-right"
-                        @click.native="props.nextTab()">Next</wizard-button>
+                        @click.native="props.nextTab()"
+                    >
+                        Next
+                    </wizard-button>
                     <wizard-button
                         v-else
                         :style="props.fillButtonStyle"
                         class="wizard-footer-right finish-button"
-                        @click.native="$modal.hide('after-signup-wizard')">{{ props.isLastStep ? 'Done' : 'Next' }}</wizard-button>
+                        @click.native="$modal.hide('after-signup-wizard')"
+                    >
+                        {{ props.isLastStep ? 'Done' : 'Next' }}
+                    </wizard-button>
                 </div>
             </template>
         </form-wizard>
@@ -43,12 +54,15 @@
 
 <script>
 export default {
-    name: "AfterSignupWizard"
+    name: "AfterSignupWizard",
+    components: {
+        FormWizard: () => import(/* webpackChunkName: "form-wizard-form" */ "vue-form-wizard").then(({ FormWizard }) => FormWizard),
+        TabContent: () => import(/* webpackChunkName: "form-wizard-tab-content" */ "vue-form-wizard").then(({ TabContent }) => TabContent),
+        WizardButton: () => import(/* webpackChunkName: "form-wizard-wizard-button" */ "vue-form-wizard").then(({ WizardButton }) => WizardButton)
+    }
 }
 </script>
 
 <style lang="scss">
-.after-signup-wizard-component ul li {
-    padding-left: 0 !important;
-}
+
 </style>

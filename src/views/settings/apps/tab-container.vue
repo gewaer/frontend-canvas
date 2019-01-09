@@ -6,13 +6,21 @@
                 <div class="row">
                     <div class="col">
                         <div class="card flex-md-row">
-                            <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
+                            <ul class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
                                 <li class="nav-item">
                                     <router-link
                                         :to="{ name: 'settingsAppsCustomFieldsList' }"
                                         :class="{ active: $route.meta.group == 'settingsAppsCustomFields' }"
                                     >
                                         Custom Fields
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link
+                                        :to="{ name: 'settingsAppsImportList' }"
+                                        :class="{ active: $route.meta.group == 'settingsAppsImport' }"
+                                    >
+                                        Import
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
@@ -29,6 +37,14 @@
                                         :class="{ active: $route.meta.group == 'settingsAppsEmailTemplates' }"
                                     >
                                         Email Templates
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link
+                                        :to="{ name: 'settingsAppsThemesList' }"
+                                        :class="{ active: $route.meta.group == 'settingsAppsThemes' }"
+                                    >
+                                        Themes
                                     </router-link>
                                 </li>
                             </ul>

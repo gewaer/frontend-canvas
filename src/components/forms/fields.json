@@ -1,0 +1,139 @@
+[
+    {
+        "label": "Company Name",
+        "type": "text",
+        "attributes": {
+            "placeholder": "Company Name"
+        },
+        "validations": {
+            "required": true,
+            "max": 4
+        }
+    },
+    {
+        "label": "Agex",
+        "type": "number",
+        "attributes": {
+            "placeholder": "eg: 19",
+            "step": 3
+        },
+        "validations": {
+            "required": true,
+            "step": 3
+        }
+    },
+    [
+        {
+            "label": "First Name",
+            "value": "fir",
+            "validations": {
+                "min": 4,
+                "max": 20
+            }
+        },
+        {
+            "label": "Last Name",
+            "placeholder": "Last Name placeholder",
+            "validations": {
+                "min": 3
+            }
+        }
+    ],
+    {
+        "html": "<div class='box'><article class='media'><div class='media-left'><figure class='image is-64x64'><img src='https://bulma.io/images/placeholders/64x64.png' alt='Image'></figure></div><div class='media-content'><div class='content'><p><strong class='has-text-info'>Info</strong><br>You can also pass html like this box</p></div>"
+    },
+    [
+        {
+            "label": "Email",
+            "type": "email",
+            "attributes": {
+                "title": "Your email"
+            },
+            "validations": {
+                "email": true
+            }
+        },
+        {
+            "label": "Phone Number",
+            "type": "tel",
+            "validations": {
+                "required": true
+            }
+        }
+    ],
+    {
+        "label": "Address",
+        "attributes": {
+            "placeholder": "Address"
+        }
+    },
+    [
+        {
+            "label": "Zip",
+            "type": "number",
+            "attributes": {
+                "placeholder": "Zip"
+            },
+            "validations": {
+                "min_value": 1,
+                "max_value": 5
+            }
+        },
+        {
+            "label": "City",
+            "attributes": {
+                "placeholder": "City"
+            },
+            "showLabel": false
+        }
+    ],
+    {
+        "label": "Country",
+        "type": "select",
+        "url": "/custom-fields-modules",
+        "searchOnOpen": true,
+        "attributes": {
+            "allowEmpty": false,
+            "clearOnSelect": false,
+            "closeOnSelect": false,
+            "internalSearch": false,
+            "label": "name",
+            "multiple": true,
+            "show=labels": false,
+            "track-by": "id"
+        }
+    },
+    [
+        {
+            "label": "Age",
+            "type": "number",
+            "help": "( >= 18 <= 99 )",
+            "validations": {
+                "min_value": 18,
+                "max_value": 99
+            }
+        },
+        {
+            "label": "Password",
+            "type": "password",
+            "validations": {
+                "regex": ".[0-9]{4,}$"
+            },
+            "help": "(5 digits at least)"
+        }
+    ],
+    {
+        "label": "Message",
+        "type": "textarea",
+        "validations": {
+            "required": true
+        }
+    },
+    {
+        "label": "Checkbox",
+        "type": "checkbox",
+        "items": [
+            {"text": "one", "value": 1, "checked": true}
+        ]
+    }
+]
