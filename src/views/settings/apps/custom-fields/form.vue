@@ -36,14 +36,6 @@
                                 @formSubmitted="formSubmitted"
                             />
                         </div>
-                        <!-- <div class="col-12 col-sm-3">
-                            <div :class="{ 'selected' : selectedCustomField == 'text-field' }" class="custom-field" @click="selectedCustomField = 'text-field'">
-                                <div class="custom-field__image">
-                                    <img src="/img/settings/custom-fields/text-field.png" class="img-fluid">
-                                </div>
-                                <span>Text</span>
-                            </div>
-                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col-12 col-xl d-flex justify-content-end mt-2">

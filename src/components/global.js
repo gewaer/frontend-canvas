@@ -13,18 +13,10 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import Vuetable from "vuetable-2";
 import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
-import VueFormWizard from "vue-form-wizard";
-import "vue-form-wizard/dist/vue-form-wizard.min.css";
-
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-import "vue-multiselect/dist/vue-multiselect.min.css";
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
 Vue.use(VModal);
-Vue.use(VueFormWizard);
 
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);
