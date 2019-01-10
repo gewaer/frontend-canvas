@@ -79,7 +79,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="!isInviteConfirmation && !isForgotPassword || isInvite" class="form-group form-group-default required">
+                    <div v-if="!isForgotPassword " class="form-group form-group-default required">
                         <label>Password</label>
                         <div class="controls">
                             <input
@@ -281,6 +281,9 @@ export default {
                         email: {
                             label: "Email",
                             validations: "required|email"
+                        },
+                        password: {
+                            validations: "required|min:8"
                         }
                     },
                     endpoint: `users-invite/${this.$route.params.hash}`,
@@ -407,10 +410,10 @@ export default {
             });
         },
         validateInvitation(){
-            let url = `users-invite/validate/${this.$route.params.hash}`;
+            let url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
             axios({
                 url
-            }).then((response) => this.data.email = response.data.email)
+            }).then(({data}) => this.data.email = data.email)
                 .catch((error) => {
                     this.$notify({
                         title: "Error",
