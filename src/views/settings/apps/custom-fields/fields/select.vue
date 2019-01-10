@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: "FieldsText",
+    name: "FieldsSelect",
     data() {
         return {
             schema: [{

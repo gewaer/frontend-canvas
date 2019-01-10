@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row custom-fields-settings">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row custom-fields-settings">
             <div class="col">
                 <div class="custom-fields">
                     <h5>
@@ -46,17 +47,18 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "Form",
     components: {
-        FieldsSelect: () => import("./fields/select"),
-        FieldsText: () => import("./fields/text"),
-        CustomFieldsForm: () => import("@/components/forms/form"),
-        SettingsTemplate: () => import("../tab-container")
+        CustomFieldsForm: () => import(/* webpackChunkName: "components-forms-form" */ "@/components/forms/form"),
+        FieldsSelect: () => import(/* webpackChunkName: "settings-apps-custom-fields-select" */ "./fields/select"),
+        FieldsText: () => import(/* webpackChunkName: "settings-apps-custom-fields-text" */ "./fields/text"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     data() {
         return {

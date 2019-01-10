@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row email-templates-section">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row email-templates-section">
             <div class="col">
                 <h5>
                     Email Templates
@@ -30,14 +31,15 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "List",
     components: {
-        SettingsTemplate: () => import("../tab-container")
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     data() {
         return {

@@ -22,7 +22,7 @@
             <template slot="footer" slot-scope="props">
                 <div class="wizard-footer-left">
                     <wizard-button
-                        v-if="props.activeTabIndex && !props.isLastStep"
+                        v-if="props.activeTabIndex"
                         :style="props.fillButtonStyle"
                         @click.native="props.prevTab()"
                     >
