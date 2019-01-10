@@ -21,10 +21,7 @@ const router = new Router({
         {
             path: "/",
             name: "dashboard",
-            component: Dashboard,
-            meta: {
-                requiresAuth: true
-            }
+            component: Dashboard
         },
         {
             path: "/users/login",
@@ -88,26 +85,17 @@ const router = new Router({
             name: "setingsUsers",
             redirect: {
                 name: "setingsUsersProfile"
-            },
-            meta: {
-                requiresAuth: true
             }
         },
         {
             path: "/settings/users/profile",
             name: "setingsUsersProfile",
-            component: () => import(/* webpackChunkName: "settings-users-profile" */ "./views/settings/users/profile"),
-            meta: {
-                requiresAuth: true
-            }
+            component: () => import(/* webpackChunkName: "settings-users-profile" */ "./views/settings/users/profile")
         },
         {
             path: "/settings/users/notifications",
             name: "setingsUsersNotifications",
-            component: () => import(/* webpackChunkName: "settings-users-notifications" */ "./views/settings/users/notifications"),
-            meta: {
-                requiresAuth: true
-            }
+            component: () => import(/* webpackChunkName: "settings-users-notifications" */ "./views/settings/users/notifications")
         },
         // {
         //     path: "/settings/users/social",
@@ -120,10 +108,7 @@ const router = new Router({
         {
             path: "/settings/users/security",
             name: "setingsUsersSecurity",
-            component: () => import(/* webpackChunkName: "settings-users-security" */ "./views/settings/users/security"),
-            meta: {
-                requiresAuth: true
-            }
+            component: () => import(/* webpackChunkName: "settings-users-security" */ "./views/settings/users/security")
         },
         // ===== Settings Apps Routes =====
         {
@@ -131,9 +116,6 @@ const router = new Router({
             name: "settingsApps",
             redirect: {
                 name: "settingsAppsCustomFieldsList"
-            },
-            meta: {
-                requiresAuth: true
             }
         },
         {
@@ -141,8 +123,7 @@ const router = new Router({
             name: "settingsAppsCustomFieldsList",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/custom-fields/list"),
             meta: {
-                group: "settingsAppsCustomFields",
-                requiresAuth: true
+                group: "settingsAppsCustomFields"
             }
         },
         {
@@ -150,8 +131,7 @@ const router = new Router({
             name: "settingsAppsCustomFieldsForm",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
             meta: {
-                group: "settingsAppsCustomFields",
-                requiresAuth: true
+                group: "settingsAppsCustomFields"
             }
         },
         {
@@ -159,8 +139,7 @@ const router = new Router({
             name: "settingsAppsCustomFieldsFormEdit",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-form" */ "./views/settings/apps/custom-fields/form"),
             meta: {
-                group: "settingsAppsCustomFields",
-                requiresAuth: true
+                group: "settingsAppsCustomFields"
             }
         },
         {
@@ -168,8 +147,7 @@ const router = new Router({
             name: "settingsAppsEmailTemplatesList",
             component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-list" */ "./views/settings/apps/email-templates/list"),
             meta: {
-                group: "settingsAppsEmailTemplates",
-                requiresAuth: true
+                group: "settingsAppsEmailTemplates"
             }
         },
         {
@@ -177,8 +155,7 @@ const router = new Router({
             name: "settingsAppsEmailTemplatesForm",
             component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
             meta: {
-                group: "settingsAppsEmailTemplates",
-                requiresAuth: true
+                group: "settingsAppsEmailTemplates"
             }
         },
         {
@@ -186,8 +163,7 @@ const router = new Router({
             name: "settingsAppsEmailTemplatesFormEdit",
             component: () => import(/* webpackChunkName: "settings-apps-emailTemplates-form" */ "./views/settings/apps/email-templates/form"),
             meta: {
-                group: "settingsAppsEmailTemplates",
-                requiresAuth: true
+                group: "settingsAppsEmailTemplates"
             }
         },
         {
@@ -195,8 +171,7 @@ const router = new Router({
             name: "settingsAppsWebhooksList",
             component: () => import(/* webpackChunkName: "settings-apps-webhooks-list" */ "./views/settings/apps/webhooks/list"),
             meta: {
-                group: "settingsAppsWebhooks",
-                requiresAuth: true
+                group: "settingsAppsWebhooks"
             }
         },
         {
@@ -204,8 +179,7 @@ const router = new Router({
             name: "settingsAppsWebhooksForm",
             component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
             meta: {
-                group: "settingsAppsWebhooks",
-                requiresAuth: true
+                group: "settingsAppsWebhooks"
             }
         },
         {
@@ -213,8 +187,7 @@ const router = new Router({
             name: "settingsAppsWebhooksFormEdit",
             component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./views/settings/apps/webhooks/form"),
             meta: {
-                group: "settingsAppsWebhooks",
-                requiresAuth: true
+                group: "settingsAppsWebhooks"
             }
         },
         {
@@ -222,8 +195,7 @@ const router = new Router({
             name: "settingsAppsImportList",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/import/"),
             meta: {
-                group: "settingsAppsImport",
-                requiresAuth: true
+                group: "settingsAppsImport"
             }
         },
         {
@@ -231,68 +203,46 @@ const router = new Router({
             name: "settingsAppsThemesList",
             component: () => import(/* webpackChunkName: "settings-apps-customFields-list" */ "./views/settings/apps/themes"),
             meta: {
-                group: "settingsAppsThemes",
-                requiresAuth: true
+                group: "settingsAppsThemes"
             }
         },
         // ============== Settings Companies Routes ==============
         {
             path: "/settings/companies",
             name: "settingsCompanies",
-            component: SettingsCompaniesProfile,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesProfile
         },
         {
             path: "/settings/companies/list",
             name: "settingsCompaniesList",
-            component: SettingsCompaniesList,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesList
         },
         {
             path: "/settings/companies/branches",
             name: "settingsCompaniesBranches",
-            component: SettingsCompaniesBranches,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesBranches
         },
         {
             path: "/settings/companies/users",
             name: "settingsCompaniesUsers",
-            component: SettingsCompaniesUsers,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesUsers
         },
         {
             path: "/settings/companies/roles",
             name: "settingsCompaniesRoles",
-            component: SettingsCompaniesRoles,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesRoles
         },
         {
             path: "/settings/companies/subscriptions",
             name: "settingsCompaniesSubscriptions",
-            component: SettingsCompaniesSubscriptions,
-            meta: {
-                requiresAuth: true
-            }
+            component: SettingsCompaniesSubscriptions
         },
 
         // ======================================================
         {
             path: "/browse",
             name: "browse",
-            component: BrowseList,
-            meta: {
-                requiresAuth: true
-            }
+            component: BrowseList
         },
         {
             path: "/example-page",
@@ -314,7 +264,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth == true)) {
+    if (to.matched.some(record => record.meta.requiresAuth !== false)) {
         if (store.getters["Application/isStateReady"]) {
             next();
         } else {

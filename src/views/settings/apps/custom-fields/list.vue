@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row custom-fields-settings">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row custom-fields-settings">
             <div class="col">
                 <h5>
                     Custom Fields
@@ -72,14 +73,15 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "List",
     components: {
-        SettingsTemplate: () => import("../tab-container")
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     data() {
         return {

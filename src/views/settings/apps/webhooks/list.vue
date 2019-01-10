@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row webhooks-section">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row webhooks-section">
             <div class="col">
                 <h5>
                     Webhooks
@@ -28,14 +29,15 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "List",
     components: {
-        SettingsTemplate: () => import("../tab-container")
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     data(){
         return{
