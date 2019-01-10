@@ -63,12 +63,12 @@
                         <!-- END Form Control-->
                     </template>
                     <!-- START Form Control-->
-                    <div v-if="!isResetPassword || !isInvite" class="form-group form-group-default required">
+                    <div v-if="!isResetPassword || !isTypeOfInvite" class="form-group form-group-default required">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
                             <input
                                 v-model="data.email"
-                                :disabled="isInvite"
+                                :disabled="isTypeOfInvite"
                                 type="text"
                                 name="username"
                                 placeholder="user@example.com"
@@ -79,7 +79,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="!isForgotPassword || isInvite" class="form-group form-group-default required">
+                    <div v-if="!isForgotPassword " class="form-group form-group-default required">
                         <label>Password</label>
                         <div class="controls">
                             <input
@@ -147,6 +147,11 @@
                     </div>
                     <!-- END Form Control-->
                     <button class="btn btn-primary btn-cons m-t-10" type="submit">{{ form.submitLabel }}</button>
+                    <router-link
+                        v-if="isInviteConfirmation"
+                        :to="{ name: 'login' }"
+                        tag="button"
+                        class="btn btn-danger btn-cons m-t-10">Cancel</router-link>
                     <div v-if="isLogin" class="m-t-10">
                         Don't have an account?
                         <router-link :to="{ name: 'signup' }">Create one!</router-link>
@@ -270,6 +275,20 @@ export default {
                     endpoint: `users-invite/${this.$route.params.hash}`,
                     submitLabel: "Sign Up",
                     title: "Confirm your Gewaer account"
+                },
+                usersInvitesConfirmation: {
+                    data: {
+                        email: {
+                            label: "Email",
+                            validations: "required|email"
+                        },
+                        password: {
+                            validations: "required|min:8"
+                        }
+                    },
+                    endpoint: `users-invite/${this.$route.params.hash}`,
+                    submitLabel: "Acept",
+                    title: "Link to your Gewaer account"
                 }
             }
         }
@@ -294,7 +313,13 @@ export default {
             return this.$route.name == "usersInvites";
         },
         isTypeOfSignIn(){
-            return this.isLogin || this.isSignup || this.isInvite;
+            return this.isLogin || this.isSignup || this.isInvite || this.isInviteConfirmation;
+        },
+        isTypeOfInvite(){
+            return this.isInviteConfirmation || this.isInvite;
+        },
+        isInviteConfirmation(){
+            return this.$route.name == "usersInvitesConfirmation";
         }
     },
     beforeRouteLeave(to, from, next) {
@@ -303,7 +328,7 @@ export default {
         next();
     },
     mounted(){
-        if(this.isInvite){
+        if(this.isTypeOfInvite){
             this.validateInvitation();
         }
     },
@@ -385,10 +410,10 @@ export default {
             });
         },
         validateInvitation(){
-            let url = `users-invite/validate/${this.$route.params.hash}`;
+            let url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
             axios({
                 url
-            }).then((response) => this.data.email = response.data.email)
+            }).then(({data}) => this.data.email = data.email)
                 .catch((error) => {
                     this.$notify({
                         title: "Error",

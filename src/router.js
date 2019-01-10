@@ -64,6 +64,14 @@ const router = new Router({
             }
         },
         {
+            path: "/users/link/:hash",
+            name: "usersInvitesConfirmation",
+            component: Auth,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
             path: "*",
             name: "404",
             component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-404"),
