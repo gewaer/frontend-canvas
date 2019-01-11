@@ -187,11 +187,14 @@
                     <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
                         <span>Users Settings</span>
                     </router-link>
-                    <router-link :to="{name: 'settingsCompanies'}" class="dropdown-item">
-                        <span>Companies Settings</span>
+                    <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
+                        <span>{{ selectedCompany.name }} Settings</span>
                     </router-link>
                     <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
                         <span>App Settings</span>
+                    </router-link>
+                    <router-link :to="{name: 'settingsManagerList'}" class="dropdown-item">
+                        <span>Companies Manager</span>
                     </router-link>
                     <a href="#" class="dropdown-item" @click.prevent="logout()">
                         <span>Logout</span>

@@ -54,11 +54,11 @@
 export default {
     name: "Form",
     components: {
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         CustomFieldsForm: () => import(/* webpackChunkName: "components-forms-form" */ "@/components/forms/form"),
         FieldsSelect: () => import(/* webpackChunkName: "settings-apps-custom-fields-select" */ "./fields/select"),
         FieldsText: () => import(/* webpackChunkName: "settings-apps-custom-fields-text" */ "./fields/text"),
-        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
-        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs")
     },
     data() {
         return {

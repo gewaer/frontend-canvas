@@ -3,7 +3,7 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                "@v": "/home/gewaer/cms/src/views"
+                "@v": `${__dirname}/src/views`
             }
         }
     }

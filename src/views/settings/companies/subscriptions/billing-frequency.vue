@@ -3,7 +3,8 @@
         <billing-item
             :frecuency-type="frecuencyType"
             :billing-frecuency="billingFrecuencies"
-            @selectfrequency="selectBilling" />
+            @selectfrequency="selectBilling"
+        />
         <h5>Order Details</h5>
         <div class="row order-details">
             <div class="col">
@@ -38,11 +39,11 @@
 </template>
 
 <script>
-import BillingItem from "./billing-frequency-item.vue";
-
 export default {
     name: "BilligFrecuency",
-    components:{BillingItem},
+    components: {
+        BillingItem: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-frequency-item" */ "@v/settings/companies/subscriptions/billing-frequency-item")
+    },
     props: {
         plan: {
             required: true,

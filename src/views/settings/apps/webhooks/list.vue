@@ -36,8 +36,8 @@
 export default {
     name: "List",
     components: {
-        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
-        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs")
     },
     data(){
         return{
