@@ -1,6 +1,7 @@
 <template>
-    <tab-container>
-        <div class="subscriptions-plans">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="subscriptions-plans">
             <div class="card-yellow d-flex">
                 <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper ligula odio, id tristique lacus faucibus et. Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
@@ -424,21 +425,21 @@
                 </div>
             </div>
         </div>
-    </tab-container>
+    </container-template>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import { vueRouterMixins } from "@/utils/mixins";
-import TabContainer from "../tab-container";
-import billingFrecuencies from "./billing-frequency.vue"
+
 export default {
     name: "Subscriptions",
-    components:{
-        billingFrecuencies,
-        TabContainer
+    components: {
+        BillingFrecuencies: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-frequency" */ "@v/settings/companies/subscriptions/billing-frequency"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
-    filters:{
+    filters: {
         getPrice(value){
             let isNumber = _.isNumber(Number(value));
             let data = 0;
@@ -451,7 +452,9 @@ export default {
             return _.startCase(value);
         }
     },
-    mixins: [vueRouterMixins],
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             plans:[],
@@ -1156,4 +1159,3 @@ export default {
 }
 
 </style>
-

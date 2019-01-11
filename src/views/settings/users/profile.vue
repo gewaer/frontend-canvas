@@ -1,127 +1,130 @@
 <template>
-    <settings-template>
-        <h5>General Information</h5>
-        <div class="row user-general-information">
-            <div class="col-12 col-xl">
-                <div class="row">
-                    <div class="col-12 col-md-auto">
-                        <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <template slot="tab-content">
+            <h5>General Information</h5>
+            <div class="row user-general-information">
+                <div class="col-12 col-xl">
+                    <div class="row">
+                        <div class="col-12 col-md-auto">
+                            <div class="profile-image-container">
+                                <div class="profile-image">
+                                    <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
+                                </div>
+                                <div class="upload-profile-image">
+                                    <label for="upload-image" class="btn btn-primary">Upload image</label>
+                                    <input id="upload-image" type="file">
+                                </div>
                             </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
+                        </div>
+                        <div class="col-12 col-md">
+                            <div class="form-group form-group-default required">
+                                <label>First name</label>
+                                <input
+                                    v-validate="'required'"
+                                    v-model="userData.firstname"
+                                    class="form-control"
+                                    data-vv-as="first name"
+                                    data-vv-name="first name"
+                                    type="text"
+                                    name="firstname"
+                                >
+                                <span class="text-danger">{{ errors.first("first name") }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Last name</label>
+                                <input
+                                    v-validate="'required'"
+                                    v-model="userData.lastname"
+                                    class="form-control"
+                                    data-vv-as="last name"
+                                    data-vv-name="last name"
+                                    name="lastname"
+                                    type="text"
+                                >
+                                <span class="text-danger">{{ errors.first("last name") }}</span>
+                            </div>
+                            <div class="form-group form-group-default">
+                                <label>Phone</label>
+                                <input
+                                    v-validate="'numeric'"
+                                    v-model="userData.phone"
+                                    class="form-control"
+                                    name="phone"
+                                    type="text"
+                                >
+                                <span class="text-danger">{{ errors.first('phone') }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Email (username)</label>
+                                <input
+                                    v-validate="'required|email'"
+                                    v-model="userData.email"
+                                    class="form-control"
+                                    type="text"
+                                    name="email"
+                                >
+                                <span class="text-danger">{{ errors.first('email') }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md">
-                        <div class="form-group form-group-default required">
-                            <label>First name</label>
-                            <input
-                                v-validate="'required'"
-                                v-model="userData.firstname"
-                                class="form-control"
-                                data-vv-as="first name"
-                                data-vv-name="first name"
-                                type="text"
-                                name="firstname"
-                            >
-                            <span class="text-danger">{{ errors.first("first name") }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Last name</label>
-                            <input
-                                v-validate="'required'"
-                                v-model="userData.lastname"
-                                class="form-control"
-                                data-vv-as="last name"
-                                data-vv-name="last name"
-                                name="lastname"
-                                type="text"
-                            >
-                            <span class="text-danger">{{ errors.first("last name") }}</span>
-                        </div>
-                        <div class="form-group form-group-default">
-                            <label>Phone</label>
-                            <input
-                                v-validate="'numeric'"
-                                v-model="userData.phone"
-                                class="form-control"
-                                name="phone"
-                                type="text"
-                            >
-                            <span class="text-danger">{{ errors.first('phone') }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Email (username)</label>
-                            <input
-                                v-validate="'required|email'"
-                                v-model="userData.email"
-                                class="form-control"
-                                type="text"
-                                name="email"
-                            >
-                            <span class="text-danger">{{ errors.first('email') }}</span>
+                </div>
+                <div class="col-12 col-xl">
+                    <div class="row">
+                        <div class="col-12 col-md">
+                            <div class="form-group">
+                                <label>Language</label>
+                                <multiselect
+                                    v-model="selectedLanguage"
+                                    :allow-empty="false"
+                                    :options="languages"
+                                    deselect-label=""
+                                    label="name"
+                                    select-label=""
+                                    track-by="id"
+                                    @input="setLanguage"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Timezone</label>
+                                <multiselect
+                                    v-model="userData.timezone"
+                                    :allow-empty="false"
+                                    :max-height="175"
+                                    :options="timezones"
+                                    deselect-label=""
+                                    select-label=""
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Locale</label>
+                                <multiselect
+                                    :allow-empty="false"
+                                    :max-height="175"
+                                    :options="[ 'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Nicaragua' ]"
+                                    deselect-label=""
+                                    select-label=""
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Default Currency</label>
+                                <multiselect
+                                    :allow-empty="false"
+                                    :max-height="175"
+                                    :options="[ 'Dominican Peso (DOP)', 'US DOllar (USD)', 'Venezuelan Bolivar (VEB)' ]"
+                                    deselect-label=""
+                                    select-label=""
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-xl">
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <div class="form-group">
-                            <label>Language</label>
-                            <multiselect
-                                v-model="selectedLanguage"
-                                :allow-empty="false"
-                                :options="languages"
-                                deselect-label=""
-                                label="name"
-                                select-label=""
-                                track-by="id"
-                                @input="setLanguage"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label>Timezone</label>
-                            <multiselect
-                                v-model="userData.timezone"
-                                :allow-empty="false"
-                                :max-height="175"
-                                :options="timezones"
-                                deselect-label=""
-                                select-label=""
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label>Locale</label>
-                            <multiselect
-                                :allow-empty="false"
-                                :max-height="175"
-                                :options="[ 'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Nicaragua' ]"
-                                deselect-label=""
-                                select-label=""
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label>Default Currency</label>
-                            <multiselect
-                                :allow-empty="false"
-                                :max-height="175"
-                                :options="[ 'Dominican Peso (DOP)', 'US DOllar (USD)', 'Venezuelan Bolivar (VEB)' ]"
-                                deselect-label=""
-                                select-label=""
-                            />
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-end mt-2">
+                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
             </div>
-        </div>
-        <div class="d-flex justify-content-end mt-2">
-            <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
-        </div>
-    </settings-template>
+        </template>
+    </container-template>
 </template>
 
 <script>
@@ -131,7 +134,8 @@ import { vueRouterMixins } from "@/utils/mixins";
 export default {
     name: "Profile",
     components: {
-        SettingsTemplate: () => import("./tab-container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     mixins: [
         vueRouterMixins

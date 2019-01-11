@@ -1,108 +1,111 @@
 <template>
-    <div>
-        <h5 class="form-title">{{ title }}</h5>
-        <div class="row user-general-information">
-            <div class="col-12 m-b-20">
-                <div class="row">
-                    <div class="col-6 col-md">
-                        <div v-if="isEditUser" class="form-group form-group-default required">
-                            <label>First name</label>
-                            <input
-                                v-validate="'required:true|min:2|alpha_spaces'"
-                                v-model="userData.firstname"
-                                class="form-control"
-                                type="text"
-                                name="firstname"
-                                data-vv-as="First Name"
-                                data-vv-name="First Name">
-                            <span class="text-danger">{{ errors.first("First Name") }}</span>
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content">
+            <h5 class="form-title">{{ title }}</h5>
+            <div class="row user-general-information">
+                <div class="col-12 m-b-20">
+                    <div class="row">
+                        <div class="col-6 col-md">
+                            <div v-if="isEditUser" class="form-group form-group-default required">
+                                <label>First name</label>
+                                <input
+                                    v-validate="'required:true|min:2|alpha_spaces'"
+                                    v-model="userData.firstname"
+                                    class="form-control"
+                                    type="text"
+                                    name="firstname"
+                                    data-vv-as="First Name"
+                                    data-vv-name="First Name">
+                                <span class="text-danger">{{ errors.first("First Name") }}</span>
+                            </div>
+                            <div v-if="isEditUser" class="form-group form-group-default required">
+                                <label>Last name</label>
+                                <input
+                                    v-validate="'required:true|min:2|alpha_spaces'"
+                                    v-model="userData.lastname"
+                                    data-vv-as="Last Name"
+                                    data-vv-name="Last Name"
+                                    name="lastname"
+                                    class="form-control"
+                                    type="text">
+                                <span class="text-danger">{{ errors.first("Last Name") }}</span>
+                            </div>
+                            <div v-if="isEditUser" class="form-group form-group-default">
+                                <label>Cell phone</label>
+                                <input
+                                    v-validate="'min:2|numeric'"
+                                    v-model="userData.phone"
+                                    data-vv-as="Cell phone"
+                                    data-vv-name="Cell phone"
+                                    class="form-control"
+                                    name="phone"
+                                    type="text">
+                                <span class="text-danger">{{ errors.first("Cell phone") }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Email (username)</label>
+                                <input
+                                    v-validate="'required:true|email'"
+                                    v-model="userData.email"
+                                    data-vv-as="Email (username)"
+                                    data-vv-name="Email (username)"
+                                    class="form-control"
+                                    type="text"
+                                    name="email">
+                                <span class="text-danger">{{ errors.first("Email (username)") }}</span>
+                            </div>
                         </div>
-                        <div v-if="isEditUser" class="form-group form-group-default required">
-                            <label>Last name</label>
-                            <input
-                                v-validate="'required:true|min:2|alpha_spaces'"
-                                v-model="userData.lastname"
-                                data-vv-as="Last Name"
-                                data-vv-name="Last Name"
-                                name="lastname"
-                                class="form-control"
-                                type="text">
-                            <span class="text-danger">{{ errors.first("Last Name") }}</span>
-                        </div>
-                        <div v-if="isEditUser" class="form-group form-group-default">
-                            <label>Cell phone</label>
-                            <input
-                                v-validate="'min:2|numeric'"
-                                v-model="userData.phone"
-                                data-vv-as="Cell phone"
-                                data-vv-name="Cell phone"
-                                class="form-control"
-                                name="phone"
-                                type="text">
-                            <span class="text-danger">{{ errors.first("Cell phone") }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Email (username)</label>
-                            <input
-                                v-validate="'required:true|email'"
-                                v-model="userData.email"
-                                data-vv-as="Email (username)"
-                                data-vv-name="Email (username)"
-                                class="form-control"
-                                type="text"
-                                name="email">
-                            <span class="text-danger">{{ errors.first("Email (username)") }}</span>
-                        </div>
-                    </div>
 
-                    <div class="col-6 m-b-20">
-                        <div class="col-12 col-md">
-                            <div v-if="isEditUser" class="form-group">
-                                <label>Language</label>
-                                <multiselect
-                                    v-model="selectedLanguage"
-                                    :options="languages"
-                                    label="name"
-                                    track-by="id"
-                                    @input="setLanguage"
-                                />
-                            </div>
-                            <div v-if="isEditUser" class="form-group">
-                                <label>Timezone</label>
-                                <multiselect
-                                    v-model="userData.timezone"
-                                    :max-height="175"
-                                    :options="timezones"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label>Role
-                                    <span class="multiseletc-required">*</span>
-                                </label>
-                                <multiselect
-                                    v-validate="'required:true'"
-                                    v-model="selectedRole"
-                                    :max-height="175"
-                                    :options="roles"
-                                    data-vv-as="role"
-                                    data-vv-name="role"
-                                    label="name"
-                                    track-by="id"
-                                    @input="setRole"
-                                />
-                                <span class="text-danger">{{ errors.first("role") }}</span>
+                        <div class="col-6 m-b-20">
+                            <div class="col-12 col-md">
+                                <div v-if="isEditUser" class="form-group">
+                                    <label>Language</label>
+                                    <multiselect
+                                        v-model="selectedLanguage"
+                                        :options="languages"
+                                        label="name"
+                                        track-by="id"
+                                        @input="setLanguage"
+                                    />
+                                </div>
+                                <div v-if="isEditUser" class="form-group">
+                                    <label>Timezone</label>
+                                    <multiselect
+                                        v-model="userData.timezone"
+                                        :max-height="175"
+                                        :options="timezones"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Role
+                                        <span class="multiseletc-required">*</span>
+                                    </label>
+                                    <multiselect
+                                        v-validate="'required:true'"
+                                        v-model="selectedRole"
+                                        :max-height="175"
+                                        :options="roles"
+                                        data-vv-as="role"
+                                        data-vv-name="role"
+                                        label="name"
+                                        track-by="id"
+                                        @input="setRole"
+                                    />
+                                    <span class="text-danger">{{ errors.first("role") }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
-                <button :disabled="isLoading" class="btn btn-primary" @click="verifyFields">Save</button>
+                <div class="col-12 col-xl d-flex justify-content-end mt-2">
+                    <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel()">Cancel</button>
+                    <button :disabled="isLoading" class="btn btn-primary" @click="verifyFields">Save</button>
+                </div>
             </div>
         </div>
-    </div>
+    </container-template>
 </template>
 
 <script>
@@ -110,7 +113,11 @@ import { mapState } from "vuex";
 import { vueCrudMixins } from "@/utils/mixins";
 
 export default {
-    name: "UserCrud",
+    name: "Form",
+    components: {
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
+    },
     mixins: [
         vueCrudMixins
     ],
@@ -145,7 +152,7 @@ export default {
         },
         isEditUser(){
             let value = true;
-            if (!this.userData.id){
+            if (!this.$route.params.id){
                 value = false;
             }
             return value;
@@ -277,7 +284,7 @@ export default {
         },
 
         cancel() {
-            this.$emit("changeView", "UsersList");
+            this.$router.push({ name: "settingsCompaniesUsersList" });
         }
     }
 };

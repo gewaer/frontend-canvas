@@ -79,8 +79,8 @@ import { vueCrudMixins } from "@/utils/mixins";
 export default {
     name: "Form",
     components: {
-        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs"),
-        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs")
     },
     mixins: [
         vueCrudMixins

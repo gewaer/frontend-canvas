@@ -4,12 +4,6 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
 import examples from "./views/examples";
-import SettingsCompaniesProfile from "./views/settings/companies/profile";
-import SettingsCompaniesList from "./views/settings/companies/companies/";
-import SettingsCompaniesBranches from "./views/settings/companies/branches/";
-import SettingsCompaniesUsers from "./views/settings/companies/users/";
-import SettingsCompaniesRoles from "./views/settings/companies/roles/";
-import SettingsCompaniesSubscriptions from "./views/settings/companies/subscriptions/";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
@@ -214,38 +208,127 @@ const router = new Router({
                 group: "settingsAppsThemes"
             }
         },
-        // ============== Settings Companies Routes ==============
+        // ===== Settings Companies Routes =====
         {
             path: "/settings/companies",
             name: "settingsCompanies",
-            component: SettingsCompaniesProfile
+            redirect: {
+                name: "settingsCompaniesProfile"
+            }
         },
         {
-            path: "/settings/companies/list",
-            name: "settingsCompaniesList",
-            component: SettingsCompaniesList
+            path: "/settings/companies/profile",
+            name: "settingsCompaniesProfile",
+            component: () => import(/* webpackChunkName: "settings-companies-profile" */ "./views/settings/companies/profile"),
+            meta: {
+                group: "settingsCompaniesProfile"
+            }
         },
         {
-            path: "/settings/companies/branches",
-            name: "settingsCompaniesBranches",
-            component: SettingsCompaniesBranches
+            path: "/settings/companies/branches/list",
+            name: "settingsCompaniesBranchesList",
+            component: () => import(/* webpackChunkName: "settings-companies-branches-list" */ "./views/settings/companies/branches/list"),
+            meta: {
+                group: "settingsCompaniesBranches"
+            }
         },
         {
-            path: "/settings/companies/users",
-            name: "settingsCompaniesUsers",
-            component: SettingsCompaniesUsers
+            path: "/settings/companies/branches/add",
+            name: "settingsCompaniesBranchesForm",
+            component: () => import(/* webpackChunkName: "settings-companies-branches-form" */ "./views/settings/companies/branches/form"),
+            meta: {
+                group: "settingsCompaniesBranches"
+            }
         },
         {
-            path: "/settings/companies/roles",
-            name: "settingsCompaniesRoles",
-            component: SettingsCompaniesRoles
+            path: "/settings/companies/branches/edit/:id",
+            name: "settingsCompaniesBranchesFormEdit",
+            component: () => import(/* webpackChunkName: "settings-companies-branches-form" */ "./views/settings/companies/branches/form"),
+            meta: {
+                group: "settingsCompaniesBranches"
+            }
+        },
+        {
+            path: "/settings/companies/users/list",
+            name: "settingsCompaniesUsersList",
+            component: () => import(/* webpackChunkName: "settings-companies-users-list" */ "./views/settings/companies/users/list"),
+            meta: {
+                group: "settingsCompaniesUsers"
+            }
+        },
+        {
+            path: "/settings/companies/users/add",
+            name: "settingsCompaniesUsersForm",
+            component: () => import(/* webpackChunkName: "settings-companies-users-form" */ "./views/settings/companies/users/form"),
+            meta: {
+                group: "settingsCompaniesUsers"
+            }
+        },
+        {
+            path: "/settings/companies/users/edit/:id",
+            name: "settingsCompaniesUsersFormEdit",
+            component: () => import(/* webpackChunkName: "settings-companies-users-form" */ "./views/settings/companies/users/form"),
+            meta: {
+                group: "settingsCompaniesUsers"
+            }
+        },
+        {
+            path: "/settings/companies/roles/list",
+            name: "settingsCompaniesRolesList",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/list"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
+        {
+            path: "/settings/companies/roles/add",
+            name: "settingsCompaniesRolesForm",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
+        {
+            path: "/settings/companies/roles/edit/:id",
+            name: "settingsCompaniesRolesFormEdit",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
         },
         {
             path: "/settings/companies/subscriptions",
             name: "settingsCompaniesSubscriptions",
-            component: SettingsCompaniesSubscriptions
+            component: () => import(/* webpackChunkName: "settings-companies-subscriptions" */ "./views/settings/companies/subscriptions"),
+            meta: {
+                group: "settingsCompaniesSubscriptions"
+            }
         },
-
+        // ===== Settings Companies Manager Routes =====
+        {
+            path: "/settings/manager/list",
+            name: "settingsManagerList",
+            component: () => import(/* webpackChunkName: "settings-manager-list" */ "./views/settings/manager/list"),
+            meta: {
+                group: "settingsManager"
+            }
+        },
+        {
+            path: "/settings/manager/add",
+            name: "settingsManagerForm",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/manager/form"),
+            meta: {
+                group: "settingsManager"
+            }
+        },
+        {
+            path: "/settings/manager/edit/:id",
+            name: "settingsManagerFormEdit",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/manager/form"),
+            meta: {
+                group: "settingsManager"
+            }
+        },
         // ======================================================
         {
             path: "/browse",

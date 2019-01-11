@@ -1,22 +1,10 @@
 <template>
     <container-template>
-        <tabs-menu slot="tab-menu"/>
         <div slot="tab-content" class="row company-general-information">
-            <div class="col-12 col-xl m-b-20">
-                <h5>Company Profile</h5>
+            <div class="col-12 m-b-20">
+                <h5> {{ title }}</h5>
                 <div class="row">
-                    <div class="col-12 col-md-auto">
-                        <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
-                            </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md">
+                    <div class="col-6 col-md">
                         <div class="form-group form-group-default required">
                             <label>Name</label>
                             <input
@@ -49,7 +37,6 @@
                                 name="zipcode">
                             <span class="text-danger"> {{ errors.first('zipcode') }}</span>
                         </div>
-
                         <div class="form-group form-group-default">
                             <label>Email</label>
                             <input
@@ -72,89 +59,103 @@
                             <span class="text-danger"> {{ errors.first('phone') }}</span>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="processUpdate()">
-                        Save
-                    </button>
+                    <div class="col-6 m-b-20">
+                        <div class="col-12 col-md">
+                            <label>Language </label>
+                            <multiselect
+                                v-model="selectedLanguage"
+                                :options="languages"
+                                label="name"
+                                track-by="id"
+                                @input="setLanguage"
+                            />
+                        </div>
+                        <div class="col-12 col-md">
+                            <label>Timezone</label>
+                            <multiselect
+                                v-model="companyData.timezone"
+                                :max-height="175"
+                                :options="timezones"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-xl m-b-20">
-                <h5>&nbsp;</h5>
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <label>Language </label>
-                        <multiselect
-                            v-model="selectedLanguage"
-                            :options="languages"
-                            label="name"
-                            track-by="id"
-                            @input="setLanguage"
-                        />
-                    </div>
-                    <div class="col-12 col-md">
-                        <label>Timezone</label>
-                        <multiselect
-                            v-model="companyData.timezone"
-                            :max-height="175"
-                            :options="timezones"
-                        />
-                    </div>
-                </div>
+            <div class="col-12 col-xl d-flex justify-content-end mt-2">
+                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel()">Cancel</button>
+                <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="save()"> Save </button>
             </div>
         </div>
     </container-template>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { vueRouterMixins } from "@/utils/mixins";
+import {mapState} from "vuex";
+import { vueCrudMixins } from "@/utils/mixins";
 
 export default {
-    name: "CompanyProfile",
+    name: "CompanyCrud",
     components: {
-        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
-        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     mixins: [
-        vueRouterMixins
+        vueCrudMixins
     ],
+    props: {
+        company: {
+            type: Object,
+            default() {
+                return {};
+            }
+        }
+    },
     data() {
         return {
             isLoading: false,
-            companyData: {},
+            companyData: null,
             selectedLanguage: null
         }
     },
+
     computed:{
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages
         }),
-        ...mapState("Company", {
-            company: state => state.data
-        }),
-        hasErrors() {
-            return this.errors.length;
+        title() {
+            if (!this.company.id) {
+                return "Add company";
+            } else {
+                return "Edit company";
+            }
         },
         hasChanged() {
-            return !_.isEqual(this.companyData, this.$store.state.Company.data);
+            return !_.isEqual(this.companyData, this.company);
         }
     },
+
     watch: {
-        "company.language"() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        "companyData.language"() {
+            this.setInitialLanguage();
         },
-        company(company) {
-            this.companyData = _.clone(company);
+        company() {
+            this.setCompany();
         }
     },
+
+    mounted() {
+        this.setInitialLanguage();
+    },
+
     created() {
         this.$store.dispatch("Application/getSettingsLists");
-        this.companyData = _.clone(this.$store.state.Company.data);
-        this.setInitialLanguage()
+        this.setCompany();
     },
+
     methods: {
+        setCompany() {
+            this.companyData = _.clone(this.company);
+        },
         setLanguage(value) {
             this.companyData.language = value.id;
         },
@@ -163,46 +164,64 @@ export default {
             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
 
-        processUpdate() {
-            this.$validator.validate().then(result => {
-                if (result) {
-                    this.update();
-                }
-            })
-        },
-        update() {
-            if (!this.isLoading) {
-                this.isLoading = true;
+        save() {
+            let url;
+            let method;
 
-                axios({
-                    url: `/companies/${this.companyData.id}`,
-                    method: "PUT",
-                    data: this.companyData
-                }).then(({data}) => {
-                    this.$store.dispatch("Company/setData", data);
-
-                    this.$notify({
-                        title: "Confirmation",
-                        text: "Company information has been updated successfully!",
-                        type: "success"
-                    });
-                }).catch((error) => {
-                    this.$notify({
-                        title: "Error",
-                        text: error.response.data.errors.message,
-                        type: "error"
-                    });
-                }).finally(() => {
-                    this.isLoading = false;
-                });
+            if (!this.companyData.id) {
+                url = "/companies";
+                method = "POST";
+            } else {
+                url = `/companies/${this.companyData.id}`;
+                method = "PUT";
             }
 
+            this.$validator.validate().then((result) => {
+                if (result) {
+                    this.sendRequest(url, method);
+                }
+            })
+
+        },
+        sendRequest(url, method) {
+            if (this.isLoading) {
+                return;
+            }
+
+            this.isLoading = true;
+
+            axios({
+                url,
+                method,
+                data: this.companyData
+            }).then(() => {
+                this.$notify({
+                    group: null,
+                    title: "Confirmation",
+                    text: "The company information has been changed",
+                    type: "success"
+                });
+                this.$emit("changeView", "companiesList");
+            }).catch((error) => {
+                this.$notify({
+                    group: null,
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        },
+
+        cancel() {
+            this.$router.push({ name: "settingsCompaniesBranchesList" });
         }
     }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .company-general-information {
     .profile-image-container {
         display: flex;

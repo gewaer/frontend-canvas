@@ -1,46 +1,55 @@
 <template>
-    <div class="row">
-        <div class="col">
-            <h5>Branches
-                <button class="btn btn-primary" @click="toCrud">New Branch</button>
-            </h5>
-            <div class="table-responsive">
-                <vuetable
-                    ref="Vuetable"
-                    :append-params="appendParams"
-                    :fields="branchesFields"
-                    :http-fetch="getTableData"
-                    api-url="/companies-branches"
-                    class="table table-hover table-condensed"
-                    pagination-path="">
-                    <img
-                        slot="profile_image"
-                        slot-scope="props"
-                        :src="props.rowData.profile_image || defaultImage"
-                        height="25px"
-                    >
-                    <template slot="actions" slot-scope="props">
-                        <button class="btn btn-primary m-l-5" @click="editBranch(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
-                        <button class="btn btn-complete m-l-5" @click="editBranch(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
-                        <button
-                            :disabled="isCurrentBranch(props.rowData.id)"
-                            class="btn btn-danger m-l-5"
-                            @click="confirmDelete(props.rowData.id)">
-                            <i class="fa fa-trash" aria-hidden="true" />
-                        </button>
-                    </template>
-                </vuetable>
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row">
+            <div class="col">
+                <h5>
+                    Branches
+                    <router-link :to="{ name: 'settingsCompaniesBranchesForm' }" class="btn btn-primary">
+                        New Branch
+                    </router-link>
+                </h5>
+                <div class="table-responsive">
+                    <vuetable
+                        ref="Vuetable"
+                        :append-params="appendParams"
+                        :fields="branchesFields"
+                        :http-fetch="getTableData"
+                        api-url="/companies-branches"
+                        class="table table-hover table-condensed"
+                        pagination-path="">
+                        <img
+                            slot="profile_image"
+                            slot-scope="props"
+                            :src="props.rowData.profile_image || defaultImage"
+                            height="25px"
+                        >
+                        <template slot="actions" slot-scope="props">
+                            <button class="btn btn-primary m-l-5" @click="editBranch(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                            <button class="btn btn-complete m-l-5" @click="editBranch(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                            <button
+                                :disabled="isCurrentBranch(props.rowData.id)"
+                                class="btn btn-danger m-l-5"
+                                @click="confirmDelete(props.rowData.id)">
+                                <i class="fa fa-trash" aria-hidden="true" />
+                            </button>
+                        </template>
+                    </vuetable>
+                </div>
             </div>
         </div>
-
-    </div>
+    </container-template>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
-    name: "BranchesList",
+    name: "List",
+    components: {
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
+    },
     data() {
         return {
             branchesFields: [{
@@ -71,9 +80,6 @@ export default {
         })
     },
     methods: {
-        toCrud() {
-            this.$emit("changeView", "BranchesCrud");
-        },
         confirmDelete(roleId) {
             // change for swal or any other
             if (confirm("are you sure?")) {

@@ -48,7 +48,7 @@
 
 <script>
 export default {
-    name: "BilligFrecuency",
+    name: "FrequencyItem",
     props: {
         billingFrecuency: {
             required: true,

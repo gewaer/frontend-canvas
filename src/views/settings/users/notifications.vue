@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row">
             <div class="col">
                 <h5>Email notifications</h5>
                 <div class="table-responsive">
@@ -19,51 +20,8 @@
                                             data-init-plugin="switchery"
                                             data-color="primary"
                                             data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="even">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="odd">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="even">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="odd">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
+                                            checked="checked"
+                                        >
                                     </td>
                                 </tr>
                             </tbody>
@@ -87,51 +45,8 @@
                                             data-init-plugin="switchery"
                                             data-color="primary"
                                             data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="even">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="odd">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="even">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
-                                    </td>
-                                </tr>
-                                <tr class="odd">
-                                    <td class="v-align-middle">Lipsum Dolor sit amet</td>
-                                    <td class="v-align-middle ">
-                                        <input
-                                            type="checkbox"
-                                            data-init-plugin="switchery"
-                                            data-color="primary"
-                                            data-size="small"
-                                            checked="checked" >
+                                            checked="checked"
+                                        >
                                     </td>
                                 </tr>
                             </tbody>
@@ -140,14 +55,15 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
-    name: "UsersNotifications",
+    name: "Notifications",
     components: {
-        SettingsTemplate: () => import("./tab-container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     }
 };
 </script>
