@@ -81,7 +81,7 @@
                     </div>
                 </section>
                 <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-                <div class="payment-details">
+                <div v-show="plans.length" class="payment-details">
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
@@ -90,7 +90,7 @@
                     <div v-if="showBilligInfo" class="m-t-20">
                         <billing-frecuencies
                             :plan="selectedPlan"
-                            :frecuency-type="planData.frecuency_type"
+                            :frecuency-type="selectedFrecuency.type"
                             @selectbillingtype="selectFrequency"/>
                         <h5>Contact</h5>
                         <div class="row contact">
@@ -465,7 +465,7 @@ export default {
                 contact_last_name:""
             },
             planData :{
-                "frecuency_type":"pricing",
+                "payment_style":"monthly",
                 "stripe_id":"0"
             },
             address:{
@@ -501,7 +501,7 @@ export default {
             userData: state => state.data
         }),
         ...mapState("Company", {
-            companyData: state => state.data
+            defaultCompany: state => state.data
         })
     },
     beforeRouteLeave(to, from, next) {
@@ -527,9 +527,10 @@ export default {
             });
         },
         handleAppPlans(response){
-            if(_.has(this.companyData, "subscription")){
-                this.planData["stripe_id"] = this.companyData.subscription.stripe_id;
-                let subcription = this.companyData.subscription.id;
+            if(_.has(this.defaultCompany, "subscription")){
+                this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
+                this.planData.payment_style = this.defaultCompany.subscription.payment_style;
+                let subcription = this.defaultCompany.subscription.id;
                 this.showBilligInfo = !!(subcription == 0) ;
             }
             this.plans = response.data;
@@ -541,9 +542,9 @@ export default {
             });
             return data;
         },
-        updateCompanyData(){
-            const companyData = this.$store.dispatch("Company/getData", null, { root: true });
-            companyData.then(res => this.$store.dispatch("Company/setData", res.data[0]));
+        updateDefaultCompany(){
+            const defaultCompany = this.$store.dispatch("Company/getData", null, { root: true });
+            defaultCompany.then(res => this.$store.dispatch("Company/setData", res.data[0]));
         },
         changeSubscription(plan){
             this.$modal.show("basic-modal", {
@@ -571,7 +572,7 @@ export default {
                 method: "PUT"
             }).then(() => {
                 this.planData["stripe_id"] = planId;
-                this. updateCompanyData();
+                this. updateDefaultCompany();
                 this.changeSubscriptionSuccess("Subscriptión updated successfully.");
             }).catch((error) => {
                 this.$notify({
@@ -633,7 +634,7 @@ export default {
                 method: "POST",
                 data
             }).then(() => {
-                this. updateCompanyData();
+                this. updateDefaultCompany();
                 this.changeSubscriptionSuccess("Payment Informatión updated successfully.");
             }).catch((error) => {
                 this.$notify({
@@ -655,7 +656,7 @@ export default {
         },
         selectFrequency(frecuencyType, frecuency){
             this.selectedFrecuency = frecuency;
-            this.planData["frecuency_type"] = frecuencyType;
+            this.planData.payment_style = frecuencyType.toLowerCase();
         },
         clearFormData(){
             Object.keys(this.payment).forEach(key=>  this.payment[key] = "");
@@ -665,7 +666,7 @@ export default {
                 email : "email",
                 contact_first_name : "firstname",
                 contact_last_name : "lastname" };
-            this.contact.contact_company =  this.companyData.name;
+            this.contact.contact_company =  this.defaultCompany.name;
             Object.keys(formKeys).forEach(key=> this.contact[key] = this.userData[formKeys[key]]);
         }
     }
