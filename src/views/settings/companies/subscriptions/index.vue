@@ -372,7 +372,7 @@ export default {
     name: "Subscriptions",
     components: {
         BillingFrecuencies: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-frequency" */ "@v/settings/companies/subscriptions/billing-frequency"),
-        BillingPlans: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-frequency" */ "@v/settings/companies/subscriptions/billing-plans"),
+        BillingPlans: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-plans" */ "@v/settings/companies/subscriptions/billing-plans"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
