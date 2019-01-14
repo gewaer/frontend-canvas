@@ -1,40 +1,49 @@
 <template>
-    <div>
-        <h5>
-            Users
-            <button class="btn btn-primary" @click="usersCRUD">New user</button>
-        </h5>
-        <div class="table-responsive">
-            <vuetable
-                :append-params="{format: 'true'}"
-                :fields="usersFields"
-                :http-fetch="getTableData"
-                api-url="/users"
-                class="table table-hover table-condensed"
-                pagination-path="">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content">
+            <h5>
+                Users
+                <router-link :to="{ name: 'settingsCompaniesUsersForm' }" class="btn btn-primary">
+                    New User
+                </router-link>
+            </h5>
+            <div class="table-responsive">
+                <vuetable
+                    :append-params="{format: 'true'}"
+                    :fields="usersFields"
+                    :http-fetch="getTableData"
+                    api-url="/users"
+                    class="table table-hover table-condensed"
+                    pagination-path="">
 
-                <template slot="name" slot-scope="props">
-                    <span> {{ props.rowData.firstname }} {{ props.rowData.lastname }} </span>
-                </template>
+                    <template slot="name" slot-scope="props">
+                        <span> {{ props.rowData.firstname }} {{ props.rowData.lastname }} </span>
+                    </template>
 
-                <template slot="actions" slot-scope="props">
-                    <button class="btn btn-primary m-l-5" @click="editUser(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
-                    <button class="btn btn-complete m-l-5" @click="editUser(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
-                    <button
-                        :disabled="isCurrentUser(props.rowData.id)"
-                        class="btn btn-danger m-l-5"
-                        @click="deleteUser(props.rowData.id)">
-                        <i class="fa fa-trash" aria-hidden="true" />
-                    </button>
-                </template>
-            </vuetable>
+                    <template slot="actions" slot-scope="props">
+                        <button class="btn btn-primary m-l-5" @click="editUser(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                        <button class="btn btn-complete m-l-5" @click="editUser(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                        <button
+                            :disabled="isCurrentUser(props.rowData.id)"
+                            class="btn btn-danger m-l-5"
+                            @click="deleteUser(props.rowData.id)">
+                            <i class="fa fa-trash" aria-hidden="true" />
+                        </button>
+                    </template>
+                </vuetable>
+            </div>
         </div>
-    </div>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "UsersList",
+    components: {
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
+    },
     props: {
         currentUser: {
             type: Object,
@@ -67,9 +76,6 @@ export default {
         }
     },
     methods: {
-        usersCRUD() {
-            this.$emit("changeView", "UsersCRUD");
-        },
         isCurrentUser(userId) {
             return this.currentUser.id == userId;
         },

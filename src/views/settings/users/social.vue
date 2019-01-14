@@ -1,19 +1,21 @@
 <template>
-    <settings-template>
-        <div class="socials-connect">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="socials-connect">
             <div class="social-connect google">
                 <img src="/img/google-g.png" alt="">
                 <span>connect with <strong>Google</strong></span>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "Social",
     components: {
-        SettingsTemplate: () => import("./tab-container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     }
 };
 </script>

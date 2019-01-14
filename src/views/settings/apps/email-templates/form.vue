@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row email-templates-section">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row email-templates-section">
             <div class="col">
                 <h5>Create Email Template</h5>
                 <div class="row">
@@ -39,14 +40,15 @@
                 </div>
             </div>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "Form",
     components: {
-        SettingsTemplate: () => import("../tab-container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs")
     },
     data() {
         return {

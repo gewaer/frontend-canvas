@@ -1,6 +1,7 @@
 <template>
-    <settings-template>
-        <div class="row user-general-information">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row user-general-information">
             <div class="col-12 col-xl m-b-20">
                 <h5>Security</h5>
                 <div class="row">
@@ -52,14 +53,15 @@
             </div>
             <div class="col-12 col-xl m-b-20"/>
         </div>
-    </settings-template>
+    </container-template>
 </template>
 
 <script>
 export default {
     name: "Security",
     components: {
-        SettingsTemplate: () => import("./tab-container")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     data() {
         return {

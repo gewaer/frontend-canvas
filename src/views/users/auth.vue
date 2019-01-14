@@ -30,7 +30,7 @@
                 <p class="p-t-10">{{ form.title }}</p>
                 <!-- START Login Form -->
                 <form id="form-login" class="p-t-15" @submit.prevent="submitData()">
-                    <template v-if="isSignup">
+                    <template v-if="isSignup || isInvite">
                         <!-- START Form Control-->
                         <div class="form-group form-group-default required">
                             <label>First Name</label>
@@ -63,11 +63,12 @@
                         <!-- END Form Control-->
                     </template>
                     <!-- START Form Control-->
-                    <div v-if="!isResetPassword" class="form-group form-group-default required">
+                    <div v-if="!isResetPassword || !isTypeOfInvite" class="form-group form-group-default required">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
                             <input
                                 v-model="data.email"
+                                :disabled="isTypeOfInvite"
                                 type="text"
                                 name="username"
                                 placeholder="user@example.com"
@@ -78,7 +79,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="!isForgotPassword" class="form-group form-group-default required">
+                    <div v-if="!isForgotPassword " class="form-group form-group-default required">
                         <label>Password</label>
                         <div class="controls">
                             <input
@@ -93,7 +94,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="isSignup || isResetPassword" class="form-group form-group-default required">
+                    <div v-if="isSignup || isResetPassword || isInvite" class="form-group form-group-default required">
                         <label>Confirm Password</label>
                         <div class="controls">
                             <input
@@ -146,6 +147,11 @@
                     </div>
                     <!-- END Form Control-->
                     <button class="btn btn-primary btn-cons m-t-10" type="submit">{{ form.submitLabel }}</button>
+                    <router-link
+                        v-if="isInviteConfirmation"
+                        :to="{ name: 'login' }"
+                        tag="button"
+                        class="btn btn-danger btn-cons m-t-10">Cancel</router-link>
                     <div v-if="isLogin" class="m-t-10">
                         Don't have an account?
                         <router-link :to="{ name: 'signup' }">Create one!</router-link>
@@ -245,6 +251,44 @@ export default {
                     endpoint: "users",
                     submitLabel: "Sign Up",
                     title: "Create your Gewaer account"
+                },
+                usersInvites: {
+                    data: {
+                        email: {
+                            label: "Email",
+                            validations: "required|email"
+                        },
+                        firstname: {
+                            validations: "required"
+                        },
+                        lastname: {
+                            validations: "required"
+                        },
+                        password: {
+                            validations: "required|min:8"
+                        },
+                        verifyPassword: {
+                            map: "verify_password",
+                            validations: "required|min:8"
+                        }
+                    },
+                    endpoint: `users-invite/${this.$route.params.hash}`,
+                    submitLabel: "Sign Up",
+                    title: "Confirm your Gewaer account"
+                },
+                usersInvitesConfirmation: {
+                    data: {
+                        email: {
+                            label: "Email",
+                            validations: "required|email"
+                        },
+                        password: {
+                            validations: "required|min:8"
+                        }
+                    },
+                    endpoint: `users-invite/${this.$route.params.hash}`,
+                    submitLabel: "Acept",
+                    title: "Link to your Gewaer account"
                 }
             }
         }
@@ -264,12 +308,29 @@ export default {
         },
         isSignup() {
             return this.$route.name == "signup";
+        },
+        isInvite(){
+            return this.$route.name == "usersInvites";
+        },
+        isTypeOfSignIn(){
+            return this.isLogin || this.isSignup || this.isInvite || this.isInviteConfirmation;
+        },
+        isTypeOfInvite(){
+            return this.isInviteConfirmation || this.isInvite;
+        },
+        isInviteConfirmation(){
+            return this.$route.name == "usersInvitesConfirmation";
         }
     },
     beforeRouteLeave(to, from, next) {
         this.data.email = "";
         this.data.password = "";
         next();
+    },
+    mounted(){
+        if(this.isTypeOfInvite){
+            this.validateInvitation();
+        }
     },
     methods: {
         handleForgotPassword(response) {
@@ -282,8 +343,8 @@ export default {
             this.data.email = "";
             this.$router.push({ name: "login" });
         },
-        handleLoginSignup(response) {
-            const auth = this.isLogin ? response.data : response.data.session;
+        handleLoginSignupInvite(response) {
+            const auth = this.isSignup ? response.data.session : response.data ;
 
             Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
             this.$store.dispatch("User/setToken", auth.token);
@@ -306,11 +367,13 @@ export default {
             this.$router.push({ name: "login" });
         },
         handleResponse(response) {
-            if (this.isLogin || this.isSignup) {
-                this.handleLoginSignup(response);
-            } else if (this.isForgotPassword) {
+            if (this.isTypeOfSignIn) {
+                this.handleLoginSignupInvite(response);
+            }
+            if (this.isForgotPassword) {
                 this.handleForgotPassword(response);
-            } else if (this.isResetPassword) {
+            }
+            if (this.isResetPassword) {
                 this.handleResetPassword(response);
             }
         },
@@ -345,6 +408,20 @@ export default {
                     type: "error"
                 });
             });
+        },
+        validateInvitation(){
+            let url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
+            axios({
+                url
+            }).then(({data}) => this.data.email = data.email)
+                .catch((error) => {
+                    this.$notify({
+                        title: "Error",
+                        text: error.response.data.errors.message,
+                        type: "error"
+                    });
+                    this.$router.push({ name: "404" });
+                });
         }
     }
 }

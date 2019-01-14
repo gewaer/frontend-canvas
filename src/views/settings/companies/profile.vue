@@ -1,6 +1,7 @@
 <template>
-    <tab-container>
-        <div class="row company-general-information">
+    <container-template>
+        <tabs-menu slot="tab-menu"/>
+        <div slot="tab-content" class="row company-general-information">
             <div class="col-12 col-xl m-b-20">
                 <h5>Company Profile</h5>
                 <div class="row">
@@ -70,9 +71,10 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="processUpdate()"> Save </button>
+                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="processUpdate()">
+                        Save
+                    </button>
                 </div>
             </div>
             <div class="col-12 col-xl m-b-20">
@@ -99,22 +101,23 @@
                 </div>
             </div>
         </div>
-    </tab-container>
+    </container-template>
 </template>
 
 <script>
-import {mapState} from "vuex";
-import TabContainer from "./tab-container";
+import { mapState } from "vuex";
 import { vueRouterMixins } from "@/utils/mixins";
-import ProfileUpload from "@/components/profileUpload/profile-upload";
 
 export default {
     name: "CompanyProfile",
     components: {
-        TabContainer,
-        ProfileUpload
+        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
-    mixins: [vueRouterMixins],
+    mixins: [
+        vueRouterMixins
+    ],
     data() {
         return {
             isLoading: false,
