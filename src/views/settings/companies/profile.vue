@@ -141,9 +141,6 @@ export default {
         },
         hasChanged() {
             return !_.isEqual(this.companyData, this.$store.state.Company.data);
-        },
-        fileUploadEndpoint() {
-            return `companies/${this.companyData.id}/resources`
         }
     },
     watch: {
