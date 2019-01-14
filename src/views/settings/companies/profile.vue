@@ -7,8 +7,9 @@
                     <div class="col-12 col-md-auto">
                         <div class="profile-image-container">
                             <profile-upload
-                                :endpoint="fileUploadEndpoint"
-                                avatar-url="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png"
+                                :avatar-url="avatarUrl"
+                                endpoint="/filesystem"
+                                @uploaded="updateProfile"
                             />
                         </div>
                     </div>
@@ -40,7 +41,7 @@
                                 v-validate="'required:true|numeric|min:2'"
                                 v-model="companyData.zipcode"
                                 class="form-control"
-                                type="text"
+                                type="number"
                                 data-vv-as="zip code"
                                 name="zipcode">
                             <span class="text-danger"> {{ errors.first('zipcode') }}</span>
@@ -105,7 +106,7 @@
 import {mapState} from "vuex";
 import TabContainer from "./tab-container";
 import { vueRouterMixins } from "@/utils/mixins";
-import ProfileUpload from "@/components/profile-upload";
+import ProfileUpload from "@/components/profileUpload/profile-upload";
 
 export default {
     name: "CompanyProfile",
@@ -120,6 +121,7 @@ export default {
             companyData: {
                 language: null
             },
+            avatarUrl: "http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png",
             selectedLanguage: null
         }
     },
@@ -156,6 +158,7 @@ export default {
         this.$store.dispatch("Application/getSettingsLists");
         this.companyData = _.clone(this.$store.state.Company.data);
         this.setInitialLanguage()
+        this.setAvatarUrl();
     },
     methods: {
         setLanguage(value) {
@@ -173,33 +176,59 @@ export default {
                 }
             })
         },
-        update() {
+
+        updateProfile(profile) {
+            if (typeof profile == "string") {
+                this.avatarUrl = profile;
+            } else {
+                const formData = {
+                    filesystem_files: profile.map(profile => profile.id)
+                };
+                this.avatarUrl = profile[0].url;
+
+                this.update(formData);
+            }
+        },
+        update(formData) {
             if (!this.isLoading) {
                 this.isLoading = true;
+                formData = formData || this.companyData;
 
                 axios({
                     url: `/companies/${this.companyData.id}`,
                     method: "PUT",
-                    data: this.companyData
-                }).then(({data}) => {
-                    this.$store.dispatch("Company/setData", data);
-
-                    this.$notify({
-                        title: "Confirmation",
-                        text: "Company information has been updated successfully!",
-                        type: "success"
+                    data: formData
+                })
+                    .then(this.onSuccess)
+                    .catch(this.onError)
+                    .finally(() => {
+                        this.isLoading = false;
                     });
-                }).catch((error) => {
-                    this.$notify({
-                        title: "Error",
-                        text: error.response.data.errors.message,
-                        type: "error"
-                    });
-                }).finally(() => {
-                    this.isLoading = false;
-                });
             }
+        },
 
+        onError() {
+            this.$notify({
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
+            });
+        },
+
+        onSuccess({data}) {
+            this.$store.dispatch("Company/setData", data);
+
+            this.$notify({
+                title: "Confirmation",
+                text: "Company information has been updated successfully!",
+                type: "success"
+            });
+        },
+
+        setAvatarUrl() {
+            if (this.companyData.filesystem && this.companyData.filesystem.length) {
+                this.avatarUrl = this.companyData.filesystem[0].url
+            }
         }
     }
 };
