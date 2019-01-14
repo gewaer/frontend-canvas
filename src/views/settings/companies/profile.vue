@@ -20,36 +20,38 @@
                         <div class="form-group form-group-default required">
                             <label>Name</label>
                             <input
-                                v-validate="'required:true|min:2|alpha_spaces'"
+                                v-validate="'required'"
                                 v-model="companyData.name"
-                                class="form-control"
+                                name="name"
                                 type="text"
-                                name="name">
-                            <span class="text-danger"> {{ errors.first('name') }}</span>
+                                class="form-control"
+                            >
+                            <span class="text-danger">{{ errors.first('name') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Address</label>
                             <input
-                                v-validate="'required:true|min:2'"
+                                v-validate="'required'"
                                 v-model="companyData.address"
-                                class="form-control"
-                                type="text"
                                 data-vv-as="company address"
-                                name="company-address">
-                            <span class="text-danger"> {{ errors.first('company-address') }}</span>
+                                name="company-address"
+                                type="text"
+                                class="form-control"
+                            >
+                            <span class="text-danger">{{ errors.first('company-address') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Zip Code</label>
                             <input
-                                v-validate="'required:true|numeric|min:2'"
+                                v-validate="'required|numeric'"
                                 v-model="companyData.zipcode"
-                                class="form-control"
-                                type="text"
                                 data-vv-as="zip code"
-                                name="zipcode">
-                            <span class="text-danger"> {{ errors.first('zipcode') }}</span>
+                                name="zipcode"
+                                type="text"
+                                class="form-control"
+                            >
+                            <span class="text-danger">{{ errors.first('zipcode') }}</span>
                         </div>
-
                         <div class="form-group form-group-default">
                             <label>Email</label>
                             <input
@@ -57,24 +59,26 @@
                                 v-model="companyData.email"
                                 class="form-control"
                                 name="email"
-                                type="email">
-                            <span class="text-danger"> {{ errors.first('email') }}</span>
+                                type="email"
+                            >
+                            <span class="text-danger">{{ errors.first('email') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Phone</label>
                             <input
                                 v-validate="'required|numeric'"
                                 v-model="companyData.phone"
-                                class="form-control"
                                 data-vv-as="phone number"
                                 name="phone"
-                                type="tel">
-                            <span class="text-danger"> {{ errors.first('phone') }}</span>
+                                type="tel"
+                                class="form-control"
+                            >
+                            <span class="text-danger">{{ errors.first('phone') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="processUpdate()">
+                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="update()">
                         Save
                     </button>
                 </div>
@@ -83,7 +87,7 @@
                 <h5>&nbsp;</h5>
                 <div class="row">
                     <div class="col-12 col-md">
-                        <label>Language </label>
+                        <label>Language</label>
                         <multiselect
                             v-model="selectedLanguage"
                             :options="languages"
@@ -109,6 +113,8 @@
 <script>
 import { mapState } from "vuex";
 import { vueRouterMixins } from "@/utils/mixins";
+import clone from "lodash/clone";
+import some from "lodash/some";
 
 export default {
     name: "CompanyProfile",
@@ -127,58 +133,35 @@ export default {
         }
     },
     computed:{
-        ...mapState("Application", {
-            timezones: state => state.timezones,
-            languages: state => state.languages
+        ...mapState({
+            company: state => state.Company.data,
+            languages: state => state.Application.languages,
+            timezones: state => state.Application.timezones
         }),
-        ...mapState("Company", {
-            company: state => state.data
-        }),
-        hasErrors() {
-            return this.errors.length;
-        },
         hasChanged() {
-            return !_.isEqual(this.companyData, this.$store.state.Company.data);
+            return some(this.vvFields, field => field.changed);
         }
     },
-    watch: {
-        "company.language"() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
-        },
-        company(company) {
-            this.companyData = _.clone(company);
-        }
-    },
-    created() {
-        this.$store.dispatch("Application/getSettingsLists");
-        this.companyData = _.clone(this.$store.state.Company.data);
-        this.setInitialLanguage()
+    async created() {
+        await this.$store.dispatch("Application/getSettingsLists");
+        this.companyData = clone(this.company);
+        this.selectedLanguage = this.languages.find(language => language.id == this.company.language);
     },
     methods: {
         setLanguage(value) {
             this.companyData.language = value.id;
         },
+        async update() {
+            await this.$validator.validateAll();
 
-        setInitialLanguage() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
-        },
-
-        processUpdate() {
-            this.$validator.validate().then(result => {
-                if (result) {
-                    this.update();
-                }
-            })
-        },
-        update() {
-            if (!this.isLoading) {
+            if (!this.isLoading && !this.errors.any()) {
                 this.isLoading = true;
 
                 axios({
                     url: `/companies/${this.companyData.id}`,
                     method: "PUT",
                     data: this.companyData
-                }).then(({data}) => {
+                }).then(({ data }) => {
                     this.$store.dispatch("Company/setData", data);
 
                     this.$notify({
@@ -196,7 +179,6 @@ export default {
                     this.isLoading = false;
                 });
             }
-
         }
     }
 };
