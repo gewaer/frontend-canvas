@@ -1,11 +1,13 @@
-import { some, pickBy } from "lodash";
+import isEmpty from "lodash/isEmpty";
+import some from "lodash/some";
+import pickBy from "lodash/pickBy";
 
 export const vueRouterMixins = {
     beforeRouteLeave(to, from, next) {
-        const formFields = _.isObject(this.crudFormFields) ?  this.crudFormFields : this.formFields ;
+        const formFields = pickBy(this.vvFields, field => field.changed);
 
-        if (some(formFields, field => field.changed)) {
-            this.$modal.show("unsaved-changes", {
+        if (!isEmpty(formFields)) {
+            this.$modal.show(() => import(/* webpackChunkName: "components-modals-unsaved-changes" */ "@/components/modals/unsaved-changes"), {
                 buttons: [{
                     title: "Discard",
                     handler: () => {
@@ -16,11 +18,17 @@ export const vueRouterMixins = {
                     title: "Cancel",
                     class: "btn-primary",
                     handler: () => {
-                        next(false);
                         this.$modal.hide("unsaved-changes");
+                        next(false);
                     }
                 }],
-                fields: pickBy(formFields, field => field.changed)
+                fields: formFields
+            }, {
+                adaptive: true,
+                clickToClose: false,
+                height: "auto",
+                name: "unsaved-changes",
+                scrollable: true
             });
         } else {
             next();

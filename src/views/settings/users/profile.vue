@@ -15,11 +15,11 @@
                                     <label for="upload-image" class="btn btn-primary">Upload image</label>
                                     <input id="upload-image" type="file">
                                 </div> -->
-                            <profile-upload
-                                :avatar-url="avatarUrl"
-                                endpoint="/filesystem"
-                                @uploaded="updateProfile"
-                            />
+                                <profile-upload
+                                    :avatar-url="avatarUrl"
+                                    endpoint="/filesystem"
+                                    @uploaded="updateProfile"
+                                />
                             </div>
                         </div>
                         <div class="col-12 col-md">
@@ -158,7 +158,7 @@ export default {
                 phone: "",
                 timezone: ""
             },
-            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754",
+            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
         }
     },
     computed: {

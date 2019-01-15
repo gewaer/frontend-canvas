@@ -2,9 +2,11 @@
     <container-template>
         <tabs-menu slot="tab-menu"/>
         <div slot="tab-content" class="subscriptions-plans">
-            <div class="card-yellow d-flex">
+            <div v-if="companyData.subscription && companyData.subscription.is_freetrial" class="card-yellow d-flex">
                 <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ullamcorper ligula odio, id tristique lacus faucibus et. Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Aliquam ullamcorper ligula odio, id tristique lacus faucibus et.
+                Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
             </div>
             <div id="generic_price_table">
                 <section>
