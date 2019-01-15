@@ -116,7 +116,12 @@ export default {
 
         editBranch(branchId, isEditable = true) {
             this.isEditable = isEditable;
-            this.$emit("getBranch", branchId);
+            this.$router.push({
+                name: "settingsCompaniesBranchesFormEdit",
+                params: {
+                    id: branchId
+                }
+            });
         },
 
         isCurrentBranch(branchId) {

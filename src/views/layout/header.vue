@@ -188,7 +188,7 @@
                         <span>Users Settings</span>
                     </router-link>
                     <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
-                        <span>{{ selectedCompany.name }} Settings</span>
+                        <span>{{ companyName }} Settings</span>
                     </router-link>
                     <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
                         <span>App Settings</span>
@@ -225,7 +225,7 @@ export default {
     },
     data() {
         return {
-            selectedCompany: null
+            selectedCompany: {}
         }
     },
     computed: {
@@ -235,15 +235,16 @@ export default {
         }),
         ...mapState("User", {
             userData: state => state.data
-        })
+        }),
+
+        companyName() {
+            return this.selectedCompany ? this.selectedCompany.name : "company";
+        }
     },
     watch: {
         defaultCompany() {
             this.selectedCompany = this.defaultCompany;
         }
-    },
-    created() {
-        this.selectedCompany = this.defaultCompany;
     },
     methods: {
         handleSidebar(payload) {

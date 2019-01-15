@@ -8,13 +8,18 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <div class="profile-image">
+                                <!-- <div class="profile-image">
                                     <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
                                 </div>
                                 <div class="upload-profile-image">
                                     <label for="upload-image" class="btn btn-primary">Upload image</label>
                                     <input id="upload-image" type="file">
-                                </div>
+                                </div> -->
+                                <profile-upload
+                                    :avatar-url="avatarUrl"
+                                    endpoint="/filesystem"
+                                    @uploaded="updateProfile"
+                                />
                             </div>
                         </div>
                         <div class="col-12 col-md">
@@ -134,6 +139,7 @@ import { vueRouterMixins } from "@/utils/mixins";
 export default {
     name: "Profile",
     components: {
+        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
@@ -151,7 +157,8 @@ export default {
                 email: "",
                 phone: "",
                 timezone: ""
-            }
+            },
+            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
         }
     },
     computed: {
@@ -161,46 +168,73 @@ export default {
         })
     },
     watch: {
+        "languages"() {
+            this.setInitialLanguage();
+        },
         "userData.languages"() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+            this.setInitialLanguage();
         }
     },
     created() {
         this.$store.dispatch("Application/getSettingsLists");
         this.userData = _.clone(this.$store.state.User.data);
+        this.setAvatarUrl();
     },
     methods: {
         setLanguage(value) {
             this.userData.language = value.id;
         },
-        update() {
-            if (this.errors.items.length || this.isLoading) {
-                return;
+        setInitialLanguage() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+        },
+        update(formData) {
+            if (!this.errors.items.length && !this.isLoading) {
+
+                formData = formData || this.userData
+                this.isLoading = true;
+
+                axios({
+                    url: `/users/${this.userData.id}`,
+                    method: "PUT",
+                    data: formData
+                }).then((response) => {
+                    this.$store.dispatch("User/setData", response.data);
+
+                    this.$notify({
+                        title: "Confirmation",
+                        text: "Your information has been updated successfully!",
+                        type: "success"
+                    });
+                }).catch((error) => {
+                    this.$notify({
+                        title: "Error",
+                        text: error.response.data.errors.message,
+                        type: "error"
+                    });
+                }).finally(() => {
+                    this.isLoading = false;
+                });
             }
 
-            this.isLoading = true;
+        },
 
-            axios({
-                url: `/users/${this.userData.id}`,
-                method: "PUT",
-                data: this.userData
-            }).then((response) => {
-                this.$store.dispatch("User/setData", response.data);
+        updateProfile(profile) {
+            if (typeof profile == "string") {
+                this.avatarUrl = profile;
+            } else {
+                const formData = {
+                    filesystem_files: profile.map(profile => profile.id)
+                };
+                this.avatarUrl = profile[0].url;
 
-                this.$notify({
-                    title: "Confirmation",
-                    text: "Your information has been updated successfully!",
-                    type: "success"
-                });
-            }).catch((error) => {
-                this.$notify({
-                    title: "Error",
-                    text: error.response.data.errors.message,
-                    type: "error"
-                });
-            }).finally(() => {
-                this.isLoading = false;
-            });
+                this.update(formData);
+            }
+        },
+
+        setAvatarUrl() {
+            if (this.userData.filesystem && this.userData.filesystem.length) {
+                this.avatarUrl = this.userData.filesystem[0].url
+            }
         }
     }
 };

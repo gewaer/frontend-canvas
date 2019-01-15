@@ -1,7 +1,7 @@
 <template>
     <div id="app" :class="{ 'full-height' : $route.meta && !$route.meta.requiresAuth }">
+        <!-- <modals-container/> -->
         <notifications/>
-        <unsaved-changes-modal/>
         <after-signup-wizard/>
         <basic-modal/>
         <app-sidebar
@@ -32,7 +32,6 @@ import AppHeader from "@/views/layout/header.vue";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
-import UnsavedChangesModal from "@/components/modals/unsaved-changes.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
 
 export default {
@@ -41,7 +40,6 @@ export default {
         AppSidebar,
         FreeTrialBar,
         AfterSignupWizard,
-        UnsavedChangesModal,
         BasicModal
     },
     data() {
