@@ -7,13 +7,11 @@
                 <div class="row">
                     <div class="col-12 col-md-auto">
                         <div class="profile-image-container">
-                            <div class="profile-image">
-                                <img class="img-fluid" src="http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png">
-                            </div>
-                            <div class="upload-profile-image">
-                                <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                <input id="upload-image" type="file">
-                            </div>
+                            <profile-upload
+                                :avatar-url="avatarUrl"
+                                endpoint="/filesystem"
+                                @uploaded="updateProfile"
+                            />
                         </div>
                     </div>
                     <div class="col-12 col-md">
@@ -45,10 +43,10 @@
                             <input
                                 v-validate="'required|numeric'"
                                 v-model="companyData.zipcode"
+                                class="form-control"
+                                type="number"
                                 data-vv-as="zip code"
                                 name="zipcode"
-                                type="text"
-                                class="form-control"
                             >
                             <span class="text-danger">{{ errors.first('zipcode') }}</span>
                         </div>
@@ -119,6 +117,7 @@ import some from "lodash/some";
 export default {
     name: "CompanyProfile",
     components: {
+        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
@@ -128,7 +127,10 @@ export default {
     data() {
         return {
             isLoading: false,
-            companyData: {},
+            companyData: {
+                language: null
+            },
+            avatarUrl: "http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png",
             selectedLanguage: null
         }
     },
@@ -142,42 +144,93 @@ export default {
             return some(this.vvFields, field => field.changed);
         }
     },
+    watch: {
+        languages() {
+            this.setInitialLanguage()
+        },
+        "companyData.languages"() {
+            this.setInitialLanguage()
+        },
+        company(company) {
+            this.companyData = _.clone(company);
+        }
+    },
+
     async created() {
         await this.$store.dispatch("Application/getSettingsLists");
         this.companyData = clone(this.company);
-        this.selectedLanguage = this.languages.find(language => language.id == this.company.language);
+        this.setInitialLanguage()
+        this.setAvatarUrl();
     },
     methods: {
         setLanguage(value) {
             this.companyData.language = value.id;
         },
-        async update() {
-            await this.$validator.validateAll();
 
+        setInitialLanguage() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        },
+
+        processUpdate() {
+            this.$validator.validate().then(result => {
+                if (result) {
+                    this.update();
+                }
+            })
+        },
+
+        updateProfile(profile) {
+            if (typeof profile == "string") {
+                this.avatarUrl = profile;
+            } else {
+                const formData = {
+                    filesystem_files: profile.map(profile => profile.id)
+                };
+                this.avatarUrl = profile[0].url;
+
+                this.update(formData);
+            }
+        },
+        async update(formData) {
+            await this.$validator.validateAll();
             if (!this.isLoading && !this.errors.any()) {
                 this.isLoading = true;
+                formData = formData || this.companyData;
 
                 axios({
                     url: `/companies/${this.companyData.id}`,
                     method: "PUT",
-                    data: this.companyData
-                }).then(({ data }) => {
-                    this.$store.dispatch("Company/setData", data);
+                    data: formData
+                })
+                    .then(this.onSuccess)
+                    .catch(this.onError)
+                    .finally(() => {
+                        this.isLoading = false;
+                    })
+            }
+        },
 
-                    this.$notify({
-                        title: "Confirmation",
-                        text: "Company information has been updated successfully!",
-                        type: "success"
-                    });
-                }).catch((error) => {
-                    this.$notify({
-                        title: "Error",
-                        text: error.response.data.errors.message,
-                        type: "error"
-                    });
-                }).finally(() => {
-                    this.isLoading = false;
-                });
+        onError() {
+            this.$notify({
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
+            });
+        },
+
+        onSuccess({data}) {
+            this.$store.dispatch("Company/setData", data);
+
+            this.$notify({
+                title: "Confirmation",
+                text: "Company information has been updated successfully!",
+                type: "success"
+            });
+        },
+
+        setAvatarUrl() {
+            if (this.companyData.filesystem && this.companyData.filesystem.length) {
+                this.avatarUrl = this.companyData.filesystem[0].url
             }
         }
     }
