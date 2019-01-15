@@ -26,7 +26,7 @@
         </li>
         <li class="nav-item">
             <router-link
-                :to="{ name: 'settingsCompaniesRolesList' }"
+                :to="{ name: 'settingsCompaniesRoles' }"
                 :class="{ active: $route.meta.group == 'settingsCompaniesRoles' }"
             >
                 Roles

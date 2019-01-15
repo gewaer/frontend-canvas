@@ -353,6 +353,7 @@ export default {
                 this.$modal.show("after-signup-wizard")
             }
 
+            // TODO: Redirect to ?redirect URL
             this.$router.push({ name: "dashboard" });
         },
         handleResetPassword(response) {
