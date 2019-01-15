@@ -102,7 +102,12 @@ export default {
         },
 
         editRole(role) {
-            this.$emit("getRole", role);
+            this.$router.push({
+                name: "settingsCompaniesRolesFormEdit",
+                params: {
+                    id: role.id
+                }
+            });
         },
 
         cloneRole(role) {

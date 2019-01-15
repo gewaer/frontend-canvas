@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import { vueCrudMixins, vueRouterMixins } from "@/utils/mixins";
+import { vueRouterMixins } from "@/utils/mixins";
+import some from "lodash/some";
 
 export default {
     name: "Form",
@@ -81,30 +82,33 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
-        vueCrudMixins,
         vueRouterMixins
     ],
     data() {
         return {
             isLoading: false,
-            branchData: {},
-            selectedLanguage: null
+            branchData: {}
         }
     },
     computed:{
         title() {
-            if (!this.$route.params.id) {
-                return "Add branch";
-            } else {
-                return "Edit branch";
-            }
+            return !this.$route.params.id ? "Add branch" : "Edit branch";
         },
-
         hasChanged() {
-            return !_.isEqual(this.branchData, this.branch);
+            return some(this.vvFields, field => field.changed);
         }
     },
+    created() {
+        this.getBranchData();
+    },
     methods: {
+        getBranchData() {
+            axios({
+                url: `/companies-branches/${this.$route.params.id}`
+            }).then(({ data }) => {
+                this.branchData = data;
+            });
+        },
         save() {
             let url;
             let method;

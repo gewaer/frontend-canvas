@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { vueCrudMixins } from "@/utils/mixins";
+import { vueRouterMixins } from "@/utils/mixins";
 
 export default {
     name: "Form",
@@ -114,7 +114,7 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
-        vueCrudMixins
+        vueRouterMixins
     ],
     props:{
         accessList: {
@@ -134,10 +134,7 @@ export default {
         return {
             accessListData: null,
             accessGroup: {},
-            roleData: {
-                name: "",
-                description: ""
-            }
+            roleData: {}
         }
     },
     computed: {
@@ -149,33 +146,47 @@ export default {
         }
     },
     watch: {
-        accessList() {
-            this.setRole();
-        }
+        // accessList() {
+        //     this.setRole();
+        //     this.groupPermissions();
+        // }
     },
-    created() {
-        this.setRole();
+    async created() {
+        // this.getRoleData();
+        await this.getRole();
+        this.groupPermissions();
+        // old stuff
+        //this.setRole();
     },
     methods: {
+        getRoleData() {
+            axios({
+                url: `/roles/${this.$route.params.id}`
+            }).then(({ data }) => {
+                this.roleData = data;
+            });
+        },
         // initialization
-        setRole() {
+        setRole2() {
             this.roleData = _.clone(this.role);
             this.groupPermissions();
             this.checkSelectedGroups();
         },
         groupPermissions() {
-            this.accessListData = _.cloneDeep(this.accessList);
+            const accessGroup = {};
+
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
-                    if (!this.accessGroup[access.resources_name]) {
-                        this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
+                    if (!accessGroup[access.resources_name]) {
+                        accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
                     } else {
-                        this.accessGroup[access.resources_name]["permissions"][access.access_name] = access;
+                        accessGroup[access.resources_name]["permissions"][access.access_name] = access;
                     }
                 }
             });
-        },
 
+            this.accessGroup = accessGroup;
+        },
         // checkbox related
         isGroupChecked(resourcesName) {
             const group = this.accessGroup[resourcesName].permissions;
@@ -198,7 +209,6 @@ export default {
                 this.checkSelectedGroup(resourcesName);
             }
         },
-
         // form related
         save() {
             let url;
@@ -235,7 +245,6 @@ export default {
                     });
             }
         },
-
         onSuccess(method) {
             let message = method == "POST" ? "created" : "updated";
 
@@ -248,7 +257,6 @@ export default {
 
             this.rolesList();
         },
-
         onError(error) {
             this.$notify({
                 group: null,
@@ -257,7 +265,6 @@ export default {
                 type: "error"
             });
         },
-
         // utilities
         getDisabledPermissions() {
             return this.accessListData.map(this.formatAllowedProperty).filter(access => access);
@@ -276,10 +283,83 @@ export default {
         // events up
         rolesList() {
             this.$router.push({ name: "settingsCompaniesRolesList" });
-
         },
-        cloneRole() {
+        cloneRole2() {
             this.$emit("cloneRole", this.role);
+        },
+        // ============================
+        getRole() {
+            let role = "";
+
+            return axios({
+                url: `/roles-acceslist?q=(roles_id:${this.$route.params.id})`
+            }).then(async({ data }) => {
+                if (!this.$route.params.id) {
+                    data.forEach(access => {
+                        access.allowed = "1";
+                        access.role_name = "";
+                    });
+                    role = {
+                        name: "",
+                        description: ""
+                    }
+                }
+
+                let accessesTemplate = await this.getAccess(role);
+                let accessList = this.mergeAccesses(data, accessesTemplate);
+                accessList = this.formatAccesses(accessList);
+                this.setRole(accessList, role);
+            })
+        },
+        cloneRole(role) {
+            axios.post(`/roles-acceslist/${role.id}/copy`).then(({ data }) => {
+                this.getRole(data);
+            })
+        },
+        getAccess(role) {
+            return axios.get("/permissions-resources-access").then(({data}) => {
+                const accessList = this.formatAccesses(data, role);
+                return accessList;
+            })
+        },
+        changeView(view) {
+            if (view == this.views.crud) {
+                this.getRole({name: "Admins"}, true);
+                return
+            }
+            this.crudFormFields = {};
+            this.currentComponent = view;
+        },
+        setFormFields(formFields) {
+            this.crudFormFields = formFields;
+        },
+        setRole(accessList, role) {
+            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.roleData = role;
+        },
+        mergeAccesses(accessList, accessesTemplate) {
+            accessesTemplate.forEach(access => {
+                const localAccess = this.findLocalAccess(accessList, access);
+                if (!localAccess) {
+                    accessList.push(access)
+                }
+            })
+            return accessList;
+        },
+        findLocalAccess(accessList, access) {
+            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+        },
+        formatAccesses(accesList, role ) {
+            return accesList.map(access => {
+                if (role) {
+                    delete access.resources_id;
+                    access.roles_id = role.roles_id;
+                    access.allowed = true;
+                    access.roles_name = role.name;
+                }
+                access.allowed = Boolean(Number(access.allowed))
+                return access
+            })
         }
     }
 }
