@@ -16,7 +16,7 @@ import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
-Vue.use(VModal);
+Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
 
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);

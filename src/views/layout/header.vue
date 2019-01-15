@@ -225,7 +225,7 @@ export default {
     },
     data() {
         return {
-            selectedCompany: null
+            selectedCompany: {}
         }
     },
     computed: {
@@ -241,9 +241,6 @@ export default {
         defaultCompany() {
             this.selectedCompany = this.defaultCompany;
         }
-    },
-    created() {
-        this.selectedCompany = this.defaultCompany;
     },
     methods: {
         handleSidebar(payload) {
