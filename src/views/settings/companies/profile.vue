@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="update()">
+                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="processUpdate()">
                         Save
                     </button>
                 </div>
@@ -171,14 +171,6 @@ export default {
             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
         },
 
-        processUpdate() {
-            this.$validator.validate().then(result => {
-                if (result) {
-                    this.update();
-                }
-            })
-        },
-
         updateProfile(profile) {
             if (typeof profile == "string") {
                 this.avatarUrl = profile;
@@ -191,23 +183,27 @@ export default {
                 this.update(formData);
             }
         },
-        async update(formData) {
+
+        async processUpdate() {
             await this.$validator.validateAll();
             if (!this.isLoading && !this.errors.any()) {
                 this.isLoading = true;
-                formData = formData || this.companyData;
-
-                axios({
-                    url: `/companies/${this.companyData.id}`,
-                    method: "PUT",
-                    data: formData
-                })
-                    .then(this.onSuccess)
-                    .catch(this.onError)
-                    .finally(() => {
-                        this.isLoading = false;
-                    })
+                this.update();
             }
+        },
+        async update(formData) {
+            formData = formData || this.companyData;
+
+            axios({
+                url: `/companies/${this.companyData.id}`,
+                method: "PUT",
+                data: formData
+            })
+                .then(this.onSuccess)
+                .catch(this.onError)
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         onError() {
