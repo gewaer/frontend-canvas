@@ -25,7 +25,7 @@
                             height="25px"
                         >
                         <template slot="actions" slot-scope="props">
-                            <button class="btn btn-primary m-l-5" @click="editBranch(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                            <button class="btn btn-primary m-l-5" @click="editBranch(props.rowData.id)"><i class="fa fa-eye" aria-hidden="true"/></button>
                             <button class="btn btn-complete m-l-5" @click="editBranch(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
                             <button
                                 :disabled="isCurrentBranch(props.rowData.id)"
@@ -115,7 +115,12 @@ export default {
         },
 
         editBranch(branchId) {
-            this.$router.push({ name: "settingsCompaniesBranchesFormEdit", params:{id: branchId} });
+            this.$router.push({
+                name: "settingsCompaniesBranchesFormEdit",
+                params: {
+                    id: branchId
+                }
+            });
         },
 
         isCurrentBranch(branchId) {

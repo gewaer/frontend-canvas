@@ -37,33 +37,47 @@ const actions = {
     },
     getLanguages({ commit }) {
         if (!state.languages.length) {
-            axios({
+            return axios({
                 url: "/languages"
             }).then((response) => {
                 commit("SET_LANGUAGES", response.data);
             });
+        } else {
+            return new Promise((resolve) => {
+                resolve();
+            });
         }
     },
     getSettingsLists({ dispatch }) {
-        dispatch("getLanguages");
-        dispatch("getTimezones");
-        dispatch("getRoles");
+        return Promise.all([
+            dispatch("getLanguages"),
+            dispatch("getTimezones"),
+            dispatch("getRoles")
+        ]);
     },
     getTimezones({ commit }) {
         if (!state.timezones.length) {
-            axios({
+            return axios({
                 url: "/timezones"
             }).then((response) => {
                 commit("SET_TIMEZONES", response.data);
+            });
+        } else {
+            return new Promise((resolve) => {
+                resolve();
             });
         }
     },
     getRoles({ commit }) {
         if (!state.roles.length) {
-            axios({
+            return axios({
                 url: "/roles"
             }).then((response) => {
                 commit("SET_ROLES", response.data);
+            });
+        } else {
+            return new Promise((resolve) => {
+                resolve();
             });
         }
     },

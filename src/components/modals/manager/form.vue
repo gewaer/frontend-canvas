@@ -1,7 +1,6 @@
 <template>
     <container-template>
-        <tabs-menu slot="tab-menu"/>
-        <div slot="tab-content" class="row branch-general-information">
+        <div slot="tab-content" class="row company-general-information">
             <div class="col-12 m-b-20">
                 <h5> {{ title }}</h5>
                 <div class="row">
@@ -9,8 +8,8 @@
                         <div class="form-group form-group-default required">
                             <label>Name</label>
                             <input
-                                v-validate="'required:true|min:2'"
-                                v-model="branchData.name"
+                                v-validate="'required:true|min:2|alpha_spaces'"
+                                v-model="companyData.name"
                                 class="form-control"
                                 type="text"
                                 name="name">
@@ -20,18 +19,18 @@
                             <label>Address</label>
                             <input
                                 v-validate="'required:true|min:2'"
-                                v-model="branchData.address"
+                                v-model="companyData.address"
                                 class="form-control"
                                 type="text"
-                                data-vv-as="branch address"
-                                name="branch-address">
-                            <span class="text-danger"> {{ errors.first('branch-address') }}</span>
+                                data-vv-as="company address"
+                                name="company-address">
+                            <span class="text-danger"> {{ errors.first('company-address') }}</span>
                         </div>
                         <div class="form-group form-group-default required">
                             <label>Zip Code</label>
                             <input
                                 v-validate="'required:true|numeric|min:2'"
-                                v-model="branchData.zipcode"
+                                v-model="companyData.zipcode"
                                 class="form-control"
                                 type="text"
                                 data-vv-as="zip code"
@@ -42,7 +41,7 @@
                             <label>Email</label>
                             <input
                                 v-validate="'required|email'"
-                                v-model="branchData.email"
+                                v-model="companyData.email"
                                 class="form-control"
                                 name="email"
                                 type="email">
@@ -52,7 +51,7 @@
                             <label>Phone</label>
                             <input
                                 v-validate="'required|numeric'"
-                                v-model="branchData.phone"
+                                v-model="companyData.phone"
                                 class="form-control"
                                 data-vv-as="phone number"
                                 name="phone"
@@ -60,11 +59,30 @@
                             <span class="text-danger"> {{ errors.first('phone') }}</span>
                         </div>
                     </div>
-                    <div class="col-6 m-b-20"/>
+                    <div class="col-6 m-b-20">
+                        <div class="col-12 col-md">
+                            <label>Language </label>
+                            <multiselect
+                                v-model="selectedLanguage"
+                                :options="languages"
+                                label="name"
+                                track-by="id"
+                                @input="setLanguage"
+                            />
+                        </div>
+                        <div class="col-12 col-md">
+                            <label>Timezone</label>
+                            <multiselect
+                                v-model="companyData.timezone"
+                                :max-height="175"
+                                :options="timezones"
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="cancel()">Cancel</button>
+                <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel()">Cancel</button>
                 <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="save()"> Save </button>
             </div>
         </div>
@@ -72,56 +90,93 @@
 </template>
 
 <script>
-import { vueRouterMixins } from "@/utils/mixins";
-import some from "lodash/some";
+import {mapState} from "vuex";
+import { vueCrudMixins } from "@/utils/mixins";
 
 export default {
-    name: "Form",
+    name: "CompanyCrud",
     components: {
-        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
-        TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
+        ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
     mixins: [
-        vueRouterMixins
+        vueCrudMixins
     ],
+    props: {
+        company: {
+            type: Object,
+            default() {
+                return {};
+            }
+        }
+    },
     data() {
         return {
             isLoading: false,
-            branchData: {}
+            companyData: null,
+            selectedLanguage: null
         }
     },
+
     computed:{
+        ...mapState("Application", {
+            timezones: state => state.timezones,
+            languages: state => state.languages
+        }),
         title() {
-            return !this.$route.params.id ? "Add branch" : "Edit branch";
+            if (!this.company.id) {
+                return "Add company";
+            } else {
+                return "Edit company";
+            }
         },
         hasChanged() {
-            return some(this.vvFields, field => field.changed);
+            return !_.isEqual(this.companyData, this.company);
         }
     },
-    created() {
-        this.getBranchData();
-    },
-    methods: {
-        getBranchData() {
-            axios({
-                url: `/companies-branches/${this.$route.params.id}`
-            }).then(({ data }) => {
-                this.branchData = data;
-            });
+
+    watch: {
+        "companyData.language"() {
+            this.setInitialLanguage();
         },
+        company() {
+            this.setCompany();
+        }
+    },
+
+    mounted() {
+        this.setInitialLanguage();
+    },
+
+    created() {
+        this.$store.dispatch("Application/getSettingsLists");
+        this.setCompany();
+    },
+
+    methods: {
+        setCompany() {
+            this.companyData = _.clone(this.company);
+        },
+        setLanguage(value) {
+            this.companyData.language = value.id;
+        },
+
+        setInitialLanguage() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+        },
+
         save() {
             let url;
             let method;
 
-            if (!this.branchData.id) {
-                url = "/companies-branches";
+            if (!this.companyData.id) {
+                url = "/companies";
                 method = "POST";
             } else {
-                url = `/companies-branches/${this.branchData.id}`;
+                url = `/companies/${this.companyData.id}`;
                 method = "PUT";
             }
 
-            this.$validator.validate().then(result => {
+            this.$validator.validate().then((result) => {
                 if (result) {
                     this.sendRequest(url, method);
                 }
@@ -138,15 +193,15 @@ export default {
             axios({
                 url,
                 method,
-                data: this.branchData
+                data: this.companyData
             }).then(() => {
                 this.$notify({
                     group: null,
                     title: "Confirmation",
-                    text: "The Branch information has been changed",
+                    text: "The company information has been changed",
                     type: "success"
                 });
-                this.$emit("changeView", "branchesList");
+                this.$emit("changeView", "companiesList");
             }).catch((error) => {
                 this.$notify({
                     group: null,
@@ -158,6 +213,7 @@ export default {
                 this.isLoading = false;
             });
         },
+
         cancel() {
             this.$router.push({ name: "settingsCompaniesBranchesList" });
         }
@@ -166,8 +222,7 @@ export default {
 </script>
 
 <style lang="scss">
-.branch-general-information {
-    margin: 20px 15px;
+.company-general-information {
     .profile-image-container {
         display: flex;
         flex-direction: column;

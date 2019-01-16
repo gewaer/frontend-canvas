@@ -76,13 +76,12 @@
                                                 <div class="col-xs-1">
                                                     <div class="checkbox check-success">
                                                         <input
-                                                            v-validate="''"
-                                                            :id="`checkbox1-${groupName}-${accessName}`"
-                                                            :name="`checkbox1-${groupName}-${accessName}`"
+                                                            :id="`checkbox-${groupName}-${accessName}`"
+                                                            :name="`checkbox-${groupName}-${accessName}`"
                                                             v-model="access.allowed"
                                                             type="checkbox"
                                                             @change="checkSelectedGroup(groupName)">
-                                                        <label :for="`checkbox1-${groupName}-${accessName}`"/>
+                                                        <label :for="`checkbox-${groupName}-${accessName}`"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,7 +104,8 @@
 </template>
 
 <script>
-import { vueCrudMixins } from "@/utils/mixins";
+import { vueRouterMixins } from "@/utils/mixins";
+import some from "lodash/some";
 
 export default {
     name: "Form",
@@ -114,51 +114,56 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
-        vueCrudMixins
+        vueRouterMixins
     ],
     data() {
         return {
-            accessList: [],
-            accessListData: null,
+            accessListData: [],
             accessGroup: {},
-            role: {},
-            roleData: {
-                name: "",
-                description: ""
-            }
+            roleData: {}
         }
     },
     computed: {
         isNewRole() {
-            return !this.role.id
+            return !this.roleData.id
         },
         hasChanged() {
-            return !_.isEqual(this.accessListData, this.accessList) || !_.isEqual(this.role, this.roleData);
+            return some(this.vvFields, field => field.changed);
         }
     },
     watch: {
-        accessList() {
-            this.setRole();
+        "$route.params.id"(roleId) {
+            this.getRole(roleId, !roleId)
         }
     },
     created() {
         const roleId = this.$route.params.id;
         this.getRole(roleId, !roleId)
-        this.setRole();
     },
     methods: {
+        getRoleData(roleId) {
+            return axios({
+                url: `/roles/${roleId}`
+            }).then(({ data }) => {
+                return data;
+            });
+        },
         // initialization
         getRole(roleId = 1, forCreate = true) {
-            axios(`/roles-acceslist?q=(roles_id: ${roleId})`).then(async({ data }) => {
-                let role = {};
+            let role = {};
+            axios({
+                url: `/roles-acceslist?q=(roles_id: ${roleId})`
+            }).then(async({ data }) => {
                 if (forCreate) {
                     data.forEach(access => {
                         access.allowed = "1";
                         access.role_name = "";
                     });
                     role = {name: "", description: ""}
+                } else {
+                    role = await this.getRoleData(roleId);
                 }
-                role = await this.getRoleData(roleId);
+
                 let accessesTemplate = await this.getAccess(role);
                 let accessList = this.mergeAccesses(data, accessesTemplate);
                 accessList = this.formatAccesses(accessList);
@@ -166,14 +171,10 @@ export default {
             })
         },
 
-        getRoleData(roleId) {
-            return axios.get(`/roles?q=(id: ${roleId})}`).then(({data}) => {
-                return data[0];
-            })
-        },
-
         getAccess(role) {
-            return axios.get("/permissions-resources-access").then(({data}) => {
+            return axios({
+                url: "/permissions-resources-access"
+            }).then(({data}) => {
                 return this.formatAccesses(data, role);
             })
         },
@@ -193,8 +194,10 @@ export default {
         },
 
         formatRole(accessList, role) {
-            this.accessList =  _.sortBy(accessList, ["resources_name", "access_name"]);
-            this.role = role;
+            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.roleData = role;
+            this.groupPermissions();
+            this.checkSelectedGroups();
         },
 
         formatAccesses(accesList, role ) {
@@ -209,25 +212,20 @@ export default {
                 return access
             })
         },
-
-        setRole() {
-            this.roleData = _.clone(this.role);
-            this.groupPermissions();
-            this.checkSelectedGroups();
-        },
         groupPermissions() {
-            this.accessListData = _.cloneDeep(this.accessList);
+            const accessGroup = {};
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
-                    if (!this.accessGroup[access.resources_name]) {
-                        this.accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
+                    if (!accessGroup[access.resources_name]) {
+                        accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
                     } else {
-                        this.accessGroup[access.resources_name]["permissions"][access.access_name] = access;
+                        accessGroup[access.resources_name]["permissions"][access.access_name] = access;
                     }
                 }
             });
-        },
 
+            this.accessGroup = accessGroup;
+        },
         // checkbox related
         isGroupChecked(resourcesName) {
             const group = this.accessGroup[resourcesName].permissions;
@@ -250,7 +248,6 @@ export default {
                 this.checkSelectedGroup(resourcesName);
             }
         },
-
         // form related
         save() {
             let url;
@@ -260,7 +257,7 @@ export default {
                 url = "/roles-acceslist/";
                 method = "POST";
             } else {
-                url = `/roles-acceslist/${this.role.id}`;
+                url = `/roles-acceslist/${this.roleData.id}`;
                 method = "PUT";
             }
 
@@ -287,7 +284,6 @@ export default {
                     });
             }
         },
-
         onSuccess(method) {
             let message = method == "POST" ? "created" : "updated";
 
@@ -300,7 +296,6 @@ export default {
 
             this.rolesList();
         },
-
         onError(error) {
             this.$notify({
                 group: null,
@@ -309,7 +304,6 @@ export default {
                 type: "error"
             });
         },
-
         // utilities
         getDisabledPermissions() {
             return this.accessListData.map(this.formatAllowedProperty).filter(access => access);
@@ -328,11 +322,25 @@ export default {
         // events up
         rolesList() {
             this.$router.push({ name: "settingsCompaniesRolesList" });
-
         },
+
         cloneRole() {
-            this.$emit("cloneRole", this.role);
+            axios({
+                url:`/roles-acceslist/${this.roleData.id}/copy`,
+                method: "POST"
+            }).then(({ data }) => {
+                this.$router.push({
+                    name: "settingsCompaniesRolesFormEdit",
+                    params: {
+                        id: data.id
+                    }
+                });
+            })
         }
+
+        // setFormFields(formFields) {
+        //     this.crudFormFields = formFields;
+        // },
     }
 }
 </script>

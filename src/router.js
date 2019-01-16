@@ -272,6 +272,15 @@ const router = new Router({
                 group: "settingsCompaniesUsers"
             }
         },
+        // TODO: This is temp, remove later
+        {
+            path: "/settings/companies/roles",
+            name: "settingsCompaniesRoles",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/list"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
         {
             path: "/settings/companies/roles/list",
             name: "settingsCompaniesRolesList",
