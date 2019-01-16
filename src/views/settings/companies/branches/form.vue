@@ -87,6 +87,7 @@ export default {
     data() {
         return {
             isLoading: false,
+            branch: {},
             branchData: {},
             selectedLanguage: null
         }
@@ -104,7 +105,19 @@ export default {
             return !_.isEqual(this.branchData, this.branch);
         }
     },
+    mounted() {
+        this.getBranch(this.$route.params.id)
+    },
+
     methods: {
+        getBranch(id) {
+            if (id) {
+                axios(`/companies-branches/${id}`).then(({ data }) => {
+                    this.branch = data;
+                    this.branchData = _.clone(data);
+                })
+            }
+        },
         save() {
             let url;
             let method;

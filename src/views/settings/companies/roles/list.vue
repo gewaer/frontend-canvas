@@ -102,11 +102,13 @@ export default {
         },
 
         editRole(role) {
-            this.$emit("getRole", role);
+            this.$router.push({ name: "settingsCompaniesRolesFormEdit", params:{id: role.id} });
         },
 
         cloneRole(role) {
-            this.$emit("cloneRole", role);
+            axios.post(`/roles-acceslist/${role.id}/copy`).then(({ data }) => {
+                this.editRole(data);
+            })
         }
     }
 

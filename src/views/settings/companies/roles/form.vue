@@ -116,24 +116,12 @@ export default {
     mixins: [
         vueCrudMixins
     ],
-    props:{
-        accessList: {
-            type: Array,
-            default() {
-                return [];
-            }
-        },
-        role: {
-            type: Object,
-            default() {
-                return {}
-            }
-        }
-    },
     data() {
         return {
+            accessList: [],
             accessListData: null,
             accessGroup: {},
+            role: {},
             roleData: {
                 name: "",
                 description: ""
@@ -154,10 +142,74 @@ export default {
         }
     },
     created() {
+        const roleId = this.$route.params.id;
+        this.getRole(roleId, !roleId)
         this.setRole();
     },
     methods: {
         // initialization
+        getRole(roleId = 1, forCreate = true) {
+            axios(`/roles-acceslist?q=(roles_id: ${roleId})`).then(async({ data }) => {
+                let role = {};
+                if (forCreate) {
+                    data.forEach(access => {
+                        access.allowed = "1";
+                        access.role_name = "";
+                    });
+                    role = {name: "", description: ""}
+                }
+                role = await this.getRoleData(roleId);
+                let accessesTemplate = await this.getAccess(role);
+                let accessList = this.mergeAccesses(data, accessesTemplate);
+                accessList = this.formatAccesses(accessList);
+                this.formatRole(accessList, role);
+            })
+        },
+
+        getRoleData(roleId) {
+            return axios.get(`/roles?q=(id: ${roleId})}`).then(({data}) => {
+                return data[0];
+            })
+        },
+
+        getAccess(role) {
+            return axios.get("/permissions-resources-access").then(({data}) => {
+                return this.formatAccesses(data, role);
+            })
+        },
+
+        mergeAccesses(accessList, accessesTemplate) {
+            accessesTemplate.forEach(access => {
+                const localAccess = this.findLocalAccess(accessList, access);
+                if (!localAccess) {
+                    accessList.push(access)
+                }
+            })
+            return accessList;
+        },
+
+        findLocalAccess(accessList, access) {
+            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+        },
+
+        formatRole(accessList, role) {
+            this.accessList =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.role = role;
+        },
+
+        formatAccesses(accesList, role ) {
+            return accesList.map(access => {
+                if (role) {
+                    delete access.resources_id;
+                    access.roles_id = role.roles_id;
+                    access.allowed = true;
+                    access.roles_name = role.name;
+                }
+                access.allowed = Boolean(Number(access.allowed))
+                return access
+            })
+        },
+
         setRole() {
             this.roleData = _.clone(this.role);
             this.groupPermissions();
