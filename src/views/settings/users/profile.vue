@@ -48,7 +48,7 @@
                                 <label>Phone</label>
                                 <input
                                     v-validate="'numeric'"
-                                    v-model="userData.phone"
+                                    v-model="userData.cell_phone_number"
                                     class="form-control"
                                     name="phone"
                                     type="text"
@@ -99,22 +99,37 @@
                             <div class="form-group">
                                 <label>Locale</label>
                                 <multiselect
+                                    v-model="selectedLocale"
                                     :allow-empty="false"
                                     :max-height="175"
-                                    :options="[ 'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Nicaragua' ]"
+                                    :options="locales"
+                                    label="name"
+                                    track-by="id"
                                     deselect-label=""
                                     select-label=""
+                                    @input="setValue($event, 'country_id')"
                                 />
                             </div>
                             <div class="form-group">
                                 <label>Default Currency</label>
                                 <multiselect
+                                    v-model="selectedCurrency"
                                     :allow-empty="false"
                                     :max-height="175"
-                                    :options="[ 'Dominican Peso (DOP)', 'US DOllar (USD)', 'Venezuelan Bolivar (VEB)' ]"
+                                    :custom-label="currencyLabel"
+                                    :options="currencies"
+                                    label="currency"
+                                    track-by="code"
                                     deselect-label=""
                                     select-label=""
-                                />
+                                    @input="setValue($event, 'currency_id')"
+                                >
+                                    <template slot="singleLabel" slot-scope="{ option }">
+                                        {{ option.currency }}  ({{ option.code }})
+                                    </template>
+
+                                </multiselect>
+
                             </div>
                         </div>
                     </div>
@@ -144,9 +159,11 @@ export default {
         return {
             isLoading: false,
             selectedLanguage: null,
+            selectedLocale: null,
+            selectedCurrency: null,
             userData: {
                 firstname: "",
-                languages: null,
+                language: null,
                 lastname: "",
                 email: "",
                 phone: "",
@@ -157,21 +174,25 @@ export default {
     computed: {
         ...mapState("Application", {
             timezones: state => state.timezones,
-            languages: state => state.languages
+            languages: state => state.languages,
+            locales: state => state.locales,
+            currencies: state => state.currencies
         })
     },
-    watch: {
-        "userData.languages"() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
-        }
-    },
-    created() {
-        this.$store.dispatch("Application/getSettingsLists");
+    async created() {
+        await this.$store.dispatch("Application/getSettingsLists");
         this.userData = _.clone(this.$store.state.User.data);
+        this.setInitialSelects();
     },
     methods: {
         setLanguage(value) {
             this.userData.language = value.id;
+        },
+        setValue(value, formField, idName = "id") {
+            this.userData[formField] = value[idName];
+        },
+        currencyLabel({ currency, code }) {
+            return `${currency} (${code})`
         },
         update() {
             if (this.errors.items.length || this.isLoading) {
@@ -201,6 +222,11 @@ export default {
             }).finally(() => {
                 this.isLoading = false;
             });
+        },
+        setInitialSelects() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+            this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
+            this.selectedCurrency = this.currencies.find(currency => currency.code == this.userData.currency_id);
         }
     }
 };

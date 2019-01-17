@@ -94,7 +94,7 @@ const actions = {
     getLocales({ commit }) {
         if (!state.locales.length) {
             return axios({
-                url: "/locales"
+                url: "/locales?limit=300"
             }).then((response) => {
                 commit("SET_LOCALES", response.data);
             });
@@ -107,7 +107,7 @@ const actions = {
     getCurrencies({ commit }) {
         if (!state.currencies.length) {
             return axios({
-                url: "/currencies"
+                url: "/currencies?limit=200"
             }).then((response) => {
                 commit("SET_CURRENCIES", response.data);
             });
