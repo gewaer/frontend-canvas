@@ -2,88 +2,22 @@
     <container-template>
         <tabs-menu slot="tab-menu"/>
         <div slot="tab-content" class="subscriptions-plans">
-            <div v-if="companyData.subscription && companyData.subscription.is_freetrial" class="card-yellow d-flex">
+            <div v-if="trialHasEnded" class="card-yellow d-flex">
                 <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Aliquam ullamcorper ligula odio, id tristique lacus faucibus et.
-                Fusce dictum est nec aliquet ultrices. Duis et pellentesque mauris.
+                Your free trial period has ended. Please purchase a new subscription plan.
             </div>
             <div id="generic_price_table">
                 <section>
-                    <div class="container">
-
-                        <!--BLOCK ROW START-->
-                        <div v-if="plans.length > 0" class="row" >
-
-                            <div
-                                v-for="plan in plans"
-                                :key="plan.stripe_id"
-                                class="col">
-
-                                <!--PRICE CONTENT START-->
-                                <div :class="['generic_content', selectedPlan.stripe_id == plan.stripe_id ? 'active' : '', 'clearfix']">
-
-                                    <!--HEAD PRICE DETAIL START-->
-                                    <div class="generic_head_price clearfix">
-
-                                        <!--HEAD CONTENT START-->
-                                        <div class="generic_head_content clearfix">
-
-                                            <!--HEAD START-->
-                                            <div class="head_bg"/>
-                                            <div class="head">
-                                                <span>{{ plan.name }}</span>
-                                            </div>
-                                            <!--//HEAD END-->
-
-                                        </div>
-                                        <!--//HEAD CONTENT END-->
-
-                                        <!--PRICE START-->
-                                        <div class="generic_price_tag clearfix">
-                                            <span class="price">
-                                                <span class="sign">$</span>
-                                                <span class="currency">{{ plan[selectedFrecuency.type] | getPrice }} </span>
-                                                <span class="cent">.00</span>
-                                                <span class="month">/{{ selectedFrecuency.frecuency }}</span>
-                                            </span>
-                                        </div>
-                                        <!--//PRICE END-->
-
-                                    </div>
-                                    <!--//HEAD PRICE DETAIL END-->
-
-                                    <!--FEATURE LIST START-->
-                                    <div class="generic_feature_list">
-                                        <ul v-if="plan.settings.length">
-                                            <li
-                                                v-for="planSetting in plan.settings"
-                                                :key="planSetting.key"
-                                            >
-                                                <span> {{ planSetting.value }}</span> {{ planSetting.key | formatSetting }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!--//FEATURE LIST END-->
-
-                                    <!--BUTTON START-->
-                                    <div class="generic_price_btn clearfix">
-                                        <a @click.prevent.stop="changeSubscription(plan)" >Try {{ plan.name }}</a>
-                                    </div>
-                                    <!--//BUTTON END-->
-
-                                </div>
-                                <!--//PRICE CONTENT END-->
-
-                            </div>
-
-                        </div>
-                        <!--//BLOCK ROW END-->
-
-                    </div>
+                    <billing-plans
+                        :plans="plans"
+                        :selected-plan="planData.stripe_id"
+                        :is-trial="!trialHasEnded"
+                        :selected-frecuency="selectedFrecuency"
+                        @changePlan="changeSubscription"
+                    />
                 </section>
                 <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-                <div class="payment-details">
+                <div v-show="plans.length" class="payment-details">
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
@@ -92,7 +26,7 @@
                     <div v-if="showBilligInfo" class="m-t-20">
                         <billing-frecuencies
                             :plan="selectedPlan"
-                            :frecuency-type="planData.frecuency_type"
+                            :frecuency-type="selectedFrecuency.type"
                             @selectbillingtype="selectFrequency"/>
                         <h5>Contact</h5>
                         <div class="row contact">
@@ -438,6 +372,7 @@ export default {
     name: "Subscriptions",
     components: {
         BillingFrecuencies: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-frequency" */ "@v/settings/companies/subscriptions/billing-frequency"),
+        BillingPlans: () => import(/* webpackChunkName: "settings-companies-subscriptions-billing-plans" */ "@v/settings/companies/subscriptions/billing-plans"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
@@ -467,7 +402,7 @@ export default {
                 contact_last_name:""
             },
             planData :{
-                "frecuency_type":"pricing",
+                "payment_style":"monthly",
                 "stripe_id":"0"
             },
             address:{
@@ -499,11 +434,14 @@ export default {
         selectedPlan(){
             return this.plans.find(subcription => subcription.stripe_id == this.planData["stripe_id"]);
         },
+        trialHasEnded(){
+            return this.defaultCompany.subscription && !!this.defaultCompany.subscription.is_freetrial && this.defaultCompany.subscription.trial_ends_days == "0";
+        },
         ...mapState("User", {
             userData: state => state.data
         }),
         ...mapState("Company", {
-            companyData: state => state.data
+            defaultCompany: state => state.data
         })
     },
     beforeRouteLeave(to, from, next) {
@@ -529,9 +467,10 @@ export default {
             });
         },
         handleAppPlans(response){
-            if(_.has(this.companyData, "subscription")){
-                this.planData["stripe_id"] = this.companyData.subscription.stripe_id;
-                let subcription = this.companyData.subscription.id;
+            if(_.has(this.defaultCompany, "subscription")){
+                this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
+                this.planData.payment_style = this.defaultCompany.subscription.payment_style;
+                let subcription = this.defaultCompany.subscription.id;
                 this.showBilligInfo = !!(subcription == 0) ;
             }
             this.plans = response.data;
@@ -543,37 +482,24 @@ export default {
             });
             return data;
         },
-        updateCompanyData(){
-            const companyData = this.$store.dispatch("Company/getData", null, { root: true });
-            companyData.then(res => this.$store.dispatch("Company/setData", res.data[0]));
+        updateDefaultCompany(){
+            const defaultCompany = this.$store.dispatch("Company/getData", null, { root: true });
+            defaultCompany.then(res => this.$store.dispatch("Company/setData", res.data[0]));
         },
-        changeSubscription(plan){
-            this.$modal.show("basic-modal", {
-                title:"Change Subcription!",
-                message:`Did you want to Update your Subcription?`,
-                buttons: [{
-                    title: "Accept",
-                    class: "btn-primary",
-                    handler: () => {
-                        this.$modal.hide("basic-modal");
-                        this.changePlan(plan.stripe_id);
-                    }
-                }, {
-                    title: "Cancel",
-                    class: "btn-danger",
-                    handler: () => {
-                        this.$modal.hide("basic-modal");
-                    }
-                }]
-            });
+        changeSubscription(planId){
+            if(this.trialHasEnded){
+                this.planData["stripe_id"] = planId;
+            }else{
+                this.changePlan(planId)
+            }
         },
         changePlan(planId){
             axios({
                 url: `/apps-plans/${planId}`,
                 method: "PUT"
             }).then(() => {
-                this.planData["stripe_id"] = planId;
-                this. updateCompanyData();
+                this.planData.stripe_id = planId;
+                this. updateDefaultCompany();
                 this.changeSubscriptionSuccess("Subscriptión updated successfully.");
             }).catch((error) => {
                 this.$notify({
@@ -635,7 +561,7 @@ export default {
                 method: "POST",
                 data
             }).then(() => {
-                this. updateCompanyData();
+                this. updateDefaultCompany();
                 this.changeSubscriptionSuccess("Payment Informatión updated successfully.");
             }).catch((error) => {
                 this.$notify({
@@ -657,7 +583,7 @@ export default {
         },
         selectFrequency(frecuencyType, frecuency){
             this.selectedFrecuency = frecuency;
-            this.planData["frecuency_type"] = frecuencyType;
+            this.planData.payment_style = frecuencyType.toLowerCase();
         },
         clearFormData(){
             Object.keys(this.payment).forEach(key=>  this.payment[key] = "");
@@ -667,7 +593,7 @@ export default {
                 email : "email",
                 contact_first_name : "firstname",
                 contact_last_name : "lastname" };
-            this.contact.contact_company =  this.companyData.name;
+            this.contact.contact_company =  this.defaultCompany.name;
             Object.keys(formKeys).forEach(key=> this.contact[key] = this.userData[formKeys[key]]);
         }
     }

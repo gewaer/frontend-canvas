@@ -8,13 +8,18 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <div class="profile-image">
+                                <!-- <div class="profile-image">
                                     <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
                                 </div>
                                 <div class="upload-profile-image">
                                     <label for="upload-image" class="btn btn-primary">Upload image</label>
                                     <input id="upload-image" type="file">
-                                </div>
+                                </div> -->
+                                <profile-upload
+                                    :avatar-url="avatarUrl"
+                                    endpoint="/filesystem"
+                                    @uploaded="updateProfile"
+                                />
                             </div>
                         </div>
                         <div class="col-12 col-md">
@@ -82,7 +87,7 @@
                                     label="name"
                                     select-label=""
                                     track-by="id"
-                                    @input="setLanguage"
+                                    @input="setValue($event, 'language')"
                                 />
                             </div>
                             <div class="form-group">
@@ -136,7 +141,7 @@
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
+                <button :disabled="isLoading" class="btn btn-primary" @click="processUpdate()">Save</button>
             </div>
         </template>
     </container-template>
@@ -149,6 +154,7 @@ import { vueRouterMixins } from "@/utils/mixins";
 export default {
     name: "Profile",
     components: {
+        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
@@ -168,7 +174,8 @@ export default {
                 email: "",
                 phone: "",
                 timezone: ""
-            }
+            },
+            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
         }
     },
     computed: {
@@ -183,28 +190,31 @@ export default {
         await this.$store.dispatch("Application/getSettingsLists");
         this.userData = _.clone(this.$store.state.User.data);
         this.setInitialSelects();
+        this.setAvatarUrl();
     },
     methods: {
-        setLanguage(value) {
-            this.userData.language = value.id;
-        },
         setValue(value, formField, idName = "id") {
             this.userData[formField] = value[idName];
         },
         currencyLabel({ currency, code }) {
             return `${currency} (${code})`
         },
-        update() {
-            if (this.errors.items.length || this.isLoading) {
-                return;
-            }
 
+        async processUpdate() {
+            await this.$validator.validateAll();
+            if (!this.errors.items.length && !this.isLoading) {
+                this.update();
+            }
+        },
+
+        update(formData) {
+            formData = formData || this.userData
             this.isLoading = true;
 
             axios({
                 url: `/users/${this.userData.id}`,
                 method: "PUT",
-                data: this.userData
+                data: formData
             }).then((response) => {
                 this.$store.dispatch("User/setData", response.data);
 
@@ -227,6 +237,25 @@ export default {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
             this.selectedCurrency = this.currencies.find(currency => currency.code == this.userData.currency_id);
+        },
+
+        updateProfile(profile) {
+            if (typeof profile == "string") {
+                this.avatarUrl = profile;
+            } else {
+                const formData = {
+                    filesystem_files: profile.map(profile => profile.id)
+                };
+                this.avatarUrl = profile[0].url;
+
+                this.update(formData);
+            }
+        },
+
+        setAvatarUrl() {
+            if (this.userData.filesystem && this.userData.filesystem.length) {
+                this.avatarUrl = this.userData.filesystem[0].url
+            }
         }
     }
 };

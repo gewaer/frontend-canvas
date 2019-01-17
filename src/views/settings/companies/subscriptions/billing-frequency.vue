@@ -94,11 +94,12 @@ export default {
     },
     methods: {
         formatFrecuencys() {
-            this.pricingMonthly.price = this.plan.pricing;
-            this.pricingAnual.price = this.plan.pricing_anual;
+            let monthly = this.plan.pricing || "1";
+            this.pricingMonthly.price = `${monthly}`;
+            this.pricingAnual.price = this.plan.pricing_anual || `${monthly* 10}`;
         },
         selectBilling(billing){
-            this.$emit("selectbillingtype", billing.type, billing);
+            this.$emit("selectbillingtype", billing.title, billing);
         }
     }
 }
