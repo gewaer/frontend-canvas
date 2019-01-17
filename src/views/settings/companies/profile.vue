@@ -1,108 +1,134 @@
 <template>
     <container-template>
         <tabs-menu slot="tab-menu"/>
-        <div slot="tab-content" class="row company-general-information">
-            <div class="col-12 col-xl m-b-20">
-                <h5>Company Profile</h5>
-                <div class="row">
-                    <div class="col-12 col-md-auto">
-                        <div class="profile-image-container">
-                            <profile-upload
-                                :avatar-url="avatarUrl"
-                                endpoint="/filesystem"
-                                @uploaded="updateProfile"
-                            />
+        <div slot="tab-content">
+            <h5>Company Profile</h5>
+            <div class="row company-general-information">
+                <div class="col-12 col-xl">
+                    <div class="row">
+                        <div class="col-12 col-md-auto">
+                            <div class="profile-image-container">
+                                <profile-upload
+                                    :avatar-url="avatarUrl"
+                                    endpoint="/filesystem"
+                                    @uploaded="updateProfile"
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md">
-                        <div class="form-group form-group-default required">
-                            <label>Name</label>
-                            <input
-                                v-validate="'required'"
-                                v-model="companyData.name"
-                                name="name"
-                                type="text"
-                                class="form-control"
-                            >
-                            <span class="text-danger">{{ errors.first('name') }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Address</label>
-                            <input
-                                v-validate="'required'"
-                                v-model="companyData.address"
-                                data-vv-as="company address"
-                                name="company-address"
-                                type="text"
-                                class="form-control"
-                            >
-                            <span class="text-danger">{{ errors.first('company-address') }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Zip Code</label>
-                            <input
-                                v-validate="'required|numeric'"
-                                v-model="companyData.zipcode"
-                                class="form-control"
-                                type="number"
-                                data-vv-as="zip code"
-                                name="zipcode"
-                            >
-                            <span class="text-danger">{{ errors.first('zipcode') }}</span>
-                        </div>
-                        <div class="form-group form-group-default">
-                            <label>Email</label>
-                            <input
-                                v-validate="'required|email'"
-                                v-model="companyData.email"
-                                class="form-control"
-                                name="email"
-                                type="email"
-                            >
-                            <span class="text-danger">{{ errors.first('email') }}</span>
-                        </div>
-                        <div class="form-group form-group-default required">
-                            <label>Phone</label>
-                            <input
-                                v-validate="'required|numeric'"
-                                v-model="companyData.phone"
-                                data-vv-as="phone number"
-                                name="phone"
-                                type="tel"
-                                class="form-control"
-                            >
-                            <span class="text-danger">{{ errors.first('phone') }}</span>
+                        <div class="col-12 col-md">
+                            <div class="form-group form-group-default required">
+                                <label>Name</label>
+                                <input
+                                    v-validate="'required'"
+                                    v-model="companyData.name"
+                                    name="name"
+                                    type="text"
+                                    class="form-control"
+                                >
+                                <span class="text-danger">{{ errors.first('name') }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Address</label>
+                                <input
+                                    v-validate="'required'"
+                                    v-model="companyData.address"
+                                    data-vv-as="company address"
+                                    name="company-address"
+                                    type="text"
+                                    class="form-control"
+                                >
+                                <span class="text-danger">{{ errors.first('company-address') }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Zip Code</label>
+                                <input
+                                    v-validate="'required|numeric'"
+                                    v-model="companyData.zipcode"
+                                    class="form-control"
+                                    type="number"
+                                    data-vv-as="zip code"
+                                    name="zipcode"
+                                >
+                                <span class="text-danger">{{ errors.first('zipcode') }}</span>
+                            </div>
+                            <div class="form-group form-group-default">
+                                <label>Email</label>
+                                <input
+                                    v-validate="'required|email'"
+                                    v-model="companyData.email"
+                                    class="form-control"
+                                    name="email"
+                                    type="email"
+                                >
+                                <span class="text-danger">{{ errors.first('email') }}</span>
+                            </div>
+                            <div class="form-group form-group-default required">
+                                <label>Phone</label>
+                                <input
+                                    v-validate="'required|numeric'"
+                                    v-model="companyData.phone"
+                                    data-vv-as="phone number"
+                                    name="phone"
+                                    type="tel"
+                                    class="form-control"
+                                >
+                                <span class="text-danger">{{ errors.first('phone') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="update()">
-                        Save
-                    </button>
+
+                <div class="col-12 col-xl">
+                    <div class="row">
+                        <div class="col-12 col-md">
+                            <div class="form-group">
+                                <label>Language</label>
+                                <multiselect
+                                    v-model="selectedLanguage"
+                                    :options="languages"
+                                    label="name"
+                                    track-by="id"
+                                    @input="setSelectValue($event, 'language')"
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Timezone</label>
+                                <multiselect
+                                    v-model="companyData.timezone"
+                                    :max-height="175"
+                                    :options="timezones"
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Default Currency</label>
+                                <multiselect
+                                    v-model="selectedCurrency"
+                                    :allow-empty="false"
+                                    :max-height="175"
+                                    :custom-label="currencyLabel"
+                                    :options="currencies"
+                                    label="currency"
+                                    track-by="code"
+                                    deselect-label=""
+                                    select-label=""
+                                    @input="setSelectValue($event, 'currency_id')"
+                                >
+                                    <template slot="singleLabel" slot-scope="{ option }">
+                                        {{ option.currency }}  ({{ option.code }})
+                                    </template>
+
+                                </multiselect>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-12 col-xl m-b-20">
-                <h5>&nbsp;</h5>
-                <div class="row">
-                    <div class="col-12 col-md">
-                        <label>Language</label>
-                        <multiselect
-                            v-model="selectedLanguage"
-                            :options="languages"
-                            label="name"
-                            track-by="id"
-                            @input="setLanguage"
-                        />
-                    </div>
-                    <div class="col-12 col-md">
-                        <label>Timezone</label>
-                        <multiselect
-                            v-model="companyData.timezone"
-                            :max-height="175"
-                            :options="timezones"
-                        />
-                    </div>
-                </div>
+            <div class="d-flex justify-content-end mt-2">
+                <button :disabled="isLoading || !hasChanged" class="btn btn-primary" @click="update()">
+                    Save
+                </button>
             </div>
         </div>
     </container-template>
@@ -131,26 +157,22 @@ export default {
                 language: null
             },
             avatarUrl: "http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png",
-            selectedLanguage: null
+            selectedLanguage: null,
+            selectedCurrency: null
         }
     },
     computed:{
         ...mapState({
             company: state => state.Company.data,
             languages: state => state.Application.languages,
-            timezones: state => state.Application.timezones
+            timezones: state => state.Application.timezones,
+            currencies: state => state.Application.currencies
         }),
         hasChanged() {
             return some(this.vvFields, field => field.changed);
         }
     },
     watch: {
-        languages() {
-            this.setInitialLanguage()
-        },
-        "companyData.languages"() {
-            this.setInitialLanguage()
-        },
         company(company) {
             this.companyData = _.clone(company);
         }
@@ -159,16 +181,20 @@ export default {
     async created() {
         await this.$store.dispatch("Application/getSettingsLists");
         this.companyData = clone(this.company);
-        this.setInitialLanguage()
+        this.setInitialSelects()
         this.setAvatarUrl();
     },
     methods: {
-        setLanguage(value) {
-            this.companyData.language = value.id;
+        setSelectValue(value, formField, idName = "id") {
+            this.companyData[formField] = value[idName];
+        },
+        currencyLabel({ currency, code }) {
+            return `${currency} (${code})`
         },
 
-        setInitialLanguage() {
+        setInitialSelects() {
             this.selectedLanguage = this.languages.find(language => language.id == this.companyData.language);
+            this.selectedCurrency = this.currencies.find(currency => currency.id == this.companyData.currency_id);
         },
 
         processUpdate() {

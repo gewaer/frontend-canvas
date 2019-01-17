@@ -8,13 +8,6 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <!-- <div class="profile-image">
-                                    <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
-                                </div>
-                                <div class="upload-profile-image">
-                                    <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                    <input id="upload-image" type="file">
-                                </div> -->
                                 <profile-upload
                                     :avatar-url="avatarUrl"
                                     endpoint="/filesystem"
@@ -87,7 +80,7 @@
                                     label="name"
                                     select-label=""
                                     track-by="id"
-                                    @input="setValue($event, 'language')"
+                                    @input="setSelectValue($event, 'language')"
                                 />
                             </div>
                             <div class="form-group">
@@ -112,30 +105,10 @@
                                     track-by="id"
                                     deselect-label=""
                                     select-label=""
-                                    @input="setValue($event, 'country_id')"
+                                    @input="setSelectValue($event, 'country_id')"
                                 />
                             </div>
-                            <div class="form-group">
-                                <label>Default Currency</label>
-                                <multiselect
-                                    v-model="selectedCurrency"
-                                    :allow-empty="false"
-                                    :max-height="175"
-                                    :custom-label="currencyLabel"
-                                    :options="currencies"
-                                    label="currency"
-                                    track-by="code"
-                                    deselect-label=""
-                                    select-label=""
-                                    @input="setValue($event, 'currency_id')"
-                                >
-                                    <template slot="singleLabel" slot-scope="{ option }">
-                                        {{ option.currency }}  ({{ option.code }})
-                                    </template>
 
-                                </multiselect>
-
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,7 +139,6 @@ export default {
             isLoading: false,
             selectedLanguage: null,
             selectedLocale: null,
-            selectedCurrency: null,
             userData: {
                 firstname: "",
                 language: null,
@@ -183,7 +155,6 @@ export default {
             timezones: state => state.timezones,
             languages: state => state.languages,
             locales: state => state.locales,
-            currencies: state => state.currencies
         })
     },
     async created() {
@@ -193,11 +164,8 @@ export default {
         this.setAvatarUrl();
     },
     methods: {
-        setValue(value, formField, idName = "id") {
+        setSelectValue(value, formField, idName = "id") {
             this.userData[formField] = value[idName];
-        },
-        currencyLabel({ currency, code }) {
-            return `${currency} (${code})`
         },
 
         async processUpdate() {
@@ -236,7 +204,6 @@ export default {
         setInitialSelects() {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
-            this.selectedCurrency = this.currencies.find(currency => currency.code == this.userData.currency_id);
         },
 
         updateProfile(profile) {
