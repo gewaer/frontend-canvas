@@ -17,13 +17,22 @@
                         class="table table-hover table-condensed"
                         pagination-path="">
                         <template slot="actions" slot-scope="props">
-                            <button class="btn btn-complete m-l-5" @click="editTemplate(props.rowData)"><i
-                                class="fa fa-edit"
-                                aria-hidden="true" /></button>
-                            <button class="btn btn-danger m-l-5" @click="confirmDeleteTemplate(props.rowData)">
+                            <button
+                                v-if="props.rowData.companies_id == defaultCompany.id"
+                                class="btn btn-complete m-l-5"
+                                title="edit template"
+                                @click="editTemplate(props.rowData)">
+                                <i
+                                    class="fa fa-edit"
+                                    aria-hidden="true" /></button>
+                            <button
+                                v-if="props.rowData.companies_id == defaultCompany.id"
+                                class="btn btn-danger m-l-5"
+                                title="delete template"
+                                @click="confirmDeleteTemplate(props.rowData)">
                                 <i class="fa fa-trash" aria-hidden="true" />
                             </button>
-                            <button class="btn btn-complete m-l-5" title="clone role" @click="cloneTemplate(props.rowData)">
+                            <button class="btn btn-complete m-l-5" title="clone template" @click="cloneTemplate(props.rowData)">
                                 <i class="fa fa-copy" aria-hidden="true"/>
                             </button>
                         </template>
@@ -35,6 +44,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
     name: "List",
     components: {
@@ -59,7 +69,11 @@ export default {
             }]
         }
     },
-
+    computed:{
+        ...mapState("Company", {
+            defaultCompany: state => state.data
+        })
+    },
     methods: {
         editTemplate(template) {
             this.$router.push({
