@@ -21,12 +21,8 @@
                 </div>
                 <div class="row  m-b-20 m-t-20">
                     <div v-for="chunk in templatesVariablesChunks" :key="chunk.length" class="col">
-                        <a
-                            v-for="variable in chunk"
-                            :key="variable.value"
-                            @click.stop="insertIntoQuill(variable.value)">
-                            {{
-                            '${'+variable.name+'}' }}
+                        <a v-for="variable in chunk" :key="variable.value" @click.stop="insertIntoQuill(variable.value)">
+                            {{ '${'+variable.name+'}' }}
                         </a>
                     </div>
                 </div>
@@ -42,10 +38,45 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-xl d-flex justify-content-end mt-2">
-                        <button class="btn btn-info  m-r-10" @click="verifyFields(true)"> Test</button>
+                    <div v-if="!sendTest" class="col-12 col-xl d-flex justify-content-end mt-2">
+                        <div class="checkbox check-success">
+                            <label for="checkbox1-test">Test</label>
+                            <input
+                                v-validate="''"
+                                :id="`checkbox1-test`"
+                                :name="'checkbox1-test'"
+                                v-model="sendTest"
+                                :checked="sendTest"
+                                type="checkbox">
+                        </div>
                         <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel">Cancel</button>
-                        <button class="btn btn-primary" @click="verifyFields()">Save</button>
+                        <button v-show="!sendTest" class="btn btn-primary" @click="verifyFields()">Save</button>
+                    </div>
+                    <div v-if="sendTest" class="col-12 col-xl">
+                        <div class="checkbox check-success">
+                            <label for="checkbox1-test">Test</label>
+                            <input
+                                :id="`checkbox1-test`"
+                                :name="'checkbox1-test'"
+                                v-model="sendTest"
+                                checked="checked"
+                                type="checkbox">
+                        </div>
+                        <div class="form-group">
+                            <label>Emails</label>
+                            <multiselect
+                                v-validate="'required:true|email:true'"
+                                v-model="selectedEmails"
+                                :taggable="true"
+                                :multiple="true"
+                                :show-labels="false"
+                                :options="emailsOptions"
+                                data-vv-as="test email"
+                                data-vv-name="test email"
+                                @tag="setEmails" />
+                            <span class="text-danger">{{ errors.first("test email") }}</span>
+                        </div>
+                        <button class="btn btn-info " @click="verifyFields()"> Test</button>
                     </div>
                 </div>
             </div>
@@ -54,6 +85,10 @@
 </template>
 
 <script>
+import {
+    mapState
+} from "vuex";
+
 import {
     vueCrudMixins
 } from "@/utils/mixins";
@@ -73,7 +108,10 @@ export default {
                 name: "",
                 template: ""
             },
+            sendTest: false,
             templateVariables: [],
+            selectedEmails: [],
+            emailsOptions: [],
             isLoading: false
         };
     },
@@ -95,6 +133,9 @@ export default {
             }
             return value;
         },
+        ...mapState("User", {
+            userData: state => state.data
+        }),
         templatesVariablesChunks() {
             return this.groupVariables(this.templateVariables);
         }
@@ -103,6 +144,7 @@ export default {
         this.getEmailTemplateVariables();
 
         if (this.isEditTemplate) {
+            this.setEmails(this.userData.email);
             this.getEmailTemplate();
         }
     },
@@ -130,13 +172,13 @@ export default {
                     this.notifyError(error);
                 });
         },
-        verifyFields(test = false) {
+        verifyFields() {
             let dialogProps = {
                 title: "Edit Email Template!",
                 message: `Did you want to Edit this Email Template?`
             };
 
-            if (test) {
+            if (this.sendTest) {
                 dialogProps = {
                     title: "Send Email Template!",
                     message: `Did you want to test this Email Template?`
@@ -151,10 +193,10 @@ export default {
                     type: "warn"
                 });
             } else {
-                this.validateFields(dialogProps, test);
+                this.validateFields(dialogProps);
             }
         },
-        validateFields(modalProps, test = false) {
+        validateFields(modalProps) {
             this.$validator.validate().then(result => {
                 if (result) {
                     this.$modal.show("basic-modal", {
@@ -164,7 +206,7 @@ export default {
                             class: "btn-primary",
                             handler: () => {
                                 this.$modal.hide("basic-modal");
-                                this.save(test);
+                                this.save();
                             }
                         }, {
                             title: "Cancel",
@@ -177,12 +219,12 @@ export default {
                 }
             });
         },
-        save(test = false) {
+        save() {
             let url = `/email-templates/${this.formData.id}`
             let method = "PUT";
             let data = this.formData;
 
-            if (test) {
+            if (this.sendTest) {
                 url = `/email-templates/test`;
                 method = "POST";
                 data = this.prepareData();
@@ -194,7 +236,10 @@ export default {
         },
         prepareData() {
             const data = new FormData();
-
+            if (this.sendTest) {
+                let emails = this.selectedEmails.join(",");
+                data.append("email", emails);
+            }
             Object.keys(this.formData).forEach((field) => {
                 data.append(field, this.formData[field]);
             });
@@ -208,7 +253,7 @@ export default {
                 data
             }).then(() => {
                 let text = "Your information has been updated!";
-                if(method == "PUT"){
+                if (this.sendTest) {
                     text = "Test send succesfully!";
                 }
                 this.$notify({
@@ -217,7 +262,7 @@ export default {
                     text,
                     type: "success"
                 });
-                if(method == "PUT")  {
+                if (this.sendTest) {
                     this.cancel();
                 }
             }).catch((error) => {
@@ -246,13 +291,17 @@ export default {
                 this.quillEditor.insertText(selection.index, "${" + apiVariable + "}");
             }
         },
-        notifyError(error){
+        notifyError(error) {
             this.$notify({
                 group: null,
                 title: "Error",
                 text: error.response.data.errors.message,
                 type: "error"
             });
+        },
+        setEmails(tag) {
+            this.emailsOptions.push(tag)
+            this.selectedEmails.push(tag)
         }
     }
 }
