@@ -238,7 +238,7 @@ export default {
             const data = new FormData();
             if (this.sendTest) {
                 let emails = this.selectedEmails.join(",");
-                data.append("email", emails);
+                data.append("emails", emails);
             }
             Object.keys(this.formData).forEach((field) => {
                 data.append(field, this.formData[field]);
