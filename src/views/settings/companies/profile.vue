@@ -110,7 +110,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { vueRouterMixins } from "@/utils/mixins";
+import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 import clone from "lodash/clone";
 import some from "lodash/some";
 
@@ -122,7 +122,8 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
-        vueRouterMixins
+        vueRouterMixins,
+        vuexMixins
     ],
     data() {
         return {
@@ -155,14 +156,16 @@ export default {
             this.companyData = _.clone(company);
         }
     },
-
-    async created() {
-        await this.$store.dispatch("Application/getSettingsLists");
-        this.companyData = clone(this.company);
-        this.setInitialLanguage()
-        this.setAvatarUrl();
+    created() {
+        this.initialize();
     },
     methods: {
+        async initialize() {
+            await this.$store.dispatch("Application/getSettingsLists");
+            this.companyData = clone(this.company);
+            this.setInitialLanguage()
+            this.setAvatarUrl();
+        },
         setLanguage(value) {
             this.companyData.language = value.id;
         },

@@ -77,12 +77,17 @@
 </template>
 
 <script>
+import { vuexMixins } from "@/utils/mixins";
+
 export default {
     name: "List",
     components: {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/apps/tabs")
     },
+    mixins: [
+        vuexMixins
+    ],
     data() {
         return {
             fields: [],
@@ -90,10 +95,10 @@ export default {
             tab: ""
         }
     },
-    created() {
-        this.getModules();
-    },
     methods: {
+        initialize() {
+            this.getModules();
+        },
         changeModule(module) {
             this.tab = module.name;
             this.getFields(module.id);

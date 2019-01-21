@@ -366,7 +366,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { vueRouterMixins } from "@/utils/mixins";
+import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 
 export default {
     name: "Subscriptions",
@@ -390,7 +390,8 @@ export default {
         }
     },
     mixins: [
-        vueRouterMixins
+        vueRouterMixins,
+        vuexMixins
     ],
     data() {
         return {
@@ -449,10 +450,13 @@ export default {
         next();
     },
     created(){
-        this.getPlans();
-        this.getFormDefaultData();
+        this.initialize();
     },
     methods: {
+        initialize() {
+            this.getPlans();
+            this.getFormDefaultData();
+        },
         getPlans(){
             axios({
                 url: "/apps-plans?relationships=settings"

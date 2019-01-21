@@ -134,7 +134,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { vueRouterMixins } from "@/utils/mixins";
+import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 
 export default {
     name: "Profile",
@@ -144,7 +144,8 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     mixins: [
-        vueRouterMixins
+        vueRouterMixins,
+        vuexMixins
     ],
     data() {
         return {
@@ -174,13 +175,17 @@ export default {
         "userData.languages"() {
             this.setInitialLanguage();
         }
+
     },
     created() {
-        this.$store.dispatch("Application/getSettingsLists");
-        this.userData = _.clone(this.$store.state.User.data);
-        this.setAvatarUrl();
+        this.initialize();
     },
     methods: {
+        initialize() {
+            this.$store.dispatch("Application/getSettingsLists");            
+            this.userData = _.clone(this.$store.state.User.data);
+            this.setAvatarUrl();
+        },
         setLanguage(value) {
             this.userData.language = value.id;
         },

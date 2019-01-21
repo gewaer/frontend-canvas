@@ -37,7 +37,13 @@
 </template>
 
 <script>
+import { vuexMixins, listMixins } from "@/utils/mixins";
+
 export default {
+    mixins: [
+        vuexMixins,
+        listMixins
+    ],
     data() {
         return {
             rolesFields: [{
