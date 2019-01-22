@@ -76,13 +76,12 @@
                                                 <div class="col-xs-1">
                                                     <div class="checkbox check-success">
                                                         <input
-                                                            v-validate="''"
-                                                            :id="`checkbox1-${groupName}-${accessName}`"
-                                                            :name="`checkbox1-${groupName}-${accessName}`"
+                                                            :id="`checkbox-${groupName}-${accessName}`"
+                                                            :name="`checkbox-${groupName}-${accessName}`"
                                                             v-model="access.allowed"
                                                             type="checkbox"
                                                             @change="checkSelectedGroup(groupName)">
-                                                        <label :for="`checkbox1-${groupName}-${accessName}`"/>
+                                                        <label :for="`checkbox-${groupName}-${accessName}`"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,6 +105,7 @@
 
 <script>
 import { vueRouterMixins } from "@/utils/mixins";
+import some from "lodash/some";
 
 export default {
     name: "Form",
@@ -116,65 +116,104 @@ export default {
     mixins: [
         vueRouterMixins
     ],
-    props:{
-        accessList: {
-            type: Array,
-            default() {
-                return [];
-            }
-        },
-        role: {
-            type: Object,
-            default() {
-                return {}
-            }
-        }
-    },
     data() {
         return {
-            accessListData: null,
+            accessListData: [],
             accessGroup: {},
             roleData: {}
         }
     },
     computed: {
         isNewRole() {
-            return !this.role.id
+            return !this.roleData.id
         },
         hasChanged() {
-            return !_.isEqual(this.accessListData, this.accessList) || !_.isEqual(this.role, this.roleData);
+            return some(this.vvFields, field => field.changed);
         }
     },
     watch: {
-        // accessList() {
-        //     this.setRole();
-        //     this.groupPermissions();
-        // }
+        "$route.params.id"(roleId) {
+            this.getRole(roleId, !roleId)
+        }
     },
-    async created() {
-        // this.getRoleData();
-        await this.getRole();
-        this.groupPermissions();
-        // old stuff
-        //this.setRole();
+    created() {
+        const roleId = this.$route.params.id;
+        this.getRole(roleId, !roleId)
     },
     methods: {
-        getRoleData() {
-            axios({
-                url: `/roles/${this.$route.params.id}`
+        getRoleData(roleId) {
+            return axios({
+                url: `/roles/${roleId}`
             }).then(({ data }) => {
-                this.roleData = data;
+                return data;
             });
         },
         // initialization
-        setRole2() {
-            this.roleData = _.clone(this.role);
+        getRole(roleId = 1, forCreate = true) {
+            let role = {};
+            axios({
+                url: `/roles-acceslist?q=(roles_id: ${roleId})`
+            }).then(async({ data }) => {
+                if (forCreate) {
+                    data.forEach(access => {
+                        access.allowed = "1";
+                        access.role_name = "";
+                    });
+                    role = {name: "", description: ""}
+                } else {
+                    role = await this.getRoleData(roleId);
+                }
+
+                let accessesTemplate = await this.getAccess(role);
+                let accessList = this.mergeAccesses(data, accessesTemplate);
+                accessList = this.formatAccesses(accessList);
+                this.formatRole(accessList, role);
+            })
+        },
+
+        getAccess(role) {
+            return axios({
+                url: "/permissions-resources-access"
+            }).then(({data}) => {
+                return this.formatAccesses(data, role);
+            })
+        },
+
+        mergeAccesses(accessList, accessesTemplate) {
+            accessesTemplate.forEach(access => {
+                const localAccess = this.findLocalAccess(accessList, access);
+                if (!localAccess) {
+                    accessList.push(access)
+                }
+            })
+            return accessList;
+        },
+
+        findLocalAccess(accessList, access) {
+            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+        },
+
+        formatRole(accessList, role) {
+            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.roleData = role;
             this.groupPermissions();
             this.checkSelectedGroups();
         },
+
+        formatAccesses(accesList, role ) {
+            return accesList.map(access => {
+                if (role) {
+                    delete access.resources_id;
+                    access.roles_id = role.roles_id;
+                    access.allowed = true;
+                    access.roles_name = role.name;
+                }
+                access.allowed = Boolean(Number(access.allowed))
+                return access
+            })
+        },
         groupPermissions() {
             const accessGroup = {};
-
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
                     if (!accessGroup[access.resources_name]) {
@@ -218,7 +257,7 @@ export default {
                 url = "/roles-acceslist/";
                 method = "POST";
             } else {
-                url = `/roles-acceslist/${this.role.id}`;
+                url = `/roles-acceslist/${this.roleData.id}`;
                 method = "PUT";
             }
 
@@ -284,83 +323,24 @@ export default {
         rolesList() {
             this.$router.push({ name: "settingsCompaniesRolesList" });
         },
-        cloneRole2() {
-            this.$emit("cloneRole", this.role);
-        },
-        // ============================
-        getRole() {
-            let role = "";
 
-            return axios({
-                url: `/roles-acceslist?q=(roles_id:${this.$route.params.id})`
-            }).then(async({ data }) => {
-                if (!this.$route.params.id) {
-                    data.forEach(access => {
-                        access.allowed = "1";
-                        access.role_name = "";
-                    });
-                    role = {
-                        name: "",
-                        description: ""
+        cloneRole() {
+            axios({
+                url:`/roles-acceslist/${this.roleData.id}/copy`,
+                method: "POST"
+            }).then(({ data }) => {
+                this.$router.push({
+                    name: "settingsCompaniesRolesFormEdit",
+                    params: {
+                        id: data.id
                     }
-                }
-
-                let accessesTemplate = await this.getAccess(role);
-                let accessList = this.mergeAccesses(data, accessesTemplate);
-                accessList = this.formatAccesses(accessList);
-                this.setRole(accessList, role);
-            })
-        },
-        cloneRole(role) {
-            axios.post(`/roles-acceslist/${role.id}/copy`).then(({ data }) => {
-                this.getRole(data);
-            })
-        },
-        getAccess(role) {
-            return axios.get("/permissions-resources-access").then(({data}) => {
-                const accessList = this.formatAccesses(data, role);
-                return accessList;
-            })
-        },
-        changeView(view) {
-            if (view == this.views.crud) {
-                this.getRole({name: "Admins"}, true);
-                return
-            }
-            this.crudFormFields = {};
-            this.currentComponent = view;
-        },
-        setFormFields(formFields) {
-            this.crudFormFields = formFields;
-        },
-        setRole(accessList, role) {
-            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
-            this.roleData = role;
-        },
-        mergeAccesses(accessList, accessesTemplate) {
-            accessesTemplate.forEach(access => {
-                const localAccess = this.findLocalAccess(accessList, access);
-                if (!localAccess) {
-                    accessList.push(access)
-                }
-            })
-            return accessList;
-        },
-        findLocalAccess(accessList, access) {
-            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
-        },
-        formatAccesses(accesList, role ) {
-            return accesList.map(access => {
-                if (role) {
-                    delete access.resources_id;
-                    access.roles_id = role.roles_id;
-                    access.allowed = true;
-                    access.roles_name = role.name;
-                }
-                access.allowed = Boolean(Number(access.allowed))
-                return access
+                });
             })
         }
+
+        // setFormFields(formFields) {
+        //     this.crudFormFields = formFields;
+        // },
     }
 }
 </script>
