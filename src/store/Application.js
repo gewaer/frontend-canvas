@@ -5,6 +5,8 @@ import store from "@/store/index";
 const state = {
     languages: [],
     timezones: [],
+    locales: [],
+    currencies: [],
     roles: []
 };
 
@@ -14,6 +16,12 @@ const mutations = {
     },
     SET_TIMEZONES(state, payload) {
         state.timezones = payload;
+    },
+    SET_LOCALES(state, payload) {
+        state.locales = payload;
+    },
+    SET_CURRENCIES(state, payload) {
+        state.currencies = payload;
     },
     SET_ROLES(state, payload) {
         state.roles = payload;
@@ -52,6 +60,8 @@ const actions = {
         return Promise.all([
             dispatch("getLanguages"),
             dispatch("getTimezones"),
+            dispatch("getLocales"),
+            dispatch("getCurrencies"),
             dispatch("getRoles")
         ]);
     },
@@ -74,6 +84,32 @@ const actions = {
                 url: "/roles"
             }).then((response) => {
                 commit("SET_ROLES", response.data);
+            });
+        } else {
+            return new Promise((resolve) => {
+                resolve();
+            });
+        }
+    },
+    getLocales({ commit }) {
+        if (!state.locales.length) {
+            return axios({
+                url: "/locales?limit=300"
+            }).then((response) => {
+                commit("SET_LOCALES", response.data);
+            });
+        } else {
+            return new Promise((resolve) => {
+                resolve();
+            });
+        }
+    },
+    getCurrencies({ commit }) {
+        if (!state.currencies.length) {
+            return axios({
+                url: "/currencies?limit=200"
+            }).then((response) => {
+                commit("SET_CURRENCIES", response.data);
             });
         } else {
             return new Promise((resolve) => {
