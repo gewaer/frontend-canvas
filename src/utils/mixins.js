@@ -80,23 +80,14 @@ export const vuexMixins = {
     },
     watch: {
         currentCompanyId() {
-            this.initialize();
+            if (this.hasOwnProperty("initialize")) {
+                this.initialize();
+            }
         }
-    },
-    methods: {
-        initialize() {}
     }
 }
 
 export const listMixins = {
-    computed: {
-        ...mapGetters("Company", ["currentCompanyId"])
-    },
-    watch: {
-        currentCompanyId() {
-            this.initialize();
-        }
-    },
     methods: {
         initialize() {
             this.$refs.Vuetable.refresh();
