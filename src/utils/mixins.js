@@ -89,6 +89,9 @@ export const vuexMixins = {
 }
 
 export const listMixins = {
+    computed: {
+        ...mapGetters("Company", ["currentCompanyId"])
+    },
     watch: {
         currentCompanyId() {
             this.initialize();

@@ -258,10 +258,7 @@ export default {
                     text: "Your information has been updated!",
                     type: "success"
                 });
-
-                this.$router.push({
-                    name: "settingsAppsWebhooksList"
-                });
+                this.cancel();
             }).catch((error) => {
                 this.$notify({
                     group: null,
