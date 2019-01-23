@@ -276,35 +276,35 @@ const router = new Router({
         {
             path: "/settings/companies/roles",
             name: "settingsCompaniesRoles",
-            component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/index"),
+            component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/list"),
             meta: {
                 group: "settingsCompaniesRoles"
             }
         },
-        // {
-        //     path: "/settings/companies/roles/list",
-        //     name: "settingsCompaniesRolesList",
-        //     component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/list"),
-        //     meta: {
-        //         group: "settingsCompaniesRoles"
-        //     }
-        // },
-        // {
-        //     path: "/settings/companies/roles/add",
-        //     name: "settingsCompaniesRolesForm",
-        //     component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
-        //     meta: {
-        //         group: "settingsCompaniesRoles"
-        //     }
-        // },
-        // {
-        //     path: "/settings/companies/roles/edit/:id",
-        //     name: "settingsCompaniesRolesFormEdit",
-        //     component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
-        //     meta: {
-        //         group: "settingsCompaniesRoles"
-        //     }
-        // },
+        {
+            path: "/settings/companies/roles/list",
+            name: "settingsCompaniesRolesList",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-list" */ "./views/settings/companies/roles/list"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
+        {
+            path: "/settings/companies/roles/add",
+            name: "settingsCompaniesRolesForm",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
+        {
+            path: "/settings/companies/roles/edit/:id",
+            name: "settingsCompaniesRolesFormEdit",
+            component: () => import(/* webpackChunkName: "settings-companies-roles-form" */ "./views/settings/companies/roles/form"),
+            meta: {
+                group: "settingsCompaniesRoles"
+            }
+        },
         {
             path: "/settings/companies/subscriptions",
             name: "settingsCompaniesSubscriptions",

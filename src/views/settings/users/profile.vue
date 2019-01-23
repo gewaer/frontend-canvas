@@ -8,13 +8,6 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <!-- <div class="profile-image">
-                                    <img class="img-fluid" src="http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754">
-                                </div>
-                                <div class="upload-profile-image">
-                                    <label for="upload-image" class="btn btn-primary">Upload image</label>
-                                    <input id="upload-image" type="file">
-                                </div> -->
                                 <profile-upload
                                     :avatar-url="avatarUrl"
                                     endpoint="/filesystem"
@@ -53,7 +46,7 @@
                                 <label>Phone</label>
                                 <input
                                     v-validate="'numeric'"
-                                    v-model="userData.phone"
+                                    v-model="userData.cell_phone_number"
                                     class="form-control"
                                     name="phone"
                                     type="text"
@@ -87,7 +80,7 @@
                                     label="name"
                                     select-label=""
                                     track-by="id"
-                                    @input="setLanguage"
+                                    @input="setSelectValue($event, 'language')"
                                 />
                             </div>
                             <div class="form-group">
@@ -104,29 +97,24 @@
                             <div class="form-group">
                                 <label>Locale</label>
                                 <multiselect
+                                    v-model="selectedLocale"
                                     :allow-empty="false"
                                     :max-height="175"
-                                    :options="[ 'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Nicaragua' ]"
+                                    :options="locales"
+                                    label="name"
+                                    track-by="id"
                                     deselect-label=""
                                     select-label=""
+                                    @input="setSelectValue($event, 'country_id')"
                                 />
                             </div>
-                            <div class="form-group">
-                                <label>Default Currency</label>
-                                <multiselect
-                                    :allow-empty="false"
-                                    :max-height="175"
-                                    :options="[ 'Dominican Peso (DOP)', 'US DOllar (USD)', 'Venezuelan Bolivar (VEB)' ]"
-                                    deselect-label=""
-                                    select-label=""
-                                />
-                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-primary" @click="update()">Save</button>
+                <button :disabled="isLoading" class="btn btn-primary" @click="processUpdate()">Save</button>
             </div>
         </template>
     </container-template>
@@ -150,9 +138,10 @@ export default {
         return {
             isLoading: false,
             selectedLanguage: null,
+            selectedLocale: null,
             userData: {
                 firstname: "",
-                languages: null,
+                language: null,
                 lastname: "",
                 email: "",
                 phone: "",
@@ -164,58 +153,57 @@ export default {
     computed: {
         ...mapState("Application", {
             timezones: state => state.timezones,
-            languages: state => state.languages
+            languages: state => state.languages,
+            locales: state => state.locales,
         })
     },
-    watch: {
-        "languages"() {
-            this.setInitialLanguage();
-        },
-        "userData.languages"() {
-            this.setInitialLanguage();
-        }
-    },
-    created() {
-        this.$store.dispatch("Application/getSettingsLists");
+    async created() {
+        await this.$store.dispatch("Application/getSettingsLists");
         this.userData = _.clone(this.$store.state.User.data);
+        this.setInitialSelects();
         this.setAvatarUrl();
     },
     methods: {
-        setLanguage(value) {
-            this.userData.language = value.id;
+        setSelectValue(value, formField, idName = "id") {
+            this.userData[formField] = value[idName];
         },
-        setInitialLanguage() {
-            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
-        },
-        update(formData) {
+
+        async processUpdate() {
+            await this.$validator.validateAll();
             if (!this.errors.items.length && !this.isLoading) {
-
-                formData = formData || this.userData
-                this.isLoading = true;
-
-                axios({
-                    url: `/users/${this.userData.id}`,
-                    method: "PUT",
-                    data: formData
-                }).then((response) => {
-                    this.$store.dispatch("User/setData", response.data);
-
-                    this.$notify({
-                        title: "Confirmation",
-                        text: "Your information has been updated successfully!",
-                        type: "success"
-                    });
-                }).catch((error) => {
-                    this.$notify({
-                        title: "Error",
-                        text: error.response.data.errors.message,
-                        type: "error"
-                    });
-                }).finally(() => {
-                    this.isLoading = false;
-                });
+                this.update();
             }
+        },
 
+        update(formData) {
+            formData = formData || this.userData
+            this.isLoading = true;
+
+            axios({
+                url: `/users/${this.userData.id}`,
+                method: "PUT",
+                data: formData
+            }).then((response) => {
+                this.$store.dispatch("User/setData", response.data);
+
+                this.$notify({
+                    title: "Confirmation",
+                    text: "Your information has been updated successfully!",
+                    type: "success"
+                });
+            }).catch((error) => {
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+                this.isLoading = false;
+            });
+        },
+        setInitialSelects() {
+            this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
+            this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
         },
 
         updateProfile(profile) {
