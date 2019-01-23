@@ -197,14 +197,6 @@ export default {
             this.selectedCurrency = this.currencies.find(currency => currency.id == this.companyData.currency_id);
         },
 
-        processUpdate() {
-            this.$validator.validate().then(result => {
-                if (result) {
-                    this.update();
-                }
-            })
-        },
-
         updateProfile(profile) {
             if (typeof profile == "string") {
                 this.avatarUrl = profile;
@@ -217,23 +209,27 @@ export default {
                 this.update(formData);
             }
         },
-        async update(formData) {
+
+        async processUpdate() {
             await this.$validator.validateAll();
             if (!this.isLoading && !this.errors.any()) {
                 this.isLoading = true;
-                formData = formData || this.companyData;
-
-                axios({
-                    url: `/companies/${this.companyData.id}`,
-                    method: "PUT",
-                    data: formData
-                })
-                    .then(this.onSuccess)
-                    .catch(this.onError)
-                    .finally(() => {
-                        this.isLoading = false;
-                    })
+                this.update();
             }
+        },
+        async update(formData) {
+            formData = formData || this.companyData;
+
+            axios({
+                url: `/companies/${this.companyData.id}`,
+                method: "PUT",
+                data: formData
+            })
+                .then(this.onSuccess)
+                .catch(this.onError)
+                .finally(() => {
+                    this.isLoading = false;
+                })
         },
 
         onError() {
