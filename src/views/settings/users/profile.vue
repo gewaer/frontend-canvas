@@ -155,10 +155,10 @@ export default {
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages,
-            locales: state => state.locales,
+            locales: state => state.locales
         })
     },
-     created() {
+    created() {
         this.initialize();
     },
     methods: {
