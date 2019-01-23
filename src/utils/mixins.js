@@ -84,6 +84,11 @@ export const vuexMixins = {
                 this.initialize();
             }
         }
+    },
+    created() {
+        if (!this.hasOwnProperty("initialize")) {
+            console.warn("To work properly this component needs to define a initialize() method");
+        }
     }
 }
 
