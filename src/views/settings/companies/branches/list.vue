@@ -43,7 +43,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { vuexMixins, listMixins } from "@/utils/mixins";
+import { listMixins } from "@/utils/mixins";
 
 export default {
     name: "List",
@@ -52,7 +52,6 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
-        vuexMixins,
         listMixins
     ],
     data() {

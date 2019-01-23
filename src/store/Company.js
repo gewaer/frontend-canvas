@@ -27,7 +27,7 @@ const actions = {
 };
 
 const getters = {
-    currentCompanyID(state) {
+    currentCompanyId(state) {
         return state.data ? state.data.id : null;
     }
 };

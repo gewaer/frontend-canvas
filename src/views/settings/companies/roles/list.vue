@@ -37,11 +37,10 @@
 </template>
 
 <script>
-import { vuexMixins, listMixins } from "@/utils/mixins";
+import { listMixins } from "@/utils/mixins";
 
 export default {
     mixins: [
-        vuexMixins,
         listMixins
     ],
     data() {

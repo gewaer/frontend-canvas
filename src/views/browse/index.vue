@@ -64,7 +64,7 @@
 import addCustomFiltersModal from "../layout/add-custom-filters-modal";
 import TableSearch from "@/components/vuetable/table-search";
 import VuetableFieldCheckbox from "@/components/vuetable/custom-checkbox";
-import { vuexMixins, listMixins } from "@/utils/mixins";
+import { listMixins } from "@/utils/mixins";
 
 export default {
     name: "Browse",
@@ -76,7 +76,6 @@ export default {
         TableSearch
     },
     mixins: [
-        vuexMixins,
         listMixins
     ],
     data() {

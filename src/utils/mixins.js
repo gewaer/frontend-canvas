@@ -76,10 +76,10 @@ export const vueCrudMixins = {
 
 export const vuexMixins = {
     computed: {
-        ...mapGetters("Company", ["currentCompanyID"])
+        ...mapGetters("Company", ["currentCompanyId"])
     },
     watch: {
-        currentCompanyID() {
+        currentCompanyId() {
             this.initialize();
         }
     },
@@ -89,6 +89,11 @@ export const vuexMixins = {
 }
 
 export const listMixins = {
+    watch: {
+        currentCompanyId() {
+            this.initialize();
+        }
+    },
     methods: {
         initialize() {
             this.$refs.Vuetable.refresh();
