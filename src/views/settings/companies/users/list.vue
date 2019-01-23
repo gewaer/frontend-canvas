@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { listMixins } from "@/utils/mixins";
+import { vuexMixins, listMixins } from "@/utils/mixins";
 
 export default {
     name: "UsersList",
@@ -48,6 +48,7 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
     mixins: [
+        vuexMixins,
         listMixins
     ],
     props: {
