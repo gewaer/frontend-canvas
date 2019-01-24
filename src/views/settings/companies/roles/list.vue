@@ -40,12 +40,18 @@
 </template>
 
 <script>
+import { vuexMixins, listMixins } from "@/utils/mixins";
+
 export default {
     name: "List",
     components: {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
+    mixins: [
+        vuexMixins,
+        listMixins
+    ],
     data() {
         return {
             rolesFields: [{

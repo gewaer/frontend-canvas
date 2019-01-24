@@ -50,13 +50,18 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
+import { vuexMixins, listMixins } from "@/utils/mixins";
 
 export default {
     name: "CompaniesManager",
     components: {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container")
     },
+    mixins: [
+        vuexMixins,
+        listMixins
+    ],
     data() {
         return {
             companiesFields: [{

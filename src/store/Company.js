@@ -26,7 +26,11 @@ const actions = {
     }
 };
 
-const getters = {};
+const getters = {
+    currentCompanyId(state) {
+        return state.data ? state.data.id : null;
+    }
+};
 
 export default {
     namespaced: true,

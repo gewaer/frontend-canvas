@@ -10,6 +10,7 @@
             </h5>
             <div class="table-responsive">
                 <vuetable
+                    ref="Vuetable"
                     :append-params="{format: 'true'}"
                     :fields="usersFields"
                     :http-fetch="getTableData"
@@ -38,12 +39,18 @@
 </template>
 
 <script>
+import { vuexMixins, listMixins } from "@/utils/mixins";
+
 export default {
     name: "UsersList",
     components: {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
+    mixins: [
+        vuexMixins,
+        listMixins
+    ],
     props: {
         currentUser: {
             type: Object,

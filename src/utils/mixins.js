@@ -2,6 +2,8 @@ import isEmpty from "lodash/isEmpty";
 import some from "lodash/some";
 import pickBy from "lodash/pickBy";
 
+import { mapGetters } from "vuex";
+
 export const vueRouterMixins = {
     beforeRouteLeave(to, from, next) {
         const formFields = pickBy(this.vvFields, field => field.changed);
@@ -68,6 +70,29 @@ export const vueCrudMixins = {
                 this.$emit("form-fields", formFields)
             },
             deep: true
+        }
+    }
+}
+
+export const vuexMixins = {
+    computed: {
+        ...mapGetters("Company", ["currentCompanyId"])
+    },
+    watch: {
+        currentCompanyId() {
+            if (this.hasOwnProperty("initialize")) {
+                this.initialize();
+            } else {
+                console.warn("Component expects a defined initialize() method to respond properly to a currentCompanyId change");
+            }
+        }
+    }
+}
+
+export const listMixins = {
+    methods: {
+        initialize() {
+            this.$refs.Vuetable.refresh();
         }
     }
 }

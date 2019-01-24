@@ -59,11 +59,16 @@
 </template>
 
 <script>
+import { vuexMixins } from "@/utils/mixins";
+
 export default {
     name: "Notifications",
     components: {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
-    }
+    },
+    mixins: [
+        vuexMixins
+    ]
 };
 </script>

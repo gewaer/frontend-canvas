@@ -122,7 +122,7 @@
 
 <script>
 import { mapState } from "vuex";
-import { vueRouterMixins } from "@/utils/mixins";
+import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 
 export default {
     name: "Profile",
@@ -132,7 +132,8 @@ export default {
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     mixins: [
-        vueRouterMixins
+        vueRouterMixins,
+        vuexMixins
     ],
     data() {
         return {
@@ -154,16 +155,19 @@ export default {
         ...mapState("Application", {
             timezones: state => state.timezones,
             languages: state => state.languages,
-            locales: state => state.locales,
+            locales: state => state.locales
         })
     },
-    async created() {
-        await this.$store.dispatch("Application/getSettingsLists");
-        this.userData = _.clone(this.$store.state.User.data);
-        this.setInitialSelects();
-        this.setAvatarUrl();
+    created() {
+        this.initialize();
     },
     methods: {
+        async initialize() {
+            await this.$store.dispatch("Application/getSettingsLists");
+            this.userData = _.clone(this.$store.state.User.data);
+            this.setInitialSelects();
+            this.setAvatarUrl();
+        },
         setSelectValue(value, formField, idName = "id") {
             this.userData[formField] = value[idName];
         },
