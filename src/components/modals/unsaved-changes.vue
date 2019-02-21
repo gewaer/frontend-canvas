@@ -46,7 +46,7 @@ export default {
         getFieldAlias(field) {
             const alias = document.querySelector(`[name="${field}"]`);
 
-            return alias.dataset.vvAs || field;
+            return alias && alias.dataset.vvAs || field;
         }
     }
 }
