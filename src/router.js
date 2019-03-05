@@ -3,7 +3,6 @@ import Router from "vue-router";
 import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import store from "@/store";
-import examples from "./views/examples";
 import BrowseList from "./views/browse/";
 
 Vue.use(Router);
@@ -343,22 +342,6 @@ const router = new Router({
             path: "/browse",
             name: "browse",
             component: BrowseList
-        },
-        {
-            path: "/example-page",
-            name: "examplePage",
-            component: examples,
-            meta: {
-                requiresAuth: false
-            }
-        },
-        {
-            path: "/example-form",
-            name: "exampleForm",
-            component: () => import(/* webpackChunkName: "settings-apps-webhooks-form" */ "./components/forms/example"),
-            meta: {
-                requiresAuth: false
-            }
         }
     ]
 });
