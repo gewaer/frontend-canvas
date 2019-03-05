@@ -6,17 +6,15 @@
         <router-link :to="{ name: 'dashboard'}" class="app-logo">
             <img src="/img/primary-logo.png" alt="logo">
         </router-link>
-        <div class="app-switcher">
-            <span class="app-mode">A1</span>
-            <a
-                id="app-grid"
-                class="grid-box"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-            />
-            <ul class="dropdown-menu" aria-labelledby="app-grid">
+        <dropdown class="app-switcher">
+            <template slot="btn">
+                <span class="app-mode">A1</span>
+                <a
+                    id="app-grid"
+                    class="grid-box"
+                />
+            </template>
+            <ul slot="body">
                 <li class="dropdown-item">
                     <a href="javascript:void(0)" target="_blank">
                         <span class="app-mode mode">A1</span>
@@ -30,7 +28,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </dropdown>
         <div class="notifications-center dropdown">
             <a
                 id="notification-center"
@@ -170,39 +168,36 @@
                 @select="switchCompany"
             />
         </div>
-        <div class="user-bar">
-            <div class="user-name">
-                <span class="bold">{{ userData.firstname }}</span>
-                <span> {{ userData.lastname }}</span>
-            </div>
-            <div class="dropdown">
-                <div
-                    class="profile-image"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
+        <dropdown class="user-bar">
+            <template slot="btn">
+                <div class="user-name">
+                    <span class="bold">{{ userData.firstname }}</span>
+                    <span> {{ userData.lastname }}</span>
+                </div>
+                <div class="profile-image">
                     <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
-                <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                    <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
-                        <span>Users Settings</span>
-                    </router-link>
-                    <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
-                        <span>{{ companyName }} Settings</span>
-                    </router-link>
-                    <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
-                        <span>App Settings</span>
-                    </router-link>
-                    <router-link :to="{name: 'settingsManagerList'}" class="dropdown-item">
-                        <span>Companies Manager</span>
-                    </router-link>
-                    <a href="#" class="dropdown-item" @click.prevent="logout()">
-                        <span>Logout</span>
-                        <i class="pg-power"/>
-                    </a>
-                </ul>
-            </div>
-        </div>
+            </template>
+            <ul slot="body" class="profile-dropdown" role="menu">
+                <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
+                    <span>Users Settings</span>
+                </router-link>
+                <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
+                    <span>{{ companyName }} Settings</span>
+                </router-link>
+                <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
+                    <span>App Settings</span>
+                </router-link>
+                <router-link :to="{name: 'settingsManagerList'}" class="dropdown-item">
+                    <span>Companies Manager</span>
+                </router-link>
+                <a href="#" class="dropdown-item" @click.prevent="logout()">
+                    <span>Logout</span>
+                    <i class="pg-power"/>
+                </a>
+            </ul>
+        </dropdown>
+
         <a
             href="#"
             class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
@@ -213,10 +208,14 @@
 </template>
 
 <script type="text/javascript">
+import Dropdown from "bp-vuejs-dropdown";
 import { mapState } from "vuex";
 
 export default {
     name: "Header",
+    components: {
+        Dropdown
+    },
     props: {
         showSidebar: {
             type: Boolean,
