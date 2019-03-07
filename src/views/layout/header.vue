@@ -1,7 +1,7 @@
 <template>
     <div class="header app-header">
         <div class="sidebar-toggle" @click="handleSidebar(!showSidebar)">
-            <img src="../../assets/icons/hamburguer-menu.png">
+            <img src="/img/icons/hamburguer-menu.png">
         </div>
         <router-link :to="{ name: 'dashboard'}" class="app-logo">
             <img src="/img/primary-logo.png" alt="logo">
@@ -175,7 +175,7 @@
                     <span> {{ userData.lastname }}</span>
                 </div>
                 <div class="profile-image">
-                    <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
+                    <img src="/img/icons/avatar-icon.png" alt="Avatar icon">
                 </div>
             </template>
             <ul slot="body" class="profile-dropdown" role="menu">
@@ -275,7 +275,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-header {
     position: fixed;
     left: 0;
@@ -323,7 +323,7 @@ export default {
         margin-right: auto;
 
         #app-grid {
-            background: url(../../assets/icons/top_tray.png) no-repeat;
+            background: url('/img/icons/top_tray.png') no-repeat;
             background-position-x: 0%;
             background-position-y: 0%;
             background-position: -41px center;
@@ -331,7 +331,6 @@ export default {
             height: 14px;
             padding: 0;
             display: block;
-            height: 100%;
         }
 
         #app-grid + ul {
@@ -453,6 +452,16 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 20px;
+    }
+
+    .bp-dropdown {
+        &__btn {
+            border: 0;
+        }
+
+        &__icon {
+            display: none;
+        }
     }
 }
 
