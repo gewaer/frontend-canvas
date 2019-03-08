@@ -33,5 +33,3 @@ export default {
     }
 }
 </style>
-
-<style lang="scss" src="@/assets/scss/settings.scss"/>

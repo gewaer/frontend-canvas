@@ -2,17 +2,15 @@
     <div class="card">
         <div class="card-block">
             <div class="browse-list-row">
-                <div class="dropdown bulk-actions">
+                <dropdown class="bulk-actions">
                     <button
                         id="bulk-actions"
+                        slot="btn"
                         class="btn btn-info dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
+                        type="button">
                         Bulk actions
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="bulk-actions">
+                    <div slot="body">
                         <a
                             v-for="action in bulkActions"
                             :key="action.name"
@@ -22,7 +20,7 @@
                             {{ action.name }}
                         </a>
                     </div>
-                </div>
+                </dropdown>
 
                 <button class="add-record-btn btn btn-primary">
                     <i class="fa fa-plus-circle"/> Add lead

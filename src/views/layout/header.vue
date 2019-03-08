@@ -15,13 +15,13 @@
                 />
             </template>
             <ul slot="body">
-                <li class="dropdown-item">
+                <li>
                     <a href="javascript:void(0)" target="_blank">
                         <span class="app-mode mode">A1</span>
                         <p>Application 1</p>
                     </a>
                 </li>
-                <li class="dropdown-item">
+                <li>
                     <a href="javascript:void(0)" target="_blank">
                         <span class="app-mode mode">A2</span>
                         <p>Application 2</p>
@@ -179,19 +179,19 @@
                 </div>
             </template>
             <ul slot="body" class="profile-dropdown" role="menu">
-                <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
+                <router-link :to="{name: 'setingsUsersProfile'}">
                     <span>Users Settings</span>
                 </router-link>
-                <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
+                <router-link :to="{name: 'settingsCompaniesProfile'}">
                     <span>{{ companyName }} Settings</span>
                 </router-link>
-                <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
+                <router-link :to="{name: 'settingsAppsCustomFieldsList'}">
                     <span>App Settings</span>
                 </router-link>
-                <router-link :to="{name: 'settingsManagerList'}" class="dropdown-item">
+                <router-link :to="{name: 'settingsManagerList'}">
                     <span>Companies Manager</span>
                 </router-link>
-                <a href="#" class="dropdown-item" @click.prevent="logout()">
+                <a href="#" @click.prevent="logout()">
                     <span>Logout</span>
                     <i class="pg-power"/>
                 </a>
@@ -208,14 +208,10 @@
 </template>
 
 <script type="text/javascript">
-import Dropdown from "bp-vuejs-dropdown";
 import { mapState } from "vuex";
 
 export default {
     name: "Header",
-    components: {
-        Dropdown
-    },
     props: {
         showSidebar: {
             type: Boolean,
@@ -333,19 +329,23 @@ export default {
             display: block;
         }
 
-        #app-grid + ul {
-            left: -75px !important;
+        .bp-dropdown__body {
             border-radius: 0;
             text-align: center;
             box-shadow: 0 0 0 1px rgba(98,98,98,.2);
             margin-top: 0;
 
             li {
-                padding: 5px 20px;
+                padding: 5px 10px;
 
                 a {
+                    display: flex;
+                    align-items: center;
+
                     p {
                         color: var(--base-color);
+                        margin-bottom: 0;
+                        margin-left: 10px;
                     }
                 }
             }
@@ -431,18 +431,16 @@ export default {
         }
 
         .profile-dropdown {
-            .dropdown-item {
+            a {
                 display: flex;
                 align-items: center;
                 margin-top: 0;
+                padding: 5px 10px;
+                text-transform: capitalize;
 
                 i {
                     margin-left: 5px;
                 }
-            }
-
-            .dropdown-item:hover {
-                background-color: transparent;
             }
         }
     }
@@ -452,16 +450,6 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 20px;
-    }
-
-    .bp-dropdown {
-        &__btn {
-            border: 0;
-        }
-
-        &__icon {
-            display: none;
-        }
     }
 }
 

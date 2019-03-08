@@ -13,6 +13,7 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import Vuetable from "vuetable-2";
 import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
+import Dropdown from "bp-vuejs-dropdown";
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
@@ -22,3 +23,4 @@ Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);
 Vue.component("vuetable", Vuetable);
 Vue.component("vuetable-pagination", VuetablePagination);
+Vue.component("dropdown", Dropdown);
