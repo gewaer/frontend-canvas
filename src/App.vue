@@ -14,7 +14,11 @@
                 v-if="$route.meta && $route.meta.requiresAuth == undefined"
                 :show-sidebar="showSidebar"
                 @handleSidebar="handleSidebar"
-            />
+            >
+                <template #logo>
+                    <img src="/img/primary-logo.png" alt="logo">
+                </template>
+            </app-header>
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
                     <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined"/>
@@ -69,24 +73,15 @@ export default {
 
                 this.$ability.update(ability.rules);
             }
-        },
-        "$route.path"() {
-            this.$nextTick(() => {
-                $.Pages.init();
-            });
         }
     },
     mounted() {
         this.appInitialize();
-
-        $.Pages.init();
     },
     methods: {
         appInitialize() {
             document.body.style.setProperty("--base-color", this.appBaseColor);
             document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
-
-            $.Pages.init();
         },
         handleSidebar(state) {
             this.showSidebar = state;

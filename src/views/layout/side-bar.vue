@@ -14,15 +14,6 @@
             <router-link :to="{ name: 'dashboard'}" class="app-secondary-logo">
                 <img src="/img/secondary-logo.png">
             </router-link>
-            <div class="sidebar-header-controls">
-                <button
-                    type="button"
-                    class="btn btn-link d-lg-inline-block d-xlg-inline-block d-md-inline-block d-sm-none d-none"
-                    data-toggle-pin="sidebar"
-                    @click="togglePinSidebar">
-                    <i class="fa fs-12"/>
-                </button>
-            </div>
             <div class="menu-icon d-none d-lg-inline-block">
                 <img src="/img/icons/hamburguer-menu.png">
             </div>
