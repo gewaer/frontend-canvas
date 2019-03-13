@@ -1,214 +1,89 @@
 <template>
     <div class="header app-header">
-        <div class="sidebar-toggle" @click="handleSidebar(!showSidebar)">
-            <img src="../../assets/icons/hamburguer-menu.png">
-        </div>
-        <router-link :to="{ name: 'dashboard'}" class="app-logo">
-            <img src="/img/primary-logo.png" alt="logo">
-        </router-link>
-        <div class="app-switcher">
-            <span class="app-mode">A1</span>
-            <a
-                id="app-grid"
-                class="grid-box"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"
-            />
-            <ul class="dropdown-menu" aria-labelledby="app-grid">
-                <li class="dropdown-item">
-                    <a href="javascript:void(0)" target="_blank">
-                        <span class="app-mode mode">A1</span>
-                        <p>Application 1</p>
-                    </a>
-                </li>
-                <li class="dropdown-item">
-                    <a href="javascript:void(0)" target="_blank">
-                        <span class="app-mode mode">A2</span>
-                        <p>Application 2</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="notifications-center dropdown">
-            <a
-                id="notification-center"
-                href="javascript:;"
-                class="header-icon pg pg-world"
-                data-toggle="dropdown"
-            >
-                <span class="bubble"/>
-            </a>
-            <div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="notification-center">
-                <div class="notification-panel">
-                    <div class="notification-body scrollable">
-                        <!-- START Notification Item-->
-                        <div class="notification-item unread clearfix">
-                            <!-- START Notification Item-->
-                            <div class="heading open">
-                                <a href="#" class="text-complete pull-left">
-                                    <i class="pg-map fs-16 m-r-10"/>
-                                    <span class="bold">Carrot Design</span>
-                                    <span class="fs-12 m-l-10">David Nester</span>
-                                </a>
-                                <div class="pull-right">
-                                    <div class="thumbnail-wrapper d16 circular inline m-t-15 m-r-10 toggle-more-details">
-                                        <div><i class="fa fa-angle-left"/></div>
-                                    </div>
-                                    <span class=" time">few sec ago</span>
-                                </div>
-                                <div class="more-details">
-                                    <div class="more-details-inner">
-                                        <h5 class="semi-bold fs-16">
-                                            “Apple’s Motivation - Innovation<br>
-                                            distinguishes between<br>
-                                            A leader and a follower.”
-                                        </h5>
-                                        <p class="small hint-text">
-                                            Commented on john Smiths wall.
-                                            <br> via pages framework.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END Notification Item-->
-                            <!-- START Notification Item Right Side-->
-                            <div
-                                class="option"
-                                data-toggle="tooltip"
-                                data-placement="left"
-                                title="mark as read">
-                                <a href="#" class="mark"/>
-                            </div>
-                        <!-- END Notification Item Right Side-->
-                        </div>
-                        <!-- START Notification Body-->
-                        <!-- START Notification Item-->
-                        <div class="notification-item  clearfix">
-                            <div class="heading">
-                                <a href="#" class="text-danger pull-left">
-                                    <i class="fa fa-exclamation-triangle m-r-10"/>
-                                    <span class="bold">98% Server Load</span>
-                                    <span class="fs-12 m-l-10">Take Action</span>
-                                </a>
-                                <span class="pull-right time">2 mins ago</span>
-                            </div>
-                            <!-- START Notification Item Right Side-->
-                            <div class="option">
-                                <a href="#" class="mark"/>
-                            </div>
-                        <!-- END Notification Item Right Side-->
-                        </div>
-                        <!-- END Notification Item-->
-                        <!-- START Notification Item-->
-                        <div class="notification-item  clearfix">
-                            <div class="heading">
-                                <a href="#" class="text-warning-dark pull-left">
-                                    <i class="fa fa-exclamation-triangle m-r-10"/>
-                                    <span class="bold">Warning Notification</span>
-                                    <span class="fs-12 m-l-10">Buy Now</span>
-                                </a>
-                                <span class="pull-right time">yesterday</span>
-                            </div>
-                            <!-- START Notification Item Right Side-->
-                            <div class="option">
-                                <a href="#" class="mark"/>
-                            </div>
-                        <!-- END Notification Item Right Side-->
-                        </div>
-                        <!-- END Notification Item-->
-                        <!-- START Notification Item-->
-                        <div class="notification-item unread clearfix">
-                            <div class="heading">
-                                <div class="thumbnail-wrapper d24 circular b-white m-r-5 b-a b-white m-t-10 m-r-10">
-                                    <img
-                                        width="30"
-                                        height="30"
-                                        data-src-retina="assets/img/profiles/1x.jpg"
-                                        data-src="assets/img/profiles/1.jpg"
-                                        alt=""
-                                        src="assets/img/profiles/1.jpg">
-                                </div>
-                                <a href="#" class="text-complete pull-left">
-                                    <span class="bold">Revox Design Labs</span>
-                                    <span class="fs-12 m-l-10">Owners</span>
-                                </a>
-                                <span class="pull-right time">11:00pm</span>
-                            </div>
-                            <!-- START Notification Item Right Side-->
-                            <div
-                                class="option"
-                                data-toggle="tooltip"
-                                data-placement="left"
-                                title="mark as read">
-                                <a href="#" class="mark"/>
-                            </div>
-                        <!-- END Notification Item Right Side-->
-                        </div>
-                        <!-- END Notification Item-->
-                    </div>
-                    <div class="notification-footer text-center">
-                        <a href="#" class="">Read all notifications</a>
-                        <a data-toggle="refresh" class="portlet-refresh text-black pull-right" href="#">
-                            <i class="pg-refresh_new"/>
+        <div class="left-side-header d-flex">
+            <div class="sidebar-toggle" @click="handleSidebar(!showSidebar)">
+                <img src="/img/icons/hamburguer-menu.png">
+            </div>
+            <router-link :to="{ name: 'dashboard'}" class="app-logo">
+                <slot name="logo">
+                    <div class="company-name">{{ companyName }}</div>
+                </slot>
+            </router-link>
+            <!-- <dropdown class="app-switcher">
+                <template slot="btn">
+                    <span class="app-mode">A1</span>
+                    <a
+                        id="app-grid"
+                        class="grid-box"
+                    />
+                </template>
+                <ul slot="body">
+                    <li>
+                        <a href="javascript:void(0)" target="_blank">
+                            <span class="app-mode mode">A1</span>
+                            <p>Application 1</p>
                         </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" target="_blank">
+                            <span class="app-mode mode">A2</span>
+                            <p>Application 2</p>
+                        </a>
+                    </li>
+                </ul>
+            </dropdown> -->
+        </div>
+        <div class="right-side-header  d-flex">
+            <div class="multi-rooftop">
+                <multiselect
+                    id="rooftop-select"
+                    v-model="selectedCompany"
+                    :allow-empty="false"
+                    :options="companies"
+                    :searchable="false"
+                    :show-labels="false"
+                    class="rooftop-select"
+                    label="name"
+                    @select="switchCompany"
+                />
+            </div>
+            <dropdown class="user-bar">
+                <template slot="btn">
+                    <div class="user-name">
+                        <span class="bold">{{ userData.firstname }}</span>
+                        <span> {{ userData.lastname }}</span>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="multi-rooftop">
-            <multiselect
-                id="rooftop-select"
-                v-model="selectedCompany"
-                :allow-empty="false"
-                :options="companies"
-                :searchable="false"
-                :show-labels="false"
-                class="rooftop-select"
-                label="name"
-                @select="switchCompany"
-            />
-        </div>
-        <div class="user-bar">
-            <div class="user-name">
-                <span class="bold">{{ userData.firstname }}</span>
-                <span> {{ userData.lastname }}</span>
-            </div>
-            <div class="dropdown">
-                <div
-                    class="profile-image"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                    <img src="../../assets/icons/avatar-icon.png" alt="Avatar icon">
-                </div>
-                <ul class="dropdown-menu dropdown-menu-right profile-dropdown" role="menu">
-                    <router-link :to="{name: 'setingsUsersProfile'}" class="dropdown-item">
+                    <div class="profile-image">
+                        <img src="/img/icons/avatar-icon.png" alt="Avatar icon">
+                    </div>
+                </template>
+                <ul slot="body" class="profile-dropdown" role="menu">
+                    <router-link :to="{name: 'setingsUsersProfile'}">
                         <span>Users Settings</span>
                     </router-link>
-                    <router-link :to="{name: 'settingsCompaniesProfile'}" class="dropdown-item">
+                    <router-link :to="{name: 'settingsCompaniesProfile'}">
                         <span>{{ companyName }} Settings</span>
                     </router-link>
-                    <router-link :to="{name: 'settingsAppsCustomFieldsList'}" class="dropdown-item">
+                    <router-link :to="{name: 'settingsAppsCustomFieldsList'}">
                         <span>App Settings</span>
                     </router-link>
-                    <router-link :to="{name: 'settingsManagerList'}" class="dropdown-item">
+                    <router-link :to="{name: 'settingsManagerList'}">
                         <span>Companies Manager</span>
                     </router-link>
-                    <a href="#" class="dropdown-item" @click.prevent="logout()">
+                    <a href="#" @click.prevent="logout()">
                         <span>Logout</span>
                         <i class="pg-power"/>
                     </a>
                 </ul>
-            </div>
+            </dropdown>
+
+            <!-- <a
+                href="#"
+                class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
+                data-toggle="quickview"
+                data-toggle-element="#quickview"
+            /> -->
         </div>
-        <a
-            href="#"
-            class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
-            data-toggle="quickview"
-            data-toggle-element="#quickview"
-        />
     </div>
 </template>
 
@@ -221,6 +96,12 @@ export default {
         showSidebar: {
             type: Boolean,
             default: false
+        },
+        applications: {
+            type: Array,
+            default() {
+                return false
+            }
         }
     },
     data() {
@@ -236,7 +117,6 @@ export default {
         ...mapState("User", {
             userData: state => state.data
         }),
-
         companyName() {
             return this.selectedCompany ? this.selectedCompany.name : "company";
         }
@@ -276,7 +156,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-header {
     position: fixed;
     left: 0;
@@ -311,6 +191,12 @@ export default {
         img {
             max-height: 30px;
         }
+
+        .company-name {
+            text-transform: uppercase;
+            font-size: 28px;
+            font-weight: 500;
+        }
     }
 
     .app-switcher {
@@ -321,10 +207,10 @@ export default {
         border-left: 1px solid #e6e6e6;
         border-right: 1px solid #e6e6e6;
         order: 2;
-        margin-right: auto;
+        // margin-right: auto;
 
         #app-grid {
-            background: url(../../assets/icons/top_tray.png) no-repeat;
+            background: url('/img/icons/top_tray.png') no-repeat;
             background-position-x: 0%;
             background-position-y: 0%;
             background-position: -41px center;
@@ -332,22 +218,25 @@ export default {
             height: 14px;
             padding: 0;
             display: block;
-            height: 100%;
         }
 
-        #app-grid + ul {
-            left: -75px !important;
+        .bp-dropdown__body {
             border-radius: 0;
             text-align: center;
             box-shadow: 0 0 0 1px rgba(98,98,98,.2);
             margin-top: 0;
 
             li {
-                padding: 5px 20px;
+                padding: 5px 10px;
 
                 a {
+                    display: flex;
+                    align-items: center;
+
                     p {
                         color: var(--base-color);
+                        margin-bottom: 0;
+                        margin-left: 10px;
                     }
                 }
             }
@@ -433,18 +322,16 @@ export default {
         }
 
         .profile-dropdown {
-            .dropdown-item {
+            a {
                 display: flex;
                 align-items: center;
                 margin-top: 0;
+                padding: 5px 10px;
+                text-transform: capitalize;
 
                 i {
                     margin-left: 5px;
                 }
-            }
-
-            .dropdown-item:hover {
-                background-color: transparent;
             }
         }
     }
@@ -473,6 +360,7 @@ export default {
             margin-right: auto;
             margin-left: auto;
             padding: 0;
+            padding-left: 10px;
         }
 
         .app-switcher {

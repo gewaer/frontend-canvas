@@ -60,9 +60,6 @@
 
 <script>
 export default {
-    name: "Home",
-    mounted() {
-        $.Pages.init();
-    }
+    name: "Home"
 };
 </script>

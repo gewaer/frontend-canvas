@@ -23,5 +23,3 @@ export default {
     name: "TabsMenu"
 };
 </script>
-
-<style lang="scss" src="@/assets/scss/settings.scss"/>
