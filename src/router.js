@@ -112,6 +112,11 @@ const router = new Router({
             name: "setingsUsersSecurity",
             component: () => import(/* webpackChunkName: "settings-users-security" */ "./views/settings/users/security")
         },
+        {
+            path: "/settings/users/devices",
+            name: "setingsUsersDevices",
+            component: () => import(/* webpackChunkName: "settings-users-devices" */ "./views/settings/users/devices")
+        },
         // ===== Settings Apps Routes =====
         {
             path: "/settings/apps",
