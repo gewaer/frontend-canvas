@@ -12,6 +12,9 @@
         <li class="nav-item">
             <router-link :to="{ name: 'setingsUsersSecurity' }" :class="{active: $route.name == 'setingsUsersSecurity'}">Security</router-link>
         </li>
+        <li class="nav-item">
+            <router-link :to="{ name: 'setingsUsersDevices' }" :class="{active: $route.name == 'setingsUsersDevices'}">Devices</router-link>
+        </li>
     </ul>
 </template>
 
