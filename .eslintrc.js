@@ -9,28 +9,28 @@ module.exports = {
     ],
     rules: {
         "array-bracket-newline": ["error", "consistent"],
-        "array-bracket-spacing": ["error"],
+        "array-bracket-spacing": "error",
         "array-element-newline": ["error", "consistent"],
-        "brace-style": ["error", "1tbs", {
-            allowSingleLine: false
-        }],
+        "brace-style": "error",
         camelcase: ["error", {
-            properties: "never",
-            ignoreDestructuring: false
+            properties: "never"
         }],
-        "comma-dangle": ["error"],
-        "comma-spacing": ["error"],
-        "comma-style": ["error"],
-        "computed-property-spacing": ["error", "never"],
+        "comma-dangle": "error",
+        "comma-spacing": "error",
+        "comma-style": "error",
+        "computed-property-spacing": "error",
         "consistent-this": ["error", "self"],
         curly: ["error", "all"],
+        "eol-last": "error",
         eqeqeq: 0,
-        "func-call-spacing": ["error", "never"],
-        "func-name-matching": ["error", "always", {
+        "func-call-spacing": "error",
+        "func-name-matching": ["error", {
             considerPropertyDescriptor: true,
             includeCommonJSModuleExports: true
         }],
-        "function-paren-newline": ["error", "consistent"],
+        "func-names": ["error", "as-needed", {
+            "generators": "as-needed"
+        }],
         "handle-callback-err": 0,
         "implicit-arrow-linebreak": ["error", "beside"],
         indent: ["error", 4, {

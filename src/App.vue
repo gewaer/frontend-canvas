@@ -32,7 +32,7 @@
 <script>
 import { mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import AppHeader from "@/views/layout/header.vue";
+import AppHeader from "@c/header/";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
