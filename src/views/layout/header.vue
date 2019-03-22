@@ -100,7 +100,7 @@ export default {
         applications: {
             type: Array,
             default() {
-                return false
+                return [];
             }
         }
     },
