@@ -1,5 +1,6 @@
 <template>
-    <div id="app" :class="{ 'full-height' : $route.meta && !$route.meta.requiresAuth }">
+    <!-- <div id="app" :class="{ 'full-height' : $route.meta && !$route.meta.requiresAuth }"> -->
+    <div id="app">
         <!-- <modals-container/> -->
         <notifications/>
         <after-signup-wizard/>
@@ -26,6 +27,7 @@
                 </div>
             </div>
         </div>
+        <notification-center />
     </div>
 </template>
 
@@ -37,6 +39,7 @@ import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
+import NotificationCenter from "@/views/layout/notification-center";
 
 export default {
     components: {
@@ -44,7 +47,8 @@ export default {
         AppSidebar,
         FreeTrialBar,
         AfterSignupWizard,
-        BasicModal
+        BasicModal,
+        NotificationCenter
     },
     data() {
         return {
