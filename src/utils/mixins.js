@@ -5,6 +5,11 @@ import pickBy from "lodash/pickBy";
 import { mapGetters } from "vuex";
 
 export const vueRouterMixins = {
+    computed: {
+        hasChanged() {
+            return some(this.vvFields, field => field.changed);
+        }
+    },
     beforeRouteLeave(to, from, next) {
         const formFields = pickBy(this.vvFields, field => field.changed);
 

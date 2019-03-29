@@ -73,7 +73,6 @@
 
 <script>
 import { vueRouterMixins } from "@/utils/mixins";
-import some from "lodash/some";
 
 export default {
     name: "Form",
@@ -93,9 +92,6 @@ export default {
     computed:{
         title() {
             return !this.$route.params.id ? "Add branch" : "Edit branch";
-        },
-        hasChanged() {
-            return some(this.vvFields, field => field.changed);
         }
     },
     created() {
