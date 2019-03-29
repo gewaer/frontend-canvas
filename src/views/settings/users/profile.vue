@@ -95,7 +95,7 @@
                                 />
                             </div>
                             <div class="form-group">
-                                <label>Locale</label>
+                                <label>Location</label>
                                 <multiselect
                                     v-model="selectedLocale"
                                     :allow-empty="false"
@@ -146,7 +146,8 @@ export default {
                 lastname: "",
                 email: "",
                 phone: "",
-                timezone: ""
+                timezone: "",
+                country_id:""
             },
             avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
         }
