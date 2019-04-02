@@ -99,7 +99,6 @@ export default {
             this.showSidebar = state;
         },
         handleNotificationCenter(state) {
-            console.log(state)
             this.showNotificationCenter = state;
         }
     }
