@@ -1,7 +1,7 @@
 <template>
     <div class="header app-header">
         <div class="left-side-header d-flex">
-            <div class="sidebar-toggle" @click="handleSidebar(!showSidebar)">
+            <div class="sidebar-toggle" @click="$emit('handleSidebar', !showSidebar)">
                 <img src="/img/icons/hamburguer-menu.png">
             </div>
             <company-logo />
@@ -10,6 +10,11 @@
         <div class="right-side-header d-flex">
             <companies-switcher />
             <user-options />
+            <a
+                href="#"
+                class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
+                @click="$emit('handleNotificationCenter', !showNotificationCenter)"
+            />
         </div>
     </div>
 </template>
@@ -32,11 +37,10 @@ export default {
         showSidebar: {
             type: Boolean,
             default: false
-        }
-    },
-    methods: {
-        handleSidebar(payload) {
-            this.$emit("handleSidebar", payload);
+        },
+        showNotificationCenter: {
+            type: Boolean,
+            default: false
         }
     }
 };

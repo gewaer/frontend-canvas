@@ -1,6 +1,5 @@
 <template>
-    <!-- <div id="app" :class="{ 'full-height' : $route.meta && !$route.meta.requiresAuth }"> -->
-    <div id="app">
+    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
         <!-- <modals-container/> -->
         <notifications/>
         <after-signup-wizard/>
@@ -14,7 +13,9 @@
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined"
                 :show-sidebar="showSidebar"
+                :show-notification-center="showNotificationCenter"
                 @handleSidebar="handleSidebar"
+                @handleNotificationCenter="handleNotificationCenter"
             >
                 <template #logo>
                     <img src="/img/primary-logo.png" alt="logo">
@@ -27,7 +28,13 @@
                 </div>
             </div>
         </div>
-        <notification-center />
+        <transition name="slide-right" mode="out-in">
+            <notification-center
+                v-if="showNotificationCenter"
+                :show-notification-center="showNotificationCenter"
+                @handleNotificationCenter="handleNotificationCenter"
+            />
+        </transition>
     </div>
 </template>
 
@@ -54,7 +61,8 @@ export default {
         return {
             appBaseColor: "#61c2cc",
             appSecondaryColor: "#9ee5b5",
-            showSidebar: false
+            showSidebar: false,
+            showNotificationCenter: false
         };
     },
     computed: {
@@ -89,6 +97,10 @@ export default {
         },
         handleSidebar(state) {
             this.showSidebar = state;
+        },
+        handleNotificationCenter(state) {
+            console.log(state)
+            this.showNotificationCenter = state;
         }
     }
 }

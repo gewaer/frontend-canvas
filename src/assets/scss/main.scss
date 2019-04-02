@@ -12,6 +12,15 @@
     opacity: 0;
 }
 
+.slide-right-enter-active, .slide-right-leave-active {
+    right: 0;
+    transition: right .2s;
+}
+
+.slide-right-enter, .slide-right-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    right: -300px;
+}
+
 .btn-primary {
     background-color: var(--base-color);
     border-color: var(--base-color);
