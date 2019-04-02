@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="{ 'full-height' : $route.meta && !$route.meta.requiresAuth }">
+    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
         <!-- <modals-container/> -->
         <notifications/>
         <after-signup-wizard/>
@@ -13,7 +13,9 @@
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined"
                 :show-sidebar="showSidebar"
+                :show-notification-center="showNotificationCenter"
                 @handleSidebar="handleSidebar"
+                @handleNotificationCenter="handleNotificationCenter"
             >
                 <template #logo>
                     <img src="/img/primary-logo.png" alt="logo">
@@ -26,6 +28,13 @@
                 </div>
             </div>
         </div>
+        <transition name="slide-left" mode="out-in">
+            <notification-center
+                v-if="showNotificationCenter"
+                :show-notification-center="showNotificationCenter"
+                @handleNotificationCenter="handleNotificationCenter"
+            />
+        </transition>
     </div>
 </template>
 
@@ -37,6 +46,7 @@ import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
+import NotificationCenter from "@/views/layout/notification-center";
 
 export default {
     components: {
@@ -44,13 +54,15 @@ export default {
         AppSidebar,
         FreeTrialBar,
         AfterSignupWizard,
-        BasicModal
+        BasicModal,
+        NotificationCenter
     },
     data() {
         return {
             appBaseColor: "#61c2cc",
             appSecondaryColor: "#9ee5b5",
-            showSidebar: false
+            showSidebar: false,
+            showNotificationCenter: false
         };
     },
     computed: {
@@ -85,6 +97,9 @@ export default {
         },
         handleSidebar(state) {
             this.showSidebar = state;
+        },
+        handleNotificationCenter(state) {
+            this.showNotificationCenter = state;
         }
     }
 }
