@@ -1,5 +1,5 @@
 <template>
-    <dropdown class="user-bar">
+    <dropdown :x="-45" class="user-bar">
         <template slot="btn">
             <div class="user-name">
                 <span class="bold">{{ userData.firstname }}</span>
@@ -71,6 +71,7 @@ export default {
 
     .user-name {
         margin-right: 10px;
+        text-transform: capitalize;
     }
 
     .profile-image {

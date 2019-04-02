@@ -14,7 +14,9 @@
                 href="#"
                 class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
                 @click="$emit('handleNotificationCenter', !showNotificationCenter)"
-            />
+            >
+                <div class="notification-badge">1</div>
+            </a>
         </div>
     </div>
 </template>
@@ -87,6 +89,25 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 20px;
+        position: relative;
+
+        .notification-badge {
+            background-color: var(--base-color);
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            top: 12px;
+            right: -14px;
+            border-radius: 100%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 0;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+        }
     }
 }
 
