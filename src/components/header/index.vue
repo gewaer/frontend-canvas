@@ -15,7 +15,7 @@
                 class="notification-sidebar header-icon pg pg-alt_menu btn-link m-l-10 sm-no-margin"
                 @click="$emit('handleNotificationCenter', !showNotificationCenter)"
             >
-                <div class="notification-badge">1</div>
+                <div class="notification-badge bg-danger">1</div>
             </a>
         </div>
     </div>
@@ -92,7 +92,6 @@ export default {
         position: relative;
 
         .notification-badge {
-            background-color: var(--base-color);
             width: 20px;
             height: 20px;
             position: absolute;
