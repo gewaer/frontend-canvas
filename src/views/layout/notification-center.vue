@@ -13,14 +13,22 @@
         <div class="notifications-center__day-group">
             <div class="day-group__header">
                 <h1 class="text-green">Today</h1>
-                <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                <button 
+                    type="button" 
+                    class="notification-close-button" 
+                    data-dismiss="modal" 
+                    aria-hidden="true"><i class="pg-close fs-14"/></button>
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -29,10 +37,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -41,10 +53,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -55,14 +71,22 @@
         <div class="notifications-center__day-group">
             <div class="day-group__header">
                 <h1>Yesterday</h1>
-                <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                <button 
+                    type="button" 
+                    class="notification-close-button" 
+                    data-dismiss="modal" 
+                    aria-hidden="true"><i class="pg-close fs-14"/></button>
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -71,10 +95,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -83,10 +111,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -97,14 +129,22 @@
         <div class="notifications-center__day-group">
             <div class="day-group__header">
                 <h1>2 days ago</h1>
-                <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                <button 
+                    type="button" 
+                    class="notification-close-button" 
+                    data-dismiss="modal" 
+                    aria-hidden="true"><i class="pg-close fs-14"/></button>
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -113,10 +153,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
@@ -125,10 +169,14 @@
             </div>
             <div class="notification-container">
                 <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"></i></div>
+                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
                     <span class="header__title">Notification Title</span>
                     <div class="header__time-and-close">
-                        <button type="button" class="notification-close-button" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i></button>
+                        <button 
+                            type="button" 
+                            class="notification-close-button" 
+                            data-dismiss="modal" 
+                            aria-hidden="true"><i class="pg-close fs-14"/></button>
                     </div>
                 </div>
                 <div class="notification-container__body">
