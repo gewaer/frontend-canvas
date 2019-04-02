@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <transition name="slide-right" mode="out-in">
+        <transition name="slide-left" mode="out-in">
             <notification-center
                 v-if="showNotificationCenter"
                 :show-notification-center="showNotificationCenter"
