@@ -42,6 +42,10 @@
     border-color: var(--base-color);
 }
 
+.bg-primary {
+    background-color: var(--base-color) !important;
+}
+
 .full-height {
     height: 100%;
 
