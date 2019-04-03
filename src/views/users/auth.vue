@@ -63,7 +63,7 @@
                         <!-- END Form Control-->
                     </template>
                     <!-- START Form Control-->
-                    <div v-if="!isResetPassword || !isTypeOfInvite" class="form-group form-group-default required">
+                    <div v-if="!isResetPassword" class="form-group form-group-default required">
                         <label>{{ form.data.email.label }}</label>
                         <div class="controls">
                             <input
@@ -79,7 +79,7 @@
                     </div>
                     <!-- END Form Control-->
                     <!-- START Form Control-->
-                    <div v-if="!isForgotPassword " class="form-group form-group-default required">
+                    <div v-if="!isForgotPassword" class="form-group form-group-default required">
                         <label>Password</label>
                         <div class="controls">
                             <input
