@@ -69,7 +69,7 @@
                                     v-model="companyData.phone"
                                     data-vv-as="phone number"
                                     name="phone"
-                                    type="tel"
+                                    type="number"
                                     class="form-control"
                                 >
                                 <span class="text-danger">{{ errors.first('phone') }}</span>
@@ -84,28 +84,39 @@
                             <div class="form-group">
                                 <label>Language</label>
                                 <multiselect
+                                    v-validate="'required'"
                                     v-model="selectedLanguage"
                                     :options="languages"
+                                    data-vv-as="language"
+                                    name="language"
                                     label="name"
                                     track-by="id"
                                     @input="setSelectValue($event, 'language')"
-                                />
+                                >
+                                    <span class="text-danger">{{ errors.first("language") }}</span>
+                                </multiselect>
                             </div>
 
                             <div class="form-group">
                                 <label>Timezone</label>
                                 <multiselect
+                                    v-validate="'required'"
                                     v-model="companyData.timezone"
                                     :max-height="175"
                                     :options="timezones"
-                                />
+                                    data-vv-as="timezone"
+                                    name="timezone"
+                                >
+                                    <span class="text-danger">{{ errors.first("timezone") }}</span>
+                                </multiselect>
                             </div>
 
                             <div class="form-group">
-                                <label>Default Currency</label>
+                                <label>Currency</label>
                                 <multiselect
+                                    v-validate="'required'"
                                     v-model="selectedCurrency"
-                                    :allow-empty="false"
+                                    :allow-empty="true"
                                     :max-height="175"
                                     :custom-label="currencyLabel"
                                     :options="currencies"
@@ -113,12 +124,14 @@
                                     track-by="code"
                                     deselect-label=""
                                     select-label=""
+                                    data-vv-as="currency"
+                                    name="currency"
                                     @input="setSelectValue($event, 'currency_id')"
                                 >
                                     <template slot="singleLabel" slot-scope="{ option }">
                                         {{ option.currency }}  ({{ option.code }})
                                     </template>
-
+                                    <span class="text-danger">{{ errors.first("currency") }}</span>
                                 </multiselect>
                             </div>
                         </div>
@@ -138,7 +151,6 @@
 import { mapState } from "vuex";
 import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 import clone from "lodash/clone";
-import some from "lodash/some";
 
 export default {
     name: "CompanyProfile",
@@ -168,10 +180,7 @@ export default {
             languages: state => state.Application.languages,
             timezones: state => state.Application.timezones,
             currencies: state => state.Application.currencies
-        }),
-        hasChanged() {
-            return some(this.vvFields, field => field.changed);
-        }
+        })
     },
     watch: {
         company(company) {
