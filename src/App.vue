@@ -13,14 +13,9 @@
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined"
                 :show-sidebar="showSidebar"
-                :show-notification-center="showNotificationCenter"
                 @handleSidebar="handleSidebar"
-                @handleNotificationCenter="handleNotificationCenter"
-            >
-                <template #logo>
-                    <img src="/img/primary-logo.png" alt="logo">
-                </template>
-            </app-header>
+                @toggleNotifications="toggleNotifications"
+            />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
                     <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined"/>
@@ -31,8 +26,7 @@
         <transition name="slide-left" mode="out-in">
             <notification-center
                 v-if="showNotificationCenter"
-                :show-notification-center="showNotificationCenter"
-                @handleNotificationCenter="handleNotificationCenter"
+                @toggleNotifications="toggleNotifications"
             />
         </transition>
     </div>
@@ -98,8 +92,8 @@ export default {
         handleSidebar(state) {
             this.showSidebar = state;
         },
-        handleNotificationCenter(state) {
-            this.showNotificationCenter = state;
+        toggleNotifications() {
+            this.showNotificationCenter = !this.showNotificationCenter;
         }
     }
 }

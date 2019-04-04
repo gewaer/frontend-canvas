@@ -7,7 +7,7 @@
                 class="notification-close-button"
                 data-dismiss="modal"
                 aria-hidden="true"
-                @click="$emit('handleNotificationCenter', !showNotificationCenter)">
+                @click="$emit('toggleNotifications')">
                 <i class="pg-close fs-14"/>
             </button>
         </div>
