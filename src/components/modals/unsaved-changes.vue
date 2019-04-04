@@ -55,10 +55,21 @@ export default {
 <style lang="scss" scoped>
 .unsaved-changes {
     .modal-header {
+        padding: 1.5rem 2rem;
+
         h5 {
             color: var(--base-color);
             margin: 0;
+            font-weight: 600;
         }
+    }
+
+    .modal-body {
+        padding: 2rem;;
+    }
+
+    .modal-footer {
+        padding: 1.5rem 2rem;
     }
 
     .section-title {

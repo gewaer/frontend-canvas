@@ -65,7 +65,9 @@ export default {
 
             }, {
                 name: "actions",
-                title: "Actions"
+                title: "Actions",
+                titleClass: "table-actions",
+                dataClass: "table-actions"
             }]
         }
     },

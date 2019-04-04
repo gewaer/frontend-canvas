@@ -50,7 +50,7 @@
                                                     <th style="width:45%">Field name</th>
                                                     <th style="width:20%">Type</th>
                                                     <th style="width:20%">Field API</th>
-                                                    <th style="width:15%">Actions</th>
+                                                    <th style="width:15%" class="table-actions">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -58,7 +58,7 @@
                                                     <td class="v-align-middle semi-bold">Title</td>
                                                     <td class="v-align-middle semi-bold">Text</td>
                                                     <td class="v-align-middle semi-bold">title</td>
-                                                    <td class="v-align-middle semi-bold">
+                                                    <td class="v-align-middle semi-bold table-actions">
                                                         <button class="btn btn-complete m-l-5"><i class="fa fa-edit" aria-hidden="true"/></button>
                                                         <button class="btn btn-danger m-l-5"><i class="fa fa-trash" aria-hidden="true"/></button>
                                                     </td>
