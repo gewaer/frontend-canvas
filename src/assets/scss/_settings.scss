@@ -4,6 +4,7 @@
     .cs-select {
         width: 100%;
         max-width: initial;
+        padding: 2rem;
     }
     .col {
         padding-left: 5px;
@@ -16,6 +17,9 @@
         margin-top: 0;
         color: var(--base-color);
         display: flex;
+        font-weight: 500;
+        font-size: 22px;
+
         button, a {
             padding: 3px 17px;
             display: flex;

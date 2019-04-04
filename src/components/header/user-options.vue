@@ -1,5 +1,5 @@
 <template>
-    <dropdown :x="-45" class="user-bar">
+    <dropdown :x="-60" class="user-bar">
         <template slot="btn">
             <div class="user-name">
                 <span class="bold">{{ userData.firstname }}</span>
@@ -60,7 +60,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .user-bar {
     background-color: #ededed;
     display: flex;
@@ -88,19 +88,35 @@ export default {
         }
     }
 
-    .profile-dropdown {
-        a {
-            display: flex;
-            align-items: center;
-            margin-top: 0;
-            padding: 5px 10px;
-            text-transform: capitalize;
+    .bp-dropdown__body {
+        padding: 10px 0;
+        box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, .1);
+        border: 1px solid rgba(0, 0, 0, .1);
 
-            i {
-                margin-left: 5px;
+        .profile-dropdown {
+            a {
+                display: flex;
+                align-items: center;
+                margin-top: 0;
+                padding: 10px 25px !important;
+                text-transform: capitalize;
+
+                i {
+                    margin-left: 5px;
+                }
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, .05);
+                    color: inherit;
+                }
+
+                &:last-child {
+                    padding-bottom: inherit;
+                }
             }
         }
     }
+
 }
 
 @media screen and (max-width: 768px) {
