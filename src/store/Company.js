@@ -1,3 +1,6 @@
+import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
+
 const state = {
     data: null,
     list: []
@@ -29,7 +32,22 @@ const actions = {
 const getters = {
     currentCompanyId(state) {
         return state.data ? state.data.id : null;
+    },
+    isTrialSubscription(state){
+        let isTrial = false;
+        if(!isEmpty(state.data)){
+            isTrial = !isEmpty(state.data) ? !!get(state.data, "subscription.is_freetrial", false) : false ;
+        }
+        return isTrial
+    },
+    subscriptionDaysLeft(state, getters){
+        let daysLeft = 0;
+        if(getters.isTrialSubscription){
+            daysLeft = state.data.subscription.trial_ends_days;
+        }
+        return daysLeft;
     }
+
 };
 
 export default {

@@ -18,7 +18,7 @@
                         <template slot="actions" slot-scope="props">
                             <button
                                 class="btn btn-danger m-l-5"
-                                @click="confirmDelete(props.rowData.id)">
+                                @click="confirmDelete(props.rowData)">
                                 <i class="fa fa-trash" aria-hidden="true" />
                             </button>
                         </template>
@@ -66,26 +66,28 @@ export default {
     },
     computed: {
         ...mapState({
-            user: state => state.User.data
+            user: state => state.User.data,
+            currentAppId: state => state.Company.data.apps.apps_id
         })
 
     },
     methods: {
-        confirmDelete(deviceId) {
+        confirmDelete(device) {
             // change for swal or any other
             if (confirm("are you sure?")) {
-                this.detachDevice(deviceId)
+                this.detachDevice(device)
             }
         },
-        detachDevice(id) {
+        detachDevice(device) {
             if (this.isLoading ) {
                 return
             }
+            let data = {...device, app: this.currentAppId}
             this.isLoading = true;
-            axios({
-                url: `/v1/users/${this.user.id}/devices/${id}/detach`,
-                method: "POST"
-            }).then(() => {
+            axios.delete(
+                `users/${this.user.id}/devices/${device.source_users_id_text}/detach`,
+                { data: data}
+            ).then(() => {
                 this.$notify({
                     title: "Deleted",
                     text: "The Device has been deleted",

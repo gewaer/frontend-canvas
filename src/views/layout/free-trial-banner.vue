@@ -1,8 +1,22 @@
 <template>
-    <div class="free-trial-banner">
-        <h6>Your free trial is 14 days left, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
+    <div v-if="isTrial" class="free-trial-banner">
+        <h6>Your free trial is {{ daysLeft }} days left, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
     </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+    name:"FreeTrialBanner",
+    computed:{
+        ...mapGetters({
+            isTrial: "Company/isTrialSubscription",
+            daysLeft: "Company/subscriptionDaysLeft"
+        })
+    }
+}
+</script>
 
 <style lang="scss" scoped>
 .free-trial-banner {
