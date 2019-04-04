@@ -26,7 +26,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .apps-settings {
     .card.flex-md-row {
         min-height: 400px;

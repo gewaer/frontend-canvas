@@ -5,7 +5,7 @@
             <div
                 v-for="frecuency in billingFrecuencies"
                 :key="frecuency.type"
-                class="col-3"
+                class="col-12 col-xl-4"
                 @click.stop="selectBilling(frecuency)">
                 <frecuency-item
                     :billing-frecuency="frecuency"
@@ -17,7 +17,7 @@
                 <div class="card">
                     <div class="card-block">
                         <div class="row no-gutters w-100">
-                            <div class="col-9">
+                            <div class="col-12 col-sm">
                                 <div class="form-group m-b-0">
                                     <input
                                         type="text"
@@ -25,7 +25,7 @@
                                         placeholder="Redeem a coupon">
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-sm-auto">
                                 <button type="button" class="btn btn-block btn-primary">Redeem</button>
                             </div>
                         </div>
