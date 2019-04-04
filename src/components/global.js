@@ -14,10 +14,12 @@ import VModal from "vue-js-modal";
 import Vuetable from "vuetable-2";
 import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
 import Dropdown from "bp-vuejs-dropdown";
+import VTooltip from "v-tooltip";
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
+Vue.use(VTooltip);
 
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);
