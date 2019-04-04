@@ -1,16 +1,14 @@
 <template>
-    <div class="container">
-        <div class="row" >
-            <div
-                v-for="plan in plans"
-                :key="plan.stripe_plan"
-                class="col">
-                <plan
-                    :plan="plan"
-                    :selected-frecuency="selectedFrecuency"
-                    :is-selected="selectedPlan == plan.stripe_plan"
-                    @changeplan="changePlan"/>
-            </div>
+    <div class="row" >
+        <div
+            v-for="plan in plans"
+            :key="plan.stripe_plan"
+            class="col-12 col-lg-6">
+            <plan
+                :plan="plan"
+                :selected-frecuency="selectedFrecuency"
+                :is-selected="selectedPlan == plan.stripe_plan"
+                @changeplan="changePlan"/>
         </div>
     </div>
 </template>

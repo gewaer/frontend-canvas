@@ -7,252 +7,257 @@
                 Your free trial period has ended. Please purchase a new subscription plan.
             </div>
             <div class="generic_price_table">
-                <section>
+                <section class="container">
                     <plans
                         :plans="plans"
                         :selected-plan="planData.stripe_plan"
                         :selected-frecuency="selectedFrecuency"
                         :show-modal="!showBilligInfo"
-                        @changesubscription="changeSubscription"/>
+                        @changesubscription="changeSubscription"
+                    />
                 </section>
-                <p class="text-center">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-                <div v-show="plans.length" class="payment-details">
+                <p class="text-center mt-2 mb-4">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
+                <div v-show="plans.length" class="container">
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
                         </div>
                     </div>
-                    <div v-if="showBilligInfo" class="m-t-20">
-                        <plan-frecuencies
-                            :plan="selectedPlan"
-                            :selected-frecuency="selectedFrecuency.type"
-                            show-redeem
-                            @selectbillingtype="selectFrequency"/>
-                        <order-details
-                            :plan="selectedPlan"
-                            :frecuency="selectedFrecuency"
-                        />
-                        <h5>Contact</h5>
-                        <div class="row contact">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="first-name">First name</label>
-                                                    <input
-                                                        v-validate="'required:true|alpha_spaces|min:2'"
-                                                        id="first-name"
-                                                        v-model="contact.contact_first_name"
-                                                        data-vv-as="contact first name"
-                                                        data-vv-name="contact first name"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="First name">
-                                                    <span class="text-danger">{{ errors.first("contact first name") }}</span>
+                    <div v-if="showBilligInfo" class="row mt-4">
+                        <div class="col">
+                            <div class="payment-details m-t-20">
+                                <plan-frecuencies
+                                    :plan="selectedPlan"
+                                    :selected-frecuency="selectedFrecuency.type"
+                                    show-redeem
+                                    @selectbillingtype="selectFrequency"/>
+                                <order-details
+                                    :plan="selectedPlan"
+                                    :frecuency="selectedFrecuency"
+                                />
+                                <h5>Contact</h5>
+                                <div class="row contact">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-block">
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="first-name">First name</label>
+                                                            <input
+                                                                v-validate="'required:true|alpha_spaces|min:2'"
+                                                                id="first-name"
+                                                                v-model="contact.contact_first_name"
+                                                                data-vv-as="contact first name"
+                                                                data-vv-name="contact first name"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="First name">
+                                                            <span class="text-danger">{{ errors.first("contact first name") }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="last-name">Last name</label>
+                                                            <input
+                                                                v-validate="'required:true|alpha_spaces|min:2'"
+                                                                id="last-name"
+                                                                v-model="contact.contact_last_name"
+                                                                data-vv-as="contact last name"
+                                                                data-vv-name="contact last name"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="Last name">
+                                                            <span class="text-danger">{{ errors.first("contact last name") }}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="last-name">Last name</label>
-                                                    <input
-                                                        v-validate="'required:true|alpha_spaces|min:2'"
-                                                        id="last-name"
-                                                        v-model="contact.contact_last_name"
-                                                        data-vv-as="contact last name"
-                                                        data-vv-name="contact last name"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Last name">
-                                                    <span class="text-danger">{{ errors.first("contact last name") }}</span>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label for="company-name">Company name</label>
+                                                            <input
+                                                                v-validate="'required:true'"
+                                                                id="company-name"
+                                                                v-model="contact.contact_company"
+                                                                data-vv-as="company name"
+                                                                data-vv-name="company name"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="Company name">
+                                                            <span class="text-danger">{{ errors.first("company name") }}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="company-name">Company name</label>
-                                                    <input
-                                                        v-validate="'required:true'"
-                                                        id="company-name"
-                                                        v-model="contact.contact_company"
-                                                        data-vv-as="company name"
-                                                        data-vv-name="company name"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Company name">
-                                                    <span class="text-danger">{{ errors.first("company name") }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="email-address">Email address</label>
-                                                    <input
-                                                        v-validate="'required:true|email'"
-                                                        id="email-address"
-                                                        v-model="contact.email"
-                                                        data-vv-as="contact email address"
-                                                        data-vv-name="contact email address"
-                                                        type="email"
-                                                        class="form-control"
-                                                        placeholder="Email">
-                                                    <span class="text-danger">{{ errors.first("contact email address") }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <h5>Address</h5>
-                        <div class="row address">
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="address">Address</label>
-                                                    <input
-                                                        v-validate="'required:true||min:2'"
-                                                        id="address"
-                                                        v-model="address.address"
-                                                        data-vv-as="address"
-                                                        data-vv-name="address"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Address">
-                                                    <span class="text-danger">{{ errors.first("address") }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="apt-suite">APT/SUITE</label>
-                                                    <input
-                                                        v-validate="'required:true|min:1'"
-                                                        id="apt-suite"
-                                                        v-model="address.suite"
-                                                        data-vv-as="apt/suite"
-                                                        data-vv-name="apt/suite"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="APT/SUITE">
-                                                    <span class="text-danger">{{ errors.first("apt/suite") }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="city">City</label>
-                                                    <input
-                                                        v-validate="'required:true|min:3'"
-                                                        id="city"
-                                                        v-model="address.city"
-                                                        data-vv-as="city"
-                                                        data-vv-name="city"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="City">
-                                                    <span class="text-danger">{{ errors.first("city") }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="country">Country</label>
-                                                    <input
-                                                        v-validate="'required:true|min:3'"
-                                                        id="country"
-                                                        v-model="address.country"
-                                                        data-vv-as="country"
-                                                        data-vv-name="country"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Country">
-                                                    <span class="text-danger">{{ errors.first("country") }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="state-province">State/Province</label>
-                                                    <input
-                                                        v-validate="'required:true|min:2'"
-                                                        id="state-province"
-                                                        v-model="address.state"
-                                                        data-vv-as="state/province"
-                                                        data-vv-name="state/province"
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="State/Province">
-                                                    <span class="text-danger">{{ errors.first("state/province") }}</span>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label for="zip-postal">Zip/Postal</label>
-                                                    <input
-                                                        v-validate="'required:true|min:2|numeric'"
-                                                        id="zip-postal"
-                                                        v-model="address.zipcode"
-                                                        data-vv-as="zip/postal"
-                                                        data-vv-name="zip/postal"
-                                                        type="number"
-                                                        class="form-control"
-                                                        placeholder="Zip/Postal">
-                                                    <span class="text-danger">{{ errors.first("zip/postal") }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <h5>Payment</h5>
-                        <div class="row payment">
-                            <div class="col">
-                                <div class="card card-borderless">
-                                    <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
-                                        <li class="nav-item">
-                                            <a
-                                                class="active"
-                                                data-toggle="tab"
-                                                role="tab"
-                                                data-target="#credit-card"
-                                                href="#">CREDIT CARD</a>
-                                        </li>
-                                        <!-- <li class="nav-item">
-                                            <a
-                                                href="#"
-                                                data-toggle="tab"
-                                                role="tab"
-                                                data-target="#paypal">PAYPAL</a>
-                                        </li> -->
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div id="credit-card" class="tab-pane active">
-                                            <credit-card ref="creditCard" @striped-card="setCardToken"/>
-                                        </div>
-                                        <!-- <div id="paypal" class="tab-pane ">
-                                            <div class="row">
-                                                <div class="card">
-                                                    <div class="card-block">
-                                                        <span>Start paying with PayPal</span>
-                                                        <img src="/img/checkout-paypal.png" width="170">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label for="email-address">Email address</label>
+                                                            <input
+                                                                v-validate="'required:true|email'"
+                                                                id="email-address"
+                                                                v-model="contact.email"
+                                                                data-vv-as="contact email address"
+                                                                data-vv-name="contact email address"
+                                                                type="email"
+                                                                class="form-control"
+                                                                placeholder="Email">
+                                                            <span class="text-danger">{{ errors.first("contact email address") }}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
+                                <h5>Address</h5>
+                                <div class="row address">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-block">
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="address">Address</label>
+                                                            <input
+                                                                v-validate="'required:true||min:2'"
+                                                                id="address"
+                                                                v-model="address.address"
+                                                                data-vv-as="address"
+                                                                data-vv-name="address"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="Address">
+                                                            <span class="text-danger">{{ errors.first("address") }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="apt-suite">APT/SUITE</label>
+                                                            <input
+                                                                v-validate="'required:true|min:1'"
+                                                                id="apt-suite"
+                                                                v-model="address.suite"
+                                                                data-vv-as="apt/suite"
+                                                                data-vv-name="apt/suite"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="APT/SUITE">
+                                                            <span class="text-danger">{{ errors.first("apt/suite") }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="city">City</label>
+                                                            <input
+                                                                v-validate="'required:true|min:3'"
+                                                                id="city"
+                                                                v-model="address.city"
+                                                                data-vv-as="city"
+                                                                data-vv-name="city"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="City">
+                                                            <span class="text-danger">{{ errors.first("city") }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="country">Country</label>
+                                                            <input
+                                                                v-validate="'required:true|min:3'"
+                                                                id="country"
+                                                                v-model="address.country"
+                                                                data-vv-as="country"
+                                                                data-vv-name="country"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="Country">
+                                                            <span class="text-danger">{{ errors.first("country") }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="state-province">State/Province</label>
+                                                            <input
+                                                                v-validate="'required:true|min:2'"
+                                                                id="state-province"
+                                                                v-model="address.state"
+                                                                data-vv-as="state/province"
+                                                                data-vv-name="state/province"
+                                                                type="text"
+                                                                class="form-control"
+                                                                placeholder="State/Province">
+                                                            <span class="text-danger">{{ errors.first("state/province") }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md">
+                                                        <div class="form-group">
+                                                            <label for="zip-postal">Zip/Postal</label>
+                                                            <input
+                                                                v-validate="'required:true|min:2|numeric'"
+                                                                id="zip-postal"
+                                                                v-model="address.zipcode"
+                                                                data-vv-as="zip/postal"
+                                                                data-vv-name="zip/postal"
+                                                                type="number"
+                                                                class="form-control"
+                                                                placeholder="Zip/Postal">
+                                                            <span class="text-danger">{{ errors.first("zip/postal") }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Payment</h5>
+                                <div class="row payment">
+                                    <div class="col">
+                                        <div class="card">
+                                            <ul class="nav nav-tabs nav-tabs-simple" role="tablist" data-init-reponsive-tabs="dropdownfx">
+                                                <li class="nav-item">
+                                                    <a
+                                                        class="active"
+                                                        data-toggle="tab"
+                                                        role="tab"
+                                                        data-target="#credit-card"
+                                                        href="#">CREDIT CARD</a>
+                                                </li>
+                                                <!-- <li class="nav-item">
+                                                    <a
+                                                        href="#"
+                                                        data-toggle="tab"
+                                                        role="tab"
+                                                        data-target="#paypal">PAYPAL</a>
+                                                </li> -->
+                                            </ul>
+                                            <div class="tab-content">
+                                                <div id="credit-card" class="tab-pane active">
+                                                    <credit-card ref="creditCard" @striped-card="setCardToken"/>
+                                                </div>
+                                                <!-- <div id="paypal" class="tab-pane ">
+                                                    <div class="row">
+                                                        <div class="card">
+                                                            <div class="card-block">
+                                                                <span>Start paying with PayPal</span>
+                                                                <img src="/img/checkout-paypal.png" width="170">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row update-billing-details">
+                                    <button :disabled="!planData.card_token" class="btn btn-block btn-primary" @click="verifyPlanPayment()">Update Billing Details</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row update-billing-details">
-                            <button :disabled="!planData.card_token" class="btn btn-block btn-primary" @click="verifyPlanPayment()">Update Billing Details</button>
                         </div>
                     </div>
                 </div>
@@ -512,11 +517,23 @@ export default {
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900);
 @import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,700,800,900);
 .subscriptions-plans {
+
+    @media(max-width: 768px) {
+        .container {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    }
+
     .payment-details {
-        max-width: 1110px;
+        // max-width: 1110px;
         margin: 0 auto;
         background-color: white;
         padding: 20px;
+
+        @media(max-width: 768px) {
+            padding: 0.5rem;
+        }
 
         .payment-frecuency {
             .card-block {
@@ -566,6 +583,15 @@ export default {
         display: flex;
         align-items: center;
         margin-top: 15px;
+
+        @media(max-width: 768px) {
+            flex-direction: column;
+
+            .final-price {
+                margin-top: 20px;
+                margin-left: initial !important;
+            }
+        }
     }
 
     .generic_price_table {
@@ -791,7 +817,7 @@ export default {
 
     @media (max-width: 767px) {
         .generic_price_table .generic_content{
-            margin-bottom:75px;
+            margin-bottom:25px;
         }
     }
     @media (min-width: 768px) and (max-width: 991px) {
@@ -806,7 +832,7 @@ export default {
         }
 
         .generic_price_table .generic_content{
-            margin-bottom:75px;
+            margin-bottom:25px;
         }
     }
     @media (min-width: 992px) and (max-width: 1199px) {
