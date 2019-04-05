@@ -11,7 +11,7 @@
             <div class="table-responsive">
                 <vuetable
                     ref="Vuetable"
-                    :append-params="{format: 'true'}"
+                    :append-params="{format: 'true', relationships:'roles'}"
                     :fields="usersFields"
                     :http-fetch="getTableData"
                     api-url="/users"
@@ -65,8 +65,9 @@ export default {
                 name: "name",
                 title: "Name"
             }, {
-                name: "rol",
-                sortField: "rol",
+                name: "roles.0.name",
+                title:"Rol",
+                sortField: "roles_id",
                 width: "30%"
             }, {
                 name: "lastvisit",
@@ -75,7 +76,10 @@ export default {
             }, {
                 name: "status",
                 sortField: "status",
-                width: "30%"
+                width: "30%",
+                formatter(value) {
+                    return value ? "Active" : "Inactive";
+                }
             }, {
                 name: "actions",
                 title: "Actions",
