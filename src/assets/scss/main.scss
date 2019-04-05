@@ -89,6 +89,38 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 }
 
 .multiselect {
+    .multiselect__tags {
+        border-radius: 0;
+    }
+
+    .multiselect__content-wrapper {
+        border-radius: 0;
+    }
+
+    .multiselect__element {
+        padding-left: 0;
+
+        .multiselect__option--highlight {
+            background: var(--base-color);
+
+            &::after {
+                background: var(--base-color);
+            }
+
+            &.multiselect__option--selected {
+                background: #f3f3f3;
+                color: #35495e;
+                font-weight: 700;
+
+                &::after {
+                    background: #f3f3f3;
+                    color: #35495e;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
     .multiselect__placeholder {
         margin-bottom: 8px;
         padding-top: 0;
