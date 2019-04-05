@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isTrial" class="free-trial-banner">
+    <div class="free-trial-banner">
         <h6>Your free trial is {{ daysLeft }} days left, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
     </div>
 </template>
@@ -11,7 +11,6 @@ export default {
     name:"FreeTrialBanner",
     computed:{
         ...mapGetters({
-            isTrial: "Company/isTrialSubscription",
             daysLeft: "Company/subscriptionDaysLeft"
         })
     }
