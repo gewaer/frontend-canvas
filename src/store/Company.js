@@ -1,5 +1,6 @@
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
+import moment from "moment";
 
 const state = {
     data: null,
@@ -34,20 +35,28 @@ const getters = {
         return state.data ? state.data.id : null;
     },
     isTrialSubscription(state){
-        let isTrial = false;
+        let isTrial = "0";
         if(!isEmpty(state.data)){
-            isTrial = !isEmpty(state.data) ? !!get(state.data, "subscription.is_freetrial", false) : false ;
+            isTrial = !isEmpty(state.data) ? get(state.data, "subscription.is_freetrial", "0") : "0" ;
         }
-        return isTrial
+        return !!Number(isTrial)
     },
     subscriptionDaysLeft(state, getters){
-        let daysLeft = 0;
+        let daysLeft = moment();
         if(getters.isTrialSubscription){
-            daysLeft = state.data.subscription.trial_ends_days;
+            daysLeft = moment(state.data.subscription.trial_ends_at);
+        } else {
+            daysLeft = moment(state.data.subscription.ends_at);
         }
-        return daysLeft;
+        return  daysLeft.diff(moment(), "days");
+    },
+    subscriptionHasEnded(state, getters){
+        let hasEnded = true;
+        if(getters.subscriptionDaysLeft){
+            hasEnded = Boolean(getters.subscriptionDaysLeft);
+        }
+        return hasEnded;
     }
-
 };
 
 export default {
