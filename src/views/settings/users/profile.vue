@@ -15,106 +15,16 @@
                                 />
                             </div>
                         </div>
-                        <div class="col-12 col-md">
-                            <div class="form-group form-group-default required">
-                                <label>First name</label>
-                                <input
-                                    v-validate="'required'"
-                                    v-model="userData.firstname"
-                                    class="form-control"
-                                    data-vv-as="first name"
-                                    data-vv-name="first name"
-                                    type="text"
-                                    name="firstname"
-                                >
-                                <span class="text-danger">{{ errors.first("first name") }}</span>
-                            </div>
-                            <div class="form-group form-group-default required">
-                                <label>Last name</label>
-                                <input
-                                    v-validate="'required'"
-                                    v-model="userData.lastname"
-                                    class="form-control"
-                                    data-vv-as="last name"
-                                    data-vv-name="last name"
-                                    name="lastname"
-                                    type="text"
-                                >
-                                <span class="text-danger">{{ errors.first("last name") }}</span>
-                            </div>
-                            <div class="form-group form-group-default">
-                                <label>Phone</label>
-                                <input
-                                    v-validate="'numeric'"
-                                    v-model="userData.cell_phone_number"
-                                    class="form-control"
-                                    name="phone"
-                                    type="text"
-                                >
-                                <span class="text-danger">{{ errors.first('phone') }}</span>
-                            </div>
-                            <div class="form-group form-group-default required">
-                                <label>Email (username)</label>
-                                <input
-                                    v-validate="'required|email'"
-                                    v-model="userData.email"
-                                    class="form-control"
-                                    type="text"
-                                    name="email"
-                                >
-                                <span class="text-danger">{{ errors.first('email') }}</span>
-                            </div>
+                        <div class="col-12 col-xl">
+                            <custom-fields-form
+                                :form-fields="fieldsSchema"
+                                :form-name="'generalInformation'"
+                                :form-options="formOptions"
+                                @formSubmitted="formSubmitted"
+                            />
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-xl">
-                    <div class="row">
-                        <div class="col-12 col-md">
-                            <div class="form-group">
-                                <label>Language</label>
-                                <multiselect
-                                    v-model="selectedLanguage"
-                                    :allow-empty="false"
-                                    :options="languages"
-                                    deselect-label=""
-                                    label="name"
-                                    select-label=""
-                                    track-by="id"
-                                    @input="setSelectValue($event, 'language')"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label>Timezone</label>
-                                <multiselect
-                                    v-model="userData.timezone"
-                                    :allow-empty="false"
-                                    :max-height="175"
-                                    :options="timezones"
-                                    deselect-label=""
-                                    select-label=""
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label>Location</label>
-                                <multiselect
-                                    v-model="selectedLocale"
-                                    :allow-empty="false"
-                                    :max-height="175"
-                                    :options="locales"
-                                    label="name"
-                                    track-by="id"
-                                    deselect-label=""
-                                    select-label=""
-                                    @input="setSelectValue($event, 'country_id')"
-                                />
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-end mt-2">
-                <button :disabled="isLoading" class="btn btn-primary" @click="processUpdate()">Save</button>
             </div>
         </template>
     </container-template>
@@ -127,8 +37,9 @@ import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 export default {
     name: "Profile",
     components: {
-        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
+        CustomFieldsForm: () => import(/* webpackChunkName: "components-forms-form" */ "@/components/forms/form"),
+        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     mixins: [
@@ -137,6 +48,7 @@ export default {
     ],
     data() {
         return {
+            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754",
             isLoading: false,
             selectedLanguage: null,
             selectedLocale: null,
@@ -149,7 +61,16 @@ export default {
                 timezone: "",
                 country_id:""
             },
-            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
+            fieldsSchema: [],
+            formOptions: {
+                buttons: {
+                    submit: {
+                        text: "Save",
+                        class: "btn btn-primary"
+                    }
+                },
+                actionsWrapperClass: "d-flex justify-content-end mt-2"
+            }
         }
     },
     computed: {
@@ -167,19 +88,169 @@ export default {
             await this.$store.dispatch("Application/getSettingsLists");
             this.userData = _.clone(this.$store.state.User.data);
             this.setInitialSelects();
+            this.generateFieldsSchema();
             this.setAvatarUrl();
+        },
+        generateFieldsSchema() {
+            this.fieldsSchema = [
+                [
+                    {
+                        field: "firstname",
+                        label: "First name",
+                        type: "text",
+                        value: this.userData.firstname,
+                        attributes: {
+                            class: {
+                                "form-control": true
+                            }
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                "form-group-default": true,
+                                required: true
+                            }
+                        },
+                        validations: {
+                            required: true
+                        }
+                    },
+                    {
+                        field: "language",
+                        label: "Language",
+                        type: "select",
+                        options: this.languages,
+                        value: this.selectedLanguage,
+                        attributes: {
+                            allowEmpty: false,
+                            label: "name",
+                            "show-labels": false,
+                            "track-by": "id"
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                required: true
+                            }
+                        }
+                    }
+                ],
+                [
+                    {
+                        field: "lastname",
+                        label: "Last name",
+                        type: "text",
+                        value: this.userData.lastname,
+                        attributes: {
+                            class: {
+                                "form-control": true
+                            }
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                "form-group-default": true,
+                                required: true
+                            }
+                        },
+                        validations: {
+                            required: true
+                        }
+                    },
+                    {
+                        field: "timezone",
+                        label: "Timezone",
+                        type: "select",
+                        options: this.timezones,
+                        value: this.userData.timezone,
+                        attributes: {
+                            allowEmpty: false,
+                            "show-labels": false
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                required: true
+                            }
+                        }
+                    }
+                ],
+                [
+                    {
+                        field: "phone",
+                        label: "Phone",
+                        type: "text",
+                        value: this.userData.cell_phone_number,
+                        attributes: {
+                            class: {
+                                "form-control": true
+                            }
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                "form-group-default": true
+                            }
+                        },
+                        validations: {
+                            numeric: true
+                        }
+                    },
+                    {
+                        field: "locale",
+                        label: "Location",
+                        type: "select",
+                        options: this.locales,
+                        value: this.selectedLocale,
+                        attributes: {
+                            allowEmpty: false,
+                            label: "name",
+                            "show-labels": false,
+                            "track-by": "id"
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                required: true
+                            }
+                        }
+                    }
+                ],
+                [
+                    {
+                        field: "email",
+                        label: "Email",
+                        type: "text",
+                        value: this.userData.email,
+                        attributes: {
+                            class: {
+                                "form-control": true
+                            }
+                        },
+                        wrapperAttributes: {
+                            class: {
+                                "form-group": true,
+                                "form-group-default": true,
+                                required: true
+                            }
+                        },
+                        validations: {
+                            email: true,
+                            required: true
+                        }
+                    }
+                ]
+            ]
         },
         setSelectValue(value, formField, idName = "id") {
             this.userData[formField] = value[idName];
         },
-
         async processUpdate() {
             await this.$validator.validateAll();
             if (!this.errors.items.length && !this.isLoading) {
                 this.update();
             }
         },
-
         update(formData) {
             formData = formData || this.userData
             this.isLoading = true;
@@ -210,7 +281,6 @@ export default {
             this.selectedLanguage = this.languages.find(language => language.id == this.userData.language);
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
         },
-
         updateProfile(profile) {
             if (typeof profile == "string") {
                 this.avatarUrl = profile;
@@ -223,11 +293,13 @@ export default {
                 this.update(formData);
             }
         },
-
         setAvatarUrl() {
             if (this.userData.filesystem && this.userData.filesystem.length) {
                 this.avatarUrl = this.userData.filesystem[0].url
             }
+        },
+        formSubmitted(data) {
+            console.log(data);
         }
     }
 };

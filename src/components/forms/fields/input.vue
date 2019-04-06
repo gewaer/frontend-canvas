@@ -9,7 +9,6 @@
         :maxlength="maxLength"
         :min="minValue"
         :max="maxValue"
-        class="input"
         @input="updateValue"
         @change="updateValue"
         @blur="updateValue"
@@ -50,7 +49,7 @@ export default {
             return this.isInputNumber && this.item.validations && this.item.validations.max_value || undefined;
         }
     },
-    mounted() {
+    created() {
         this.value = this.item.value;
     }
 }

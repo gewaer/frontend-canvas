@@ -18,12 +18,11 @@ export default {
     computed: {
         attributes() {
             const attributes = {
-                class: {
-                    "form-control": true,
-                    "text-danger": !!this.error
-                },
+                class: {},
                 title: ""
             }
+
+            attributes[this.item.errorClass] = !!this.error;
 
             let fieldClass = (this.item.attributes && this.item.attributes.class) || [];
             fieldClass = zipObject(fieldClass, fieldClass);
