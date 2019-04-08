@@ -195,21 +195,6 @@
                                                             <span class="text-danger">{{ errors.first("state/province") }}</span>
                                                         </div>
                                                     </div>
-                                                    <!-- <div class="col-12 col-md">
-                                                        <div class="form-group">
-                                                            <label for="zip-postal">Zip/Postal</label>
-                                                            <input
-                                                                v-validate="'required:true|min:2|numeric'"
-                                                                id="zip-postal"
-                                                                v-model="address.zipcode"
-                                                                data-vv-as="zip/postal"
-                                                                data-vv-name="zip/postal"
-                                                                type="number"
-                                                                class="form-control"
-                                                                placeholder="Zip/Postal">
-                                                            <span class="text-danger">{{ errors.first("zip/postal") }}</span>
-                                                        </div>
-                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -317,7 +302,6 @@ export default {
                 city:"",
                 country:"",
                 state:"",
-                // zipcode:"",
                 suite:""
             },
             selectedFrecuency: {
@@ -359,7 +343,7 @@ export default {
     },
     created(){
         this.initialize();
-        if(this.subscriptionHasEnded){
+        if (this.subscriptionHasEnded) {
             this.showBilligInfo = true;
         }
     },
@@ -385,7 +369,7 @@ export default {
             if(_.has(this.defaultCompany, "subscription")){
                 this.planData.stripe_plan = this.defaultCompany.subscription.stripe_plan;
                 this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
-                // this.planData.payment_style = this.defaultCompany.subscription.payment_style;
+                // TODO get the payment frecuency
             }
             this.plans = response.data;
         },
@@ -424,7 +408,7 @@ export default {
                         this.showSuccessNotify("Subscriptión updated successfully.");
                     }
                 }).catch((error) => this.showErrorNotify(error))
-                    .finally(()=> resolve())
+                    .finally(() => resolve())
             });
         },
 
@@ -485,7 +469,7 @@ export default {
                 this.showSuccessNotify("Payment Informatión updated successfully.");
             }).catch((error) => this.showErrorNotify(error))
         },
-        showSuccessNotify(text =""){
+        showSuccessNotify(text = ""){
             this.$notify({
                 title: "Success",
                 text,

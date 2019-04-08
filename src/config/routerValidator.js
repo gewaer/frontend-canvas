@@ -7,16 +7,20 @@ const validateSubscription = function validateSubscription(routeTo){
     if(routeTo.name != "settingsCompaniesSubscriptions" && store.getters["Company/subscriptionHasEnded"]){
         routeToGo = { name: "settingsCompaniesSubscriptions" }
     }
-    return routeToGo
+    return routeToGo;
 };
 
 const validationHandler = function validationHandler(routeTo){
     let routeToGo = validateSubscription(routeTo);
 
-    return routeToGo
+    return routeToGo;
 }
-
-export default function(to, from) {
+/**
+ * @param {Object} to the route that the user will go
+ * @param {Object} from the route that the user came from
+ * @returns {Object} routeToGo
+ */
+export default function(to) {
     const LoginRoute = {
         name: "login",
         query: {
