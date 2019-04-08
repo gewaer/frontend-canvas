@@ -344,7 +344,7 @@ const router = new Router({
         },
         // ======================================================
         {
-            path: "/browse",
+            path: "/browse/:crud",
             name: "browse",
             component: BrowseList
         }
