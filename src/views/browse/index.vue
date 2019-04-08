@@ -149,7 +149,24 @@ export default {
             ]
         }
     },
+    created() {
+        this.getCrud(this.$route.params.crud);
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.getCrud(to.params.crud);
+        next();
+    },
     methods: {
+        getCrud(crud) {
+            axios({
+                url: `/${crud}`,
+                method: "GET"
+            }).then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            });
+        },
         showAddCustomFilter() {
             this.$modal.show("add-custom-filter");
         },
@@ -271,6 +288,8 @@ export default {
 
             tr {
                 th {
+                    padding-left: 10px !important;
+                    padding-right: 10px !important;
                     padding-top: 0;
                     padding-bottom: 0;
                     font-weight: bold;

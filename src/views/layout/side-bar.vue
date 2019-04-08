@@ -30,14 +30,14 @@
                         <i class="fas fa-chart-pie"/>
                     </span>
                 </li>
-                <li>
+                <!-- <li>
                     <a id="browse-inventory-menu-link" href="#">
                         <span class="title">Leads</span>
                     </a>
                     <span class="icon-thumbnail">
                         <i class="fas fa-users"/>
                     </span>
-                    <!-- <ul class="dealer-sub-menu">
+                    <ul class="dealer-sub-menu">
                         <li>
                             <a id="view-vehicle-menu-link">Option 1</a>
                             <span class="icon-thumbnail">V</span>
@@ -54,30 +54,15 @@
                             <a id="forms-data-menu-link">Option 1</a>
                             <span class="icon-thumbnail">F</span>
                         </li>
-                    </ul> -->
-                </li>
-                <li>
-                    <a id="browse-inventory-menu-link" href="#">
-                        <span class="title">Rotations</span>
-                    </a>
+                    </ul>
+                </li> -->
+                <li v-for="(crud, index) in crudsList" :key="index">
+                    <router-link :to="{ name: 'browse', params: { crud: crud.name }}" href="#">
+                        <span class="title">{{ crud.name }}</span>
+                    </router-link>
                     <span class="icon-thumbnail">
-                        <i class="fas fa-users"/>
-                    </span>
-                </li>
-                <li>
-                    <a id="browse-inventory-menu-link" href="#">
-                        <span class="title">Lead Owners</span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        <i class="fas fa-users"/>
-                    </span>
-                </li>
-                <li>
-                    <a id="browse-inventory-menu-link" href="#">
-                        <span class="title">Agents</span>
-                    </a>
-                    <span class="icon-thumbnail">
-                        <i class="fas fa-users"/>
+                        <img v-if="crud.icon" :src="crud.icon" width="50%">
+                        <span v-else>{{ crud.name | firstLetter }}</span>
                     </span>
                 </li>
             </ul>
@@ -92,11 +77,43 @@
 
 export default {
     name: "SideBar",
+    filters: {
+        firstLetter(value) {
+            const stringsArray = value.split("");
+            return stringsArray.shift();
+        }
+    },
     props: {
         showSidebar: {
             type: Boolean,
             default: false
         }
+    },
+    data() {
+        return {
+            crudsList: [
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Shopping/Product.png&r=255&g=255&b=255",
+                    name: "products"
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Mail-01.png&r=255&g=255&b=255",
+                    name: "contacts"
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Banking/Customer.png&r=255&g=255&b=255",
+                    name: "clients"
+                },
+                {
+                    icon: null,
+                    name: "suppliers"
+                },
+                {
+                    icon: null,
+                    name: "places"
+                }
+            ]
+        };
     },
     mounted() {
         this.$nextTick(() => {
@@ -120,9 +137,17 @@ export default {
 };
 </script>
 
-<style type="text/css">
-.icon-thumbnail>i {
-    font-size: 20px !important;
+<style lang="scss">
+.icon-thumbnail {
+    font-size: 22px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+
+    i {
+        font-size: 18px !important;
+    }
 }
 
 .page-sidebar .sidebar-menu .menu-items>li>a>.title {
@@ -131,6 +156,7 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     width: 75%;
+    text-transform: capitalize;
 }
 
 .page-sidebar .sidebar-menu .menu-items li>a {
