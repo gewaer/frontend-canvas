@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+import isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
-import store from "@/store";
 import BrowseList from "./views/browse/";
+import routerValidator from "@/config/routerValidator";
 
 Vue.use(Router);
 
@@ -353,20 +354,14 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth !== false)) {
-        if (store.getters["Application/isStateReady"]) {
-            next();
-        } else {
-            store.dispatch("Application/getGlobalStateData").then(() => {
-                next();
-            }).catch(() => {
-                next({
-                    name: "login",
-                    query: {
-                        redirect: to.fullPath
-                    }
-                });
-            });
-        }
+        routerValidator(to, from).then((routeToGo) => {
+            if(isEqual(routeToGo, to) ){
+                next()
+            }else {
+                next(routeToGo)
+            }
+        }).catch((routeToGo) => next(routeToGo));
+
     } else {
         next();
     }

@@ -51,9 +51,10 @@ const getters = {
         return  daysLeft.diff(moment(), "days");
     },
     subscriptionHasEnded(state, getters){
-        let hasEnded = true;
-        if(getters.subscriptionDaysLeft){
-            hasEnded = Boolean(getters.subscriptionDaysLeft);
+        let hasEnded = false;
+        if(getters.subscriptionDaysLeft == "0"){
+            // hasEnded = !(Boolean(getters.subscriptionDaysLeft));
+            hasEnded = true;
         }
         return hasEnded;
     }

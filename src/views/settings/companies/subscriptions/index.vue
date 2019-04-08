@@ -4,10 +4,10 @@
         <div slot="tab-content" class="subscriptions-plans">
             <div v-if="subscriptionHasEnded" class="card-yellow d-flex">
                 <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
-                Your free trial period has ended. Please purchase a new subscription plan.
+                Your subscription has ended. Please purchase a new subscription plan.
             </div>
             <div class="generic_price_table">
-                <section class="container">
+                <section v-if="plans.length" class="container">
                     <plans
                         :plans="plans"
                         :selected-plan="planData.stripe_plan"
@@ -17,7 +17,7 @@
                     />
                 </section>
                 <p class="text-center mt-2 mb-4">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-                <div v-show="plans.length" class="container">
+                <div v-if="plans.length" class="container">
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
