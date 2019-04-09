@@ -2,22 +2,22 @@
     <container-template>
         <tabs-menu slot="tab-menu"/>
         <div slot="tab-content" class="subscriptions-plans">
-            <div v-if="trialHasEnded" class="card-yellow d-flex">
+            <div v-if="subscriptionHasEnded" class="card-yellow d-flex">
                 <i class="fa fa-exclamation-triangle m-r-10" aria-hidden="true"/>
-                Your free trial period has ended. Please purchase a new subscription plan.
+                Your subscription has ended. Please purchase a new subscription plan.
             </div>
             <div class="generic_price_table">
-                <section class="container">
+                <section v-if="plans.length" class="container">
                     <plans
                         :plans="plans"
                         :selected-plan="planData.stripe_plan"
                         :selected-frecuency="selectedFrecuency"
                         :show-modal="!showBilligInfo"
-                        @changesubscription="changeSubscription"
+                        @changesubscription="handleSubscription"
                     />
                 </section>
                 <p class="text-center mt-2 mb-4">Our prices exclude VAT, GST, or any other taxes that may be applicable in your region.</p>
-                <div v-show="plans.length" class="container">
+                <div v-if="plans.length" class="container">
                     <div class="row">
                         <div class="col">
                             <button class="btn btn-block btn-primary" @click="displayBilligInfo">{{ showBilligInfo ? 'Hide' : 'Show' }} Billing Details</button>
@@ -195,21 +195,6 @@
                                                             <span class="text-danger">{{ errors.first("state/province") }}</span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12 col-md">
-                                                        <div class="form-group">
-                                                            <label for="zip-postal">Zip/Postal</label>
-                                                            <input
-                                                                v-validate="'required:true|min:2|numeric'"
-                                                                id="zip-postal"
-                                                                v-model="address.zipcode"
-                                                                data-vv-as="zip/postal"
-                                                                data-vv-name="zip/postal"
-                                                                type="number"
-                                                                class="form-control"
-                                                                placeholder="Zip/Postal">
-                                                            <span class="text-danger">{{ errors.first("zip/postal") }}</span>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -307,16 +292,16 @@ export default {
                 contact_last_name:""
             },
             planData :{
-                "payment_style":"monthly",
-                "stripe_plan": "",
-                "card_token":""
+                payment_style:"monthly",
+                stripe_plan: "",
+                stripe_id: "",
+                card_token: ""
             },
             address:{
                 address:"",
                 city:"",
                 country:"",
                 state:"",
-                zipcode:"",
                 suite:""
             },
             selectedFrecuency: {
@@ -332,22 +317,21 @@ export default {
         selectedPlan(){
             return this.plans.find(subcription => subcription.stripe_plan == this.planData["stripe_plan"]);
         },
-        trialHasEnded(){
-            return this.isTrialSuscription && this.trialsDays == "0";
-        },
         ...mapState({
             userData: state => state.User.data,
             defaultCompany: state => state.Company.data
         }),
         ...mapGetters( {
             isTrialSuscription: "Company/isTrialSubscription",
-            trialsDays: "Company/subscriptionDaysLeft"
+            subscriptionDays: "Company/subscriptionDaysLeft",
+            subscriptionHasEnded: "Company/subscriptionHasEnded"
         })
     },
     watch:{
         showBilligInfo(current, oldVal){
             if(oldVal == true){
                 this.planData.stripe_plan = this.defaultCompany.subscription.stripe_plan;
+                this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
             }
         }
     },
@@ -359,6 +343,9 @@ export default {
     },
     created(){
         this.initialize();
+        if (this.subscriptionHasEnded) {
+            this.showBilligInfo = true;
+        }
     },
     methods: {
         initialize() {
@@ -381,9 +368,8 @@ export default {
         handleAppPlans(response){
             if(_.has(this.defaultCompany, "subscription")){
                 this.planData.stripe_plan = this.defaultCompany.subscription.stripe_plan;
-                this.planData.payment_style = this.defaultCompany.subscription.payment_style;
-                let subcription = this.defaultCompany.subscription.id;
-                this.showBilligInfo = !!(subcription == 0) ;
+                this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
+                // TODO get the payment frecuency
             }
             this.plans = response.data;
         },
@@ -401,27 +387,28 @@ export default {
             const defaultCompany = this.$store.dispatch("Company/getData", null, { root: true });
             defaultCompany.then(res => this.$store.dispatch("Company/setData", res.data[0]));
         },
-        changeSubscription(plan){
-            if(this.trialHasEnded || this.showBilligInfo){
+        handleSubscription(plan){
+            if(this.subscriptionHasEnded || this.showBilligInfo){
                 this.planData["stripe_plan"] = plan.stripe_plan;
+                this.planData.stripe_id = plan.stripe_id;
             } else {
-                this.changePlan( plan.stripe_plan)
+                this.changePlan(plan, true);
             }
         },
-        changePlan(plan){
-            axios({
-                url: `/apps-plans/${plan}`,
-                method: "PUT"
-            }).then(() => {
-                this.planData.stripe_plan = plan;
-                this. updateDefaultCompany();
-                this.changeSubscriptionSuccess("Subscriptión updated successfully.");
-            }).catch((error) => {
-                this.$notify({
-                    title: "Error",
-                    text: error.response.data.errors.message,
-                    type: "error"
-                });
+        changePlan(plan, showNotify = true){
+            return new Promise((resolve) => {
+                axios({
+                    url: `/apps-plans/${plan.stripe_plan}`,
+                    method: "PUT"
+                }).then(() => {
+                    this.planData.stripe_plan = plan.stripe_plan;
+                    this.planData.stripe_id = plan.stripe_id;
+                    if(showNotify){
+                        this.updateDefaultCompany();
+                        this.showSuccessNotify("Subscriptión updated successfully.");
+                    }
+                }).catch((error) => this.showErrorNotify(error))
+                    .finally(() => resolve())
             });
         },
 
@@ -462,7 +449,9 @@ export default {
                 }
             });
         },
-        updatePlanPayment(){
+        async updatePlanPayment(){
+            await this.changePlan(this.planData, false);
+
             const appPlan = {
                 ...this.planData,
                 ...this.address,
@@ -477,20 +466,21 @@ export default {
             }).then(() => {
                 this. updateDefaultCompany();
                 this.$refs.creditCard.clear();
-                this.changeSubscriptionSuccess("Payment Informatión updated successfully.");
-            }).catch((error) => {
-                this.$notify({
-                    title: "Error",
-                    text: error.response.data.errors.message,
-                    type: "error"
-                });
-            });
+                this.showSuccessNotify("Payment Informatión updated successfully.");
+            }).catch((error) => this.showErrorNotify(error))
         },
-        changeSubscriptionSuccess(text =""){
+        showSuccessNotify(text = ""){
             this.$notify({
                 title: "Success",
                 text,
                 type: "success"
+            });
+        },
+        showErrorNotify(error){
+            this.$notify({
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
             });
         },
         displayBilligInfo(){

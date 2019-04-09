@@ -18,7 +18,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined"/>
+                    <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined && isTrial"/>
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
 import AppHeader from "@c/header/";
 import AppSidebar from "@/views/layout/side-bar.vue";
@@ -62,6 +62,9 @@ export default {
     computed: {
         ...mapState({
             accessList: state => state.User.data.access_list
+        }),
+        ...mapGetters({
+            isTrial: "Company/isTrialSubscription"
         })
     },
     watch: {
