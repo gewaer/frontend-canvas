@@ -461,7 +461,7 @@ export default {
 
             axios({
                 url: "/apps-plans",
-                method: "POST",
+                method: "PUT",
                 data
             }).then(() => {
                 this. updateDefaultCompany();
