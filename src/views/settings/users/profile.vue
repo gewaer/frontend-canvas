@@ -8,11 +8,17 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <profile-upload
+                                <!-- <file-uploader /> -->
+                                <profile-uploader
                                     :avatar-url="avatarUrl"
                                     endpoint="/filesystem"
                                     @uploaded="updateProfile"
                                 />
+                                <!-- <profile-upload
+                                    :avatar-url="avatarUrl"
+                                    endpoint="/filesystem"
+                                    @uploaded="updateProfile"
+                                /> -->
                             </div>
                         </div>
                         <div class="col-12 col-md">
@@ -127,7 +133,9 @@ import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
 export default {
     name: "Profile",
     components: {
-        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
+        // ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
+        FileUploader: () => import(/* webpackChunkName: "profile-upload" */ "@c/uploaders/file-uploader"),
+        ProfileUploader: () => import(/* webpackChunkName: "profile-upload" */ "@c/uploaders/profile-uploader"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
@@ -149,7 +157,7 @@ export default {
                 timezone: "",
                 country_id:""
             },
-            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
+            avatarUrl: ""
         }
     },
     computed: {

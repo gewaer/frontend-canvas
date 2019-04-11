@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
     getData() {
         return axios({
-            url: "/users/0?relationships=roles,filesystem"
+            url: "/users/0?relationships=roles,filesystem,logo"
         });
     },
     setData({ commit }, payload) {

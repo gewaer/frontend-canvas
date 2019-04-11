@@ -22,6 +22,35 @@
     right: -300px;
 }
 
+.btn {
+    font-family: Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .01em;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-feature-settings: "kern" 1;
+    -moz-font-feature-settings: "kern" 1;
+    margin-bottom: 0;
+    border: 1px solid #f0f0f0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    background-image: none!important;
+    color: #fff;
+    background-color: #fff;
+    text-shadow: none;
+    box-shadow: none;
+    line-height: 21px;
+    position: relative;
+    transition: color .1s linear 0s,background-color .1s linear 0s,opacity .2s linear 0s!important;
+    padding: 6px 17px;
+}
+
 .btn-primary {
     background-color: var(--base-color);
     border-color: var(--base-color);
@@ -86,70 +115,6 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 
 .table.table-condensed tbody tr td :not(.dropdown-default) {
     overflow: visible;
-}
-
-.multiselect {
-    .multiselect__tags {
-        border-radius: 0;
-    }
-
-    .multiselect__content-wrapper {
-        border-radius: 0;
-    }
-
-    .multiselect__element {
-        padding-left: 0;
-
-        .multiselect__option--highlight {
-            background: var(--base-color);
-
-            &::after {
-                background: var(--base-color);
-            }
-
-            &.multiselect__option--selected {
-                background: #f3f3f3;
-                color: #35495e;
-                font-weight: 700;
-
-                &::after {
-                    background: #f3f3f3;
-                    color: #35495e;
-                    font-weight: 700;
-                }
-            }
-        }
-    }
-
-    .multiselect__placeholder {
-        margin-bottom: 8px;
-        padding-top: 0;
-    }
-}
-
-.bp-dropdown {
-    &__btn {
-        border: 0 !important;
-        padding: 0 !important;
-
-        &--active {
-            background-color: transparent !important;
-        }
-    }
-
-    &__icon {
-        display: none !important;
-    }
-
-    ul {
-        margin-bottom: 0 !important;
-        padding-left: 0 !important;
-        list-style: none !important;
-    }
-
-    .bp-dropdown__body {
-        border-radius: 3px !important;
-    }
 }
 
 .nav-tabs>li>a {
