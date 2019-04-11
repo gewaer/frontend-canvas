@@ -7,7 +7,7 @@
         :data-vv-name="item.label"
         :minlength="minLength"
         :maxlength="maxLength"
-        class="textarea"
+        v-on="item.events || {}"
         @input="updateValue"
         @change="updateValue"
         @blur="updateValue"

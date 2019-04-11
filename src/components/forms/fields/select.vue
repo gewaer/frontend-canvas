@@ -11,6 +11,7 @@
 
 <script>
 import clone from "lodash/clone";
+import merge from "lodash/merge";
 import isObject from "lodash/isObject";
 import fieldsMixin from "../mixins";
 
@@ -28,11 +29,13 @@ export default {
     },
     computed: {
         attachEvents() {
-            const events = this.item.url ? { "search-change": this.fetchData} : {};
+            let events = this.item.url ? { "search-change": this.fetchData} : {};
 
             if (this.item.searchOnOpen) {
                 events.open = this.fetchData;
             }
+
+            events = merge(events, this.item.events);
 
             return events;
         }
