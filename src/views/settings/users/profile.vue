@@ -242,9 +242,6 @@ export default {
                 ]
             ]
         },
-        setSelectValue(value, formField, idName = "id") {
-            this.userData[formField] = value[idName];
-        },
         async processUpdate() {
             await this.$validator.validateAll();
             if (!this.errors.items.length && !this.isLoading) {
@@ -299,7 +296,14 @@ export default {
             }
         },
         formSubmitted(data) {
-            console.log(data);
+            data.values.language = data.values.language.id;
+            data.values.locale = data.values.locale.id;
+
+            Object.keys(data.values).forEach((field) => {
+                this.userData[field] = data.values[field];
+            });
+
+            this.update();
         }
     }
 };

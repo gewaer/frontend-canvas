@@ -1,5 +1,6 @@
 import { lowercase, slugify } from "@/utils/helpers";
-import { merge, zipObject } from "lodash";
+import merge from "lodash/merge";
+import zipObject from "lodash/zipObject";
 
 export default {
     filters: {

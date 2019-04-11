@@ -9,6 +9,7 @@
         :maxlength="maxLength"
         :min="minValue"
         :max="maxValue"
+        v-on="item.events || {}"
         @input="updateValue"
         @change="updateValue"
         @blur="updateValue"

@@ -66,14 +66,6 @@ export default {
     },
     inject: ["$validator"],
     props: {
-        btnResetText: {
-            type: String,
-            default: "Reset"
-        },
-        btnSubmitText: {
-            type: String,
-            default: "Submit"
-        },
         formFields: {
             type: Array,
             required: true
