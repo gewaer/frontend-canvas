@@ -9,7 +9,7 @@
                 :xhr-config="uppyXhrConfig"
                 :uppy-config="uppyConfig"
                 :file-input-config="fileInputConfig"
-                @uploadedfile="uploaded"
+                @uploaded="uploaded"
                 @error="onError" />
         </div>
     </div>
@@ -17,11 +17,11 @@
 
 <script>
 import store from "@/store";
-import FileUploader from "./input-file-uploader.vue";
 export default {
     name: "ProfileUploader",
     components: {
-        FileUploader
+        FileUploader: () => import(/* webpackChunkName: "file-uploader" */ "@c/uploaders/input-file-uploader")
+        // Dashboard: () => import(/* webpackChunkName: "dashboard-uploader" */ "@c/uploaders/dashboard-file-uploader")
     },
     props: {
         avatarUrl: {

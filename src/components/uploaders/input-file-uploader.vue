@@ -1,4 +1,3 @@
-/* eslint-disable new-cap */
 <template>
     <div :id="uppyId">
         <div class="uppyFileInput" />
@@ -51,7 +50,7 @@ export default {
 
     data() {
         return {
-            uppyInstace: null,
+            uppyInstance: null,
             uppyId: `uppy-${Math.random().toLocaleString(16)}`,
             fileInputInstanceId: `uppy-file-input-${Math.random().toLocaleString(16)}`
         }
@@ -76,7 +75,7 @@ export default {
             restrictions
         };
 
-        const uppyInstace = uppy({
+        const uppyInstance = uppy({
             id: this.uppyId,
             ...defaultUppyConfig
         });
@@ -89,26 +88,25 @@ export default {
             locale: {},
             ...this.fileInputConfig
         }
-        uppyInstace.use(FileInput, {
+        uppyInstance.use(FileInput, {
             id: this.fileInputInstanceId,
             target: `.uppyFileInput`,
             ...defaultFileInputConfig
         })
 
         // configur XHR
-        uppyInstace.use(XHRUpload, {
+        uppyInstance.use(XHRUpload, {
             getResponseData: (responseText, {response}) => {
-                this.$emit("uploadedfile", JSON.parse(responseText), JSON.parse(response))
+                this.$emit("uploaded", JSON.parse(responseText), JSON.parse(response))
             },
             ...this.xhrConfig
         })
-        uppyInstace.on("upload-error", (file, error, response) => {
+        uppyInstance.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
 
-        uppyInstace.run();
-        this.uppyInstace = uppyInstace;
-    },
-    methods: {}
+        uppyInstance.run();
+        this.uppyInstance = uppyInstance;
+    }
 }
 </script>
