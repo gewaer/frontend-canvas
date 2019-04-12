@@ -17,7 +17,7 @@
 
 <script>
 import store from "@/store";
-import FileUploader from "./file-uploader.vue";
+import FileUploader from "./input-file-uploader.vue";
 export default {
     name: "ProfileUploader",
     components: {

@@ -105,6 +105,7 @@ export default {
         uppyInstace.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
+
         uppyInstace.run();
         this.uppyInstace = uppyInstace;
     },
