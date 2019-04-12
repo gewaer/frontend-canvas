@@ -22,9 +22,9 @@
                     </div>
                 </dropdown>
 
-                <button class="add-record-btn btn btn-primary">
-                    <i class="fa fa-plus-circle"/> Add lead
-                </button>
+                <router-link :to="{ name: 'create-resource', params: { resource: currentResource.name } }" class="add-record-btn btn btn-primary">
+                    <i class="fa fa-plus-circle"/> Add {{ currentResource.title }}
+                </router-link>
 
                 <div class="input-group search-bar">
                     <input
@@ -77,6 +77,10 @@ export default {
             default() {
                 return []
             }
+        },
+        currentResource: {
+            type: Object,
+            required: true
         }
     },
     methods: {

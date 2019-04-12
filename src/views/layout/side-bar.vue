@@ -56,13 +56,13 @@
                         </li>
                     </ul>
                 </li> -->
-                <li v-for="(crud, index) in crudsList" :key="index">
-                    <router-link :to="{ name: 'browse', params: { crud: crud.name }}" href="#">
-                        <span class="title">{{ crud.name }}</span>
+                <li v-for="(resource, index) in companyData.resources" :key="index">
+                    <router-link :to="{ name: 'browse', params: { resource: resource.name }}" href="#">
+                        <span class="title">{{ resource.title }}</span>
                     </router-link>
                     <span class="icon-thumbnail">
-                        <img v-if="crud.icon" :src="crud.icon" width="50%">
-                        <span v-else>{{ crud.name | firstLetter }}</span>
+                        <img v-if="resource.icon" :src="resource.icon" width="50%">
+                        <span v-else>{{ resource.name | firstLetter }}</span>
                     </span>
                 </li>
             </ul>
@@ -74,6 +74,7 @@
 </template>
 
 <script type="text/javascript">
+import { mapState } from "vuex";
 
 export default {
     name: "SideBar",
@@ -89,31 +90,10 @@ export default {
             default: false
         }
     },
-    data() {
-        return {
-            crudsList: [
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Shopping/Product.png&r=255&g=255&b=255",
-                    name: "products"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Mail-01.png&r=255&g=255&b=255",
-                    name: "contacts"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Banking/Customer.png&r=255&g=255&b=255",
-                    name: "clients"
-                },
-                {
-                    icon: null,
-                    name: "suppliers"
-                },
-                {
-                    icon: null,
-                    name: "places"
-                }
-            ]
-        };
+    computed: {
+        ...mapState({
+            companyData: state => state.Company.data
+        })
     },
     mounted() {
         this.$nextTick(() => {
