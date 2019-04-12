@@ -8,93 +8,105 @@
 import Uppy from "@uppy/core";
 import XHRUpload from "@uppy/xhr-upload";
 import FileInput from "@uppy/file-input";
-import store from "@/store";
 /**
- * Please visit the Uppy docs at https://uppy.io/docs/uppy/
- */
+     * Please visit the Uppy docs at https://uppy.io/docs/uppy/
+     *
+     * You can change the ccs of Uppy Input FIle with the following class
+     * .uppy-FileInput-btn {}
+     *
+     */
 export default {
     props: {
-        modelClass: {
-            type: String,
-            required: false,
-            default() {
-                return `uppy-${Math.random().toLocaleString(16)}`;
-            }
-        },
-        endpoint: {
-            type: String,
-            required: false,
-            default() {
-                return "/filesystem"
-            }
-        },
-        buttonTitle: {
-            type: String,
-            required: false,
-            default() {
-                return "Select File"
-            }
-        },
-        restrictions:{
+        fileInputConfig: {
             type: Object,
             required: false,
             default() {
-                return  {
-                    maxNumberOfFiles: 1,
-                    minNumberOfFiles: 1,
-                    maxFileSize: null,
-                    allowedFileTypes : null
+                return {
+                }
+            }
+        },
+        xhrConfig: {
+            type: Object,
+            required: true,
+            default() {
+                return {
+                    headers: {},
+                    formData: true,
+                    fieldName: "file",
+                    endpoint: ""
+                }
+            }
+        },
+        uppyConfig: {
+            type: Object,
+            required: false,
+            default() {
+                return {
+                    restrictions: {}
                 }
             }
         }
     },
 
     data() {
-        return {}
-    },
-
-    computed: {
-        uppyId() {
-            return this.modelClass;
+        return {
+            uppyInstace: null,
+            uppyId: `uppy-${Math.random().toLocaleString(16)}`,
+            fileInputInstanceId: `uppy-file-input-${Math.random().toLocaleString(16)}`
         }
     },
-
     mounted() {
+
+        const hasDescriptions = Object.keys(this.uppyConfig).some(item => item == "restrictions");
+        const customRestrictions = hasDescriptions ? this.uppyConfig.restrictions : {};
+
+        const restrictions = {
+            maxNumberOfFiles: 1,
+            minNumberOfFiles: 1,
+            maxFileSize: null,
+            allowedFileTypes: null,
+            ...customRestrictions
+        };
+
+        const defaultUppyConfig = {
+            autoProceed: true,
+            debug: false,
+            ...this.uppyConfig,
+            restrictions
+        };
+
         const uppy = Uppy({
             id: this.uppyId,
-            autoProceed: true,
-            debug: true,
-            restrictions: this.restrictions
+            ...defaultUppyConfig
         });
 
-        uppy.use(FileInput, {
-            inline: true,
-            target: ".uppyFileInput",
-            replaceTargetContent: false,
+        // configure FileInput
+        const defaultFileInputConfig = {
             pretty: true,
-            locale: {
-                strings: {
-                    chooseFiles: this.buttonTitle
-                }
-            }
+            inline: true,
+            replaceTargetContent: false,
+            locale: {},
+            ...this.fileInputConfig
+        }
+        uppy.use(FileInput, {
+            id: this.fileInputInstanceId,
+            target: `.uppyFileInput`,
+            ...defaultFileInputConfig
         })
+
+        // configur XHR
         uppy.use(XHRUpload, {
-            endpoint: `${axios.defaults.baseURL}${this.endpoint}`,
-            headers: {  Authorization: store.state.User.token },
-            formData: true,
-            fieldName: "file",
-            getResponseData: (responseText) => {
-                this.$emit("uploadedfile", JSON.parse(responseText))
-            }
+            getResponseData: (responseText, {response}) => {
+                this.$emit("uploadedfile", JSON.parse(responseText), JSON.parse(response))
+            },
+            ...this.xhrConfig
         })
         uppy.on("upload-error", (file, error, response) => {
-            console.error(response);
-            this.$emit("error", error);
+            this.$emit("error", error, file, response);
         });
         uppy.run();
+        this.uppyInstace = uppy;
     },
-
     methods: {}
 }
 </script>
-
