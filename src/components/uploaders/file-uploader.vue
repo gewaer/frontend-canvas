@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 <template>
     <div :id="uppyId">
         <div class="uppyFileInput" />
@@ -5,7 +6,7 @@
 </template>
 
 <script>
-import Uppy from "@uppy/core";
+import uppy from "@uppy/core";
 import XHRUpload from "@uppy/xhr-upload";
 import FileInput from "@uppy/file-input";
 /**
@@ -75,7 +76,7 @@ export default {
             restrictions
         };
 
-        const uppy = Uppy({
+        const uppyInstace = uppy({
             id: this.uppyId,
             ...defaultUppyConfig
         });
@@ -88,24 +89,24 @@ export default {
             locale: {},
             ...this.fileInputConfig
         }
-        uppy.use(FileInput, {
+        uppyInstace.use(FileInput, {
             id: this.fileInputInstanceId,
             target: `.uppyFileInput`,
             ...defaultFileInputConfig
         })
 
         // configur XHR
-        uppy.use(XHRUpload, {
+        uppyInstace.use(XHRUpload, {
             getResponseData: (responseText, {response}) => {
                 this.$emit("uploadedfile", JSON.parse(responseText), JSON.parse(response))
             },
             ...this.xhrConfig
         })
-        uppy.on("upload-error", (file, error, response) => {
+        uppyInstace.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
-        uppy.run();
-        this.uppyInstace = uppy;
+        uppyInstace.run();
+        this.uppyInstace = uppyInstace;
     },
     methods: {}
 }

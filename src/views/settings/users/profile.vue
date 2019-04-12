@@ -8,17 +8,11 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <!-- <file-uploader /> -->
                                 <profile-uploader
                                     :avatar-url="avatarUrl"
                                     endpoint="/filesystem"
                                     @uploaded="updateProfile"
                                 />
-                                <!-- <profile-upload
-                                    :avatar-url="avatarUrl"
-                                    endpoint="/filesystem"
-                                    @uploaded="updateProfile"
-                                /> -->
                             </div>
                         </div>
                         <div class="col-12 col-md">
@@ -219,17 +213,21 @@ export default {
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
         },
 
-        updateProfile(profile) {
-            if (typeof profile == "string") {
-                this.avatarUrl = profile;
-            } else {
-                const formData = {
-                    filesystem_files: profile.map(profile => profile.id)
-                };
-                this.avatarUrl = profile[0].url;
+        updateProfile(profile, data) {
+            const formData = {
+                filesystem_files: data.map(profile => profile.id)
+            };
+            /* axios({
+                url: `/filesystem/${this.userData.id}`,
+                method: "PUT",
+                data: formData
+            }).then((response) => {
+            }).catch((error) => {
 
-                this.update(formData);
-            }
+            }).finally(() => {
+            });*/
+            this.avatarUrl = profile.url;
+            this.update(formData);
         },
 
         setAvatarUrl() {

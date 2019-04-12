@@ -5,18 +5,21 @@
         </div>
         <div class="upload-profile-image">
             <file-uploader
-                ref="importUpload"
-                :endpoint="endpoint"
+                ref="fileUploader"
+                :xhr-config="uppyXhrConfig"
+                :uppy-config="uppyConfig"
+                :file-input-config="fileInputConfig"
                 @uploadedfile="uploaded"
-                @error="onError"/>
+                @error="onError" />
         </div>
     </div>
 </template>
 
 <script>
+import store from "@/store";
 import FileUploader from "./file-uploader.vue";
 export default {
-    name:"ProfileUploader",
+    name: "ProfileUploader",
     components: {
         FileUploader
     },
@@ -24,8 +27,7 @@ export default {
         avatarUrl: {
             type: String,
             required: false,
-
-            default(){
+            default() {
                 return ""
             }
         },
@@ -36,13 +38,35 @@ export default {
     },
     data() {
         return {
-            file: null
+            file: null,
+            uppyConfig: {
+                debug: process.env.NODE_ENV !== "production"
+            }
         }
     },
-    computed:{
-        imgUrl(){
+    computed: {
+        imgUrl() {
             const url = "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754";
-            return this.avatarUrl.length ? this.avatarUrl:url ;
+            return this.avatarUrl.length ? this.avatarUrl : url;
+        },
+        uppyXhrConfig() {
+            return {
+                formData: true,
+                fieldName: "file",
+                endpoint: `${axios.defaults.baseURL}${this.endpoint}`,
+                headers: {
+                    Authorization: store.state.User.token
+                }
+            };
+        },
+        fileInputConfig() {
+            return {
+                locale: {
+                    strings: {
+                        chooseFiles: "Select Files"
+                    }
+                }
+            };
         }
     },
     methods: {
@@ -53,9 +77,8 @@ export default {
                 type: "error"
             });
         },
-
         uploaded(file, data) {
-            this.$emit("uploaded", data);
+            this.$emit("uploaded", file, data);
         }
     }
 }
