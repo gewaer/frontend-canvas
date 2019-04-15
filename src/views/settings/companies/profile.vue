@@ -244,7 +244,7 @@ export default {
                 })
         },
 
-        onError() {
+        onError(error) {
             this.$notify({
                 title: "Error",
                 text: error.response.data.errors.message,
@@ -253,8 +253,7 @@ export default {
         },
 
         onSuccess({data}) {
-            this.$store.dispatch("Company/setData", data);
-
+            this.$store.dispatch("Company/updateData", data.id);
             this.$notify({
                 title: "Confirmation",
                 text: "Company information has been updated successfully!",

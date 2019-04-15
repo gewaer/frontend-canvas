@@ -27,6 +27,15 @@ const actions = {
     },
     setList({ commit }, data) {
         commit("SET_LIST", data);
+    },
+    updateData({ dispatch }, companiesId) {
+
+        return new Promise((resolve) => {
+            dispatch("getData").then(({ data }) => {
+                dispatch("setData", data.find((company) => company.id == companiesId));
+                dispatch("setList", data);
+            }).finally(() => resolve());
+        });
     }
 };
 
@@ -43,15 +52,22 @@ const getters = {
     },
     subscriptionDaysLeft(state, getters){
         let daysLeft = moment();
+        let timeLeft = 0;
         if(getters.isTrialSubscription){
             daysLeft = moment(state.data.subscription.trial_ends_at);
-        } else {
-            daysLeft = moment(state.data.subscription.ends_at);
         }
-        return  daysLeft.diff(moment(), "days");
+        // else {
+        //     daysLeft = moment(state.data.subscription.ends_at);
+        // }
+
+        if( daysLeft.diff(moment(), "days")){
+            timeLeft =  daysLeft.diff(moment(), "days")
+        }
+        return timeLeft;
     },
     subscriptionHasEnded(state, getters){
-        return getters.subscriptionDaysLeft  <= 0
+        let subscriptionDaysLeft = getters["subscriptionDaysLeft"] || 0
+        return subscriptionDaysLeft <= 0
     }
 };
 
