@@ -189,9 +189,8 @@ export default {
                 url: `/users/${this.userData.id}`,
                 method: "PUT",
                 data: formData
-            }).then((response) => {
-                this.$store.dispatch("User/setData", response.data);
-
+            }).then(() => {
+                this.$store.dispatch("User/updateData");
                 this.$notify({
                     title: "Confirmation",
                     text: "Your information has been updated successfully!",

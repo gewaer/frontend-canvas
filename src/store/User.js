@@ -23,6 +23,13 @@ const actions = {
     },
     setToken({ commit }, token) {
         commit("SET_TOKEN", token);
+    },
+    updateData({ dispatch }) {
+        return new Promise((resolve) => {
+            dispatch("getData").then(({ data }) => {
+                dispatch("setData", data);
+            }).finally(() => resolve());
+        });
     }
 }
 

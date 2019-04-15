@@ -29,7 +29,6 @@ const actions = {
         commit("SET_LIST", data);
     },
     updateData({ dispatch }, companiesId) {
-
         return new Promise((resolve) => {
             dispatch("getData").then(({ data }) => {
                 dispatch("setData", data.find((company) => company.id == companiesId));
