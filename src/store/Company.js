@@ -51,7 +51,7 @@ const getters = {
         return  daysLeft.diff(moment(), "days");
     },
     subscriptionHasEnded(state, getters){
-        return getters.subscriptionDaysLeft == "0"
+        return getters.subscriptionDaysLeft  <= 0
     }
 };
 

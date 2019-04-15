@@ -1,6 +1,6 @@
 <template>
     <div class="free-trial-banner">
-        <h6>Your free trial is {{ daysLeft }} days left, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
+        <h6>Your free trial is {{ trialText }}, please upgrade <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link></h6>
     </div>
 </template>
 
@@ -12,7 +12,14 @@ export default {
     computed:{
         ...mapGetters({
             daysLeft: "Company/subscriptionDaysLeft"
-        })
+        }),
+        trialText(){
+            let message = "over"
+            if( this.daysLeft > 0){
+                message = `${this.daysLeft } days left`;
+            }
+            return message;
+        }
     }
 }
 </script>
