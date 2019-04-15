@@ -16,6 +16,8 @@
 
 <script>
 import store from "@/store";
+import { isURL } from "@/utils/helpers";
+
 export default {
     name: "ProfileUploader",
     components: {
@@ -49,7 +51,7 @@ export default {
     computed: {
         imgUrl() {
             const url = "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754";
-            return this.avatarUrl.length ? this.avatarUrl : url;
+            return this.avatarUrl.length && isURL(this.avatarUrl) ? this.avatarUrl : url;
         },
         uppyXhrConfig() {
             return {

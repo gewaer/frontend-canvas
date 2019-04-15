@@ -22,35 +22,6 @@
     right: -300px;
 }
 
-.btn {
-    font-family: Arial,sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: .01em;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -webkit-font-feature-settings: "kern" 1;
-    -moz-font-feature-settings: "kern" 1;
-    margin-bottom: 0;
-    border: 1px solid #f0f0f0;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    background-image: none!important;
-    color: #fff;
-    background-color: #fff;
-    text-shadow: none;
-    box-shadow: none;
-    line-height: 21px;
-    position: relative;
-    transition: color .1s linear 0s,background-color .1s linear 0s,opacity .2s linear 0s!important;
-    padding: 6px 17px;
-}
-
 .btn-primary {
     background-color: var(--base-color);
     border-color: var(--base-color);
