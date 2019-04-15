@@ -123,6 +123,7 @@
 <script>
 import { mapState } from "vuex";
 import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
+import isEmpty from "lodash/isEmpty";
 
 export default {
     name: "Profile",
@@ -211,11 +212,16 @@ export default {
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
         },
 
-        updateProfile(profile, data) {
+        updateProfile(profile) {
+
             const formData = {
-                filesystem_files: data.map(profile => profile.id)
+                filesystem_files: profile.map(profile => profile.id)
+                // entity_id: this.$route.params.id,
+                // system_modules_id: this.userData.system_modules_id
             };
-            /* axios({
+            // TODO need methods for atach file to entity
+            /*
+            axios({
                 url: `/filesystem/${this.userData.id}`,
                 method: "PUT",
                 data: formData
@@ -224,13 +230,13 @@ export default {
 
             }).finally(() => {
             });*/
-            this.avatarUrl = profile.url;
+            this.avatarUrl = profile[0].url;
             this.update(formData);
         },
 
         setAvatarUrl() {
-            if (this.userData.filesystem && this.userData.filesystem.length) {
-                this.avatarUrl = this.userData.filesystem[0].url
+            if (!isEmpty(this.userData.logo)) {
+                this.avatarUrl = this.userData.logo.url;
             }
         }
     }
