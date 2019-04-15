@@ -10,6 +10,7 @@
                             <div class="profile-image-container">
                                 <profile-uploader
                                     :avatar-url="avatarUrl"
+                                    :default-avatar="defaultAvatar"
                                     endpoint="/filesystem"
                                     @uploaded="updateProfile"
                                 />
@@ -150,7 +151,8 @@ export default {
                 timezone: "",
                 country_id:""
             },
-            avatarUrl: ""
+            defaultAvatar : "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754",
+            avatarUrl:""
         }
     },
     computed: {
@@ -218,7 +220,6 @@ export default {
                 // entity_id: this.$route.params.id,
                 // system_modules_id: this.userData.system_modules_id
             };
-            // TODO need methods for atach file to entity
             /*
             axios({
                 url: `/filesystem/${this.userData.id}`,

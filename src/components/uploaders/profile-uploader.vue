@@ -24,6 +24,13 @@ export default {
         DashboardUploader: () => import(/* webpackChunkName: "dashboard-uploader" */ "@c/uploaders/dashboard-file-uploader")
     },
     props: {
+        defaultAvatar: {
+            type: String,
+            required: false,
+            default() {
+                return "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754";
+            }
+        },
         avatarUrl: {
             type: String,
             required: false,
@@ -50,8 +57,7 @@ export default {
     },
     computed: {
         imgUrl() {
-            const url = "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754";
-            return this.avatarUrl.length && isURL(this.avatarUrl) ? this.avatarUrl : url;
+            return this.avatarUrl.length && isURL(this.avatarUrl) ? this.avatarUrl : this.defaultAvatar;
         },
         uppyXhrConfig() {
             return {
