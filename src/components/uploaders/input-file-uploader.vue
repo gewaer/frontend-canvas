@@ -98,13 +98,13 @@ export default {
         uppyInstance.use(XHRUpload, {
             getResponseData: (responseText, {response}) => {
                 this.$emit("uploaded", JSON.parse(responseText), JSON.parse(response))
+                uppyInstance.reset();
             },
             ...this.xhrConfig
         })
         uppyInstance.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
-
         uppyInstance.run();
         this.uppyInstance = uppyInstance;
     }

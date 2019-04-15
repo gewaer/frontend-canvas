@@ -53,9 +53,9 @@ export default {
 
     data() {
         return {
-            uppyInstace: null,
+            uppyInstance: null,
             uppyId: `uppy-${Math.random().toLocaleString(16)}`,
-            dashboardInstanceId: `uppy-file-input-${Math.random().toLocaleString(16)}`
+            dashboardInstanceId: `uppy-dashboard-input-${Math.random().toLocaleString(16)}`
         }
     },
     mounted() {
@@ -91,8 +91,8 @@ export default {
                 inline: true,
                 // note: "Images and PDF only.",
                 maxHeight: 500,
-                ...this.dashboardConfig,
-                replaceTargetContent: true
+                replaceTargetContent: true,
+                ...this.dashboardConfig
             }
             uppyInstance.use(Dashboard, {
                 id: this.dashboardInstanceId,
@@ -103,21 +103,37 @@ export default {
             uppyInstance.use(Dashboard, {
                 id: this.dashboardInstanceId,
                 trigger: "#open-thumbnail-modal",
-                replaceTargetContent: false
+                closeAfterFinish: true,
+                allowMultipleUploads: false,
+                replaceTargetContent: false,
+                ...this.dashboardConfig
             })
 
         }
         uppyInstance.use(XHRUpload, {
-            getResponseData: (responseText, {response}) => {
-                this.$emit("uploadedfile", JSON.parse(responseText), JSON.parse(response))
-            },
             ...this.xhrConfig
         })
+        uppyInstance.on("upload-success", (file, response) => {
+            this.$emit("uploaded", response.body, file)
+            if(restrictions.maxNumberOfFiles == 1){
+                this.resetDashboard();
+            }
+        }, )
         uppyInstance.on("complete", result => {
-            this.$emit("completeuploads", result)
+            this.$emit("completeuploads", result);
+            this.resetDashboard();
         })
         uppyInstance.run();
-        this.uppyInstace = uppyInstance;
+        this.uppyInstance = uppyInstance;
+    },
+    methods:{
+        resetDashboard(){
+            this.uppyInstance.reset();
+            const dashboard = this.uppyInstance.getPlugin(this.dashboardInstanceId);
+            if ( dashboard.isModalOpen() ) {
+                dashboard.closeModal()
+            }
+        }
     }
 }
 </script>

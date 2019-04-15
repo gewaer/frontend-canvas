@@ -4,11 +4,10 @@
             <img id="logo" :src="imgUrl" class="img-fluid">
         </div>
         <div class="upload-profile-image">
-            <file-uploader
+            <dashboard-uploader
                 ref="fileUploader"
                 :xhr-config="uppyXhrConfig"
                 :uppy-config="uppyConfig"
-                :file-input-config="fileInputConfig"
                 @uploaded="uploaded"
                 @error="onError" />
         </div>
@@ -20,8 +19,7 @@ import store from "@/store";
 export default {
     name: "ProfileUploader",
     components: {
-        FileUploader: () => import(/* webpackChunkName: "file-uploader" */ "@c/uploaders/input-file-uploader")
-        // Dashboard: () => import(/* webpackChunkName: "dashboard-uploader" */ "@c/uploaders/dashboard-file-uploader")
+        DashboardUploader: () => import(/* webpackChunkName: "dashboard-uploader" */ "@c/uploaders/dashboard-file-uploader")
     },
     props: {
         avatarUrl: {
@@ -40,7 +38,11 @@ export default {
         return {
             file: null,
             uppyConfig: {
-                debug: process.env.NODE_ENV !== "production"
+                debug: process.env.NODE_ENV !== "production",
+                restrictions: {
+                    maxNumberOfFiles: 1,
+                    allowedFileTypes: ["image/*"]
+                }
             }
         }
     },
