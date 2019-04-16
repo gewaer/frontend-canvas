@@ -24,7 +24,7 @@
         <span v-if="shouldShowErrorIcon" class="icon is-small is-right">
             <i class="fas fa-exclamation-triangle"/>
         </span>
-        <span v-if="fieldError" class="text-danger">
+        <span v-if="fieldError" :class="item.errorClass || 'text-danger'">
             {{ fieldError.msg }}
         </span>
     </div>
@@ -98,7 +98,7 @@ export default {
     },
     watch: {
         value(val) {
-            this.$parent.formValues[this.item.label] = val;
+            this.$parent.formValues[this.item.field || this.item.label] = val;
         }
     }
 }

@@ -2,10 +2,9 @@
     <form :data-vv-scope="formName" role="form" @submit.prevent="beforeSubmit">
         <template v-for="(item, index) in formFields">
             <div v-if="Array.isArray(item)" :key="index" class="row">
-                <div v-for="x in item" :key="x.label" class="col-md-6">
+                <div v-for="x in item" :key="x.label" class="col-12 col-xl-6">
                     <div
-                        :class="{ required: x.validations && x.validations.required }"
-                        class="form-group form-group-default"
+                        v-bind="x.wrapperAttributes || {}"
                     >
                         <form-label :item="x"/>
                         <form-control ref="control" :item="x"/>
@@ -22,36 +21,36 @@
             <div
                 v-else
                 :key="index"
-                :class="{ required: item.validations && item.validations.required }"
-                class="form-group form-group-default"
-                style="overflow: visible;"
+                v-bind="item.wrapperAttributes || {}"
             >
                 <form-label :item="item"/>
                 <form-control ref="control" :item="item"/>
             </div>
         </template>
         <template v-if="$children.length">
-            <div class="field form-footer is-grouped is-opposed">
+            <div :class="formOptions.actionsWrapperClass || {}">
                 <input
-                    :value="btnResetText"
-                    class="button"
+                    v-if="formOptions.buttons && formOptions.buttons.reset"
+                    :class="formOptions.buttons.reset.class || {}"
+                    :value="formOptions.buttons.reset.text"
                     type="reset"
                     @click="resetForm"
                 >
                 <input
-                    :value="btnSubmitText"
+                    :class="formOptions.buttons.submit.class || {}"
                     :disabled="!isFormValid"
-                    class="button is-primary"
+                    :value="formOptions.buttons.submit.text"
                     type="submit"
                 >
             </div>
-            <p class="is-size-7 fieldRequiredLegend">{{ mandatoryAsteriskLegend }}</p>
+            <!-- <p class="is-size-7 fieldRequiredLegend">{{ mandatoryAsteriskLegend }}</p> -->
         </template>
     </form>
 </template>
 
 <script>
 import { flatten, pickAll, pipe, map } from "ramda";
+import { every } from "lodash";
 
 import Label from "./fields/label";
 import Control from "./fields/control";
@@ -67,14 +66,6 @@ export default {
     },
     inject: ["$validator"],
     props: {
-        btnResetText: {
-            type: String,
-            default: "Reset"
-        },
-        btnSubmitText: {
-            type: String,
-            default: "Submit"
-        },
         formFields: {
             type: Array,
             required: true
@@ -86,6 +77,27 @@ export default {
         formName: {
             type: String,
             required: true
+        },
+        formOptions: {
+            type: Object,
+            default() {
+                return {
+                    buttons: {
+                        submit: {
+                            text: "Submit"
+                        }
+                    }
+                }
+            },
+            validator(options) {
+                const isValid = every(options.buttons, button => button.text);
+
+                if (!isValid) {
+                    console.error("One or more form options buttons are missing the 'text' property.");
+                }
+
+                return isValid;
+            }
         },
         mandatoryAsteriskLegend: {
             type: String,
@@ -131,9 +143,6 @@ export default {
             })
             isValidated && this.resetFormAfterSubmit && this.resetForm(ev)
         },
-        emitValues(data) {
-            this.$emit("formSubmitted", data);
-        },
         clearValues() {
             this.allControls.map(x => {
                 x.value = "";
@@ -156,6 +165,9 @@ export default {
                     option.selected && (option.selected = false)
                 })
             })
+        },
+        emitValues(data) {
+            this.$emit("formSubmitted", data);
         },
         resetFormValues() {
             this.clearValues()

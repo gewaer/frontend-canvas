@@ -44,16 +44,16 @@
                                 <span class="text-danger">{{ errors.first("Cell phone") }}</span>
                             </div>
                             <div class="form-group form-group-default required">
-                                <label>Email (username)</label>
+                                <label>Email</label>
                                 <input
                                     v-validate="'required:true|email'"
                                     v-model="userData.email"
-                                    data-vv-as="Email (username)"
-                                    data-vv-name="Email (username)"
+                                    data-vv-as="Email"
+                                    data-vv-name="Email"
                                     class="form-control"
                                     type="text"
                                     name="email">
-                                <span class="text-danger">{{ errors.first("Email (username)") }}</span>
+                                <span class="text-danger">{{ errors.first("Email") }}</span>
                             </div>
                         </div>
 
