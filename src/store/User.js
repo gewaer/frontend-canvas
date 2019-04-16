@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
     getData() {
         return axios({
-            url: "/users/0?relationships=roles,filesystem"
+            url: "/users/0?relationships=roles,filesystem,logo"
         });
     },
     setData({ commit }, payload) {
@@ -23,6 +23,13 @@ const actions = {
     },
     setToken({ commit }, token) {
         commit("SET_TOKEN", token);
+    },
+    updateData({ dispatch }) {
+        return new Promise((resolve) => {
+            dispatch("getData").then(({ data }) => {
+                dispatch("setData", data);
+            }).finally(() => resolve());
+        });
     }
 }
 

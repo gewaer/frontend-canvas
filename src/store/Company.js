@@ -19,7 +19,7 @@ const mutations = {
 const actions = {
     getData() {
         return axios({
-            url: "/companies?relationships=apps,subscription,branch,filesystem"
+            url: "/companies?relationships=apps,subscription,branch,filesystem,logo"
         });
     },
     setData({ commit }, data) {
@@ -27,6 +27,14 @@ const actions = {
     },
     setList({ commit }, data) {
         commit("SET_LIST", data);
+    },
+    updateData({ dispatch }, companiesId) {
+        return new Promise((resolve) => {
+            dispatch("getData").then(({ data }) => {
+                dispatch("setData", data.find((company) => company.id == companiesId));
+                dispatch("setList", data);
+            }).finally(() => resolve());
+        });
     }
 };
 
@@ -39,19 +47,22 @@ const getters = {
         if(!isEmpty(state.data)){
             isTrial = !isEmpty(state.data) ? get(state.data, "subscription.is_freetrial", "0") : "0" ;
         }
-        return !!Number(isTrial)
+        return !!Number(isTrial);
     },
     subscriptionDaysLeft(state, getters){
         let daysLeft = moment();
+        let timeLeft = 0;
         if(getters.isTrialSubscription){
             daysLeft = moment(state.data.subscription.trial_ends_at);
-        } else {
-            daysLeft = moment(state.data.subscription.ends_at);
         }
-        return  daysLeft.diff(moment(), "days");
+        if (daysLeft.diff(moment(), "days")) {
+            timeLeft =  daysLeft.diff(moment(), "days")
+        }
+        return timeLeft;
     },
     subscriptionHasEnded(state, getters){
-        return getters.subscriptionDaysLeft == "0"
+        const subscriptionDaysLeft = getters["subscriptionDaysLeft"] || 0;
+        return subscriptionDaysLeft <= 0;
     }
 };
 

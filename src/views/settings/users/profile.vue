@@ -8,8 +8,9 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <profile-upload
+                                <profile-uploader
                                     :avatar-url="avatarUrl"
+                                    :default-avatar="defaultAvatar"
                                     endpoint="/filesystem"
                                     @uploaded="updateProfile"
                                 />
@@ -33,13 +34,14 @@
 <script>
 import { mapState } from "vuex";
 import { vueRouterMixins, vuexMixins } from "@/utils/mixins";
+import isEmpty from "lodash/isEmpty";
 
 export default {
     name: "Profile",
     components: {
+        ProfileUploader: () => import(/* webpackChunkName: "profile-upload" */ "@c/uploaders/profile-uploader"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         CustomFieldsForm: () => import(/* webpackChunkName: "components-forms-form" */ "@/components/forms/form"),
-        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
         TabsMenu: () => import(/* webpackChunkName: "settings-users-tabs" */ "@v/settings/users/tabs")
     },
     mixins: [
@@ -48,7 +50,8 @@ export default {
     ],
     data() {
         return {
-            avatarUrl: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754",
+            defaultAvatar : "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754",
+            avatarUrl:"",
             isLoading: false,
             selectedLanguage: null,
             selectedLocale: null,
@@ -74,10 +77,10 @@ export default {
         }
     },
     computed: {
-        ...mapState("Application", {
-            timezones: state => state.timezones,
-            languages: state => state.languages,
-            locales: state => state.locales
+        ...mapState({
+            timezones: state => state.Application.timezones,
+            languages: state => state.Application.languages,
+            locales: state => state.Application.locales
         })
     },
     created() {
@@ -256,9 +259,8 @@ export default {
                 url: `/users/${this.userData.id}`,
                 method: "PUT",
                 data: formData
-            }).then((response) => {
-                this.$store.dispatch("User/setData", response.data);
-
+            }).then(() => {
+                this.$store.dispatch("User/updateData");
                 this.$notify({
                     title: "Confirmation",
                     text: "Your information has been updated successfully!",
@@ -279,20 +281,16 @@ export default {
             this.selectedLocale = this.locales.find(locale => locale.id == this.userData.country_id);
         },
         updateProfile(profile) {
-            if (typeof profile == "string") {
-                this.avatarUrl = profile;
-            } else {
-                const formData = {
-                    filesystem_files: profile.map(profile => profile.id)
-                };
-                this.avatarUrl = profile[0].url;
+            const formData = {
+                filesystem_files: profile.map(profile => profile.id)
+            };
 
-                this.update(formData);
-            }
+            this.avatarUrl = profile[0].url;
+            this.update(formData);
         },
         setAvatarUrl() {
-            if (this.userData.filesystem && this.userData.filesystem.length) {
-                this.avatarUrl = this.userData.filesystem[0].url
+            if (!isEmpty(this.userData.logo)) {
+                this.avatarUrl = this.userData.logo.url;
             }
         },
         formSubmitted(data) {

@@ -74,7 +74,7 @@ export default {
     methods: {
         confirmDelete(device) {
             // change for swal or any other
-            if (confirm("are you sure?")) {
+            if (confirm("Are you sure you want to unlink this device?")) {
                 this.detachDevice(device)
             }
         },

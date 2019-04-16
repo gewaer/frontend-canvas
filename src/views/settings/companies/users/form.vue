@@ -138,10 +138,10 @@ export default {
         }
     },
     computed: {
-        ...mapState("Application", {
-            timezones: state => state.timezones,
-            languages: state => state.languages,
-            roles: state => state.roles
+        ...mapState({
+            timezones: state => state.Application.timezones,
+            languages: state => state.Application.languages,
+            roles: state => state.Application.roles
         }),
         title() {
             let title = "New User"
@@ -270,7 +270,7 @@ export default {
                     text: "Your information has been updated!",
                     type: "success"
                 });
-                this.$emit("changeView", "UsersList");
+                this.cancel();
             }).catch((error) => {
                 this.$notify({
                     group: null,

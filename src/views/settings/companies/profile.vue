@@ -8,8 +8,9 @@
                     <div class="row">
                         <div class="col-12 col-md-auto">
                             <div class="profile-image-container">
-                                <profile-upload
+                                <profile-uploader
                                     :avatar-url="avatarUrl"
+                                    :default-avatar="defaultAvatar"
                                     endpoint="/filesystem"
                                     @uploaded="updateProfile"
                                 />
@@ -155,7 +156,7 @@ import clone from "lodash/clone";
 export default {
     name: "CompanyProfile",
     components: {
-        ProfileUpload: () => import(/* webpackChunkName: "profile-upload" */ "@/components/profileUpload/profile-upload"),
+        ProfileUploader: () => import(/* webpackChunkName: "profile-upload" */ "@c/uploaders/profile-uploader"),
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
@@ -169,7 +170,8 @@ export default {
             companyData: {
                 language: null
             },
-            avatarUrl: "http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png",
+            avatarUrl: "",
+            defaultAvatar: "http://logok.org/wp-content/uploads/2014/11/NZXT-Logo-880x660.png",
             selectedLanguage: null,
             selectedCurrency: null
         }
@@ -210,16 +212,12 @@ export default {
         },
 
         updateProfile(profile) {
-            if (typeof profile == "string") {
-                this.avatarUrl = profile;
-            } else {
-                const formData = {
-                    filesystem_files: profile.map(profile => profile.id)
-                };
-                this.avatarUrl = profile[0].url;
+            const formData = {
+                filesystem_files: profile.map(profile => profile.id)
+            };
+            this.avatarUrl = profile[0].url;
 
-                this.update(formData);
-            }
+            this.update(formData);
         },
 
         async processUpdate() {
@@ -244,7 +242,7 @@ export default {
                 })
         },
 
-        onError() {
+        onError(error) {
             this.$notify({
                 title: "Error",
                 text: error.response.data.errors.message,
@@ -253,8 +251,7 @@ export default {
         },
 
         onSuccess({data}) {
-            this.$store.dispatch("Company/setData", data);
-
+            this.$store.dispatch("Company/updateData", data.id);
             this.$notify({
                 title: "Confirmation",
                 text: "Company information has been updated successfully!",

@@ -82,8 +82,8 @@ export default {
         }
     },
     computed: {
-        ...mapState("Company", {
-            branch: state => state.data.branch
+        ...mapState({
+            branch: state => state.data.Company.branch
         })
     },
     methods: {
