@@ -4,6 +4,7 @@ import isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
+import createResource from "./views/resource/create.vue";
 import routerValidator from "@/config/routerValidator";
 
 Vue.use(Router);
@@ -345,9 +346,14 @@ const router = new Router({
         },
         // ======================================================
         {
-            path: "/browse/:crud",
+            path: "/browse/:resource",
             name: "browse",
             component: BrowseList
+        },
+        {
+            path: "/browse/:resource/create",
+            name: "create-resource",
+            component: createResource
         }
     ]
 });
