@@ -13,12 +13,13 @@
                 @saved="closeAddCustomFilter"/>
         </modal>
 
-        <h4 class="section-title p-l-10">Leads</h4>
+        <h4 class="section-title p-l-10">{{ currentResource.title }}</h4>
 
         <table-search
             :search-options="searchOptions"
             :filterable-fields="filterableFields"
             :bulk-actions="bulkActions"
+            :current-resource="currentResource"
             @show-add-custom-filter="showAddCustomFilter"
             @getData="getData()"
         />
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import addCustomFiltersModal from "../layout/add-custom-filters-modal";
 import TableSearch from "@/components/vuetable/table-search";
 import VuetableFieldCheckbox from "@/components/vuetable/custom-checkbox";
@@ -81,6 +83,7 @@ export default {
     ],
     data() {
         return {
+            currentResource: {},
             resourceName: "roles",
             appendParams: {
                 format: "true"
@@ -131,6 +134,9 @@ export default {
         };
     },
     computed: {
+        ...mapState({
+            companyData: state => state.Company.data
+        }),
         filterableFields() {
             return this.tableFields.filter(field => field.filterable).map(field => field.name);
         },
@@ -150,16 +156,22 @@ export default {
         }
     },
     created() {
-        this.getCrud(this.$route.params.crud);
+        this.getResource(this.$route.params.resource);
     },
     beforeRouteUpdate(to, from, next) {
-        this.getCrud(to.params.crud);
+        this.getResource(to.params.resource);
         next();
     },
     methods: {
-        getCrud(crud) {
+        getResource(resourceName) {
+            const resourceIndex = this.companyData.resources.findIndex(resource => {
+                return resource.name == resourceName;
+            });
+
+            this.currentResource = this.companyData.resources[resourceIndex];
+
             axios({
-                url: `/${crud}`,
+                url: `/${this.currentResource.name}`,
                 method: "GET"
             }).then(response => {
                 console.log(response);

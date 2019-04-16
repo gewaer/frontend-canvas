@@ -19,6 +19,7 @@
     "@uppy/dashboard": "^0.30.4",
     "@uppy/file-input": "^0.30.4",
     "@uppy/xhr-upload": "^0.30.4",
+    "@gewaer/base-header": "^0.1.0",
     "accounting": "^0.4.1",
     "axios": "^0.18.0",
     "bp-vuejs-dropdown": "^2.1.1",

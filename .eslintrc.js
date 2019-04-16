@@ -52,7 +52,17 @@ module.exports = {
             allowTemplateLiterals: true
         }],
         semi: 0,
+        "space-infix-ops": "error",
+        "no-multi-spaces": ["error", { exceptions: { "Property": false } }],
+        "space-before-blocks": "error",
+        "keyword-spacing": "error",
         "space-before-function-paren": ["error", "never"],
+        "space-in-parens": "error",
+        "object-curly-spacing": ["error", "always"],
+        "comma-spacing": ["error", { "before": false, "after": true }],
+        "arrow-spacing": "error",
+        "no-useless-escape": 0,
+        "vue/no-v-html": "warn",
         "vue/html-indent": ["error", 4, {
             "attribute": 1,
             "closeBracket": 0,

@@ -7,7 +7,8 @@ const state = {
     timezones: [],
     locales: [],
     currencies: [],
-    roles: []
+    roles: [],
+    resources: []
 };
 
 const mutations = {
@@ -40,6 +41,46 @@ const actions = {
             dispatch("User/getData", null, { root: true }),
             dispatch("Company/getData", null, { root: true })
         ]).then(response => {
+
+            // TODO: This is hardcored, remove this as soon as the backend send each company  resources
+            const resources = [
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Shopping/Product.png&r=255&g=255&b=255",
+                    name: "products",
+                    title: "Products"
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Mail-01.png&r=255&g=255&b=255",
+                    name: "contacts",
+                    title: "Contacs"
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Banking/Customer.png&r=255&g=255&b=255",
+                    name: "clients",
+                    title: "Clients"
+                },
+                {
+                    icon: null,
+                    name: "suppliers",
+                    title: "Suppliers"
+                },
+                {
+                    icon: null,
+                    name: "places",
+                    title: "Places"
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
+                    name: "book_insights",
+                    title: "Book Insights"
+                }
+            ]
+
+            response[1].data.forEach(company => {
+                company.resources = resources;
+            });
+            // TODO: This is hardcored, remove this as soon as the backend send each company  resources
+
             dispatch("setGlobalData", { userData: response[0].data, companies: response[1].data });
         });
     },
