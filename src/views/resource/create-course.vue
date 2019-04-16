@@ -5,24 +5,39 @@
             <div class="card-block">
                 <form class="resource-form" novalidate>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Minicourse</label>
-                                <input
-                                    v-model="course.minicourse"
-                                    class="form-control"
-                                    type="text"
-                                    name="title">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="cover-upload">
+                                <img id="logo" src="http://images.findawayworld.com/v1/image/cover/CD203924?height=220&width=220" class="img-fluid">
+                                <input type="file">
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Subheading</label>
-                                <input
-                                    v-model="course.subheading"
-                                    class="form-control"
-                                    type="text"
-                                    name="title">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group form-group-default">
+                                        <label>Minicourse</label>
+                                        <input
+                                            v-model="course.minicourse"
+                                            class="form-control"
+                                            type="text"
+                                            name="title">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group form-group-default">
+                                        <label>Subheading</label>
+                                        <input
+                                            v-model="course.subheading"
+                                            class="form-control"
+                                            type="text"
+                                            name="title">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,7 +69,7 @@
                                             <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
                                         </span>
                                     </template>
-                                    <template slot="option" slot-scope="props"><img class="option__image" :src="props.option.cover">
+                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
@@ -115,7 +130,7 @@
                                             <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
                                         </span>
                                     </template>
-                                    <template slot="option" slot-scope="props"><img class="option__image" :src="props.option.cover">
+                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
@@ -140,7 +155,7 @@
                                             <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
                                         </span>
                                     </template>
-                                    <template slot="option" slot-scope="props"><img class="option__image" :src="props.option.cover">
+                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
@@ -165,7 +180,7 @@
                                             <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
                                         </span>
                                     </template>
-                                    <template slot="option" slot-scope="props"><img class="option__image" :src="props.option.cover">
+                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
