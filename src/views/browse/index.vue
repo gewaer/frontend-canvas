@@ -13,7 +13,7 @@
                 @saved="closeAddCustomFilter"/>
         </modal>
 
-        <h4 class="section-title p-l-10">{{ $route.params.resource.title }}</h4>
+        <h4 class="section-title p-l-10">{{ currentResource.title }}</h4>
 
         <table-search
             :search-options="searchOptions"

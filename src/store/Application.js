@@ -8,7 +8,7 @@ const state = {
     locales: [],
     currencies: [],
     roles: [],
-    resources: [],
+    resources: []
 };
 
 const mutations = {
