@@ -21,7 +21,11 @@
                                 <div class="col">
                                     <div class="form-group form-group-default">
                                         <label>Title</label>
-                                        <input v-model="resourceForm.title" class="form-control" type="text" name="title">
+                                        <input 
+                                            v-model="resourceForm.title" 
+                                            class="form-control" 
+                                            type="text" 
+                                            name="title">
                                     </div>
                                 </div>
                             </div>
@@ -29,7 +33,11 @@
                                 <div class="col">
                                     <div class="form-group form-group-default">
                                         <label>One Liner</label>
-                                        <input v-model="resourceForm.one_liner" class="form-control" type="text" name="title">
+                                        <input 
+                                            v-model="resourceForm.one_liner" 
+                                            class="form-control" 
+                                            type="text" 
+                                            name="title">
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +74,7 @@
                             <div :key="index" :class="(resourceForm.authors.length <= 3) ? 'col' : 'col-4'">
                                 <div class="form-group-multiselect">
                                     <label>Book Author {{ index + 1 }}</label>
-                                    <i @click="removeAuthor(index)" v-if="index != 0" class="fas fa-times remove-author" />
+                                    <i v-if="index != 0" class="fas fa-times remove-author" @click="removeAuthor(index)" />
                                     <multiselect
                                         :searchable="true"
                                         :show-labels="false"
