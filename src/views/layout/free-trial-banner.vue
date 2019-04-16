@@ -15,7 +15,7 @@ export default {
         }),
         trialText(){
             let message = "over"
-            if( this.daysLeft > 0){
+            if (this.daysLeft > 0) {
                 message = `${this.daysLeft } days left`;
             }
             return message;

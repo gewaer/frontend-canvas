@@ -156,10 +156,10 @@ export default {
         }
     },
     computed: {
-        ...mapState("Application", {
-            timezones: state => state.timezones,
-            languages: state => state.languages,
-            locales: state => state.locales
+        ...mapState({
+            timezones: state => state.Application.timezones,
+            languages: state => state.Application.languages,
+            locales: state => state.Application.locales
         })
     },
     created() {
@@ -214,22 +214,10 @@ export default {
         },
 
         updateProfile(profile) {
-
             const formData = {
                 filesystem_files: profile.map(profile => profile.id)
-                // entity_id: this.$route.params.id,
-                // system_modules_id: this.userData.system_modules_id
             };
-            /*
-            axios({
-                url: `/filesystem/${this.userData.id}`,
-                method: "PUT",
-                data: formData
-            }).then((response) => {
-            }).catch((error) => {
 
-            }).finally(() => {
-            });*/
             this.avatarUrl = profile[0].url;
             this.update(formData);
         },

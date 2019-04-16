@@ -90,8 +90,8 @@ export default {
         }
     },
     computed: {
-        ...mapState("Company", {
-            company: state => state.data
+        ...mapState({
+            company: state => state.Company.data
         })
     },
     methods: {

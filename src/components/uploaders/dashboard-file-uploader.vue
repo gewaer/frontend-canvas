@@ -1,7 +1,7 @@
 <template>
     <div :id="uppyId">
-        <div v-show="collection" class="DashboardContainer"/>
-        <div v-show="!collection" class="ThumbnailContainer">
+        <div v-show="collection" class="dashboard-container"/>
+        <div v-show="!collection" class="thumbnail-container">
             <button id="open-thumbnail-modal" type="button" class="btn btn-primary" >Select File{{ collection ? 's' : '' }}</button>
         </div>
     </div>
@@ -16,14 +16,10 @@ export default {
     props: {
         collection: {
             type: Boolean,
-            required: false,
-            default() {
-                return false;
-            }
+            default: false
         },
         dashboardConfig: {
             type: Object,
-            required: false,
             default() {
                 return {}
             }
@@ -42,7 +38,6 @@ export default {
         },
         uppyConfig: {
             type: Object,
-            required: false,
             default() {
                 return {
                     restrictions: {}
@@ -96,7 +91,7 @@ export default {
             }
             uppyInstance.use(Dashboard, {
                 id: this.dashboardInstanceId,
-                target: ".DashboardContainer",
+                target: ".dashboard-container",
                 ...defaultDashboardConfig
             })
         } else {

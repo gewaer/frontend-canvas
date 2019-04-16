@@ -118,9 +118,9 @@ export default {
     },
 
     computed:{
-        ...mapState("Application", {
-            timezones: state => state.timezones,
-            languages: state => state.languages
+        ...mapState({
+            timezones: state => state.Application.timezones,
+            languages: state => state.Application.languages
         }),
         title() {
             if (!this.company.id) {

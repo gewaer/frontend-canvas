@@ -72,8 +72,8 @@ export default {
         }
     },
     computed:{
-        ...mapState("Company", {
-            defaultCompany: state => state.data
+        ...mapState({
+            defaultCompany: state => state.Company.data
         })
     },
     methods: {

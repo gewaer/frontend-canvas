@@ -133,8 +133,8 @@ export default {
             }
             return value;
         },
-        ...mapState("User", {
-            userData: state => state.data
+        ...mapState({
+            userData: state => state.User.data
         }),
         templatesVariablesChunks() {
             return this.groupVariables(this.templateVariables);
