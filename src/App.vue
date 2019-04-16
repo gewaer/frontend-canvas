@@ -35,12 +35,13 @@
 <script>
 import { mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import AppHeader from "@c/header/";
+import AppHeader from "@gewaer/base-header";
 import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
 import NotificationCenter from "@/views/layout/notification-center";
+import "@gewaer/base-header/dist/base-header.css";
 
 export default {
     components: {
