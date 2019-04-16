@@ -5,6 +5,7 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
 import createResource from "./views/resource/create.vue";
+import createCourse from "./views/resource/create-course.vue";
 import routerValidator from "@/config/routerValidator";
 
 Vue.use(Router);
@@ -354,6 +355,11 @@ const router = new Router({
             path: "/browse/:resource/create",
             name: "create-resource",
             component: createResource
+        },
+        {
+            path: "/browse/:resource/create-course",
+            name: "create-course",
+            component: createCourse
         }
     ]
 });

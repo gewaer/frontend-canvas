@@ -125,6 +125,24 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
         margin-bottom: 8px;
         padding-top: 0;
     }
+
+    &.multiselect-multiple-custom {
+        .multiselect__element {
+            .multiselect__option {
+                display: flex;
+                align-items: center;
+
+                .option__image {
+                    width: 50px;
+                    height: 50px;
+                }
+
+                .option__desc {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
 }
 
 .form-group label {
