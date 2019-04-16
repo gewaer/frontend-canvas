@@ -69,7 +69,7 @@
                                     v-model="companyData.phone"
                                     data-vv-as="phone number"
                                     name="phone"
-                                    type="number"
+                                    type="phone"
                                     class="form-control"
                                 >
                                 <span class="text-danger">{{ errors.first('phone') }}</span>
@@ -244,7 +244,7 @@ export default {
                 })
         },
 
-        onError() {
+        onError(error) {
             this.$notify({
                 title: "Error",
                 text: error.response.data.errors.message,
