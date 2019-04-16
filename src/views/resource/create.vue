@@ -3,8 +3,7 @@
         <h4 class="section-title p-l-10">Create {{ currentResource.title }}</h4>
         <div class="card">
             <div class="card-block">
-                <form class="resource-form" novalidate>
-                </form>
+                <form class="resource-form" novalidate/>
             </div>
         </div>
     </div>
