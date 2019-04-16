@@ -19,10 +19,8 @@ export default {
     props: {
         fileInputConfig: {
             type: Object,
-            required: false,
             default() {
-                return {
-                }
+                return {}
             }
         },
         xhrConfig: {
@@ -39,7 +37,6 @@ export default {
         },
         uppyConfig: {
             type: Object,
-            required: false,
             default() {
                 return {
                     restrictions: {}
@@ -80,7 +77,6 @@ export default {
             ...defaultUppyConfig
         });
 
-        // configure FileInput
         const defaultFileInputConfig = {
             pretty: true,
             inline: true,
@@ -94,10 +90,9 @@ export default {
             ...defaultFileInputConfig
         })
 
-        // configur XHR
         uppyInstance.use(XHRUpload, {
             getResponseData: (responseText, {response}) => {
-                this.$emit("uploaded", JSON.parse(responseText), JSON.parse(response))
+                this.$emit("uploaded", JSON.parse(responseText), JSON.parse(response));
                 uppyInstance.reset();
             },
             ...this.xhrConfig

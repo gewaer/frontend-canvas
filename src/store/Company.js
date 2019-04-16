@@ -47,7 +47,7 @@ const getters = {
         if(!isEmpty(state.data)){
             isTrial = !isEmpty(state.data) ? get(state.data, "subscription.is_freetrial", "0") : "0" ;
         }
-        return !!Number(isTrial)
+        return !!Number(isTrial);
     },
     subscriptionDaysLeft(state, getters){
         let daysLeft = moment();
@@ -55,18 +55,14 @@ const getters = {
         if(getters.isTrialSubscription){
             daysLeft = moment(state.data.subscription.trial_ends_at);
         }
-        // else {
-        //     daysLeft = moment(state.data.subscription.ends_at);
-        // }
-
-        if( daysLeft.diff(moment(), "days")){
+        if (daysLeft.diff(moment(), "days")) {
             timeLeft =  daysLeft.diff(moment(), "days")
         }
         return timeLeft;
     },
     subscriptionHasEnded(state, getters){
-        let subscriptionDaysLeft = getters["subscriptionDaysLeft"] || 0
-        return subscriptionDaysLeft <= 0
+        const subscriptionDaysLeft = getters["subscriptionDaysLeft"] || 0;
+        return subscriptionDaysLeft <= 0;
     }
 };
 

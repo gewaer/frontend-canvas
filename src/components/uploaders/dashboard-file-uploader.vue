@@ -80,11 +80,9 @@ export default {
             ...defaultUppyConfig
         });
         if (this.collection) {
-            // configure FileInput
             const defaultDashboardConfig = {
                 pretty: true,
                 inline: true,
-                // note: "Images and PDF only.",
                 maxHeight: 500,
                 replaceTargetContent: true,
                 ...this.dashboardConfig
@@ -109,8 +107,8 @@ export default {
             ...this.xhrConfig
         })
         uppyInstance.on("upload-success", (file, response) => {
-            this.$emit("uploaded", response.body, file)
-            if(restrictions.maxNumberOfFiles == 1){
+            this.$emit("uploaded", response.body, file);
+            if (restrictions.maxNumberOfFiles == 1) {
                 this.resetDashboard();
             }
         }, )
@@ -125,8 +123,8 @@ export default {
         resetDashboard(){
             this.uppyInstance.reset();
             const dashboard = this.uppyInstance.getPlugin(this.dashboardInstanceId);
-            if ( dashboard.isModalOpen() ) {
-                dashboard.closeModal()
+            if (dashboard.isModalOpen()) {
+                dashboard.closeModal();
             }
         }
     }

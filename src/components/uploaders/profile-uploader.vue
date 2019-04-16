@@ -26,17 +26,11 @@ export default {
     props: {
         defaultAvatar: {
             type: String,
-            required: false,
-            default() {
-                return "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754";
-            }
+            default: "http://img2.thejournal.ie/inline/2470754/original?width=428&version=2470754"
         },
         avatarUrl: {
             type: String,
-            required: false,
-            default() {
-                return ""
-            }
+            default: ""
         },
         endpoint: {
             type: String,

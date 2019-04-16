@@ -214,8 +214,6 @@ export default {
         updateProfile(profile) {
             const formData = {
                 filesystem_files: profile.map(profile => profile.id)
-                // entity_id: this.$route.params.id,
-                // system_modules_id: this.userData.system_modules_id
             };
             this.avatarUrl = profile[0].url;
 
