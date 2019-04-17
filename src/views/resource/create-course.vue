@@ -5,13 +5,13 @@
             <div class="card-block">
                 <form class="resource-form" novalidate>
                     <div class="row">
-                        <div class="col-auto">
+                        <div class="col-12 col-md-auto d-flex justify-content-center">
                             <div class="cover-upload">
                                 <img id="logo" src="http://images.findawayworld.com/v1/image/cover/CD203924?height=220&width=220" class="img-fluid">
                                 <input type="file">
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-md">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group form-group-default">
@@ -47,68 +47,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group-multiselect">
-                                <label>Episodes</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="course.episodes"
-                                    :options="episodesList"
-                                    track-by="id"
-                                    label="title"
-                                    class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Read this Minicourse</label>
-                                <input
-                                    v-model="course.readThisMinicourse"
-                                    class="form-control"
-                                    type="text"
-                                    name="title">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Infographic</label>
-                                <input class="form-control" type="file">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Bonus Material</label>
-                                <input
-                                    v-model="course.bonus_material"
-                                    class="form-control"
-                                    type="text"
-                                    name="title">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>More Info</label>
-                                <quill-editor ref="description" v-model="course.more_info" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
+                        <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
                                 <label>Book Insights feature in the Course</label>
                                 <multiselect
@@ -133,7 +72,34 @@
                                 </multiselect>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-lg">
+                            <div class="form-group-multiselect">
+                                <label>Episodes</label>
+                                <multiselect
+                                    :searchable="true"
+                                    :show-labels="false"
+                                    :multiple="true"
+                                    v-model="course.episodes"
+                                    :options="episodesList"
+                                    track-by="id"
+                                    label="title"
+                                    class="multiselect-multiple-custom"
+                                >
+                                    <template slot="tag" slot-scope="{ option, remove }">
+                                        <span class="multiselect__tag">
+                                            <span>{{ option.title }}</span>
+                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
+                                        </span>
+                                    </template>
+                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
+                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
+                                    </template>
+                                </multiselect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
                                 <label>Listen to Original Audio Books mentioned</label>
                                 <multiselect
@@ -158,7 +124,7 @@
                                 </multiselect>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
                                 <label>Other Courses</label>
                                 <multiselect
@@ -181,6 +147,14 @@
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>More Info</label>
+                                <quill-editor ref="description" v-model="course.more_info" />
                             </div>
                         </div>
                     </div>
@@ -207,13 +181,11 @@ export default {
                 minicourse: "",
                 subheading: "",
                 at_a_glance: "",
-                readThisMinicourse: "",
                 episodes: [],
                 bookInsightsFeatureInThisCourse: [],
                 listenOriginalMentioned: [],
                 otherCourses: [],
                 more_info: "",
-                bonus_material: ""
             },
             episodesList: [
                 {
