@@ -91,6 +91,10 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 .multiselect {
     .multiselect__tags {
         border-radius: 0;
+
+        .multiselect__tag {
+            margin-bottom: 0;
+        }
     }
 
     .multiselect__content-wrapper {
