@@ -25,10 +25,17 @@
         .cover-upload {
             position: relative;
             width: 133px;
+            height: 133px;
             margin-bottom: 25px;
+            display: flex;
+            object-fit: cover;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
 
             input {
                 position: absolute;
+                cursor: pointer;
                 left: 0;
                 top: 0;
                 right: 0;

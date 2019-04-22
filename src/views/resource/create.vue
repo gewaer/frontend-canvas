@@ -11,10 +11,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
-                            <div class="cover-upload">
-                                <img id="logo" src="http://images.findawayworld.com/v1/image/cover/CD203924?height=220&width=220" class="img-fluid">
-                                <input type="file">
-                            </div>
+                            <book-cover :file="resourceForm.cover" @set-cover-image="setCoverImage" />
                         </div>
                         <div class="col-12 col-md">
                             <div class="row">
@@ -294,17 +291,20 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import timePicker from "vue2-timepicker";
+import bookCover from "./book-cover.vue";
 
 export default {
     name: "CreateResource",
     components: {
         quillEditor,
-        timePicker
+        timePicker,
+        bookCover
     },
     data() {
         return {
             currentResource: {},
             resourceForm: {
+                cover: null,
                 title: "",
                 authors: [],
                 one_liner: "",
@@ -413,6 +413,9 @@ export default {
         },
         removeTheme(index) {
             this.resourceForm.themes.splice(index, 1);
+        },
+        setCoverImage(file) {
+            this.resourceForm.cover = file;
         }
     }
 }

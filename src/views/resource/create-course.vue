@@ -6,10 +6,7 @@
                 <form class="resource-form" novalidate>
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
-                            <div class="cover-upload">
-                                <img id="logo" src="http://images.findawayworld.com/v1/image/cover/CD203924?height=220&width=220" class="img-fluid">
-                                <input type="file">
-                            </div>
+                            <book-cover :file="course.cover" @set-cover-image="setCoverImage" />
                         </div>
                         <div class="col-12 col-md">
                             <div class="row">
@@ -51,14 +48,18 @@
                             <div class="form-group-multiselect">
                                 <label>Book Insights feature in the Course</label>
                                 <multiselect
+                                    v-model="course.bookInsightsFeatureInThisCourse"
                                     :searchable="true"
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="course.bookInsightsFeatureInThisCourse"
                                     :options="episodesList"
+                                    :loading="isLoading"
+                                    :internal-search="false"
+                                    :options-limit="300"
                                     track-by="id"
                                     label="title"
                                     class="multiselect-multiple-custom"
+                                    @search-change="asyncFind"
                                 >
                                     <template slot="tag" slot-scope="{ option, remove }">
                                         <span class="multiselect__tag">
@@ -169,15 +170,19 @@ import { quillEditor } from "vue-quill-editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import bookCover from "./book-cover.vue";
 
 export default {
     name: "CreateResource",
     components: {
-        quillEditor
+        quillEditor,
+        bookCover
     },
     data() {
         return {
+            isLoading: false,
             course: {
+                cover: null,
                 minicourse: "",
                 subheading: "",
                 at_a_glance: "",
@@ -185,7 +190,7 @@ export default {
                 bookInsightsFeatureInThisCourse: [],
                 listenOriginalMentioned: [],
                 otherCourses: [],
-                more_info: "",
+                more_info: ""
             },
             episodesList: [
                 {
@@ -218,8 +223,62 @@ export default {
                     title: "The Body in the Woods",
                     cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
                 }
+            ],
+            episodesListClone: [
+                {
+                    id: 1,
+                    title: "The Good Neighbor",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD204403?height=220&width=220"
+                },
+                {
+                    id: 2,
+                    title: "A Matter of Trust",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD041829?height=220&width=220"
+                },
+                {
+                    id: 3,
+                    title: "A Deadly Business",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD057607?height=220&width=220"
+                },
+                {
+                    id: 4,
+                    title: "Hand of Fate",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD031910?height=220&width=220"
+                },
+                {
+                    id: 5,
+                    title: "The Girl Who Was Supposed to Die",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD040549?height=220&width=220"
+                },
+                {
+                    id: 6,
+                    title: "The Body in the Woods",
+                    cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
+                }
             ]
         };
+    },
+    methods: {
+        setCoverImage(file) {
+            this.course.cover = file;
+        },
+        asyncFind(query) {
+            this.isLoading = true;
+            this.ajaxFindEpisodes(query).then(response => {
+                this.episodesList = response;
+                this.isLoading = false;
+            })
+        },
+        ajaxFindEpisodes(query) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const list = this.episodesListClone.filter((episode) => {
+                        return episode.title.match(new RegExp( query, "i" ));
+                    })
+                    resolve(list);
+                }, 1000)
+            })
+        }
     }
 }
 </script>
