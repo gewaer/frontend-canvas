@@ -46,7 +46,7 @@ const actions = {
             const resources = [
                 {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
-                    name: "book_insights",
+                    name: "book-insight",
                     title: "Book Insight",
                     endpoint: "/books-insight",
                     tableFields: [
@@ -58,8 +58,60 @@ const actions = {
                             searchable: true
                         }, {
                             name: "short_summary",
-                            title: "description",
-                            sortField: "description",
+                            title: "One Liner",
+                            sortField: "short_summary",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "actions",
+                            title: "Actions",
+                            titleClass: "table-actions",
+                            dataClass: "table-actions"
+                        }
+                    ]
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Education/Library-Books.png&r=255&g=255&b=255",
+                    name: "course",
+                    title: "Course",
+                    endpoint: "/courses",
+                    tableFields: [
+                        {
+                            name: "title",
+                            title: "Name",
+                            sortField: "title",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "subheading",
+                            title: "Subheading",
+                            sortField: "subheading",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "actions",
+                            title: "Actions",
+                            titleClass: "table-actions",
+                            dataClass: "table-actions"
+                        }
+                    ]
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/People/Teacher.png&r=255&g=255&b=255",
+                    name: "author",
+                    title: "Author",
+                    endpoint: "/authors",
+                    tableFields: [
+                        {
+                            name: "name",
+                            title: "Name",
+                            sortField: "name",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "about",
+                            title: "About",
+                            sortField: "about",
                             filterable: true,
                             searchable: true
                         }, {

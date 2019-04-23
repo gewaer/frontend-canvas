@@ -1,9 +1,9 @@
 <template>
     <div class="create-resource">
-        <h4 class="section-title p-l-10">Create Course</h4>
+        <h4 class="section-title p-l-10">{{ isEditing ? 'Edit' : 'Create' }} Course</h4>
         <div class="card">
             <div class="card-block">
-                <form class="resource-form" novalidate>
+                <form class="resource-form" novalidate @submit.prevent="sendCourse">
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
                             <book-cover :file="course.cover" @set-cover-image="setCoverImage" />
@@ -14,7 +14,7 @@
                                     <div class="form-group form-group-default">
                                         <label>Minicourse</label>
                                         <input
-                                            v-model="course.minicourse"
+                                            v-model="course.title"
                                             class="form-control"
                                             type="text"
                                             name="title">
@@ -39,7 +39,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>At a glance</label>
-                                <editor-component v-model="course.at_a_glance" />
+                                <editor-component v-model="course.summary" />
                             </div>
                         </div>
                     </div>
@@ -159,6 +159,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col text-right">
+                            <button class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -170,7 +175,7 @@ import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
 
 export default {
-    name: "CreateResource",
+    name: "Course",
     components: {
         bookCover,
         editorComponent
@@ -180,9 +185,9 @@ export default {
             isLoading: false,
             course: {
                 cover: null,
-                minicourse: "",
+                title: "",
                 subheading: "",
-                at_a_glance: "",
+                summary: "",
                 episodes: [],
                 bookInsightsFeatureInThisCourse: [],
                 listenOriginalMentioned: [],
@@ -255,6 +260,14 @@ export default {
             ]
         };
     },
+    computed: {
+        isEditing() {
+            return this.$route.name.includes("edit");
+        }
+    },
+    created() {
+        this.isEditing && this.getData();
+    },
     methods: {
         setCoverImage(file) {
             this.course.cover = file;
@@ -275,6 +288,44 @@ export default {
                     resolve(list);
                 }, 1000)
             })
+        },
+        getData() {
+            this.isLoading = true;
+
+            axios({
+                url: `/courses/${this.$route.params.id}`,
+                method: "GET"
+            }).then(response => {
+                this.course = Object.assign({}, this.course, response.data)
+                this.isLoading = false;
+            }).catch(error => {
+                this.isLoading = false;
+                this.$notify({
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+        },
+        sendCourse() {
+            this.isLoading = true;
+            const url = this.isEditing ? `/courses/${this.$route.params.id}` : "/courses/";
+            const method = this.isEditing ? "PUT" : "POST";
+
+            axios({
+                url,
+                method,
+                data: this.course
+            }).then(response => {
+                this.isLoading = false;
+                console.log(response);
+                this.$router.push({ name: "browse", params: { resource: "course" } });
+            }).catch(error => {
+                this.isLoading = false;
+                this.$notify({
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
         }
     }
 }

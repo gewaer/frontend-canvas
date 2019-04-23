@@ -22,12 +22,8 @@
                     </div>
                 </dropdown>
 
-                <router-link :to="{ name: 'create-resource', params: { resource: currentResource.name } }" class="add-record-btn btn btn-primary">
+                <router-link :to="{ name: `create-${currentResource.name}`, params: { resource: currentResource.name } }" class="add-record-btn btn btn-primary">
                     <i class="fa fa-plus-circle"/> Add {{ currentResource.title }}
-                </router-link>
-
-                <router-link :to="{ name: 'create-course', params: { resource: currentResource.name } }" class="ml-2 add-record-btn btn btn-primary">
-                    <i class="fa fa-plus-circle"/> Add Course
                 </router-link>
 
                 <div class="input-group search-bar">

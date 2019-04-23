@@ -48,20 +48,6 @@ export default {
             return this.$refs.quillEditor.quill;
         }
     },
-    mounted() {
-        // this.quillEditor.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
-        //     var plaintext = node.innerText;
-        //     var Delta = this.quillEditor.quill.import('delta');
-        //     console.log(Delta)
-        //     return new Delta().insert(plaintext);
-        // });
-        // this.quillEditor.formatText(0, 2666, {
-        //     "align": "center",
-        //     "color": "rgb(230, 0, 0)"
-        // });
-        // this.quillEditor.format("color", "rgb(230, 0, 0)");
-        // this.quillEditor.format("align", "center");
-    },
     methods: {
         emitNewValue(event) {
             this.$emit("input", event);

@@ -1,9 +1,10 @@
 <template>
     <div class="create-resource">
-        <h4 class="section-title p-l-10">Create {{ currentResource.title }}</h4>
+        <author-modal />
+        <h4 class="section-title p-l-10">{{ isEditing ? 'Edit' : 'Create' }} Book Insight</h4>
         <div class="card">
             <div class="card-block">
-                <form class="resource-form" @submit.prevent="sendBookInsight" novalidate>
+                <form class="resource-form" novalidate @submit.prevent="sendBookInsight">
                     <div class="row">
                         <div class="col">
                             <h3 class="title">Book Basic Info</h3>
@@ -11,7 +12,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
-                            <book-cover :file="resourceForm.cover" @set-cover-image="setCoverImage" />
+                            <book-cover :file="bookInsight.cover" @set-cover-image="setCoverImage" />
                         </div>
                         <div class="col-12 col-md">
                             <div class="row">
@@ -19,7 +20,7 @@
                                     <div class="form-group form-group-default">
                                         <label>Title</label>
                                         <input
-                                            v-model="resourceForm.title"
+                                            v-model="bookInsight.title"
                                             class="form-control"
                                             type="text"
                                             name="title">
@@ -31,7 +32,7 @@
                                     <div class="form-group form-group-default">
                                         <label>One Liner</label>
                                         <input
-                                            v-model="resourceForm.short_summary"
+                                            v-model="bookInsight.short_summary"
                                             class="form-control"
                                             type="text"
                                             name="title">
@@ -44,32 +45,34 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>At A Glance</label>
-                                <editor-component v-model="resourceForm.summary" />
+                                <editor-component v-model="bookInsight.summary" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <div class="form-group-multiselect">
-                                <label>Book Authors</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="resourceForm.author"
-                                    :options="authorsList"
-                                    track-by="id"
-                                    label="name"
-                                    class="multiselect-multiple-custom"
-                                />
-                            </div>
+                            <async-multiselect v-model="bookInsight.author" track-by="id" label="name">
+                                <template slot="label">
+                                    Book Authors
+                                </template>
+                                <template slot="beforeList" >
+                                    <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
+                                        <i class="fa fa-plus" />Add author
+                                    </div>
+                                </template>
+                                <template slot="afterList" >
+                                    <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
+                                        <i class="fa fa-plus" />Add author
+                                    </div>
+                                </template>
+                            </async-multiselect>
                         </div>
                         <div class="col-12 col-md">
                             <div class="form-group-multiselect">
                                 <label>Published Year</label>
                                 <multiselect
                                     :show-labels="false"
-                                    v-model="resourceForm.published_year"
+                                    v-model="bookInsight.published_year"
                                     :options="yearsList"
                                 />
                             </div>
@@ -86,7 +89,7 @@
                             <h3 class="title">Themes</h3>
                         </div>
                     </div>
-                    <template v-for="(theme, index) in resourceForm.theme">
+                    <template v-for="(theme, index) in bookInsight.theme">
                         <div :key="index" class="theme">
                             <div class="row">
                                 <div class="col">
@@ -130,38 +133,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>About The Author</label>
-                                <editor-component v-model="resourceForm.aboutTheAuthor" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-12 col-md">
-                            <div class="form-group-multiselect">
-                                <label>Similiar Book Insights Titles</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="resourceForm.similiarBookInsights"
-                                    :options="episodesList"
-                                    track-by="id"
-                                    label="name"
-                                    class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div>
+                            <async-multiselect v-model="bookInsight.similiarBookInsights" track-by="id" label="title">
+                                <template slot="label">
+                                    Similiar Book Insights Titles
+                                </template>
+                            </async-multiselect>
                         </div>
                         <div class="col-12 col-md">
                             <div class="form-group-multiselect">
@@ -170,7 +147,7 @@
                                     :searchable="true"
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.listenOriginalBook"
+                                    v-model="bookInsight.listenOriginalBook"
                                     :options="episodesList"
                                     track-by="id"
                                     label="name"
@@ -193,7 +170,7 @@
                                 <label>Book Insight Credits</label>
                                 <multiselect
                                     :show-labels="false"
-                                    v-model="resourceForm.credits"
+                                    v-model="bookInsight.credits"
                                     :options="bookInsightCreditsList"
                                     track-by="id"
                                     label="name"
@@ -206,7 +183,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Media References</label>
-                                <editor-component v-model="resourceForm.media_references" />
+                                <editor-component v-model="bookInsight.media_references" />
                             </div>
                         </div>
                     </div>
@@ -217,7 +194,7 @@
                                 <multiselect
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.searchTerms"
+                                    v-model="bookInsight.searchTerms"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -230,7 +207,7 @@
                                 <multiselect
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.bisac1"
+                                    v-model="bookInsight.bisac1"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -243,7 +220,7 @@
                                 <multiselect
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.bisac2"
+                                    v-model="bookInsight.bisac2"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -256,7 +233,7 @@
                                 <multiselect
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.bisac3"
+                                    v-model="bookInsight.bisac3"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -268,7 +245,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Disclaimer</label>
-                                <editor-component v-model="resourceForm.disclaimer" />
+                                <editor-component v-model="bookInsight.disclaimer" />
                             </div>
                         </div>
                     </div>
@@ -282,7 +259,7 @@
                     </div>
                     <div class="row">
                         <div class="col text-right">
-                            <button class="btn btn-primary">Save</button>
+                            <button :disabled="isLoading" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </form>
@@ -297,18 +274,22 @@ import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
 import bookCover from "./book-cover.vue";
 import moment from "moment";
+import authorModal from "./author-modal";
+import asyncMultiselect from "./async-multiselect";
 
 export default {
-    name: "CreateResource",
+    name: "BookInsight",
     components: {
         editorComponent,
         timePicker,
-        bookCover
+        bookCover,
+        authorModal,
+        asyncMultiselect
     },
     data() {
         return {
-            currentResource: {},
-            resourceForm: {
+            isLoading: false,
+            bookInsight: {
                 cover: null,
                 title: "",
                 author: [],
@@ -323,7 +304,6 @@ export default {
                         body: ""
                     }
                 ],
-                aboutTheAuthor: "",
                 similiarBookInsights: [],
                 listenOriginalBook: [],
                 media_references: "",
@@ -398,7 +378,7 @@ export default {
             companyData: state => state.Company.data
         }),
         isEditing() {
-            return this.$route.name == "edit-resource";
+            return this.$route.name.includes("edit");
         },
         yearsList() {
             const currentYear = new Date().getFullYear();
@@ -413,89 +393,61 @@ export default {
         bookInsightLength: {
             get() {
                 const length = {
-                    HH: moment(`${moment.duration(this.resourceForm.length, "minutes").hours()}`, "hours").format("HH"),
-                    mm: moment(`${moment.duration(this.resourceForm.length, "minutes").minutes()}`, "hours").format("HH")
+                    HH: moment(`${moment.duration(this.bookInsight.length, "minutes").hours()}`, "hours").format("HH"),
+                    mm: moment(`${moment.duration(this.bookInsight.length, "minutes").minutes()}`, "hours").format("HH")
                 }
                 return length;
             },
             set(value) {
-                this.resourceForm.length = moment.duration(`${value.HH}:${value.mm}`, "minutes").asMinutes();
+                this.bookInsight.length = moment.duration(`${value.HH}:${value.mm}`, "minutes").asMinutes();
             }
         }
     },
     created() {
-        this.setResource(this.$route.params.resource);
         this.isEditing && this.getData();
     },
     methods: {
-        setResource(resourceName) {
-            const resourceIndex = this.companyData.resources.findIndex(resource => {
-                return resource.name == resourceName;
-            });
-
-            this.currentResource = this.companyData.resources[resourceIndex];
-        },
         addTheme() {
             const theme = { title: "", audio: "", body: "" }
-            this.resourceForm.theme.push(theme);
+            this.bookInsight.theme.push(theme);
         },
         removeTheme(index) {
-            this.resourceForm.theme.splice(index, 1);
+            this.bookInsight.theme.splice(index, 1);
         },
         setCoverImage(file) {
-            this.resourceForm.cover = file;
+            this.bookInsight.cover = file;
         },
         getData() {
+            this.isLoading = true;
+
             axios({
                 url: `/books-insight/${this.$route.params.id}`,
                 method: "GET"
             }).then(response => {
-                this.resourceForm = Object.assign({}, this.resourceForm, response.data)
+                this.bookInsight = Object.assign({}, this.bookInsight, response.data);
+                this.isLoading = false;
             }).catch(error => {
+                this.isLoading = false;
                 this.$notify({
                     text: error.response.data.errors.message,
                     type: "error"
                 });
             });
-
-            // axios({
-            //     url: "/authors",
-            //     method: "GET"
-            // }).then(response => {
-            //     console.log(response);
-            // }).catch(error => {
-            //     console.log(error);
-            // });
-
-            // axios({
-            //     url: "/courses",
-            //     method: "GET"
-            // }).then(response => {
-            //     console.log(response);
-            // }).catch(error => {
-            //     console.log(error);
-            // });
-
-            // axios({
-            //     url: "/themes",
-            //     method: "GET"
-            // }).then(response => {
-            //     console.log(response);
-            // }).catch(error => {
-            //     console.log(error);
-            // });
         },
         sendBookInsight() {
+            this.isLoading = true;
             const url = this.isEditing ? `/books-insight/${this.$route.params.id}` : "/books-insight/";
             const method = this.isEditing ? "PUT" : "POST";
-
             axios({
                 url,
                 method,
-                data: this.resourceForm
+                data: this.bookInsight
             }).then(response => {
+                this.isLoading = false;
                 console.log(response);
+                this.$router.push({ name: "browse", params: { resource: "book-insight" } });
             }).catch(error => {
+                this.isLoading = false;
                 this.$notify({
                     text: error.response.data.errors.message,
                     type: "error"
@@ -505,5 +457,27 @@ export default {
     }
 }
 </script>
+
+<style>
+.add-author-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    border-top: 1px solid rgba(0,0,0,.07);
+    background-color: rgba(0,0,0,.07);
+    cursor: pointer;
+}
+
+.add-author-button i {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.add-author-button:hover {
+    background-color: rgba(0,0,0,.10);
+}
+</style>
+
 
 <style lang="scss" src="./resource.scss" />

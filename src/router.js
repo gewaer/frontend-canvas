@@ -4,9 +4,10 @@ import isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
-import createResource from "./views/resource/create.vue";
-import createCourse from "./views/resource/create-course.vue";
 import routerValidator from "@/config/routerValidator";
+import bookInsight from "./views/resource/book-insight.vue";
+import course from "./views/resource/course.vue";
+import author from "./views/resource/author.vue";
 
 Vue.use(Router);
 
@@ -352,19 +353,34 @@ const router = new Router({
             component: BrowseList
         },
         {
-            path: "/browse/:resource/create",
-            name: "create-resource",
-            component: createResource
+            path: "/browse/book-insight/create",
+            name: "create-book-insight",
+            component: bookInsight
         },
         {
-            path: "/browse/:resource/:id/edit",
-            name: "edit-resource",
-            component: createResource
+            path: "/browse/book-insight/:id/edit",
+            name: "edit-book-insight",
+            component: bookInsight
         },
         {
-            path: "/browse/:resource/create-course",
+            path: "/browse/course/create",
             name: "create-course",
-            component: createCourse
+            component: course
+        },
+        {
+            path: "/browse/course/:id/edit",
+            name: "edit-course",
+            component: course
+        },
+        {
+            path: "/browse/author/create",
+            name: "create-author",
+            component: author
+        },
+        {
+            path: "/browse/author/:id/edit",
+            name: "edit-author",
+            component: author
         }
     ]
 });
