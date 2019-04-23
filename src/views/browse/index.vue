@@ -44,7 +44,11 @@
 
                         <template slot="actions" slot-scope="props">
                             <div class="btn-group vehicle-edit">
-                                <router-link :to="{ name: `edit-${ currentResource.name }`, params: { resource: currentResource.name, id: props.rowData.id } }" tag="button" type="button" class="btn btn-default smaller-btn">Edit</router-link>
+                                <router-link 
+                                    :to="{ name: `edit-${ currentResource.name }`, params: { resource: currentResource.name, id: props.rowData.id } }" 
+                                    tag="button" 
+                                    type="button" 
+                                    class="btn btn-default smaller-btn">Edit</router-link>
                                 <button type="button" class="btn btn-default smaller-btn">Delete</button>
                             </div>
                         </template>
