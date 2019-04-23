@@ -19,6 +19,7 @@ axios.interceptors.request.use(
         return config;
     },
     error => {
+        console.log("err", error)
         return Promise.reject(error);
     },
 );

@@ -3,7 +3,7 @@
         <h4 class="section-title p-l-10">Create {{ currentResource.title }}</h4>
         <div class="card">
             <div class="card-block">
-                <form class="resource-form" novalidate>
+                <form class="resource-form" @submit.prevent="sendBookInsight" novalidate>
                     <div class="row">
                         <div class="col">
                             <h3 class="title">Book Basic Info</h3>
@@ -31,7 +31,7 @@
                                     <div class="form-group form-group-default">
                                         <label>One Liner</label>
                                         <input
-                                            v-model="resourceForm.one_liner"
+                                            v-model="resourceForm.short_summary"
                                             class="form-control"
                                             type="text"
                                             name="title">
@@ -44,7 +44,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>At A Glance</label>
-                                <quill-editor ref="atAGlanceEditor" v-model="resourceForm.at_a_glance" />
+                                <editor-component v-model="resourceForm.summary" />
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                     :searchable="true"
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="resourceForm.authors"
+                                    v-model="resourceForm.author"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -77,7 +77,7 @@
                         <div class="col-12 col-md">
                             <div class="form-group-time">
                                 <label>Duration</label>
-                                <time-picker v-model="resourceForm.duration" :hide-clear-button="false" />
+                                <time-picker v-model="bookInsightLength" :hide-clear-button="false" />
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             <h3 class="title">Themes</h3>
                         </div>
                     </div>
-                    <template v-for="(theme, index) in resourceForm.themes">
+                    <template v-for="(theme, index) in resourceForm.theme">
                         <div :key="index" class="theme">
                             <div class="row">
                                 <div class="col">
@@ -111,7 +111,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Body</label>
-                                        <quill-editor ref="themeBody" v-model="theme.body" />
+                                        <editor-component v-model="theme.body" />
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>About The Author</label>
-                                <quill-editor ref="aboutTheAuthor" v-model="resourceForm.aboutTheAuthor" />
+                                <editor-component v-model="resourceForm.aboutTheAuthor" />
                             </div>
                         </div>
                     </div>
@@ -189,17 +189,24 @@
                             </div>
                         </div>
                         <div class="col-12 col-md">
-                            <div class="form-group form-group-default">
-                                <label>Media References</label>
-                                <input v-model="resourceForm.mediaReferences" class="form-control" type="text">
+                            <div class="form-group-multiselect">
+                                <label>Book Insight Credits</label>
+                                <multiselect
+                                    :show-labels="false"
+                                    v-model="resourceForm.credits"
+                                    :options="bookInsightCreditsList"
+                                    track-by="id"
+                                    label="name"
+                                    class="multiselect-multiple-custom"
+                                />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label>Book Insight Credits</label>
-                                <quill-editor ref="bookInsightCredits" v-model="resourceForm.bookInsightCredits" />
+                                <label>Media References</label>
+                                <editor-component v-model="resourceForm.media_references" />
                             </div>
                         </div>
                     </div>
@@ -261,7 +268,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Disclaimer</label>
-                                <quill-editor ref="disclaimer" v-model="resourceForm.disclaimer" />
+                                <editor-component v-model="resourceForm.disclaimer" />
                             </div>
                         </div>
                     </div>
@@ -286,17 +293,15 @@
 
 <script>
 import { mapState } from "vuex";
-import { quillEditor } from "vue-quill-editor";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
+import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
 import bookCover from "./book-cover.vue";
+import moment from "moment";
 
 export default {
     name: "CreateResource",
     components: {
-        quillEditor,
+        editorComponent,
         timePicker,
         bookCover
     },
@@ -306,15 +311,12 @@ export default {
             resourceForm: {
                 cover: null,
                 title: "",
-                authors: [],
-                one_liner: "",
-                at_a_glance: "",
-                published_year: "",
-                duration: {
-                    HH: "00",
-                    mm: "00"
-                },
-                themes: [
+                author: [],
+                short_summary: "",
+                summary: "",
+                published_year: null,
+                length: 0,
+                theme: [
                     {
                         title: "",
                         audio: "",
@@ -324,8 +326,8 @@ export default {
                 aboutTheAuthor: "",
                 similiarBookInsights: [],
                 listenOriginalBook: [],
-                mediaReferences: "",
-                bookInsightCredits: "",
+                media_references: "",
+                credits: {},
                 searchTerms: [],
                 bisac1: "",
                 bisac2: "",
@@ -378,6 +380,16 @@ export default {
                     title: "The Body in the Woods",
                     cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
                 }
+            ],
+            bookInsightCreditsList: [
+                {
+                    id: 1,
+                    name: "Gabriel Mara"
+                },
+                {
+                    id: 2,
+                    name: "Daniel Reichl"
+                }
             ]
         };
     },
@@ -385,19 +397,35 @@ export default {
         ...mapState({
             companyData: state => state.Company.data
         }),
+        isEditing() {
+            return this.$route.name == "edit-resource";
+        },
         yearsList() {
             const currentYear = new Date().getFullYear();
             const years = [];
-            let startYear = startYear || 1980;
+            let startYear = startYear || 1650;
             while (startYear <= currentYear) {
                 years.push(startYear += 1);
             }
 
             return years;
+        },
+        bookInsightLength: {
+            get() {
+                const length = {
+                    HH: moment(`${moment.duration(this.resourceForm.length, "minutes").hours()}`, "hours").format("HH"),
+                    mm: moment(`${moment.duration(this.resourceForm.length, "minutes").minutes()}`, "hours").format("HH")
+                }
+                return length;
+            },
+            set(value) {
+                this.resourceForm.length = moment.duration(`${value.HH}:${value.mm}`, "minutes").asMinutes();
+            }
         }
     },
     created() {
         this.setResource(this.$route.params.resource);
+        this.isEditing && this.getData();
     },
     methods: {
         setResource(resourceName) {
@@ -408,14 +436,71 @@ export default {
             this.currentResource = this.companyData.resources[resourceIndex];
         },
         addTheme() {
-            const theme = { title: "", sub_header: "", audio: "", body: "" }
-            this.resourceForm.themes.push(theme);
+            const theme = { title: "", audio: "", body: "" }
+            this.resourceForm.theme.push(theme);
         },
         removeTheme(index) {
-            this.resourceForm.themes.splice(index, 1);
+            this.resourceForm.theme.splice(index, 1);
         },
         setCoverImage(file) {
             this.resourceForm.cover = file;
+        },
+        getData() {
+            axios({
+                url: `/books-insight/${this.$route.params.id}`,
+                method: "GET"
+            }).then(response => {
+                this.resourceForm = Object.assign({}, this.resourceForm, response.data)
+            }).catch(error => {
+                this.$notify({
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+
+            // axios({
+            //     url: "/authors",
+            //     method: "GET"
+            // }).then(response => {
+            //     console.log(response);
+            // }).catch(error => {
+            //     console.log(error);
+            // });
+
+            // axios({
+            //     url: "/courses",
+            //     method: "GET"
+            // }).then(response => {
+            //     console.log(response);
+            // }).catch(error => {
+            //     console.log(error);
+            // });
+
+            // axios({
+            //     url: "/themes",
+            //     method: "GET"
+            // }).then(response => {
+            //     console.log(response);
+            // }).catch(error => {
+            //     console.log(error);
+            // });
+        },
+        sendBookInsight() {
+            const url = this.isEditing ? `/books-insight/${this.$route.params.id}` : "/books-insight/";
+            const method = this.isEditing ? "PUT" : "POST";
+
+            axios({
+                url,
+                method,
+                data: this.resourceForm
+            }).then(response => {
+                console.log(response);
+            }).catch(error => {
+                this.$notify({
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
         }
     }
 }

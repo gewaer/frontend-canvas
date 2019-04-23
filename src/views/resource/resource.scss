@@ -2,7 +2,7 @@
     .resource-form {
         padding: 25px;
 
-        .row [class*=col] {
+        .row > [class*=col] {
             padding-left: 5px !important;
             padding-right: 5px !important;
         }

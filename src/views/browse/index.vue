@@ -36,15 +36,16 @@
                         :query-params="queryParams"
                         :per-page="perPage"
                         :show-sort-icons="true"
+                        :api-url="currentResource.endpoint"
                         track-by="id"
-                        api-url="/roles"
                         class="table table-hover table-condensed"
                         pagination-path=""
                         @vuetable:pagination-data="onPaginationData">
 
                         <template slot="actions" slot-scope="props">
                             <div class="btn-group vehicle-edit">
-                                <button type="button" class="btn btn-default smaller-btn">Edit</button>
+                                <!-- {{ props }} -->
+                                <router-link :to="{ name: 'edit-resource', params: { id: props.rowData.id } }" tag="button" type="button" class="btn btn-default smaller-btn">Edit</router-link>
                                 <button type="button" class="btn btn-default smaller-btn">Delete</button>
                             </div>
                         </template>
@@ -88,7 +89,7 @@ export default {
             appendParams: {
                 format: "true"
             },
-            perPage: 2,
+            perPage: 10,
             queryParams: {
                 sort: "sort",
                 page: "page",
@@ -104,24 +105,6 @@ export default {
                 titleClass: "text-center",
                 dataClass: "text-center",
                 width: "5%"
-            }, {
-                name: "name",
-                title: "Name",
-                sortField: "name",
-                filterable: true,
-                searchable: true
-            }, {
-                name: "description",
-                sortField: "description",
-                filterable: true,
-                searchable: true
-            }, {
-                name: "users"
-            }, {
-                name: "actions",
-                title: "Actions",
-                titleClass: "table-actions",
-                dataClass: "table-actions"
             }],
             pagination: {
                 icons: {
@@ -169,15 +152,7 @@ export default {
             });
 
             this.currentResource = this.companyData.resources[resourceIndex];
-
-            axios({
-                url: `/${this.currentResource.name}`,
-                method: "GET"
-            }).then(response => {
-                console.log(response);
-            }).catch(error => {
-                console.log(error);
-            });
+            this.tableFields = [...this.tableFields, ...this.currentResource.tableFields]
         },
         showAddCustomFilter() {
             this.$modal.show("add-custom-filter");

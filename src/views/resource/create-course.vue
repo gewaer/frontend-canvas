@@ -39,7 +39,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>At a glance</label>
-                                <quill-editor ref="description" v-model="course.at_a_glance" />
+                                <editor-component v-model="course.at_a_glance" />
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>More Info</label>
-                                <quill-editor ref="description" v-model="course.more_info" />
+                                <editor-component v-model="course.more_info" />
                             </div>
                         </div>
                     </div>
@@ -166,17 +166,14 @@
 </template>
 
 <script>
-import { quillEditor } from "vue-quill-editor";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
 import bookCover from "./book-cover.vue";
+import editorComponent from "./editor-component";
 
 export default {
     name: "CreateResource",
     components: {
-        quillEditor,
-        bookCover
+        bookCover,
+        editorComponent
     },
     data() {
         return {

@@ -45,34 +45,30 @@ const actions = {
             // TODO: This is hardcored, remove this as soon as the backend send each company  resources
             const resources = [
                 {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Shopping/Product.png&r=255&g=255&b=255",
-                    name: "products",
-                    title: "Products"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Mail-01.png&r=255&g=255&b=255",
-                    name: "contacts",
-                    title: "Contacs"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Banking/Customer.png&r=255&g=255&b=255",
-                    name: "clients",
-                    title: "Clients"
-                },
-                {
-                    icon: null,
-                    name: "suppliers",
-                    title: "Suppliers"
-                },
-                {
-                    icon: null,
-                    name: "places",
-                    title: "Places"
-                },
-                {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
                     name: "book_insights",
-                    title: "Book Insights"
+                    title: "Book Insight",
+                    endpoint: "/books-insight",
+                    tableFields: [
+                        {
+                            name: "title",
+                            title: "Name",
+                            sortField: "title",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "short_summary",
+                            title: "description",
+                            sortField: "description",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "actions",
+                            title: "Actions",
+                            titleClass: "table-actions",
+                            dataClass: "table-actions"
+                        }
+                    ]
                 }
             ]
 

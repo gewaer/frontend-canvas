@@ -357,6 +357,11 @@ const router = new Router({
             component: createResource
         },
         {
+            path: "/browse/:resource/:id/edit",
+            name: "edit-resource",
+            component: createResource
+        },
+        {
             path: "/browse/:resource/create-course",
             name: "create-course",
             component: createCourse
