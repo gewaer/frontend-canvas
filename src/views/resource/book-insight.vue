@@ -194,7 +194,7 @@
                                 <multiselect
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="bookInsight.searchTerms"
+                                    v-model="bookInsight.categories"
                                     :options="authorsList"
                                     track-by="id"
                                     label="name"
@@ -290,30 +290,66 @@ export default {
         return {
             isLoading: false,
             bookInsight: {
-                cover: null,
                 title: "",
-                author: [],
                 short_summary: "",
                 summary: "",
                 published_year: null,
                 length: 0,
-                theme: [
+                featured: false,
+                media_references: "",
+                disclaimer: "",
+                // relationships
+                cover: null,
+                authors: [
                     {
-                        title: "",
-                        audio: "",
-                        body: ""
+                        id:null,
+                        name:"",
+                        about:""
                     }
                 ],
-                similiarBookInsights: [],
-                listenOriginalBook: [],
-                media_references: "",
-                credits: {},
-                searchTerms: [],
-                bisac1: "",
-                bisac2: "",
-                bisac3: "",
-                disclaimer: "",
-                thisCourse: ""
+                themes: [
+                    {
+                        id:null,
+                        book_insight_id: null,
+                        title: "",
+                        body: "",
+                        audio: {}
+                    }
+                ],
+                similar: [
+                    {
+                        id:null,
+                        title:"",
+                        cover:""
+
+                    }
+                ],
+                external_book: [ 
+                    //es solo 1
+                    {
+                        id:null,
+                        book_insight_id:null,
+                        external_id: null,
+                        title:"",
+                        cover_url:"",
+                        url:""
+                    }],
+                credits: [
+                    {
+                        id:null,
+                        name:""
+                    }
+                ],
+                categories: [
+                    {
+                        id:null,
+                        name:""
+                    }
+                ]
+                // bisac1: "",
+                // bisac2: "",
+                // bisac3: "",
+                // thisCourse: ""
             },
             authorsList: [
                 {
