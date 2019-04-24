@@ -333,7 +333,8 @@ export default {
                         title:"",
                         cover_url:"",
                         url:""
-                    }],
+                    }
+                ],
                 credits: [
                     {
                         id:null,
