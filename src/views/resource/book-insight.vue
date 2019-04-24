@@ -51,16 +51,15 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <async-multiselect v-model="bookInsight.author" track-by="id" label="name" endpoint="author">
+                            <async-multiselect
+                                v-model="bookInsight.authors"
+                                track-by="id"
+                                label="name"
+                                endpoint="author">
                                 <template slot="label">
                                     Book Authors
                                 </template>
                                 <template slot="beforeList" >
-                                    <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
-                                        <i class="fa fa-plus" />Add author
-                                    </div>
-                                </template>
-                                <template slot="afterList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
                                         <i class="fa fa-plus" />Add author
                                     </div>
@@ -134,14 +133,23 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <async-multiselect v-model="bookInsight.similiarBookInsights" track-by="id" label="title">
+                            <async-multiselect
+                                v-model="bookInsight.similar"
+                                track-by="id"
+                                label="title"
+                                endpoint="book-insight">
                                 <template slot="label">
-                                    Similiar Book Insights Titles
+                                    Similar Book Insights Titles
                                 </template>
                             </async-multiselect>
                         </div>
                         <div class="col-12 col-md">
-                            <async-multiselect v-model="bookInsight.similiarBookInsights" track-by="id" label="title">
+                            <async-multiselect
+                                v-model="bookInsight.external_book"
+                                :external-call="true"
+                                track-by="id"
+                                label="title"
+                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks:search:hello?page=0">
                                 <template slot="label">
                                     Listen to the original audio book
                                 </template>

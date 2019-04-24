@@ -75,7 +75,7 @@ export default {
         },
         sendAuthor() {
             this.isLoading = true;
-            const url = this.isEditing ? `/author/${this.$route.params.id}` : "/author/";
+            const url = this.isEditing ? `/author/${this.$route.params.id}` : "/author";
             const method = this.isEditing ? "PUT" : "POST";
 
             axios({

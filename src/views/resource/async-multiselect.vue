@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import externalAxios from "axios";
+
 export default {
     name: "AsyncMultiselect",
     props: {
@@ -53,6 +55,10 @@ export default {
         endpoint: {
             type: String,
             required: true
+        },
+        externalCall: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -95,7 +101,27 @@ export default {
             // ]
         };
     },
+    created() {
+        this.preFecthList();
+    },
     methods: {
+        preFecthList() {
+            if(this.externalCall) {
+                externalAxios({
+                    url: this.endpoint,
+                    method: "GET"
+                }).then(response => {
+                    this.list = response.data;
+                });
+            } else {
+                axios({
+                    url: `/${this.endpoint}`,
+                    method: "GET"
+                }).then(response => {
+                    this.list = response.data;
+                });
+            }
+        },
         asyncFind(query) {
             this.isLoading = true;
             this.fetchList(query).then(response => {
@@ -111,7 +137,7 @@ export default {
         },
         fetchList(query) {
             return axios({
-                url: `/${this.endpoint}?q=(${this.label}:${query})`,
+                url: `/${this.endpoint}?q=(${this.label}:${query}%)`,
                 method: "GET"
             });
         },
