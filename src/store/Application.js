@@ -48,7 +48,7 @@ const actions = {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
                     name: "book-insight",
                     title: "Book Insight",
-                    endpoint: "/books-insight",
+                    endpoint: "/book-insight",
                     tableFields: [
                         {
                             name: "title",
@@ -74,7 +74,7 @@ const actions = {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Education/Library-Books.png&r=255&g=255&b=255",
                     name: "course",
                     title: "Course",
-                    endpoint: "/courses",
+                    endpoint: "/course",
                     tableFields: [
                         {
                             name: "title",
@@ -100,7 +100,7 @@ const actions = {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/People/Teacher.png&r=255&g=255&b=255",
                     name: "author",
                     title: "Author",
-                    endpoint: "/authors",
+                    endpoint: "/author",
                     tableFields: [
                         {
                             name: "name",
