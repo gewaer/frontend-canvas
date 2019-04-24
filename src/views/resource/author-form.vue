@@ -60,7 +60,7 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/authors/${this.$route.params.id}`,
+                url: `/author/${this.$route.params.id}`,
                 method: "GET"
             }).then(response => {
                 this.author = Object.assign({}, this.author, response.data)
@@ -75,7 +75,7 @@ export default {
         },
         sendAuthor() {
             this.isLoading = true;
-            const url = this.isEditing ? `/authors/${this.$route.params.id}` : "/authors/";
+            const url = this.isEditing ? `/author/${this.$route.params.id}` : "/author/";
             const method = this.isEditing ? "PUT" : "POST";
 
             axios({

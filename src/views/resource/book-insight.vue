@@ -51,7 +51,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <async-multiselect v-model="bookInsight.author" track-by="id" label="name">
+                            <async-multiselect v-model="bookInsight.author" track-by="id" label="name" endpoint="author">
                                 <template slot="label">
                                     Book Authors
                                 </template>
@@ -89,7 +89,7 @@
                             <h3 class="title">Themes</h3>
                         </div>
                     </div>
-                    <template v-for="(theme, index) in bookInsight.theme">
+                    <template v-for="(theme, index) in bookInsight.themes">
                         <div :key="index" class="theme">
                             <div class="row">
                                 <div class="col">
@@ -141,7 +141,12 @@
                             </async-multiselect>
                         </div>
                         <div class="col-12 col-md">
-                            <div class="form-group-multiselect">
+                            <async-multiselect v-model="bookInsight.similiarBookInsights" track-by="id" label="title">
+                                <template slot="label">
+                                    Listen to the original audio book
+                                </template>
+                            </async-multiselect>
+                            <!-- <div class="form-group-multiselect">
                                 <label>Listen to the original audio book</label>
                                 <multiselect
                                     :searchable="true"
@@ -163,7 +168,7 @@
                                         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
                                     </template>
                                 </multiselect>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-12 col-md">
                             <div class="form-group-multiselect">
@@ -201,7 +206,7 @@
                                 />
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 col-xl">
+                        <!-- <div class="col-12 col-lg-6 col-xl">
                             <div class="form-group-multiselect">
                                 <label>BISAC 1</label>
                                 <multiselect
@@ -239,7 +244,7 @@
                                     label="name"
                                 />
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="row">
                         <div class="col">
@@ -301,51 +306,50 @@ export default {
                 // relationships
                 cover: null,
                 authors: [
-                    {
-                        id:null,
-                        name:"",
-                        about:""
-                    }
+                    // {
+                    //     id:null,
+                    //     name:"",
+                    //     about:""
+                    // }
                 ],
                 themes: [
-                    {
-                        id:null,
-                        book_insight_id: null,
-                        title: "",
-                        body: "",
-                        audio: {}
-                    }
+                    // {
+                    //     id:null,
+                    //     book_insight_id: null,
+                    //     title: "",
+                    //     body: "",
+                    //     audio: {}
+                    // }
                 ],
                 similar: [
-                    {
-                        id:null,
-                        title:"",
-                        cover:""
-
-                    }
+                    // {
+                    //     id:null,
+                    //     title:"",
+                    //     cover:""
+                    // }
                 ],
-                external_book: [ 
+                external_book: [
                     //es solo 1
-                    {
-                        id:null,
-                        book_insight_id:null,
-                        external_id: null,
-                        title:"",
-                        cover_url:"",
-                        url:""
-                    }
+                    // {
+                    //     id:null,
+                    //     book_insight_id:null,
+                    //     external_id: null,
+                    //     title:"",
+                    //     cover_url:"",
+                    //     url:""
+                    // }
                 ],
                 credits: [
-                    {
-                        id:null,
-                        name:""
-                    }
+                    // {
+                    //     id:null,
+                    //     name:""
+                    // }
                 ],
                 categories: [
-                    {
-                        id:null,
-                        name:""
-                    }
+                    // {
+                    //     id:null,
+                    //     name:""
+                    // }
                 ]
                 // bisac1: "",
                 // bisac2: "",
@@ -446,10 +450,10 @@ export default {
     methods: {
         addTheme() {
             const theme = { title: "", audio: "", body: "" }
-            this.bookInsight.theme.push(theme);
+            this.bookInsight.themes.push(theme);
         },
         removeTheme(index) {
-            this.bookInsight.theme.splice(index, 1);
+            this.bookInsight.themes.splice(index, 1);
         },
         setCoverImage(file) {
             this.bookInsight.cover = file;
@@ -458,7 +462,7 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/books-insight/${this.$route.params.id}`,
+                url: `/book-insight/${this.$route.params.id}`,
                 method: "GET"
             }).then(response => {
                 this.bookInsight = Object.assign({}, this.bookInsight, response.data);
@@ -473,7 +477,7 @@ export default {
         },
         sendBookInsight() {
             this.isLoading = true;
-            const url = this.isEditing ? `/books-insight/${this.$route.params.id}` : "/books-insight/";
+            const url = this.isEditing ? `/book-insight/${this.$route.params.id}` : "/book-insight/";
             const method = this.isEditing ? "PUT" : "POST";
             axios({
                 url,
