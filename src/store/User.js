@@ -36,6 +36,9 @@ const actions = {
 const getters = {
     isLoggedIn() {
         return state.token != null;
+    },
+    id(state) {
+        return state.data.id;
     }
 }
 

@@ -23,12 +23,21 @@
                     </template>
 
                     <template slot="actions" slot-scope="props">
-                        <button class="btn btn-primary m-l-5" @click="rowAction(props.rowData, true)"><i class="fa fa-eye" aria-hidden="true"/></button>
-                        <button class="btn btn-complete m-l-5" @click="rowAction(props.rowData, false)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                        <button
+                            class="btn btn-primary m-l-5"
+                            @click="rowAction(props.rowData, true)">
+                            <i class="fa fa-eye" aria-hidden="true"/>
+                        </button>
+                        <button
+                            class="btn btn-complete m-l-5"
+                            @click="rowAction(props.rowData, false)">
+                            <i class="fa fa-edit" aria-hidden="true"/>
+                        </button>
                         <button
                             :disabled="isCurrentUser(props.rowData.id)"
+                            :class="{'deactivated': isCurrentUser(props.rowData.id)}"
                             class="btn btn-danger m-l-5"
-                            @click="deleteUser(props.rowData.id)">
+                            @click="confirmUserDelete(props.rowData.id)">
                             <i class="fa fa-trash" aria-hidden="true" />
                         </button>
                     </template>
@@ -40,6 +49,7 @@
 
 <script>
 import { vuexMixins, listMixins } from "@/utils/mixins";
+import { mapGetters } from "vuex";
 
 export default {
     name: "UsersList",
@@ -88,12 +98,17 @@ export default {
             }]
         }
     },
+    computed: {
+        ...mapGetters({
+            currentUserId: "User/id"
+        })
+    },
     methods: {
         isCurrentUser(userId) {
-            return this.currentUser.id == userId;
+            return this.currentUserId == userId;
         },
         rowAction(userData, isReadOnly) {
-            this.$router.push({ name: "settingsCompaniesUsersFormEdit", params: { user: userData, readOnlyMode: isReadOnly } });
+            this.$router.push({ name: "settingsCompaniesUsersFormEdit", params: { id: userData.id, user: userData, readOnlyMode: isReadOnly } });
         },
         getTableData(apiUrl, options) {
             return axios({
@@ -103,7 +118,7 @@ export default {
         },
         deleteUser(id) {
             if (this.isCurrentUser) {
-                return
+                return;
             }
 
             axios({
@@ -126,6 +141,29 @@ export default {
             }).finally(() => {
 
             })
+        },
+        confirmUserDelete(id) {
+            let dialogProps = {
+                title:"Delete user!",
+                message:`Are you sure that you want to delete this user?` };
+
+            this.$modal.show("basic-modal", {
+                ...dialogProps,
+                buttons: [{
+                    title: "Accept",
+                    class: "btn-primary",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                        this.deleteUser(id);
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-danger",
+                    handler: () => {
+                        this.$modal.hide("basic-modal");
+                    }
+                }]
+            });
         }
     }
 };

@@ -122,6 +122,8 @@
 <script>
 import { mapState } from "vuex";
 import { vueCrudMixins } from "@/utils/mixins";
+import isEmpty from "lodash/isEmpty";
+
 
 export default {
     name: "Form",
@@ -193,6 +195,17 @@ export default {
     created() {
         this.$store.dispatch("Application/getSettingsLists");
         this.setUser();
+
+        if (this.$route.name === "settingsCompaniesUsersFormEdit") {
+            this.getCompanyUsers().then(({ data: companyUsers }) => {
+                const foundUser = companyUsers.find((user) => user.id === this.$route.params.id);
+                if (isEmpty(foundUser)) {
+                    this.$router.push({ name: "404" });
+                }
+                this.userData = foundUser;
+            })
+        }
+
     },
     methods: {
         setUser() {
@@ -271,8 +284,6 @@ export default {
             }
         },
         sendRequest(url, method, data) {
-
-
             this.isLoading = true;
 
             axios({
@@ -301,6 +312,13 @@ export default {
 
         cancel() {
             this.$router.push({ name: "settingsCompaniesUsersList" });
+        },
+
+        getCompanyUsers() {
+            return axios.get("/users", {
+                format: "true",
+                relationships:"roles"
+            });
         }
     }
 };
