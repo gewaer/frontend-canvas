@@ -12,11 +12,13 @@
                                 <input
                                     v-validate="'required:true|min:2|alpha_spaces'"
                                     v-model="userData.firstname"
+                                    :disabled="readOnlyMode"
                                     class="form-control"
                                     type="text"
                                     name="firstname"
                                     data-vv-as="First Name"
-                                    data-vv-name="First Name">
+                                    data-vv-name="First Name"
+                                >
                                 <span class="text-danger">{{ errors.first("First Name") }}</span>
                             </div>
                             <div v-if="isEditUser" class="form-group form-group-default required">
@@ -24,6 +26,7 @@
                                 <input
                                     v-validate="'required:true|min:2|alpha_spaces'"
                                     v-model="userData.lastname"
+                                    :disabled="readOnlyMode"
                                     data-vv-as="Last Name"
                                     data-vv-name="Last Name"
                                     name="lastname"
@@ -36,6 +39,7 @@
                                 <input
                                     v-validate="'min:2|numeric'"
                                     v-model="userData.phone"
+                                    :disabled="readOnlyMode"
                                     data-vv-as="Cell phone"
                                     data-vv-name="Cell phone"
                                     class="form-control"
@@ -48,6 +52,7 @@
                                 <input
                                     v-validate="'required:true|email'"
                                     v-model="userData.email"
+                                    :disabled="readOnlyMode"
                                     data-vv-as="Email"
                                     data-vv-name="Email"
                                     class="form-control"
@@ -64,6 +69,7 @@
                                     <multiselect
                                         v-model="selectedLanguage"
                                         :options="languages"
+                                        :disabled="readOnlyMode"
                                         label="name"
                                         track-by="id"
                                         @input="setLanguage"
@@ -72,6 +78,7 @@
                                 <div v-if="isEditUser" class="form-group">
                                     <label>Timezone</label>
                                     <multiselect
+                                        :disabled="readOnlyMode"
                                         v-model="userData.timezone"
                                         :max-height="175"
                                         :options="timezones"
@@ -83,6 +90,7 @@
                                     </label>
                                     <multiselect
                                         v-validate="'required:true'"
+                                        :disabled="readOnlyMode"
                                         v-model="selectedRole"
                                         :max-height="175"
                                         :options="roles"
@@ -99,9 +107,12 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-xl d-flex justify-content-end mt-2">
+                <div v-if="!readOnlyMode" class="col-12 col-xl d-flex justify-content-end mt-2">
                     <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel()">Cancel</button>
                     <button :disabled="isLoading" class="btn btn-primary" @click="verifyFields">Save</button>
+                </div>
+                <div v-else class="col-12 col-xl d-flex justify-content-end mt-2">
+                    <button :disabled="isLoading" class="btn btn-danger m-r-10" @click="triggerCancel()">Back</button>
                 </div>
             </div>
         </div>
@@ -127,6 +138,10 @@ export default {
             default() {
                 return {};
             }
+        },
+        readOnlyMode: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -146,13 +161,13 @@ export default {
         title() {
             let title = "New User"
             if (this.isEditUser) {
-                title= "Edit User";
+                title = "Edit User";
             }
             return title;
         },
-        isEditUser(){
+        isEditUser() {
             let value = true;
-            if (!this.$route.params.id){
+            if (!this.userData.id) {
                 value = false;
             }
             return value;
@@ -165,7 +180,7 @@ export default {
         user() {
             this.setUser();
         },
-        roles(){
+        roles() {
             this.selectedRole = this.roles.find(role => role.id == this.userData.roles_id);
         },
         "userData.language"() {
@@ -189,16 +204,16 @@ export default {
         setRole(value) {
             this.userData.roles_id = value.id;
         },
-        verifyFields(){
+        verifyFields() {
             let dialogProps = {
                 title:"Invite User!",
-                message:`Did you want to invite a new user to your company?`};
+                message:`Do you want to invite a new user to your company?` };
 
             if (this.userData.id) {
                 dialogProps = { title:"Edit User!",
-                    message:`Did you want to Edit this user?`};
+                    message:`Do you want to edit this user?` };
             }
-            if(this.errors.items.length){
+            if (this.errors.items.length) {
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
                 this.$notify({
@@ -210,7 +225,7 @@ export default {
                 this.validateFields(dialogProps);
             }
         },
-        validateFields(modalProps){
+        validateFields(modalProps) {
             this.$validator.validate().then(result => {
                 if (result) {
                     this.$modal.show("basic-modal", {
@@ -237,6 +252,7 @@ export default {
             let url;
             let method;
             let data;
+
             if (!this.userData.id) {
                 url = "/users/invite";
                 method = "POST";
@@ -247,7 +263,7 @@ export default {
             } else {
                 url = `/users/${this.userData.id}`;
                 method = "PUT";
-                data =  this.userData;
+                data = this.userData;
             }
 
             if (!this.isLoading) {

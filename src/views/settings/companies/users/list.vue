@@ -23,8 +23,8 @@
                     </template>
 
                     <template slot="actions" slot-scope="props">
-                        <button class="btn btn-primary m-l-5" @click="editUser(props.rowData.id, false)"><i class="fa fa-eye" aria-hidden="true"/></button>
-                        <button class="btn btn-complete m-l-5" @click="editUser(props.rowData.id)"><i class="fa fa-edit" aria-hidden="true"/></button>
+                        <button class="btn btn-primary m-l-5" @click="rowAction(props.rowData, true)"><i class="fa fa-eye" aria-hidden="true"/></button>
+                        <button class="btn btn-complete m-l-5" @click="rowAction(props.rowData, false)"><i class="fa fa-edit" aria-hidden="true"/></button>
                         <button
                             :disabled="isCurrentUser(props.rowData.id)"
                             class="btn btn-danger m-l-5"
@@ -92,9 +92,8 @@ export default {
         isCurrentUser(userId) {
             return this.currentUser.id == userId;
         },
-        editUser(userId, isEditable = true) {
-            this.isEditable = isEditable
-            this.$emit("getUser", userId);
+        rowAction(userData, isReadOnly) {
+            this.$router.push({ name: "settingsCompaniesUsersFormEdit", params: { user: userData, readOnlyMode: isReadOnly } });
         },
         getTableData(apiUrl, options) {
             return axios({
