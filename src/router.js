@@ -274,6 +274,7 @@ const router = new Router({
             path: "/settings/companies/users/edit/:id",
             name: "settingsCompaniesUsersFormEdit",
             component: () => import(/* webpackChunkName: "settings-companies-users-form" */ "./views/settings/companies/users/form"),
+            props: true,
             meta: {
                 group: "settingsCompaniesUsers"
             }
@@ -361,9 +362,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth !== false)) {
         routerValidator(to, from).then((routeToGo) => {
-            if(isEqual(routeToGo, to) ){
+            if (isEqual(routeToGo, to)) {
                 next()
-            }else {
+            } else {
                 next(routeToGo)
             }
         }).catch((routeToGo) => next(routeToGo));
