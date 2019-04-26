@@ -23,7 +23,7 @@
             <slot slot="beforeList" name="beforeList" />
             <slot slot="afterList" name="afterList" />
             <template slot="option" slot-scope="props">
-                <img v-if="props.option.cover || props.option.cover_url" :src="props.option.cover || props.option.cover_url" class="option__image">
+                <img v-if="thereIsCover(props)" :src="thereIsCover(props)" class="option__image">
                 <div class="option__desc"><span class="option__title">{{ props.option[label] }}</span></div>
             </template>
         </multiselect>
@@ -151,6 +151,12 @@ export default {
             });
             list.splice(optionIndex, 1);
             return list;
+        },
+        thereIsCover(props) {
+            if (props.option.attachments) {
+                return props.option.attachments[0] ? props.option.attachments[0].url : false;
+            }
+            return props.option.cover || props.option.cover_url;
         },
         emitNewValue(event) {
             this.$emit("input", event);

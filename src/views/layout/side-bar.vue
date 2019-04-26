@@ -58,7 +58,7 @@
                 </li> -->
                 <template v-if="companyData">
                     <li v-for="(resource, index) in companyData.resources" v-if="!resource.hidden" :key="index">
-                        <router-link :to="{ name: 'browse', params: { resource: resource.name }}" href="#">
+                        <router-link :to="{ name: 'browse', params: { resource: resource.name }}">
                             <span class="title">{{ resource.title }}</span>
                         </router-link>
                         <span class="icon-thumbnail">

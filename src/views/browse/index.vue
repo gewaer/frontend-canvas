@@ -175,6 +175,7 @@ export default {
             });
 
             this.currentResource = this.companyData.resources[resourceIndex];
+            this.tableFields = [];
             this.tableFields = [...this.tableFields, ...this.currentResource.tableFields]
         },
         showAddCustomFilter() {
