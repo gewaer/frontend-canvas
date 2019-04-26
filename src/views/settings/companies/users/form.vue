@@ -200,12 +200,11 @@ export default {
             this.getCompanyUsers().then(({ data: companyUsers }) => {
                 const foundUser = companyUsers.find((user) => user.id === this.$route.params.id);
                 if (isEmpty(foundUser)) {
-                    this.$router.push({ name: "404" });
+                    this.$router.replace({ name: "404" });
                 }
                 this.userData = foundUser;
-            })
+            });
         }
-
     },
     methods: {
         setUser() {
@@ -309,11 +308,9 @@ export default {
                 this.isLoading = false;
             });
         },
-
         cancel() {
             this.$router.push({ name: "settingsCompaniesUsersList" });
         },
-
         getCompanyUsers() {
             return axios.get("/users", {
                 format: "true",
