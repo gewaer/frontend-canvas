@@ -17,7 +17,6 @@ module.exports = {
         }],
         "capIsNew": false,
         "comma-dangle": "error",
-        "comma-spacing": "error",
         "comma-style": "error",
         "computed-property-spacing": "error",
         "consistent-this": ["error", "self"],
