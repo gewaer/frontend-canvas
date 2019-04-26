@@ -6,7 +6,7 @@
                 <form class="resource-form" novalidate @submit.prevent="sendCourse">
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
-                            <book-cover :file="course.cover" @set-cover-image="setCoverImage" />
+                            <book-cover :file="course.attachments[0] ? course.attachments[0].url : 'https://www.hibooks.com/img/cover-placeholder.jpg'" @set-cover-image="sendFile($event, 'cover')" />
                         </div>
                         <div class="col-12 col-md">
                             <div class="row">
@@ -45,33 +45,15 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
-                            <div class="form-group-multiselect">
-                                <label>Book Insights feature in the Course</label>
-                                <multiselect
-                                    v-model="course.bookInsightsFeatureInThisCourse"
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    :options="episodesList"
-                                    :loading="isLoading"
-                                    :internal-search="false"
-                                    :options-limit="300"
-                                    track-by="id"
-                                    label="title"
-                                    class="multiselect-multiple-custom"
-                                    @search-change="asyncFind"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div>
+                            <async-multiselect
+                                v-model="course.book_insights"
+                                :endpoint="bookInsightsEndpoint"
+                                track-by="id"
+                                label="title">
+                                <template slot="label">
+                                    Book Insights feature in the Course
+                                </template>
+                            </async-multiselect>
                         </div>
                         <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
@@ -80,88 +62,45 @@
                                     :searchable="true"
                                     :show-labels="false"
                                     :multiple="true"
-                                    v-model="course.episodes"
-                                    :options="episodesList"
+                                    v-model="course.themes"
+                                    :options="themesList"
                                     track-by="id"
                                     label="title"
                                     class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
+                                />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
-                            <div class="form-group-multiselect">
-                                <label>Listen to Original Audio Books mentioned</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="course.listenOriginalMentioned"
-                                    :options="episodesList"
-                                    track-by="id"
-                                    label="title"
-                                    class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div>
+                            <async-multiselect
+                                v-model="listenOriginalMentioned"
+                                :external-call="true"
+                                :disabled="true"
+                                track-by="id"
+                                label="title"
+                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
+                                <template slot="label">
+                                    Listen to Original Audio Books mentioned
+                                </template>
+                            </async-multiselect>
                         </div>
                         <div class="col-12 col-lg">
-                            <div class="form-group-multiselect">
-                                <label>Other Courses</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="course.otherCourses"
-                                    :options="episodesList"
-                                    track-by="id"
-                                    label="title"
-                                    class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>More Info</label>
-                                <editor-component v-model="course.more_info" />
-                            </div>
+                            <async-multiselect
+                                v-model="course.similar"
+                                :endpoint="coursesEndpoint"
+                                :exclude-option-id="Number($route.params.id)"
+                                track-by="id"
+                                label="title">
+                                <template slot="label">
+                                    Other Courses
+                                </template>
+                            </async-multiselect>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col text-right">
-                            <button class="btn btn-primary">Save</button>
+                            <button :disabled="isLoading" :title="isLoading ? 'Processing, wait a moment...' : ''" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </form>
@@ -173,91 +112,32 @@
 <script>
 import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
+import asyncMultiselect from "./async-multiselect";
 
 export default {
     name: "Course",
     components: {
         bookCover,
-        editorComponent
+        editorComponent,
+        asyncMultiselect
     },
     data() {
         return {
             isLoading: false,
+            bookInsightsEndpoint: "/book-insights",
+            coursesEndpoint: "/courses",
             course: {
-                cover: null,
+                featured: 0,
                 title: "",
                 subheading: "",
                 summary: "",
-                episodes: [],
-                bookInsightsFeatureInThisCourse: [],
-                listenOriginalMentioned: [],
-                otherCourses: [],
-                more_info: ""
+                attachments: [],
+                themes: [],
+                book_insights: [],
+                similar: []
             },
-            episodesList: [
-                {
-                    id: 1,
-                    title: "The Good Neighbor",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD204403?height=220&width=220"
-                },
-                {
-                    id: 2,
-                    title: "A Matter of Trust",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD041829?height=220&width=220"
-                },
-                {
-                    id: 3,
-                    title: "A Deadly Business",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD057607?height=220&width=220"
-                },
-                {
-                    id: 4,
-                    title: "Hand of Fate",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD031910?height=220&width=220"
-                },
-                {
-                    id: 5,
-                    title: "The Girl Who Was Supposed to Die",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD040549?height=220&width=220"
-                },
-                {
-                    id: 6,
-                    title: "The Body in the Woods",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
-                }
-            ],
-            episodesListClone: [
-                {
-                    id: 1,
-                    title: "The Good Neighbor",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD204403?height=220&width=220"
-                },
-                {
-                    id: 2,
-                    title: "A Matter of Trust",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD041829?height=220&width=220"
-                },
-                {
-                    id: 3,
-                    title: "A Deadly Business",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD057607?height=220&width=220"
-                },
-                {
-                    id: 4,
-                    title: "Hand of Fate",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD031910?height=220&width=220"
-                },
-                {
-                    id: 5,
-                    title: "The Girl Who Was Supposed to Die",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD040549?height=220&width=220"
-                },
-                {
-                    id: 6,
-                    title: "The Body in the Woods",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
-                }
-            ]
+            listenOriginalMentioned: [],
+            themesList: []
         };
     },
     computed: {
@@ -265,29 +145,59 @@ export default {
             return this.$route.name.includes("edit");
         }
     },
+    watch: {
+        "course.book_insights": function(newVal){
+            this.getBookInsightsThemes(newVal);
+        }
+    },
     created() {
         this.isEditing && this.getData();
     },
     methods: {
-        setCoverImage(file) {
-            this.course.cover = file;
+        getBookInsightsThemes(selectedBookInsights) {
+            let originalBooks = [];
+            let themes = [];
+            selectedBookInsights.forEach(bookInsight => {
+                if (bookInsight.external_book) {
+                    const originalBookObj = {
+                        title: bookInsight.external_book.title,
+                        id: bookInsight.external_book.id
+                    }
+                    originalBooks.push(originalBookObj);
+                }
+
+                bookInsight.themes.forEach(theme => {
+                    const themeObj = {
+                        title: theme.title,
+                        id: theme.id
+                    };
+                    themes.push(themeObj);
+                });
+            });
+            this.listenOriginalMentioned = originalBooks;
+            this.themesList = themes;
         },
-        asyncFind(query) {
-            this.isLoading = true;
-            this.ajaxFindEpisodes(query).then(response => {
-                this.episodesList = response;
-                this.isLoading = false;
-            })
-        },
-        ajaxFindEpisodes(query) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const list = this.episodesListClone.filter((episode) => {
-                        return episode.title.match(new RegExp( query, "i" ));
-                    })
-                    resolve(list);
-                }, 1000)
-            })
+        sendFile(file, field) {
+            let formData = new FormData();
+            formData.append("file", file);
+            formData.append("system_modules_id", 4);
+            formData.append("field", field);
+
+            axios.post("filesystem",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            ).then(response => {
+                this.course.uploadedFiles = response.data;
+            }).catch(() => {
+                this.$notify({
+                    text: `Something went wrong uploading the cover image`,
+                    type: "error"
+                });
+            });
         },
         getData() {
             this.isLoading = true;
@@ -308,17 +218,16 @@ export default {
         },
         sendCourse() {
             this.isLoading = true;
-            const url = this.isEditing ? `/courses/${this.$route.params.id}` : "/courses/";
+            const url = this.isEditing ? `/courses/${this.$route.params.id}` : "/courses";
             const method = this.isEditing ? "PUT" : "POST";
 
             axios({
                 url,
                 method,
                 data: this.course
-            }).then(response => {
+            }).then(() => {
                 this.isLoading = false;
-                console.log(response);
-                this.$router.push({ name: "browse", params: { resource: "course" } });
+                this.$router.push({ name: "browse", params: { resource: "courses" } });
             }).catch(error => {
                 this.isLoading = false;
                 this.$notify({

@@ -56,15 +56,17 @@
                         </li>
                     </ul>
                 </li> -->
-                <li v-for="(resource, index) in companyData.resources" :key="index">
-                    <router-link :to="{ name: 'browse', params: { resource: resource.name }}" href="#">
-                        <span class="title">{{ resource.title }}s</span>
-                    </router-link>
-                    <span class="icon-thumbnail">
-                        <img v-if="resource.icon" :src="resource.icon" width="50%">
-                        <span v-else>{{ resource.name | firstLetter }}</span>
-                    </span>
-                </li>
+                <template v-if="companyData">
+                    <li v-for="(resource, index) in companyData.resources" v-if="!resource.hidden" :key="index">
+                        <router-link :to="{ name: 'browse', params: { resource: resource.name }}" href="#">
+                            <span class="title">{{ resource.title }}</span>
+                        </router-link>
+                        <span class="icon-thumbnail">
+                            <img v-if="resource.icon" :src="resource.icon" width="50%">
+                            <span v-else>{{ resource.name | firstLetter }}</span>
+                        </span>
+                    </li>
+                </template>
             </ul>
             <div class="clearfix"/>
         </div>

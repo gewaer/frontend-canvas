@@ -1,6 +1,7 @@
 <template>
     <div class="create-resource">
-        <author-modal />
+        <author-modal @author-saved="$refs.authorsMultiselect.preFecthList()" />
+        <search-terms-modal @search-term-saved="$refs.searchTermsMultiselect.preFecthList()" />
         <h4 class="section-title p-l-10">{{ isEditing ? 'Edit' : 'Create' }} Book Insight</h4>
         <div class="card">
             <div class="card-block">
@@ -12,7 +13,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-auto d-flex justify-content-center">
-                            <book-cover :file="bookInsight.cover" @set-cover-image="setCoverImage" />
+                            <book-cover :file="bookInsight.attachments[0] ? bookInsight.attachments[0].url : 'https://www.hibooks.com/img/cover-placeholder.jpg'" @set-cover-image="sendFile($event, 'cover')" />
                         </div>
                         <div class="col-12 col-md">
                             <div class="row">
@@ -52,10 +53,11 @@
                     <div class="row">
                         <div class="col-12 col-md">
                             <async-multiselect
+                                ref="authorsMultiselect"
                                 v-model="bookInsight.authors"
+                                :endpoint="authorsEndpoint"
                                 track-by="id"
-                                label="name"
-                                endpoint="author">
+                                label="name">
                                 <template slot="label">
                                     Book Authors
                                 </template>
@@ -104,8 +106,8 @@
                                 </div>
                                 <div class="col-12 col-md">
                                     <div class="form-group form-group-default">
-                                        <label>Audio</label>
-                                        <input class="form-control" type="file">
+                                        <label>Audio: {{ theme.attachments[0] ? theme.attachments[0].name : '' }}</label>
+                                        <input class="form-control" type="file" @change="sendFile($event.target.files[0], 'theme', index)">
                                     </div>
                                 </div>
                             </div>
@@ -135,9 +137,10 @@
                         <div class="col-12 col-md">
                             <async-multiselect
                                 v-model="bookInsight.similar"
+                                :exclude-option-id="Number($route.params.id)"
+                                :endpoint="bookInsightsEndpoint"
                                 track-by="id"
-                                label="title"
-                                endpoint="book-insight">
+                                label="title">
                                 <template slot="label">
                                     Similar Book Insights Titles
                                 </template>
@@ -147,49 +150,26 @@
                             <async-multiselect
                                 v-model="bookInsight.external_book"
                                 :external-call="true"
-                                track-by="id"
+                                :single-select="true"
+                                track-by="external_id"
                                 label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks:search:hello?page=0">
+                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
                                 <template slot="label">
                                     Listen to the original audio book
                                 </template>
                             </async-multiselect>
-                            <!-- <div class="form-group-multiselect">
-                                <label>Listen to the original audio book</label>
-                                <multiselect
-                                    :searchable="true"
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="bookInsight.listenOriginalBook"
-                                    :options="episodesList"
-                                    track-by="id"
-                                    label="name"
-                                    class="multiselect-multiple-custom"
-                                >
-                                    <template slot="tag" slot-scope="{ option, remove }">
-                                        <span class="multiselect__tag">
-                                            <span>{{ option.title }}</span>
-                                            <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                                        </span>
-                                    </template>
-                                    <template slot="option" slot-scope="props"><img :src="props.option.cover" class="option__image">
-                                        <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span class="option__small">{{ props.option.desc }}</span></div>
-                                    </template>
-                                </multiselect>
-                            </div> -->
                         </div>
                         <div class="col-12 col-md">
-                            <div class="form-group-multiselect">
-                                <label>Book Insight Credits</label>
-                                <multiselect
-                                    :show-labels="false"
-                                    v-model="bookInsight.credits"
-                                    :options="bookInsightCreditsList"
-                                    track-by="id"
-                                    label="name"
-                                    class="multiselect-multiple-custom"
-                                />
-                            </div>
+                            <async-multiselect
+                                v-model="bookInsight.credits"
+                                :single-select="true"
+                                :endpoint="collaboratorsEndpoint"
+                                track-by="external_id"
+                                label="title">
+                                <template slot="label">
+                                    Book Insight Credits
+                                </template>
+                            </async-multiselect>
                         </div>
                     </div>
                     <div class="row">
@@ -202,17 +182,21 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg-6 col-xl">
-                            <div class="form-group-multiselect">
-                                <label>Search Terms - Genre</label>
-                                <multiselect
-                                    :show-labels="false"
-                                    :multiple="true"
-                                    v-model="bookInsight.categories"
-                                    :options="authorsList"
-                                    track-by="id"
-                                    label="name"
-                                />
-                            </div>
+                            <async-multiselect
+                                ref="searchTermsMultiselect"
+                                v-model="bookInsight.categories"
+                                :endpoint="categoriesEndpoint"
+                                track-by="id"
+                                label="name">
+                                <template slot="label">
+                                    Search Terms - Genre
+                                </template>
+                                <template slot="beforeList" >
+                                    <div class="add-author-button option__desc" @click="$modal.show('search-terms-modal')">
+                                        <i class="fa fa-plus" />Add search term
+                                    </div>
+                                </template>
+                            </async-multiselect>
                         </div>
                         <!-- <div class="col-12 col-lg-6 col-xl">
                             <div class="form-group-multiselect">
@@ -263,16 +247,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group form-group-default">
-                                <label>Infographic</label>
-                                <input class="form-control" type="file">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col text-right">
-                            <button :disabled="isLoading" class="btn btn-primary">Save</button>
+                            <button :disabled="isLoading" :title="isLoading ? 'Processing, wait a moment...' : ''" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </form>
@@ -282,12 +258,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
 import bookCover from "./book-cover.vue";
 import moment from "moment";
 import authorModal from "./author-modal";
+import searchTermsModal from "./search-terms-modal";
 import asyncMultiselect from "./async-multiselect";
 
 export default {
@@ -297,73 +273,38 @@ export default {
         timePicker,
         bookCover,
         authorModal,
+        searchTermsModal,
         asyncMultiselect
     },
     data() {
         return {
             isLoading: false,
+            bookInsightsEndpoint: "/book-insights",
+            authorsEndpoint: "/authors",
+            categoriesEndpoint: "/categories",
+            collaboratorsEndpoint: "/collaborators",
             bookInsight: {
                 title: "",
                 short_summary: "",
                 summary: "",
                 published_year: null,
                 length: 0,
-                featured: false,
+                featured: 0,
                 media_references: "",
                 disclaimer: "",
-                // relationships
-                cover: null,
-                authors: [
-                    // {
-                    //     id:null,
-                    //     name:"",
-                    //     about:""
-                    // }
-                ],
-                themes: [
-                    // {
-                    //     id:null,
-                    //     book_insight_id: null,
-                    //     title: "",
-                    //     body: "",
-                    //     audio: {}
-                    // }
-                ],
-                similar: [
-                    // {
-                    //     id:null,
-                    //     title:"",
-                    //     cover:""
-                    // }
-                ],
-                external_book: [
-                    //es solo 1
-                    // {
-                    //     id:null,
-                    //     book_insight_id:null,
-                    //     external_id: null,
-                    //     title:"",
-                    //     cover_url:"",
-                    //     url:""
-                    // }
-                ],
-                credits: [
-                    // {
-                    //     id:null,
-                    //     name:""
-                    // }
-                ],
-                categories: [
-                    // {
-                    //     id:null,
-                    //     name:""
-                    // }
-                ]
+                authors: [],
+                themes: [],
+                similar: [],
+                external_book: {},
+                credits: [],
+                categories: [],
+                attachments: []
                 // bisac1: "",
                 // bisac2: "",
                 // bisac3: "",
                 // thisCourse: ""
             },
+            filesToAssociate: [],
             authorsList: [
                 {
                     id: 1,
@@ -378,38 +319,6 @@ export default {
                     name: "Author 3"
                 }
             ],
-            episodesList: [
-                {
-                    id: 1,
-                    title: "The Good Neighbor",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD204403?height=220&width=220"
-                },
-                {
-                    id: 2,
-                    title: "A Matter of Trust",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD041829?height=220&width=220"
-                },
-                {
-                    id: 3,
-                    title: "A Deadly Business",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD057607?height=220&width=220"
-                },
-                {
-                    id: 4,
-                    title: "Hand of Fate",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD031910?height=220&width=220"
-                },
-                {
-                    id: 5,
-                    title: "The Girl Who Was Supposed to Die",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD040549?height=220&width=220"
-                },
-                {
-                    id: 6,
-                    title: "The Body in the Woods",
-                    cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
-                }
-            ],
             bookInsightCreditsList: [
                 {
                     id: 1,
@@ -419,13 +328,15 @@ export default {
                     id: 2,
                     name: "Daniel Reichl"
                 }
-            ]
+            ],
+            fileSystem: {
+                attachments: 3,
+                themes: 5
+            },
+            associateFileSystem: []
         };
     },
     computed: {
-        ...mapState({
-            companyData: state => state.Company.data
-        }),
         isEditing() {
             return this.$route.name.includes("edit");
         },
@@ -442,8 +353,8 @@ export default {
         bookInsightLength: {
             get() {
                 const length = {
-                    HH: moment(`${moment.duration(this.bookInsight.length, "minutes").hours()}`, "hours").format("HH"),
-                    mm: moment(`${moment.duration(this.bookInsight.length, "minutes").minutes()}`, "hours").format("HH")
+                    HH: moment(`${moment.duration(Number(this.bookInsight.length), "minutes").hours()}`, "hours").format("HH"),
+                    mm: moment(`${moment.duration(Number(this.bookInsight.length), "minutes").minutes()}`, "hours").format("HH")
                 }
                 return length;
             },
@@ -453,24 +364,51 @@ export default {
         }
     },
     created() {
-        this.isEditing && this.getData();
+        this.isEditing && this.getBookInsight();
     },
     methods: {
         addTheme() {
-            const theme = { title: "", audio: "", body: "" }
+            const theme = { id: "", title: "", audio: "", body: "", attachments: "" }
             this.bookInsight.themes.push(theme);
         },
         removeTheme(index) {
             this.bookInsight.themes.splice(index, 1);
         },
-        setCoverImage(file) {
-            this.bookInsight.cover = file;
-        },
-        getData() {
+        sendFile(file, field, index) {
             this.isLoading = true;
+            const systemModuleId = field == "cover" ? this.fileSystem.attachments : this.fileSystem.themes;
 
+            let formData = new FormData();
+            formData.append("file", file);
+            formData.append("system_modules_id", systemModuleId);
+            formData.append("field", field);
+
+            axios.post("filesystem",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                }
+            ).then(response => {
+                if (field == "cover") {
+                    this.bookInsight.uploadedFiles = response.data;
+                } else {
+                    this.bookInsight.themes[index].uploadedFiles = response.data;
+                }
+                this.isLoading = false;
+            }).catch(() => {
+                this.isLoading = false;
+                this.$notify({
+                    text: `Something went wrong uploading the cover image`,
+                    type: "error"
+                });
+            });
+        },
+        getBookInsight() {
+            this.isLoading = true;
             axios({
-                url: `/book-insight/${this.$route.params.id}`,
+                url: `${this.bookInsightsEndpoint}/${this.$route.params.id}`,
                 method: "GET"
             }).then(response => {
                 this.bookInsight = Object.assign({}, this.bookInsight, response.data);
@@ -485,16 +423,15 @@ export default {
         },
         sendBookInsight() {
             this.isLoading = true;
-            const url = this.isEditing ? `/book-insight/${this.$route.params.id}` : "/book-insight/";
+            const url = this.isEditing ? `${this.bookInsightsEndpoint}/${this.$route.params.id}` : this.bookInsightsEndpoint;
             const method = this.isEditing ? "PUT" : "POST";
             axios({
                 url,
                 method,
                 data: this.bookInsight
-            }).then(response => {
+            }).then(() => {
                 this.isLoading = false;
-                console.log(response);
-                this.$router.push({ name: "browse", params: { resource: "book-insight" } });
+                this.$router.push({ name: "browse", params: { resource: "book-insights" } });
             }).catch(error => {
                 this.isLoading = false;
                 this.$notify({
@@ -514,17 +451,13 @@ export default {
     align-items: center;
     padding: 5px;
     border-top: 1px solid rgba(0,0,0,.07);
-    background-color: rgba(0,0,0,.07);
+    background-color: var(--secondary-color);
     cursor: pointer;
 }
 
 .add-author-button i {
     font-size: 12px;
     margin-right: 5px;
-}
-
-.add-author-button:hover {
-    background-color: rgba(0,0,0,.10);
 }
 </style>
 

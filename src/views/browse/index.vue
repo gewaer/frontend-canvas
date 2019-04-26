@@ -44,12 +44,12 @@
 
                         <template slot="actions" slot-scope="props">
                             <div class="btn-group vehicle-edit">
-                                <router-link 
-                                    :to="{ name: `edit-${ currentResource.name }`, params: { resource: currentResource.name, id: props.rowData.id } }" 
-                                    tag="button" 
-                                    type="button" 
+                                <router-link
+                                    :to="{ name: `edit-${ currentResource.name }`, params: { resource: currentResource.name, id: props.rowData.id } }"
+                                    tag="button"
+                                    type="button"
                                     class="btn btn-default smaller-btn">Edit</router-link>
-                                <button type="button" class="btn btn-default smaller-btn">Delete</button>
+                                <button type="button" class="btn btn-default smaller-btn" @click="deleteResource(props.rowData.id)">Delete</button>
                             </div>
                         </template>
                     </vuetable>
@@ -92,7 +92,7 @@ export default {
             appendParams: {
                 format: "true"
             },
-            perPage: 10,
+            perPage: 15,
             queryParams: {
                 sort: "sort",
                 page: "page",
@@ -102,13 +102,15 @@ export default {
                 text: "",
                 filters: []
             },
-            tableFields: [{
-                name: VuetableFieldCheckbox,
-                title: "checkbox",
-                titleClass: "text-center",
-                dataClass: "text-center",
-                width: "5%"
-            }],
+            tableFields: [
+                // {
+                //     name: VuetableFieldCheckbox,
+                //     title: "checkbox",
+                //     titleClass: "text-center",
+                //     dataClass: "text-center",
+                //     width: "5%"
+                // }
+            ],
             pagination: {
                 icons: {
                     first: "fa fa-chevron-left",
@@ -149,6 +151,24 @@ export default {
         next();
     },
     methods: {
+        deleteResource(resourceId) {
+            axios({
+                url: `${this.currentResource.endpoint}/${resourceId}`,
+                method: "DELETE"
+            }).then(() => {
+                this.$notify({
+                    text: `${this.currentResource.title} deleted successfully`,
+                    type: "success"
+                });
+                window.location.reload();
+            }).catch(() => {
+                this.isLoading = false;
+                this.$notify({
+                    text: `Something went wrong`,
+                    type: "error"
+                });
+            });
+        },
         getResource(resourceName) {
             const resourceIndex = this.companyData.resources.findIndex(resource => {
                 return resource.name == resourceName;

@@ -5,7 +5,7 @@
     >
         <div class="author-modal">
             <h3>Add author</h3>
-            <author-form @author-saved="$modal.hide('author-modal')" />
+            <author-form @author-saved="authorSaved" />
         </div>
     </modal>
 </template>
@@ -17,6 +17,12 @@ export default {
     name: "AuthorModal",
     components: {
         authorForm
+    },
+    methods: {
+        authorSaved() {
+            this.$emit("author-saved");
+            this.$modal.hide("author-modal");
+        }
     }
 }
 </script>

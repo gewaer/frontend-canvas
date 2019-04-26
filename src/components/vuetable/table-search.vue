@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-block">
             <div class="browse-list-row">
-                <dropdown class="bulk-actions">
+                <!-- <dropdown class="bulk-actions">
                     <button
                         id="bulk-actions"
                         slot="btn"
@@ -20,7 +20,7 @@
                             {{ action.name }}
                         </a>
                     </div>
-                </dropdown>
+                </dropdown> -->
 
                 <router-link :to="{ name: `create-${currentResource.name}`, params: { resource: currentResource.name } }" class="add-record-btn btn btn-primary">
                     <i class="fa fa-plus-circle"/> Add {{ currentResource.title }}

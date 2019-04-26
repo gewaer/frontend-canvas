@@ -1,23 +1,15 @@
 <template>
-    <form class="resource-form" novalidate @submit.prevent="sendAuthor">
+    <form class="resource-form" novalidate @submit.prevent="sendSearchTerm">
         <div class="row">
             <div class="col">
                 <div class="form-group form-group-default">
                     <label>Name</label>
                     <input
-                        v-model="author.name"
+                        v-model="searchTerm.name"
                         class="form-control"
                         type="text"
                         name="author-name"
                     >
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label>About</label>
-                    <editor-component v-model="author.about" />
                 </div>
             </div>
         </div>
@@ -30,13 +22,8 @@
 </template>
 
 <script>
-import editorComponent from "./editor-component";
-
 export default {
-    name: "Authorform",
-    components: {
-        editorComponent
-    },
+    name: "SearchTermsForm",
     props: {
         isEditing: {
             type: Boolean,
@@ -46,10 +33,27 @@ export default {
     data() {
         return {
             isLoading: false,
-            author: {
-                name: "",
-                about: ""
-            }
+            searchTerm: {
+                name: ""
+            },
+            rolsList: [
+                {
+                    id: 1,
+                    name: "Writer"
+                },
+                {
+                    id: 2,
+                    name: "Editor"
+                },
+                {
+                    id: 3,
+                    name: "Producer"
+                },
+                {
+                    id: 4,
+                    name: "Narrator"
+                }
+            ]
         };
     },
     created() {
@@ -60,10 +64,10 @@ export default {
             this.isLoading = true;
 
             axios({
-                url: `/authors/${this.$route.params.id}`,
+                url: `/categories/${this.$route.params.id}`,
                 method: "GET"
             }).then(response => {
-                this.author = Object.assign({}, this.author, response.data)
+                this.searchTerm = Object.assign({}, this.searchTerm, response.data)
                 this.isLoading = false;
             }).catch(error => {
                 this.isLoading = false;
@@ -73,20 +77,20 @@ export default {
                 });
             });
         },
-        sendAuthor() {
+        sendSearchTerm() {
             this.isLoading = true;
-            const url = this.isEditing ? `/authors/${this.$route.params.id}` : "/authors";
+            const url = this.isEditing ? `/categories/${this.$route.params.id}` : "/categories";
             const method = this.isEditing ? "PUT" : "POST";
 
             axios({
                 url,
                 method,
-                data: this.author
+                data: this.searchTerm
             }).then(() => {
                 this.isLoading = false;
-                this.$emit("author-saved");
+                this.$emit("search-term-saved");
                 this.$notify({
-                    text: "Author saved successfully",
+                    text: "Search term saved successfully",
                     type: "success"
                 });
             }).catch(error => {

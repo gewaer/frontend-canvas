@@ -46,9 +46,11 @@ const actions = {
             const resources = [
                 {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
-                    name: "book-insight",
-                    title: "Book Insight",
-                    endpoint: "/book-insight",
+                    name: "book-insights",
+                    title: "Book Insights",
+                    endpoint: "/book-insights",
+                    system_modules_id: 3,
+                    hidden: false,
                     tableFields: [
                         {
                             name: "title",
@@ -72,9 +74,11 @@ const actions = {
                 },
                 {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Education/Library-Books.png&r=255&g=255&b=255",
-                    name: "course",
-                    title: "Course",
-                    endpoint: "/course",
+                    name: "courses",
+                    title: "Courses",
+                    endpoint: "/courses",
+                    system_modules_id: 4,
+                    hidden: false,
                     tableFields: [
                         {
                             name: "title",
@@ -97,10 +101,18 @@ const actions = {
                     ]
                 },
                 {
+                    name: "themes",
+                    title: "Themes",
+                    system_modules_id: 5,
+                    hidden: true
+                },
+                {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/People/Teacher.png&r=255&g=255&b=255",
-                    name: "author",
-                    title: "Author",
-                    endpoint: "/author",
+                    name: "authors",
+                    title: "Authors",
+                    endpoint: "/authors",
+                    system_modules_id: null,
+                    hidden: false,
                     tableFields: [
                         {
                             name: "name",
@@ -112,6 +124,28 @@ const actions = {
                             name: "about",
                             title: "About",
                             sortField: "about",
+                            filterable: true,
+                            searchable: true
+                        }, {
+                            name: "actions",
+                            title: "Actions",
+                            titleClass: "table-actions",
+                            dataClass: "table-actions"
+                        }
+                    ]
+                },
+                {
+                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Shelf.png&r=255&g=255&b=255",
+                    name: "search-terms",
+                    title: "Search Terms",
+                    endpoint: "/categories",
+                    system_modules_id: null,
+                    hidden: false,
+                    tableFields: [
+                        {
+                            name: "name",
+                            title: "Name",
+                            sortField: "name",
                             filterable: true,
                             searchable: true
                         }, {

@@ -7,27 +7,23 @@
             :value="value"
             :searchable="true"
             :show-labels="false"
-            :multiple="true"
+            :multiple="singleSelect ? false : true"
             :options="list"
             :loading="isLoading"
             :internal-search="false"
             :options-limit="300"
             :track-by="trackBy"
             :label="label"
+            :disabled="disabled"
             class="multiselect-multiple-custom"
             @input="emitNewValue"
             @search-change="asyncFind"
+            @close="preFecthList"
         >
             <slot slot="beforeList" name="beforeList" />
             <slot slot="afterList" name="afterList" />
-            <!-- <template slot="tag" slot-scope="{ option, remove }">
-                <span class="multiselect__tag">
-                    <span>{{ option[label] }}</span>
-                    <i class="multiselect__tag-icon" @click.prevent="remove(option)" />
-                </span>
-            </template> -->
             <template slot="option" slot-scope="props">
-                <img v-if="props.option.cover" :src="props.option.cover" class="option__image">
+                <img v-if="props.option.cover || props.option.cover_url" :src="props.option.cover || props.option.cover_url" class="option__image">
                 <div class="option__desc"><span class="option__title">{{ props.option[label] }}</span></div>
             </template>
         </multiselect>
@@ -59,46 +55,24 @@ export default {
         externalCall: {
             type: Boolean,
             default: false
+        },
+        singleSelect: {
+            type: Boolean,
+            default: false
+        },
+        excludeOptionId: {
+            type: Number,
+            default: null
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
             isLoading: false,
-            list: [
-
-            ]
-            // listClone: [
-            //     {
-            //         id: 1,
-            //         title: "The Good Neighbor",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD204403?height=220&width=220"
-            //     },
-            //     {
-            //         id: 2,
-            //         title: "A Matter of Trust",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD041829?height=220&width=220"
-            //     },
-            //     {
-            //         id: 3,
-            //         title: "A Deadly Business",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD057607?height=220&width=220"
-            //     },
-            //     {
-            //         id: 4,
-            //         title: "Hand of Fate",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD031910?height=220&width=220"
-            //     },
-            //     {
-            //         id: 5,
-            //         title: "The Girl Who Was Supposed to Die",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD040549?height=220&width=220"
-            //     },
-            //     {
-            //         id: 6,
-            //         title: "The Body in the Woods",
-            //         cover: "http://images.findawayworld.com/v1/image/cover/CD243094?height=220&width=220"
-            //     }
-            // ]
+            list: []
         };
     },
     created() {
@@ -111,21 +85,32 @@ export default {
                     url: this.endpoint,
                     method: "GET"
                 }).then(response => {
-                    this.list = response.data;
+                    this.list = this.filterExternalResponse(response);
                 });
             } else {
                 axios({
-                    url: `/${this.endpoint}`,
+                    url: `${this.endpoint}`,
                     method: "GET"
                 }).then(response => {
-                    this.list = response.data;
+                    if (this.excludeOptionId) {
+                        this.list = this.excludeOption(response.data)
+                    } else {
+                        this.list = response.data;
+                    }
                 });
             }
         },
-        asyncFind(query) {
+        asyncFind: _.debounce(function(query) { // eslint-disable-line
+            if (query == "") {
+                return;
+            }
             this.isLoading = true;
             this.fetchList(query).then(response => {
-                this.list = response.data;
+                if (this.externalCall) {
+                    this.list = this.filterExternalResponse(response);
+                } else {
+                    this.list = response.data;
+                }
                 this.isLoading = false;
             }).catch(error => {
                 this.isLoading = false;
@@ -134,12 +119,38 @@ export default {
                     type: "error"
                 });
             });
-        },
+        }, 250),
         fetchList(query) {
-            return axios({
-                url: `/${this.endpoint}?q=(${this.label}:${query}%)`,
-                method: "GET"
+            if(this.externalCall) {
+                return externalAxios({
+                    url: `${this.endpoint}:search:${query}?page=0`,
+                    method: "GET"
+                })
+            } else {
+                return axios({
+                    url: `${this.endpoint}?q=(${this.label}:%${query}%)`,
+                    method: "GET"
+                });
+            }
+        },
+        filterExternalResponse(response) {
+            const filteredResponse = response.data.map(element => {
+                return {
+                    "external_id": element.id,
+                    "title": element.title,
+                    "cover_url": element.cover_url,
+                    "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}`
+                }
             });
+
+            return filteredResponse;
+        },
+        excludeOption(list) {
+            const optionIndex = list.findIndex(option => {
+                return Number(option.id) == Number(this.excludeOptionId)
+            });
+            list.splice(optionIndex, 1);
+            return list;
         },
         emitNewValue(event) {
             this.$emit("input", event);

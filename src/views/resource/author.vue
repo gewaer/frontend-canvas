@@ -3,7 +3,7 @@
         <h4 class="section-title p-l-10">{{ isEditing ? 'Edit' : 'Create' }} Author</h4>
         <div class="card">
             <div class="card-block">
-                <author-form :is-editing="isEditing" @author-saved="$router.push({ name: 'browse', params: { resource: 'author' } })" />
+                <author-form :is-editing="isEditing" @author-saved="$router.push({ name: 'browse', params: { resource: 'authors' } })" />
             </div>
         </div>
     </div>
@@ -24,7 +24,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

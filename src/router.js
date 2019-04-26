@@ -8,6 +8,7 @@ import routerValidator from "@/config/routerValidator";
 import bookInsight from "./views/resource/book-insight.vue";
 import course from "./views/resource/course.vue";
 import author from "./views/resource/author.vue";
+import searchTerms from "./views/resource/search-terms.vue";
 
 Vue.use(Router);
 
@@ -353,34 +354,47 @@ const router = new Router({
             component: BrowseList
         },
         {
-            path: "/browse/book-insight/create",
-            name: "create-book-insight",
+            path: "/browse/book-insights/create",
+            name: "create-book-insights",
             component: bookInsight
         },
         {
-            path: "/browse/book-insight/:id/edit",
-            name: "edit-book-insight",
+            path: "/browse/book-insights/:id/edit",
+            name: "edit-book-insights",
+            params: {
+                resource: "book-insights"
+            },
             component: bookInsight
         },
         {
-            path: "/browse/course/create",
-            name: "create-course",
+            path: "/browse/courses/create",
+            name: "create-courses",
             component: course
         },
         {
-            path: "/browse/course/:id/edit",
-            name: "edit-course",
+            path: "/browse/courses/:id/edit",
+            name: "edit-courses",
             component: course
         },
         {
-            path: "/browse/author/create",
-            name: "create-author",
+            path: "/browse/authors/create",
+            name: "create-authors",
             component: author
         },
         {
-            path: "/browse/author/:id/edit",
-            name: "edit-author",
+            path: "/browse/authors/:id/edit",
+            name: "edit-authors",
             component: author
+        },
+        {
+            path: "/browse/search-terms/create",
+            name: "create-search-terms",
+            component: searchTerms
+        },
+        {
+            path: "/browse/search-terms/:id/edit",
+            name: "edit-search-terms",
+            component: searchTerms
         }
     ]
 });
