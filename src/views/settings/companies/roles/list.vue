@@ -122,8 +122,14 @@ export default {
             axios({
                 url: `/roles-acceslist/${role.id}/copy`,
                 method: "POST"
-            }).then(({ data }) => {
-                this.editRole(data);
+            }).then(() => {
+                this.$refs.Vuetable.reload();
+                this.$notify({
+                    group: null,
+                    title: "Confirmation",
+                    text: `The role has been clonned!`,
+                    type: "success"
+                });
             })
         }
     }

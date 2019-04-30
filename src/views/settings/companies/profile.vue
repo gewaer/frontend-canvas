@@ -250,7 +250,7 @@ export default {
             });
         },
 
-        onSuccess({data}) {
+        onSuccess({ data }) {
             this.$store.dispatch("Company/updateData", data.id);
             this.$notify({
                 title: "Confirmation",

@@ -137,7 +137,7 @@ export default {
     methods: {
         addFilter() {
             this.filters.push({
-                indexId:  Math.random().toString(16).replace(".", ""),
+                indexId: Math.random().toString(16).replace(".", ""),
                 field: "",
                 condition: "like",
                 conector: "or",
@@ -171,7 +171,7 @@ export default {
                 filters: this.getFilters()
             }
 
-            this.$validator.validate().then( result => {
+            this.$validator.validate().then(result => {
                 if (result) {
                     this.sendRequest(url, method, formData);
                 }

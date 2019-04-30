@@ -2,15 +2,15 @@ import store from "@/store";
 
 import { isValidJWT } from "@/utils/helpers";
 
-const validateSubscription = function validateSubscription(routeTo){
+const validateSubscription = function validateSubscription(routeTo) {
     let routeToGo = routeTo;
-    if(routeTo.name != "settingsCompaniesSubscriptions" && store.getters["Company/subscriptionHasEnded"]){
+    if (routeTo.name != "settingsCompaniesSubscriptions" && store.getters["Company/subscriptionHasEnded"]) {
         routeToGo = { name: "settingsCompaniesSubscriptions" }
     }
     return routeToGo;
 };
 
-const validationHandler = function validationHandler(routeTo){
+const validationHandler = function validationHandler(routeTo) {
     let routeToGo = validateSubscription(routeTo);
 
     return routeToGo;

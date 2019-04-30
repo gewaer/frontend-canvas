@@ -95,11 +95,11 @@ export default {
         })
     },
     methods: {
-        beforeDeleteCompany(company){
+        beforeDeleteCompany(company) {
             if (this.isLoading) {
                 return ;
             }
-            if(company.hasActivities == "1"){
+            if (company.hasActivities == "1") {
                 this.$notify({
                     title: "Error",
                     text: "No puede eliminar esta compañia por que tiene actividades",
@@ -109,7 +109,7 @@ export default {
             }
             this.confirmDeleteCompany(company);
         },
-        confirmDeleteCompany(company){
+        confirmDeleteCompany(company) {
             this.$modal.show("basic-modal", {
                 title:"Delete Company",
                 message:`Did you want to delete ${company.name} company ?`,

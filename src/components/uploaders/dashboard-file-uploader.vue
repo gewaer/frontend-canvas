@@ -111,16 +111,16 @@ export default {
             if (restrictions.maxNumberOfFiles == 1) {
                 this.resetDashboard();
             }
-        }, )
+        });
         uppyInstance.on("complete", result => {
             this.$emit("completeuploads", result);
             this.resetDashboard();
         })
-        uppyInstance.run();
+
         this.uppyInstance = uppyInstance;
     },
-    methods:{
-        resetDashboard(){
+    methods: {
+        resetDashboard() {
             this.uppyInstance.reset();
             const dashboard = this.uppyInstance.getPlugin(this.dashboardInstanceId);
             if (dashboard.isModalOpen()) {

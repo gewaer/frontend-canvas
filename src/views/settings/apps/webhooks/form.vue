@@ -129,11 +129,11 @@ export default {
         "webhookData.method"() {
             this.setInitialMethod();
         },
-        "route.params.id"(){
+        "route.params.id"() {
             //this.getUserWebhook();
         },
         "webhooks":{
-            handler(){
+            handler() {
                 this.setInitialWebhook();
             },
             deep:true
@@ -283,14 +283,14 @@ export default {
             });
             return data;
         },
-        getWebhooks(){
+        getWebhooks() {
             let url = `/webhooks`;
             axios({
                 url
             }).then(({
                 data
             }) => this.webhooks = data)
-                .catch(() => this.webhooks= []);
+                .catch(() => this.webhooks = []);
         }
     }
 }

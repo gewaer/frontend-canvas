@@ -45,7 +45,7 @@ export default {
                 acceptedFiles: "image/png, image/jpeg",
                 // thumbnailWidth: 150,
                 maxFilesize: 5,
-                headers: {  Authorization: store.state.User.token }
+                headers: { Authorization: store.state.User.token }
             }
         }
     },

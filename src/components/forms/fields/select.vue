@@ -29,7 +29,7 @@ export default {
     },
     computed: {
         attachEvents() {
-            let events = this.item.url ? { "search-change": this.fetchData} : {};
+            let events = this.item.url ? { "search-change": this.fetchData } : {};
 
             if (this.item.searchOnOpen) {
                 events.open = this.fetchData;

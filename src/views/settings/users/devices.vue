@@ -79,14 +79,14 @@ export default {
             }
         },
         detachDevice(device) {
-            if (this.isLoading ) {
+            if (this.isLoading) {
                 return
             }
-            let data = {...device, app: this.currentAppId}
+            let data = { ...device, app: this.currentAppId }
             this.isLoading = true;
             axios.delete(
                 `users/${this.user.id}/devices/${device.source_users_id_text}/detach`,
-                { data: data}
+                { data: data }
             ).then(() => {
                 this.$notify({
                     title: "Deleted",
