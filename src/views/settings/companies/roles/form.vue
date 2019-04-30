@@ -155,7 +155,7 @@ export default {
                         access.allowed = "1";
                         access.role_name = "";
                     });
-                    role = {name: "", description: ""}
+                    role = { name: "", description: "" }
                 } else {
                     role = await this.getRoleData(roleId);
                 }
@@ -170,7 +170,7 @@ export default {
         getAccess(role) {
             return axios({
                 url: "/permissions-resources-access"
-            }).then(({data}) => {
+            }).then(({ data }) => {
                 return this.formatAccesses(data, role);
             })
         },
@@ -186,17 +186,17 @@ export default {
         },
 
         findLocalAccess(accessList, access) {
-            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+            return accessList.find(permission => access.access_name == permission.access_name && access.resources_name == permission.resources_name);
         },
 
         formatRole(accessList, role) {
-            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.accessListData = _.sortBy(accessList, ["resources_name", "access_name"]);
             this.roleData = role;
             this.groupPermissions();
             this.checkSelectedGroups();
         },
 
-        formatAccesses(accesList, role ) {
+        formatAccesses(accesList, role) {
             return accesList.map(access => {
                 if (role) {
                     delete access.resources_id;
@@ -213,7 +213,7 @@ export default {
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
                     if (!accessGroup[access.resources_name]) {
-                        accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
+                        accessGroup[access.resources_name] = { permissions: { [access.access_name]: access } };
                     } else {
                         accessGroup[access.resources_name]["permissions"][access.access_name] = access;
                     }

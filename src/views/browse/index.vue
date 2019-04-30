@@ -126,9 +126,9 @@ export default {
             pagination: {
                 icons: {
                     first: "fa fa-chevron-left",
-                    prev:  "fa fa-chevron-left",
-                    next:  "fa fa-chevron-right",
-                    last:  "fa fa-chevron-right"
+                    prev: "fa fa-chevron-left",
+                    next: "fa fa-chevron-right",
+                    last: "fa fa-chevron-right"
                 }
             }
         };
@@ -188,8 +188,8 @@ export default {
         //table methods
         getData() {
             let params = "";
-            if (this.searchOptions.text){
-                if ( !this.searchOptions.filters.length) {
+            if (this.searchOptions.text) {
+                if (!this.searchOptions.filters.length) {
                     params += this.getParams(this.searchableFields);
                 } else {
                     params += this.getParams(this.searchOptions.filters);
@@ -200,8 +200,8 @@ export default {
             this.$refs.Vuetable.refresh();
         },
 
-        getParams(fields, separator="%") {
-            return  fields.map(field => `${field}:${separator}${encodeURIComponent(this.searchOptions.text.trim())}${separator}`).join(";");
+        getParams(fields, separator = "%") {
+            return fields.map(field => `${field}:${separator}${encodeURIComponent(this.searchOptions.text.trim())}${separator}`).join(";");
         },
 
         // pagination data

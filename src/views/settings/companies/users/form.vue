@@ -146,13 +146,13 @@ export default {
         title() {
             let title = "New User"
             if (this.isEditUser) {
-                title= "Edit User";
+                title = "Edit User";
             }
             return title;
         },
-        isEditUser(){
+        isEditUser() {
             let value = true;
-            if (!this.$route.params.id){
+            if (!this.$route.params.id) {
                 value = false;
             }
             return value;
@@ -165,7 +165,7 @@ export default {
         user() {
             this.setUser();
         },
-        roles(){
+        roles() {
             this.selectedRole = this.roles.find(role => role.id == this.userData.roles_id);
         },
         "userData.language"() {
@@ -189,16 +189,16 @@ export default {
         setRole(value) {
             this.userData.roles_id = value.id;
         },
-        verifyFields(){
+        verifyFields() {
             let dialogProps = {
                 title:"Invite User!",
-                message:`Did you want to invite a new user to your company?`};
+                message:`Did you want to invite a new user to your company?` };
 
             if (this.userData.id) {
                 dialogProps = { title:"Edit User!",
-                    message:`Did you want to Edit this user?`};
+                    message:`Did you want to Edit this user?` };
             }
-            if(this.errors.items.length){
+            if (this.errors.items.length) {
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
                 this.$notify({
@@ -210,7 +210,7 @@ export default {
                 this.validateFields(dialogProps);
             }
         },
-        validateFields(modalProps){
+        validateFields(modalProps) {
             this.$validator.validate().then(result => {
                 if (result) {
                     this.$modal.show("basic-modal", {
@@ -247,7 +247,7 @@ export default {
             } else {
                 url = `/users/${this.userData.id}`;
                 method = "PUT";
-                data =  this.userData;
+                data = this.userData;
             }
 
             if (!this.isLoading) {

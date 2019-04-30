@@ -309,16 +309,16 @@ export default {
         isSignup() {
             return this.$route.name == "signup";
         },
-        isInvite(){
+        isInvite() {
             return this.$route.name == "usersInvites";
         },
-        isTypeOfSignIn(){
+        isTypeOfSignIn() {
             return this.isLogin || this.isSignup || this.isInvite || this.isInviteConfirmation;
         },
-        isTypeOfInvite(){
+        isTypeOfInvite() {
             return this.isInviteConfirmation || this.isInvite;
         },
-        isInviteConfirmation(){
+        isInviteConfirmation() {
             return this.$route.name == "usersInvitesConfirmation";
         }
     },
@@ -327,8 +327,8 @@ export default {
         this.data.password = "";
         next();
     },
-    mounted(){
-        if(this.isTypeOfInvite){
+    mounted() {
+        if (this.isTypeOfInvite) {
             this.validateInvitation();
         }
     },
@@ -410,11 +410,11 @@ export default {
                 });
             });
         },
-        validateInvitation(){
+        validateInvitation() {
             let url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
             axios({
                 url
-            }).then(({data}) => this.data.email = data.email)
+            }).then(({ data }) => this.data.email = data.email)
                 .catch((error) => {
                     this.$notify({
                         title: "Error",

@@ -48,9 +48,9 @@ export default {
             this.title = event.params.title || "";
             this.message = event.params.message || " Are you Sure?";
         },
-        beforeClose(){
+        beforeClose() {
             this.buttons = [];
-            this.title ="";
+            this.title = "";
             this.message = "";
         }
     }

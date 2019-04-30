@@ -361,9 +361,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth !== false)) {
         routerValidator(to, from).then((routeToGo) => {
-            if(isEqual(routeToGo, to) ){
+            if (isEqual(routeToGo, to)) {
                 next()
-            }else {
+            } else {
                 next(routeToGo)
             }
         }).catch((routeToGo) => next(routeToGo));
