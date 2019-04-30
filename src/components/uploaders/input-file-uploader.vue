@@ -100,7 +100,7 @@ export default {
         uppyInstance.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
-        uppyInstance.run();
+
         this.uppyInstance = uppyInstance;
     }
 }

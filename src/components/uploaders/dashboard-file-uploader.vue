@@ -116,7 +116,7 @@ export default {
             this.$emit("completeuploads", result);
             this.resetDashboard();
         })
-        uppyInstance.run();
+
         this.uppyInstance = uppyInstance;
     },
     methods: {
