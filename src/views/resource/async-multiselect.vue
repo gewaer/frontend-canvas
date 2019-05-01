@@ -1,33 +1,22 @@
 <template>
-    <div class="form-group-multiselect">
-        <label>
-            <slot name="label" />
-        </label>
-        <multiselect
-            :value="value"
-            :searchable="true"
-            :show-labels="false"
-            :multiple="singleSelect ? false : true"
-            :options="list"
-            :loading="isLoading"
-            :internal-search="false"
-            :options-limit="300"
-            :track-by="trackBy"
-            :label="label"
-            :disabled="disabled"
-            class="multiselect-multiple-custom"
-            @input="emitNewValue"
-            @search-change="asyncFind"
-            @close="preFecthList"
-        >
-            <slot slot="beforeList" name="beforeList" />
-            <slot slot="afterList" name="afterList" />
-            <template slot="option" slot-scope="props">
-                <img v-if="thereIsCover(props)" :src="thereIsCover(props)" class="option__image">
-                <div class="option__desc"><span class="option__title">{{ props.option[label] }}</span></div>
-            </template>
-        </multiselect>
-    </div>
+    <multiselect
+        :searchable="true"
+        :show-labels="false"
+        :options="list"
+        :loading="isLoading"
+        :internal-search="false"
+        :options-limit="300"
+        class="multiselect-multiple-custom form-group-multiselect"
+        @search-change="asyncFind"
+        @open="preFecthList"
+    >
+        <slot slot="beforeList" name="beforeList" />
+        <slot slot="afterList" name="afterList" />
+        <template slot="option" slot-scope="props">
+            <img v-if="hasCover(props)" :src="hasCover(props)" class="option__image">
+            <div class="option__desc"><span class="option__title">{{ props.option[label] }}</span></div>
+        </template>
+    </multiselect>
 </template>
 
 <script>
@@ -36,14 +25,6 @@ import externalAxios from "axios";
 export default {
     name: "AsyncMultiselect",
     props: {
-        value: {
-            type: null,
-            required: true
-        },
-        trackBy: {
-            type: String,
-            required: true
-        },
         label: {
             type: String,
             required: true
@@ -52,21 +33,23 @@ export default {
             type: String,
             required: true
         },
+        // need to remove/refactor
         externalCall: {
             type: Boolean,
             default: false
         },
-        singleSelect: {
-            type: Boolean,
-            default: false
-        },
+        // it's gone/need to refactor first
         excludeOptionId: {
             type: Number,
             default: null
         },
-        disabled: {
-            type: Boolean,
-            default: false
+        debounceTime: {
+            type: Number,
+            default: 250
+        },
+        itemFetchAmount: {
+            type: Number,
+            required: true
         }
     },
     data() {
@@ -101,7 +84,7 @@ export default {
             }
         },
         asyncFind: _.debounce(function(query) { // eslint-disable-line
-            if (query == "") {
+            if (!query) {
                 return;
             }
             this.isLoading = true;
@@ -139,7 +122,7 @@ export default {
                     "external_id": element.id,
                     "title": element.title,
                     "cover_url": element.cover_url,
-                    "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}`
+                    "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}` // should be on env?
                 }
             });
 
@@ -152,14 +135,16 @@ export default {
             list.splice(optionIndex, 1);
             return list;
         },
-        thereIsCover(props) {
-            if (props.option.attachments) {
-                return props.option.attachments[0] ? props.option.attachments[0].url : false;
+        hasCover(props) {
+            if (props.option.attachments && props.option.attachments.length) {
+                return props.option.attachments[0].url;
             }
             return props.option.cover || props.option.cover_url;
         },
-        emitNewValue(event) {
-            this.$emit("input", event);
+
+        defaultResponseHandler(response) {
+            let newResponse = response;
+
         }
     }
 }

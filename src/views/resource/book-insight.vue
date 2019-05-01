@@ -52,15 +52,16 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
+                            <label>
+                                Book Authors
+                            </label>
                             <async-multiselect
                                 ref="authorsMultiselect"
-                                v-model="bookInsight.authors"
+                                :value="bookInsight.authors"
                                 :endpoint="authorsEndpoint"
+                                :item-fetch-amount="100"
                                 track-by="id"
                                 label="name">
-                                <template slot="label">
-                                    Book Authors
-                                </template>
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
                                         <i class="fa fa-plus" />Add author
@@ -135,41 +136,42 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
+                            <label>
+                                Similar Book Insights Titles
+                            </label>
                             <async-multiselect
-                                v-model="bookInsight.similar"
-                                :exclude-option-id="Number($route.params.id)"
+                                :value="bookInsight.similar"
                                 :endpoint="bookInsightsEndpoint"
+                                :item-fetch-amount="100"
                                 track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Similar Book Insights Titles
-                                </template>
-                            </async-multiselect>
+                                label="title"
+                            />
                         </div>
                         <div class="col-12 col-md">
+                            <label>
+                                Listen to the original audio book
+                            </label>
                             <async-multiselect
-                                v-model="bookInsight.external_book"
+                                :value="bookInsight.external_book"
                                 :external-call="true"
+                                :item-fetch-amount="100"
                                 :single-select="true"
+                                :multiple="true"
                                 track-by="external_id"
                                 label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
-                                <template slot="label">
-                                    Listen to the original audio book
-                                </template>
-                            </async-multiselect>
+                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks"/>
                         </div>
                         <div class="col-12 col-md">
+                            <label>
+                                Book Insight Credits
+                            </label>
                             <async-multiselect
-                                v-model="bookInsight.credits"
+                                :value="bookInsight.credits"
                                 :single-select="true"
                                 :endpoint="collaboratorsEndpoint"
+                                :item-fetch-amount="100"
                                 track-by="external_id"
-                                label="title">
-                                <template slot="label">
-                                    Book Insight Credits
-                                </template>
-                            </async-multiselect>
+                                label="title"/>
                         </div>
                     </div>
                     <div class="row">
@@ -182,15 +184,17 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg-6 col-xl">
+                            <label>
+                                Search Terms - Genre
+                            </label>
                             <async-multiselect
                                 ref="searchTermsMultiselect"
                                 v-model="bookInsight.categories"
                                 :endpoint="categoriesEndpoint"
+                                :item-fetch-amount="100"
                                 track-by="id"
-                                label="name">
-                                <template slot="label">
-                                    Search Terms - Genre
-                                </template>
+                                label="name"
+                            >
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('search-terms-modal')">
                                         <i class="fa fa-plus" />Add search term

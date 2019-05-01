@@ -45,15 +45,14 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
+                            <label>
+                                Book Insights feature in the Course
+                            </label>
                             <async-multiselect
                                 v-model="course.book_insights"
                                 :endpoint="bookInsightsEndpoint"
                                 track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Book Insights feature in the Course
-                                </template>
-                            </async-multiselect>
+                                label="title"/>
                         </div>
                         <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
@@ -73,17 +72,16 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
+                            <label>
+                                Listen to Original Audio Books mentioned
+                            </label>
                             <async-multiselect
                                 v-model="listenOriginalMentioned"
                                 :external-call="true"
                                 :disabled="true"
                                 track-by="id"
                                 label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
-                                <template slot="label">
-                                    Listen to Original Audio Books mentioned
-                                </template>
-                            </async-multiselect>
+                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks"/>
                         </div>
                         <div class="col-12 col-lg">
                             <async-multiselect

@@ -42,7 +42,7 @@ const actions = {
             dispatch("Company/getData", null, { root: true })
         ]).then(response => {
 
-            // TODO: This is hardcored, remove this as soon as the backend send each company  resources
+            // TODO: This is hardcored, remove this as soon as the backend send each company resources
             const resources = [
                 {
                     icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
