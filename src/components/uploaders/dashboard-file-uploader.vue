@@ -2,7 +2,7 @@
     <div :id="uppyId">
         <div v-show="collection" class="dashboard-container"/>
         <div v-show="!collection" class="thumbnail-container">
-            <button id="open-thumbnail-modal" type="button" class="btn btn-primary" >Select File{{ collection ? 's' : '' }}</button>
+            <button id="open-thumbnail-modal" type="button" class="btn btn-primary btn-block" >Select File{{ collection ? 's' : '' }}</button>
         </div>
     </div>
 </template>
