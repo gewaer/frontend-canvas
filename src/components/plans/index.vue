@@ -22,7 +22,7 @@ export default {
     props: {
         plans: {
             type: Array,
-            default(){
+            default() {
                 return []
             }
         },
@@ -40,14 +40,14 @@ export default {
         }
     },
     methods: {
-        changePlan(plan){
-            if(this.showModal){
+        changePlan(plan) {
+            if (this.showModal) {
                 this.changeSubscription(plan)
-            }else{
+            } else {
                 this.$emit("changesubscription", plan);
             }
         },
-        changeSubscription(plan){
+        changeSubscription(plan) {
             this.$modal.show("basic-modal", {
                 title:"Change Subcription!",
                 message:`Did you want to Update your Subcription?`,

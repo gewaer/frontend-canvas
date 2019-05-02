@@ -13,7 +13,7 @@ export default {
         ...mapGetters({
             daysLeft: "Company/subscriptionDaysLeft"
         }),
-        trialText(){
+        trialText() {
             let message = "over"
             if (this.daysLeft > 0) {
                 message = `${this.daysLeft } days left`;

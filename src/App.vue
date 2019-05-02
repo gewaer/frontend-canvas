@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
     <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
         <!-- <modals-container/> -->
         <notifications/>
@@ -18,7 +18,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined && isTrial"/>
+                    <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined && isTrialSubscription"/>
                     <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
                 </div>
             </div>
@@ -33,15 +33,14 @@
 </template>
 
 <script>
+const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
+
 import { mapState, mapGetters } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import AppHeader from "@gewaer/base-header";
-import AppSidebar from "@/views/layout/side-bar.vue";
 import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
 import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
 import BasicModal from "@/components/modals/basic-modal.vue";
 import NotificationCenter from "@/views/layout/notification-center";
-import "@gewaer/base-header/dist/base-header.css";
 
 export default {
     components: {
@@ -65,7 +64,7 @@ export default {
             accessList: state => state.User.data.access_list
         }),
         ...mapGetters({
-            isTrial: "Company/isTrialSubscription"
+            isTrialSubscription: "Company/isTrialSubscription"
         })
     },
     watch: {

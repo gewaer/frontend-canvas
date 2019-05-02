@@ -42,25 +42,25 @@ const getters = {
     currentCompanyId(state) {
         return state.data ? state.data.id : null;
     },
-    isTrialSubscription(state){
+    isTrialSubscription(state) {
         let isTrial = "0";
-        if(!isEmpty(state.data)){
+        if (!isEmpty(state.data)) {
             isTrial = !isEmpty(state.data) ? get(state.data, "subscription.is_freetrial", "0") : "0" ;
         }
         return !!Number(isTrial);
     },
-    subscriptionDaysLeft(state, getters){
+    subscriptionDaysLeft(state, getters) {
         let daysLeft = moment();
         let timeLeft = 0;
-        if(getters.isTrialSubscription){
+        if (getters.isTrialSubscription) {
             daysLeft = moment(state.data.subscription.trial_ends_at);
         }
         if (daysLeft.diff(moment(), "days")) {
-            timeLeft =  daysLeft.diff(moment(), "days")
+            timeLeft = daysLeft.diff(moment(), "days")
         }
         return timeLeft;
     },
-    subscriptionHasEnded(state, getters){
+    subscriptionHasEnded(state, getters) {
         const subscriptionDaysLeft = getters["subscriptionDaysLeft"] || 0;
         return subscriptionDaysLeft <= 0;
     }

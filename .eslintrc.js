@@ -59,7 +59,6 @@ module.exports = {
         "space-before-function-paren": ["error", "never"],
         "space-in-parens": "error",
         "object-curly-spacing": ["error", "always"],
-        "comma-spacing": ["error", { "before": false, "after": true }],
         "arrow-spacing": "error",
         "no-useless-escape": 0,
         "vue/no-v-html": "warn",

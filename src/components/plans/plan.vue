@@ -50,15 +50,15 @@
 export default {
     name: "Plan",
     filters: {
-        getPrice(value){
+        getPrice(value) {
             const isNumber = _.isNumber(Number(value));
             let data = 0;
-            if(value && isNumber){
-                data =  value.split(".")[0];
+            if (value && isNumber) {
+                data = value.split(".")[0];
             }
             return data;
         },
-        formatSetting(value){
+        formatSetting(value) {
             return _.startCase(value);
         }
     },
