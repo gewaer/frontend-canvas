@@ -56,12 +56,12 @@
                                 Book Authors
                             </label>
                             <async-multiselect
+                                id="name"
                                 ref="authorsMultiselect"
-                                :value="bookInsight.authors"
+                                v-model="bookInsight.author"
                                 :endpoint="authorsEndpoint"
-                                :item-fetch-amount="100"
                                 track-by="id"
-                                label="name">
+                            >
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
                                         <i class="fa fa-plus" />Add author
@@ -140,38 +140,33 @@
                                 Similar Book Insights Titles
                             </label>
                             <async-multiselect
+                                id="title"
                                 :value="bookInsight.similar"
                                 :endpoint="bookInsightsEndpoint"
-                                :item-fetch-amount="100"
                                 track-by="id"
-                                label="title"
                             />
                         </div>
                         <div class="col-12 col-md">
                             <label>
                                 Listen to the original audio book
                             </label>
-                            <async-multiselect
+                            <audiobook-multiselect
+                                :debounce-time="200"
                                 :value="bookInsight.external_book"
-                                :external-call="true"
-                                :item-fetch-amount="100"
-                                :single-select="true"
                                 :multiple="true"
-                                track-by="external_id"
-                                label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks"/>
+                                track-by="id"
+                            />
                         </div>
                         <div class="col-12 col-md">
                             <label>
                                 Book Insight Credits
                             </label>
                             <async-multiselect
+                                id="title"
                                 :value="bookInsight.credits"
                                 :single-select="true"
                                 :endpoint="collaboratorsEndpoint"
-                                :item-fetch-amount="100"
-                                track-by="external_id"
-                                label="title"/>
+                                track-by="external_id"/>
                         </div>
                     </div>
                     <div class="row">
@@ -188,12 +183,11 @@
                                 Search Terms - Genre
                             </label>
                             <async-multiselect
+                                id="name"
                                 ref="searchTermsMultiselect"
                                 v-model="bookInsight.categories"
                                 :endpoint="categoriesEndpoint"
-                                :item-fetch-amount="100"
                                 track-by="id"
-                                label="name"
                             >
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('search-terms-modal')">
@@ -202,7 +196,7 @@
                                 </template>
                             </async-multiselect>
                         </div>
-                        <!-- <div class="col-12 col-lg-6 col-xl">
+                        <div class="col-12 col-lg-6 col-xl">
                             <div class="form-group-multiselect">
                                 <label>BISAC 1</label>
                                 <multiselect
@@ -210,8 +204,8 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac1"
                                     :options="authorsList"
-                                    track-by="id"
                                     label="name"
+                                    track-by="id"
                                 />
                             </div>
                         </div>
@@ -223,8 +217,8 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac2"
                                     :options="authorsList"
-                                    track-by="id"
                                     label="name"
+                                    track-by="id"
                                 />
                             </div>
                         </div>
@@ -236,11 +230,11 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac3"
                                     :options="authorsList"
-                                    track-by="id"
                                     label="name"
+                                    track-by="id"
                                 />
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -262,6 +256,7 @@
 </template>
 
 <script>
+// TODO: lazy loaaad
 import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
 import bookCover from "./book-cover.vue";
@@ -269,6 +264,7 @@ import moment from "moment";
 import authorModal from "./author-modal";
 import searchTermsModal from "./search-terms-modal";
 import asyncMultiselect from "./async-multiselect";
+import audiobookMultiselect from  "@c/multiselects/audiobook-multiselect";
 
 export default {
     name: "BookInsight",
@@ -278,7 +274,8 @@ export default {
         bookCover,
         authorModal,
         searchTermsModal,
-        asyncMultiselect
+        asyncMultiselect,
+        audiobookMultiselect
     },
     data() {
         return {
@@ -371,6 +368,19 @@ export default {
         this.isEditing && this.getBookInsight();
     },
     methods: {
+        // TODO: global
+        filterExternalResponse(response) {
+            const filteredResponse = response.data.map(element => {
+                return {
+                    "external_id": element.id,
+                    "title": element.title,
+                    "cover_url": element.cover_url,
+                    "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}` // should be on env?
+                }
+            });
+
+            return filteredResponse;
+        },
         addTheme() {
             const theme = { id: "", title: "", audio: "", body: "", attachments: "" }
             this.bookInsight.themes.push(theme);
@@ -443,6 +453,12 @@ export default {
                     type: "error"
                 });
             });
+        },
+        hasCover(props) {
+            if (props.option.attachments && props.option.attachments.length) {
+                return props.option.attachments[0].url;
+            }
+            return props.option.cover || props.option.cover_url;
         }
     }
 }

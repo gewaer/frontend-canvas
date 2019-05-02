@@ -75,13 +75,12 @@
                             <label>
                                 Listen to Original Audio Books mentioned
                             </label>
-                            <async-multiselect
-                                v-model="listenOriginalMentioned"
-                                :external-call="true"
-                                :disabled="true"
+                            <audiobook-multiselect
+                                :debounce-time="200"
+                                :value="listenOriginalMentioned"
+                                :multiple="true"
                                 track-by="id"
-                                label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks"/>
+                            />
                         </div>
                         <div class="col-12 col-lg">
                             <async-multiselect
@@ -111,13 +110,15 @@
 import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
 import asyncMultiselect from "./async-multiselect";
+import audiobookMultiselect from "@c/multiselects/audiobook-multiselect";
 
 export default {
     name: "Course",
     components: {
         bookCover,
         editorComponent,
-        asyncMultiselect
+        asyncMultiselect,
+        audiobookMultiselect
     },
     data() {
         return {
