@@ -87,6 +87,7 @@
                                 <multiselect
                                     v-validate="'required'"
                                     v-model="selectedLanguage"
+                                    :allow-empty="false"
                                     :options="languages"
                                     data-vv-as="language"
                                     name="language"
@@ -117,7 +118,7 @@
                                 <multiselect
                                     v-validate="'required'"
                                     v-model="selectedCurrency"
-                                    :allow-empty="true"
+                                    :allow-empty="false"
                                     :max-height="175"
                                     :custom-label="currencyLabel"
                                     :options="currencies"
