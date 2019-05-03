@@ -51,7 +51,7 @@
                                                 v-model="group.isGroupSelected"
                                                 type="checkbox"
                                                 checked="checked"
-                                                @click="checkGroup($event, groupName,true)">
+                                                @click="checkGroup($event, groupName, true)">
                                             <label for="checkbox1"/>
                                         </div>
                                         <a
@@ -82,7 +82,7 @@
                                                             :name="`checkbox-${groupName}-${accessName}`"
                                                             v-model="access.allowed"
                                                             type="checkbox"
-                                                            @change="checkSelectedGroup(groupName,true)">
+                                                            @change="checkSelectedGroup(groupName, true)">
                                                         <label :for="`checkbox-${groupName}-${accessName}`"/>
                                                     </div>
                                                 </div>
@@ -293,12 +293,15 @@ export default {
         },
         // form related
         verifyFields() {
-            let dialogProps = { title:`Create ${this.roleData.name} Role!`,
+            let dialogProps = {
+                title:`Create ${this.roleData.name} Role!`,
                 message:`Did you want to Create this Role?` };
+
             if (!this.isNewRole) {
                 dialogProps = { title:`Edit ${this.roleData.name} Role!`,
                     message:`Did you want to Edit this Role?` };
             }
+
             if (this.errors.items.length) {
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
