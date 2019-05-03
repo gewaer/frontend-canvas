@@ -48,11 +48,11 @@
                             <label>
                                 Book Insights feature in the Course
                             </label>
-                            <async-multiselect
+                            <!-- <custom-multiselect
+                                id="title"
                                 v-model="course.book_insights"
                                 :endpoint="bookInsightsEndpoint"
-                                track-by="id"
-                                label="title"/>
+                                track-by="id"/> -->
                         </div>
                         <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
@@ -77,22 +77,21 @@
                             </label>
                             <audiobook-multiselect
                                 :debounce-time="200"
-                                :value="listenOriginalMentioned"
-                                :multiple="true"
-                                track-by="id"
+                                v-model="listenOriginalMentioned"
+                                :multiselect-props="audiobooksMultiselectProps"
                             />
                         </div>
                         <div class="col-12 col-lg">
-                            <async-multiselect
+                            <!-- <label>
+                                Other Courses
+                            </label>
+                            <custom-multiselect
+                                id="title"
                                 v-model="course.similar"
                                 :endpoint="coursesEndpoint"
-                                :exclude-option-id="Number($route.params.id)"
-                                track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Other Courses
-                                </template>
-                            </async-multiselect>
+                                :multiselect-props=""
+                                :exclude-option-id="$route.params.id"
+                            /> -->
                         </div>
                     </div>
                     <div class="row">
@@ -107,17 +106,18 @@
 </template>
 
 <script>
+
 import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
-import asyncMultiselect from "./async-multiselect";
-import audiobookMultiselect from "@c/multiselects/audiobook-multiselect";
+import customMultiselect from "@c/multiselects/custom-multiselect";
+import audiobookMultiselect from "@v/resource/book-insights/audiobook-multiselect";
 
 export default {
     name: "Course",
     components: {
         bookCover,
         editorComponent,
-        asyncMultiselect,
+        customMultiselect,
         audiobookMultiselect
     },
     data() {
@@ -135,8 +135,17 @@ export default {
                 book_insights: [],
                 similar: []
             },
-            listenOriginalMentioned: [],
-            themesList: []
+            listenOriginalMentioned: null,
+            themesList: [],
+            bookInsightMultiselectProps: {
+                "multiple": true,
+                "trackBy": "id",
+                "label": "title"
+            },
+            audiobooksMultiselectProps: {
+                "trackBy": "id",
+                "label": "title"
+            }
         };
     },
     computed: {

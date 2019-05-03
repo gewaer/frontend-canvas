@@ -1,14 +1,16 @@
 <template>
     <multiselect
+        :value="value"
         :searchable="true"
         :show-labels="false"
         :options="list"
         :loading="isLoading"
         :internal-search="false"
-        :options-limit="list.length"
+        :options-limit="25"
+        v-bind="multiselectProps"
         class="multiselect-multiple-custom form-group-multiselect"
         @search-change="asyncFind"
-        @open="preFecthList"
+        @input="(event) => $emit('input', event)"
     >
         <slot slot="beforeList" name="beforeList" />
         <slot slot="afterList" name="afterList" />
@@ -21,10 +23,10 @@
 <script>
 
 export default {
-    name: "AsyncMultiselect",
+    name: "CustomMultiselect",
     props: {
         value: {
-            type: null,
+            type: Object|Array|String|Number,
             required: true
         },
         id: {
@@ -35,44 +37,37 @@ export default {
             type: String,
             required: true
         },
-        // it's gone/need to refactor first
         excludeOptionId: {
-            type: Number,
-            default: null
+            type: String,
+            default: ""
         },
         debounceTime: {
             type: Number,
             default: 250
+        },
+        multiselectProps: {
+            type: Object,
+            required: true
         }
     },
     data() {
         return {
             isLoading: false,
-            list: []
+            list: [],
+            currentPage: 0
         };
     },
     created() {
-        this.preFecthList();
+        this.asyncFind = _.debounce(this.searchList, this.debounceTime);
+        this.fetchList()
     },
     methods: {
-        preFecthList() {
-            axios({
-                url: `${this.endpoint}`,
+        searchList(searchQuery) {
+            this.isLoading = true;
+            return axios({
+                url: `${this.endpoint}?q=(${this.id}:%${searchQuery}%)&limit=${this.optionsLimit}`,
                 method: "GET"
             }).then(response => {
-                if (this.excludeOptionId) {
-                    this.list = this.excludeOption(response.data)
-                } else {
-                    this.list = response.data;
-                }
-            });
-        },
-        asyncFind: _.debounce(function(query) { // eslint-disable-line
-            if (!query) {
-                return;
-            }
-            this.isLoading = true;
-            this.fetchList(query).then(response => {
                 this.list = response.data;
             }).catch(error => {
                 this.$notify({
@@ -82,22 +77,32 @@ export default {
             }).finally(() => {
                 this.isLoading = false;
             })
-        }, 250),
-        fetchList(query) {
+        },
+        fetchList() {
+            this.isLoading = true;
             return axios({
-                url: `${this.endpoint}?q=(${this.id}:%${query}%)`,
+                url: `${this.endpoint}?&limit=${this.optionsLimit}`,
                 method: "GET"
+            }).then((response) => {
+                if (this.excludeOptionId) {
+                    this.list = this.excludeOption(response.data)
+                } else {
+                    this.list = response.data;
+                }
+            }).catch((error) => {
+                this.$notify({
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            }).finally(() => {
+                this.isLoading = false;
             });
         },
         excludeOption(list) {
-            const optionIndex = list.findIndex(option => {
-                return Number(option.id) == Number(this.excludeOptionId)
+            const newList = list.filter((item) => {
+                return item.id !== this.excludeOptionId
             });
-            list.splice(optionIndex, 1);
-            return list;
-        },
-        emitNewValue(event) {
-            this.$emit("input", event);
+            return newList;
         }
     }
 }

@@ -1,16 +1,18 @@
 <template>
     <multiselect
+        :value="value"
         :searchable="true"
         :show-labels="false"
         :options="searchResults.length ? searchResults : audiobooks"
         :loading="isLoading"
         :internal-search="false"
         :options-limit="searchResults.length ? searchResults.length : audiobooks.length"
+        label="title"
         class="multiselect-multiple-custom form-group-multiselect"
-        t
         @search-change="asyncFind"
         @open="preFecthList"
         @close="() => { searchResults = [] }"
+        @input="(event) => { $emit('input', event) }"
     >
         <template slot="afterList">
             <div v-if="searchTerm" class="load-more-button option__desc" @click="fetchNext">
@@ -34,9 +36,17 @@
 export default {
     name: "AudiobookMultiselect",
     props: {
+        value: {
+            type: Object,
+            default: null
+        },
         debounceTime: {
             type: Number,
             default: 250
+        },
+        multiselectProps: {
+            type: Object,
+            required: true
         }
     },
     data() {
@@ -55,7 +65,6 @@ export default {
             if (this.audiobooks.length) {
                 return;
             }
-
             this.fetchAudiobooks();
         },
         asyncFind: _.debounce(function(query) { // eslint-disable-line
@@ -68,7 +77,6 @@ export default {
         }, 250),
         searchAudiobooks(query, page) {
             this.isLoading = true;
-
             return axios(({
                 url: `${this.endpoint}/browse/section/audiobooks:search:${query}?page=${page}`,
                 method: "GET"
@@ -89,7 +97,7 @@ export default {
                 });
             }).finally(() => {
                 this.isLoading = false;
-            })
+            });
         },
         fetchAudiobooks() {
             this.isLoading = true;
@@ -102,7 +110,7 @@ export default {
                 return handledResponse;
             }).finally(() => {
                 this.isLoading = false;
-            })
+            });
         },
         handleResponse(response) {
             const filteredResponse = response.data.map(element => {
@@ -116,7 +124,7 @@ export default {
             return filteredResponse;
         },
         fetchNext() {
-            if (this.audiobooks.length < 20) {
+            if (this.searchResults.length < 20) {
                 return;
             }
             this.currentPage += 1;
