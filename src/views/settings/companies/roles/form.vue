@@ -3,7 +3,7 @@
         <tabs-menu slot="tab-menu"/>
         <div slot="tab-content" class="row">
             <div class="col">
-                <h5>Selecciona los permisos <button v-if="!isNewRole" class="btn btn-primary" @click="cloneRole">Clone role</button></h5>
+                <h5>Create a new Role <button v-if="!isNewRole" class="btn btn-primary" @click="cloneRole">Clone role</button></h5>
                 <!-- Role Form-->
                 <form class="row" role="form">
                     <div class="col-md-6">
@@ -17,6 +17,7 @@
                                 type="text"
                                 class="form-control"
                                 required>
+                            <span class="text-danger">{{ errors.first("name") }}</span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -28,6 +29,7 @@
                                 type="text"
                                 name="description"
                                 class="form-control" >
+                            <span class="text-danger">{{ errors.first("description") }}</span>
                         </div>
                     </div>
                 </form>
@@ -49,7 +51,7 @@
                                                 v-model="group.isGroupSelected"
                                                 type="checkbox"
                                                 checked="checked"
-                                                @click="checkGroup($event, groupName)">
+                                                @click="checkGroup($event, groupName, true)">
                                             <label for="checkbox1"/>
                                         </div>
                                         <a
@@ -80,7 +82,7 @@
                                                             :name="`checkbox-${groupName}-${accessName}`"
                                                             v-model="access.allowed"
                                                             type="checkbox"
-                                                            @change="checkSelectedGroup(groupName)">
+                                                            @change="checkSelectedGroup(groupName, true)">
                                                         <label :for="`checkbox-${groupName}-${accessName}`"/>
                                                     </div>
                                                 </div>
@@ -95,7 +97,10 @@
                 <div class="row">
                     <div class="col-12 col-xl d-flex justify-content-end mt-2">
                         <button class="btn btn-danger m-r-10" @click="rolesList()">Cancel</button>
-                        <button :disabled="!hasChanged" class="btn btn-primary" @click="save">Save</button>
+                        <button
+                            :disabled="!hasChanged"
+                            class="btn btn-primary"
+                            @click="verifyFields">Save</button>
                     </div>
                 </div>
             </div>
@@ -104,7 +109,10 @@
 </template>
 
 <script>
-import { vueRouterMixins } from "@/utils/mixins";
+import some from "lodash/some";
+import pickBy from "lodash/pickBy";
+import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 export default {
     name: "Form",
@@ -112,19 +120,20 @@ export default {
         ContainerTemplate: () => import(/* webpackChunkName: "settings-container" */ "@v/settings/container"),
         TabsMenu: () => import(/* webpackChunkName: "settings-apps-tabs" */ "@v/settings/companies/tabs")
     },
-    mixins: [
-        vueRouterMixins
-    ],
     data() {
         return {
             accessListData: [],
             accessGroup: {},
-            roleData: {}
+            roleData: {},
+            groupHasChanged:[]
         }
     },
     computed: {
         isNewRole() {
             return !this.roleData.id
+        },
+        hasChanged() {
+            return some(this.vvFields, field => field.changed) || this.groupHasChanged.length;
         }
     },
     watch: {
@@ -135,6 +144,38 @@ export default {
     created() {
         const roleId = this.$route.params.id;
         this.getRole(roleId, !roleId)
+    },
+    beforeRouteLeave(to, from, next) {
+        let formFields = pickBy(this.vvFields, field => field.changed);
+        uniq(this.groupHasChanged).forEach(item => formFields[item] = item);
+
+        if (!isEmpty(formFields)) {
+            this.$modal.show(() => import(/* webpackChunkName: "components-modals-unsaved-changes" */ "@/components/modals/unsaved-changes"), {
+                buttons: [{
+                    title: "Discard",
+                    handler: () => {
+                        this.$modal.hide("unsaved-changes");
+                        next();
+                    }
+                }, {
+                    title: "Cancel",
+                    class: "btn-primary",
+                    handler: () => {
+                        this.$modal.hide("unsaved-changes");
+                        next(false);
+                    }
+                }],
+                fields: formFields
+            }, {
+                adaptive: true,
+                clickToClose: false,
+                height: "auto",
+                name: "unsaved-changes",
+                scrollable: true
+            });
+        } else {
+            next();
+        }
     },
     methods: {
         getRoleData(roleId) {
@@ -155,7 +196,7 @@ export default {
                         access.allowed = "1";
                         access.role_name = "";
                     });
-                    role = {name: "", description: ""}
+                    role = { name: "", description: "" }
                 } else {
                     role = await this.getRoleData(roleId);
                 }
@@ -170,7 +211,7 @@ export default {
         getAccess(role) {
             return axios({
                 url: "/permissions-resources-access"
-            }).then(({data}) => {
+            }).then(({ data }) => {
                 return this.formatAccesses(data, role);
             })
         },
@@ -186,17 +227,17 @@ export default {
         },
 
         findLocalAccess(accessList, access) {
-            return  accessList.find(permission => access.access_name == permission.access_name &&  access.resources_name == permission.resources_name);
+            return accessList.find(permission => access.access_name == permission.access_name && access.resources_name == permission.resources_name);
         },
 
         formatRole(accessList, role) {
-            this.accessListData =  _.sortBy(accessList, ["resources_name", "access_name"]);
+            this.accessListData = _.sortBy(accessList, ["resources_name", "access_name"]);
             this.roleData = role;
             this.groupPermissions();
             this.checkSelectedGroups();
         },
 
-        formatAccesses(accesList, role ) {
+        formatAccesses(accesList, role) {
             return accesList.map(access => {
                 if (role) {
                     delete access.resources_id;
@@ -213,7 +254,7 @@ export default {
             this.accessListData.forEach(access => {
                 if (access.access_name != "*") {
                     if (!accessGroup[access.resources_name]) {
-                        accessGroup[access.resources_name] = {permissions: {[access.access_name]: access}};
+                        accessGroup[access.resources_name] = { permissions: { [access.access_name]: access } };
                     } else {
                         accessGroup[access.resources_name]["permissions"][access.access_name] = access;
                     }
@@ -228,16 +269,22 @@ export default {
             const allowedAccesses = Object.values(group);
             return allowedAccesses.every(access => access.allowed);
         },
-        checkGroup(event, resourcesName) {
+        checkGroup(event, resourcesName, changed = false) {
             const group = this.accessGroup[resourcesName];
             for (const access in group.permissions) {
                 if (group.permissions.hasOwnProperty(access)) {
                     group.permissions[access].allowed = event.target.checked;
                 }
             }
+            if (changed) {
+                this.groupHasChanged.push(`${resourcesName} role section.`)
+            }
         },
-        checkSelectedGroup(resourcesName) {
+        checkSelectedGroup(resourcesName, changed = false) {
             this.accessGroup[resourcesName]["isGroupSelected"] = this.isGroupChecked(resourcesName);
+            if (changed) {
+                this.groupHasChanged.push(`${resourcesName} role section.`)
+            }
         },
         checkSelectedGroups() {
             for (const resourcesName in this.accessGroup) {
@@ -245,6 +292,51 @@ export default {
             }
         },
         // form related
+        verifyFields() {
+            let dialogProps = {
+                title:`Create ${this.roleData.name} Role!`,
+                message:`Did you want to Create this Role?` };
+
+            if (!this.isNewRole) {
+                dialogProps = { title:`Edit ${this.roleData.name} Role!`,
+                    message:`Did you want to Edit this Role?` };
+            }
+
+            if (this.errors.items.length) {
+                let verificationMessage = this.errors.items[0].msg;
+                let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
+                this.$notify({
+                    title: verificationTitle,
+                    text: verificationMessage,
+                    type: "warn"
+                });
+            } else {
+                this.validateFields(dialogProps);
+            }
+        },
+        validateFields(modalProps) {
+            this.$validator.validate().then(result => {
+                if (result) {
+                    this.$modal.show("basic-modal", {
+                        ...modalProps,
+                        buttons: [{
+                            title: "Accept",
+                            class: "btn-primary",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                                this.save();
+                            }
+                        }, {
+                            title: "Cancel",
+                            class: "btn-danger",
+                            handler: () => {
+                                this.$modal.hide("basic-modal");
+                            }
+                        }]
+                    });
+                }
+            });
+        },
         save() {
             let url;
             let method;
@@ -282,7 +374,7 @@ export default {
         },
         onSuccess(method) {
             let message = method == "POST" ? "created" : "updated";
-
+            this.groupHasChanged = [];
             this.$notify({
                 group: null,
                 title: "Confirmation",

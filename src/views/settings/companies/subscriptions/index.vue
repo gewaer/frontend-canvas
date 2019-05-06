@@ -266,15 +266,15 @@ export default {
         PlanFrecuencies: () => import(/* webpackChunkName: "plans-frecuencies-component" */ "@c/plans/frecuencies")
     },
     filters: {
-        getPrice(value){
+        getPrice(value) {
             let isNumber = _.isNumber(Number(value));
             let data = 0;
-            if(value && isNumber){
-                data =  value.split(".")[0];
+            if (value && isNumber) {
+                data = value.split(".")[0];
             }
             return data;
         },
-        formatSetting(value){
+        formatSetting(value) {
             return _.startCase(value);
         }
     },
@@ -314,34 +314,34 @@ export default {
         };
     },
     computed:{
-        selectedPlan(){
+        selectedPlan() {
             return this.plans.find(subcription => subcription.stripe_plan == this.planData["stripe_plan"]);
         },
         ...mapState({
             userData: state => state.User.data,
             defaultCompany: state => state.Company.data
         }),
-        ...mapGetters( {
+        ...mapGetters({
             isTrialSuscription: "Company/isTrialSubscription",
             subscriptionDays: "Company/subscriptionDaysLeft",
             subscriptionHasEnded: "Company/subscriptionHasEnded"
         })
     },
     watch:{
-        showBilligInfo(current, oldVal){
-            if(oldVal == true){
+        showBilligInfo(current, oldVal) {
+            if (oldVal == true) {
                 this.planData.stripe_plan = this.defaultCompany.subscription.stripe_plan;
                 this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
             }
         }
     },
     beforeRouteLeave(to, from, next) {
-        if( this.showBilligInfo){
+        if (this.showBilligInfo) {
             this.$refs.creditCard.clear();
         }
         next();
     },
-    created(){
+    created() {
         this.initialize();
         if (this.subscriptionHasEnded) {
             this.showBilligInfo = true;
@@ -352,7 +352,7 @@ export default {
             this.getPlans();
             this.getFormDefaultData();
         },
-        getPlans(){
+        getPlans() {
             axios({
                 url: "/apps-plans?relationships=settings"
             }).then((response) => {
@@ -365,8 +365,8 @@ export default {
                 });
             });
         },
-        handleAppPlans(response){
-            if(_.has(this.defaultCompany, "subscription")){
+        handleAppPlans(response) {
+            if (_.has(this.defaultCompany, "subscription")) {
                 this.planData.stripe_plan = this.defaultCompany.subscription.stripe_plan;
                 this.planData.stripe_id = this.defaultCompany.subscription.stripe_id;
                 // TODO get the payment frecuency
@@ -383,19 +383,19 @@ export default {
         setCardToken(stripeTokenId = null) {
             this.planData.card_token = stripeTokenId;
         },
-        updateDefaultCompany(){
+        updateDefaultCompany() {
             const defaultCompany = this.$store.dispatch("Company/getData", null, { root: true });
             defaultCompany.then(res => this.$store.dispatch("Company/setData", res.data[0]));
         },
-        handleSubscription(plan){
-            if(this.subscriptionHasEnded || this.showBilligInfo){
+        handleSubscription(plan) {
+            if (this.subscriptionHasEnded || this.showBilligInfo) {
                 this.planData["stripe_plan"] = plan.stripe_plan;
                 this.planData.stripe_id = plan.stripe_id;
             } else {
                 this.changePlan(plan, true);
             }
         },
-        changePlan(plan, showNotify = true){
+        changePlan(plan, showNotify = true) {
             return new Promise((resolve) => {
                 axios({
                     url: `/apps-plans/${plan.stripe_plan}`,
@@ -403,7 +403,7 @@ export default {
                 }).then(() => {
                     this.planData.stripe_plan = plan.stripe_plan;
                     this.planData.stripe_id = plan.stripe_id;
-                    if(showNotify){
+                    if (showNotify) {
                         this.updateDefaultCompany();
                         this.showSuccessNotify("Subscriptión updated successfully.");
                     }
@@ -412,8 +412,8 @@ export default {
             });
         },
 
-        verifyPlanPayment(){
-            if(this.errors.items.length){
+        verifyPlanPayment() {
+            if (this.errors.items.length) {
                 let verificationMessage = this.errors.items[0].msg;
                 let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
                 this.$notify({
@@ -425,7 +425,7 @@ export default {
                 this.confirmPaymentUpdate();
             }
         },
-        confirmPaymentUpdate(){
+        confirmPaymentUpdate() {
             this.$validator.validate().then(result => {
                 if (result) {
                     this.$modal.show("basic-modal", {
@@ -449,13 +449,13 @@ export default {
                 }
             });
         },
-        async updatePlanPayment(){
+        async updatePlanPayment() {
             await this.changePlan(this.planData, false);
 
             const appPlan = {
                 ...this.planData,
                 ...this.address,
-                ...this.contact};
+                ...this.contact };
 
             const data = this.prepareData(appPlan);
 
@@ -469,34 +469,34 @@ export default {
                 this.showSuccessNotify("Payment Informatión updated successfully.");
             }).catch((error) => this.showErrorNotify(error))
         },
-        showSuccessNotify(text = ""){
+        showSuccessNotify(text = "") {
             this.$notify({
                 title: "Success",
                 text,
                 type: "success"
             });
         },
-        showErrorNotify(error){
+        showErrorNotify(error) {
             this.$notify({
                 title: "Error",
                 text: error.response.data.errors.message,
                 type: "error"
             });
         },
-        displayBilligInfo(){
+        displayBilligInfo() {
             this.showBilligInfo = !this.showBilligInfo ;
         },
-        selectFrequency(frecuencyType, frecuency){
+        selectFrequency(frecuencyType, frecuency) {
             this.selectedFrecuency = frecuency;
             this.planData.payment_style = frecuencyType.toLowerCase();
         },
-        getFormDefaultData(){
+        getFormDefaultData() {
             const formKeys = {
                 email : "email",
                 contact_first_name : "firstname",
                 contact_last_name : "lastname" };
-            this.contact.contact_company =  this.defaultCompany.name;
-            Object.keys(formKeys).forEach(key=> this.contact[key] = this.userData[formKeys[key]]);
+            this.contact.contact_company = this.defaultCompany.name;
+            Object.keys(formKeys).forEach(key => this.contact[key] = this.userData[formKeys[key]]);
         }
     }
 }

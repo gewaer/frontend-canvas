@@ -169,7 +169,7 @@ export default {
         },
         isEditUser() {
             let value = true;
-            if (!this.userData.id) {
+            if (!this.$route.params.id) {
                 value = false;
             }
             return value;
@@ -226,8 +226,8 @@ export default {
                     message:`Do you want to edit this user?` };
             }
             if (this.errors.items.length) {
-                let verificationMessage = this.errors.items[0].msg;
-                let verificationTitle = `Please verify the ${this.errors.items[0].field}`;
+                const verificationMessage = this.errors.items[0].msg;
+                const verificationTitle = `Please verify the ${this.errors.items[0].field}`;
                 this.$notify({
                     title: verificationTitle,
                     text: verificationMessage,
@@ -268,7 +268,7 @@ export default {
             if (!this.userData.id) {
                 url = "/users/invite";
                 method = "POST";
-                let form = new FormData();
+                const form = new FormData();
                 form.append("email", this.userData.email);
                 form.append("role_id", this.selectedRole.id);
                 data = form;

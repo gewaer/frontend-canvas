@@ -2,7 +2,7 @@
     <div :id="uppyId">
         <div v-show="collection" class="dashboard-container"/>
         <div v-show="!collection" class="thumbnail-container">
-            <button id="open-thumbnail-modal" type="button" class="btn btn-primary" >Select File{{ collection ? 's' : '' }}</button>
+            <button id="open-thumbnail-modal" type="button" class="btn btn-primary btn-block" >Select File{{ collection ? 's' : '' }}</button>
         </div>
     </div>
 </template>
@@ -111,15 +111,15 @@ export default {
             if (restrictions.maxNumberOfFiles == 1) {
                 this.resetDashboard();
             }
-        })
+        });
         uppyInstance.on("complete", result => {
             this.$emit("completeuploads", result);
             this.resetDashboard();
         })
-        uppyInstance.run();
+
         this.uppyInstance = uppyInstance;
     },
-    methods:{
+    methods: {
         resetDashboard() {
             this.uppyInstance.reset();
             const dashboard = this.uppyInstance.getPlugin(this.dashboardInstanceId);

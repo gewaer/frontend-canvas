@@ -247,6 +247,10 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.nav-tabs~.tab-content {
+    overflow: visible;
+}
+
 @media only screen and (min-width: 980px) {
     body.menu-pin .page-sidebar {
         width: 280px;

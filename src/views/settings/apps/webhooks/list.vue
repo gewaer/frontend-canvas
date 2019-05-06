@@ -45,8 +45,8 @@ export default {
         vuexMixins,
         listMixins
     ],
-    data(){
-        return{
+    data() {
+        return {
             appendParams:{
                 format: "true",
                 relationships:"webhooks",
@@ -81,9 +81,9 @@ export default {
             });
         },
         editWebhook(userWebhook) {
-            this.$router.push({ name: "settingsAppsWebhooksFormEdit", params:{id:userWebhook.id} });
+            this.$router.push({ name: "settingsAppsWebhooksFormEdit", params:{ id:userWebhook.id } });
         },
-        confirmDeleteWebhook(userWebhook){
+        confirmDeleteWebhook(userWebhook) {
             this.$modal.show("basic-modal", {
                 title:"Delete Webhook",
                 message:`Did you want to delete  webhook ?`,

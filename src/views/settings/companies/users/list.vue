@@ -5,10 +5,32 @@
             <h5>
                 Users
                 <router-link :to="{ name: 'settingsCompaniesUsersForm' }" class="btn btn-primary">
-                    New User
+                    New User Invite
                 </router-link>
             </h5>
-            <div class="table-responsive">
+            <ul id="myTab" class="nav nav-tabs nav-tabs-simple" role="tablist">
+                <li class="nav-item">
+                    <a
+                        :class="{ active: listToShow == 'usersList' }"
+                        data-toggle="tab"
+                        role="tab"
+                        @click.prevent="listToShow = 'usersList'"
+                    >
+                        Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        :class="{ active: listToShow== 'newUsersList' }"
+                        data-toggle="tab"
+                        role="tab"
+                        @click.prevent="listToShow = 'newUsersList'"
+                    >
+                        Invites
+                    </a>
+                </li>
+            </ul>
+            <div v-if="listToShow == 'usersList'" class="table-responsive">
                 <vuetable
                     ref="Vuetable"
                     :append-params="{format: 'true', relationships:'roles'}"
@@ -38,6 +60,29 @@
                             :class="{'deactivated': isCurrentUser(props.rowData.id)}"
                             class="btn btn-danger m-l-5"
                             @click="confirmUserDelete(props.rowData.id)">
+                            <i class="fa fa-trash" aria-hidden="true" />
+                        </button>
+                    </template>
+                </vuetable>
+            </div>
+            <div v-else class="table-responsive">
+                <vuetable
+                    ref="Vuetable"
+                    :append-params="{format: 'true', relationships:'companies,roles',q:'(is_deleted:0)'}"
+                    :fields="usersInviteFields"
+                    :http-fetch="getTableData"
+                    api-url="/users-invite"
+                    class="table table-hover table-condensed"
+                    pagination-path="">
+
+                    <template slot="name" slot-scope="props">
+                        <span> {{ props.rowData.firstname }} {{ props.rowData.lastname }} </span>
+                    </template>
+
+                    <template slot="actions" slot-scope="props">
+                        <button
+                            class="btn btn-danger m-l-5"
+                            @click="deleteUser(props.rowData.id)">
                             <i class="fa fa-trash" aria-hidden="true" />
                         </button>
                     </template>
@@ -95,7 +140,24 @@ export default {
                 title: "Actions",
                 titleClass: "table-actions",
                 dataClass: "table-actions"
-            }]
+            }],
+            usersInviteFields:[
+                {
+                    name: "email",
+                    title: "Email"
+                }, {
+                    name: "roles.0.name",
+                    title:"Rol",
+                    sortField: "roles_id",
+                    width: "30%"
+                }, {
+                    name: "actions",
+                    title: "Actions",
+                    titleClass: "table-actions",
+                    dataClass: "table-actions"
+                }
+            ],
+            listToShow:"usersList"
         }
     },
     computed: {

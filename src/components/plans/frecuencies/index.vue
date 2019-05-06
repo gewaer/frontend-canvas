@@ -88,16 +88,16 @@ export default {
             }
         }
     },
-    mounted(){
+    mounted() {
         this.formatFrecuencys();
     },
     methods: {
         formatFrecuencys() {
             let monthly = this.plan.pricing || "1";
             this.pricingMonthly.price = `${monthly}`;
-            this.pricingAnual.price = this.plan.pricing_anual || `${monthly* 10}`;
+            this.pricingAnual.price = this.plan.pricing_anual || `${monthly * 10}`;
         },
-        selectBilling(billing){
+        selectBilling(billing) {
             this.$emit("selectbillingtype", billing.title, billing);
         }
     }
