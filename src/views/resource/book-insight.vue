@@ -185,7 +185,6 @@
                                 ref="searchTermsMultiselect"
                                 v-model="bookInsight.categories"
                                 :endpoint="categoriesEndpoint"
-                                :options-limit="25"
                                 :multiselect-props="searchTermsMultiselectProps"
                             >
                                 <template slot="beforeList" >
@@ -203,8 +202,8 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac1"
                                     :options="authorsList"
-                                    label="name"
                                     track-by="id"
+                                    label="name"
                                 />
                             </div>
                         </div>
@@ -216,8 +215,8 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac2"
                                     :options="authorsList"
-                                    label="name"
                                     track-by="id"
+                                    label="name"
                                 />
                             </div>
                         </div>
@@ -229,8 +228,8 @@
                                     :multiple="true"
                                     v-model="bookInsight.bisac3"
                                     :options="authorsList"
-                                    label="name"
                                     track-by="id"
+                                    label="name"
                                 />
                             </div>
                         </div>
@@ -256,7 +255,6 @@
 
 <script>
 
-// TODO: lazy loaaad
 import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
 import bookCover from "./book-cover.vue";
@@ -382,29 +380,8 @@ export default {
     },
     created() {
         this.isEditing && this.getBookInsight();
-        axios({ url: "/book-insights", method: "GET" }).then((response) => {
-            const currentBookInsight = response.data.find((bookInsight) => {
-                return bookInsight.id === this.$route.params.id
-            })
-            this.bookInsight = currentBookInsight;
-        });
     },
     methods: {
-        onSelected(option) {
-            this.bookInsight.similar.push(option)
-        },
-        // TODO: global
-        filterExternalResponse(response) {
-            const filteredResponse = response.data.map(element => {
-                return {
-                    "external_id": element.id,
-                    "title": element.title,
-                    "cover_url": element.cover_url,
-                    "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}` // should be on env?
-                }
-            });
-            return filteredResponse;
-        },
         addTheme() {
             const theme = { id: "", title: "", audio: "", body: "", attachments: "" }
             this.bookInsight.themes.push(theme);
