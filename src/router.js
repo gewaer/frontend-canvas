@@ -5,10 +5,6 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
 import routerValidator from "@/config/routerValidator";
-import bookInsight from "@v/resources/book-insights/book-insight.vue";
-import course from "@v/resources/courses/course.vue";
-import author from "@v/resources/authors/author.vue";
-import searchTerms from "@v/resources/search-terms/search-terms.vue";
 
 Vue.use(Router);
 
