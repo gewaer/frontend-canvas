@@ -5,7 +5,7 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
 import routerValidator from "@/config/routerValidator";
-import bookInsight from "./views/resource/book-insights/book-insight.vue";
+import bookInsight from "./views/resource/book-insight.vue";
 import course from "./views/resource/course.vue";
 import author from "./views/resource/author.vue";
 import searchTerms from "./views/resource/search-terms.vue";
