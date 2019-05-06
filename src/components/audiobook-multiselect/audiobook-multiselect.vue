@@ -53,7 +53,8 @@ export default {
             searchResults: [],
             endpoint: process.env.VUE_APP_HIBOOKS_API,
             currentPage: 0,
-            searchTerm: ""
+            searchTerm: "",
+            audiobooksPerPage: 20
         };
     },
     created() {
@@ -79,7 +80,7 @@ export default {
                 url: `${this.endpoint}/browse/section/audiobooks:search:${query}?page=${page}`,
                 method: "GET"
             })).then((response) => {
-                let audiobooksSearchResult = this.handleResponse(response);
+                const audiobooksSearchResult = this.handleResponse(response);
 
                 if (!this.searchResults.length) {
                     this.searchResults = audiobooksSearchResult;
@@ -122,7 +123,7 @@ export default {
             return filteredResponse;
         },
         fetchNext() {
-            if (this.searchResults.length < 20) {
+            if (this.searchResults.length < this.audiobooksPerPage) {
                 return;
             }
             this.currentPage += 1;
