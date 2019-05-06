@@ -48,11 +48,12 @@
                             <label>
                                 Book Insights feature in the Course
                             </label>
-                            <!-- <custom-multiselect
+                            <custom-multiselect
                                 id="title"
                                 v-model="course.book_insights"
                                 :endpoint="bookInsightsEndpoint"
-                                track-by="id"/> -->
+                                :multiselect-props="bookInsightMultiselectProps"
+                            />
                         </div>
                         <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
@@ -78,20 +79,18 @@
                             <audiobook-multiselect
                                 :debounce-time="200"
                                 v-model="listenOriginalMentioned"
-                                :multiselect-props="audiobooksMultiselectProps"
                             />
                         </div>
                         <div class="col-12 col-lg">
-                            <!-- <label>
+                            <label>
                                 Other Courses
                             </label>
                             <custom-multiselect
                                 id="title"
                                 v-model="course.similar"
                                 :endpoint="coursesEndpoint"
-                                :multiselect-props=""
                                 :exclude-option-id="$route.params.id"
-                            /> -->
+                            />
                         </div>
                     </div>
                     <div class="row">
@@ -109,8 +108,8 @@
 
 import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
-import customMultiselect from "@c/multiselects/custom-multiselect";
-import audiobookMultiselect from "@v/resource/book-insights/audiobook-multiselect";
+import customMultiselect from "@c/custom-multiselect/custom-multiselect";
+import audiobookMultiselect from "@c/audiobook-multiselect/audiobook-multiselect";
 
 export default {
     name: "Course",
@@ -138,13 +137,7 @@ export default {
             listenOriginalMentioned: null,
             themesList: [],
             bookInsightMultiselectProps: {
-                "multiple": true,
-                "trackBy": "id",
-                "label": "title"
-            },
-            audiobooksMultiselectProps: {
-                "trackBy": "id",
-                "label": "title"
+                "multiple": true
             }
         };
     },
