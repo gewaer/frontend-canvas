@@ -16,7 +16,7 @@
         @input="(event) => { $emit('input', event) }"
     >
         <template slot="afterList">
-            <div v-if="searchTerm" class="load-more-button option__desc" @click="fetchNext">
+            <div v-if="searchTerm && !isLastPage" class="load-more-button option__desc" @click="fetchNext">
                 <i class="fa fa-plus" />Load More
             </div>
         </template>
@@ -56,6 +56,11 @@ export default {
             searchTerm: "",
             audiobooksPerPage: 20
         };
+    },
+    computed: {
+        isLastPage() {
+            return this.searchResults.length < this.audiobooksPerPage;
+        }
     },
     created() {
         this.asyncFind = _.debounce(this.searchAudiobooks, this.debounceTime);
@@ -123,7 +128,7 @@ export default {
             return filteredResponse;
         },
         fetchNext() {
-            if (this.searchResults.length < this.audiobooksPerPage) {
+            if (this.isLastPage) {
                 return;
             }
             this.currentPage += 1;
