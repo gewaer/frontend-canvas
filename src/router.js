@@ -5,10 +5,10 @@ import Dashboard from "./views/dashboard";
 import Auth from "@/views/users/auth";
 import BrowseList from "./views/browse/";
 import routerValidator from "@/config/routerValidator";
-import bookInsight from "./views/resource/book-insight.vue";
-import course from "./views/resource/course.vue";
-import author from "./views/resource/author.vue";
-import searchTerms from "./views/resource/search-terms.vue";
+import bookInsight from "@v/resources/book-insights/book-insight.vue";
+import course from "@v/resources/courses/course.vue";
+import author from "@v/resources/authors/author.vue";
+import searchTerms from "@v/resources/search-terms/search-terms.vue";
 
 Vue.use(Router);
 
@@ -356,7 +356,7 @@ const router = new Router({
         {
             path: "/browse/book-insights/create",
             name: "create-book-insights",
-            component: bookInsight
+            component: () => import(/* webpackChunkName: "book-insights" */ "@v/resources/book-insights/book-insight")
         },
         {
             path: "/browse/book-insights/:id/edit",
@@ -364,37 +364,37 @@ const router = new Router({
             params: {
                 resource: "book-insights"
             },
-            component: bookInsight
+            component: () => import(/* webpackChunkName: "book-insights" */ "@v/resources/book-insights/book-insight")
         },
         {
             path: "/browse/courses/create",
             name: "create-courses",
-            component: course
+            component: () => import(/* webpackChunkName: "courses" */ "@v/resources/courses/course")
         },
         {
             path: "/browse/courses/:id/edit",
             name: "edit-courses",
-            component: course
+            component: () => import(/* webpackChunkName: "courses" */ "@v/resources/courses/course")
         },
         {
             path: "/browse/authors/create",
             name: "create-authors",
-            component: author
+            component: () => import(/* webpackChunkName: "authors" */ "@v/resources/authors/author")
         },
         {
             path: "/browse/authors/:id/edit",
             name: "edit-authors",
-            component: author
+            component: () => import(/* webpackChunkName: "authors" */ "@v/resources/authors/author")
         },
         {
             path: "/browse/search-terms/create",
             name: "create-search-terms",
-            component: searchTerms
+            component: () => import(/* webpackChunkName: "search-terms" */ "@v/resources/search-terms/search-terms")
         },
         {
             path: "/browse/search-terms/:id/edit",
             name: "edit-search-terms",
-            component: searchTerms
+            component: () => import(/* webpackChunkName: "search-terms" */ "@v/resources/search-terms/search-terms")
         }
     ]
 });

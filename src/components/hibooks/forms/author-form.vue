@@ -30,12 +30,11 @@
 </template>
 
 <script>
-import editorComponent from "./editor-component";
 
 export default {
     name: "Authorform",
     components: {
-        editorComponent
+        editorComponent: () => import(/* webpackChunkName: "editor-component" */ "@c/editor-component/editor-component")
     },
     props: {
         isEditing: {

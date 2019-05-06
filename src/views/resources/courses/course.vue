@@ -110,16 +110,13 @@
 </template>
 
 <script>
-import bookCover from "./book-cover.vue";
-import editorComponent from "./editor-component";
-import asyncMultiselect from "./async-multiselect";
 
 export default {
     name: "Course",
     components: {
-        bookCover,
-        editorComponent,
-        asyncMultiselect
+        bookCover: () => import(/* webpackChunkName: "book-cover" */ "@c/hibooks/book-cover/book-cover"),
+        editorComponent: () => import(/* webpackChunkName: "editor-component" */ "@c/editor-component/editor-component"),
+        asyncMultiselect: () => import(/* webpackChunkName: "async-multiselect" */ "@c/async-multiselect/async-multiselect")
     },
     data() {
         return {

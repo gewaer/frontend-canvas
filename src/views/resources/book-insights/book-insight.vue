@@ -198,7 +198,7 @@
                                 </template>
                             </async-multiselect>
                         </div>
-                        <!-- <div class="col-12 col-lg-6 col-xl">
+                        <div class="col-12 col-lg-6 col-xl">
                             <div class="form-group-multiselect">
                                 <label>BISAC 1</label>
                                 <multiselect
@@ -236,7 +236,7 @@
                                     label="name"
                                 />
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -258,23 +258,18 @@
 </template>
 
 <script>
-import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
-import bookCover from "./book-cover.vue";
 import moment from "moment";
-import authorModal from "./author-modal";
-import searchTermsModal from "./search-terms-modal";
-import asyncMultiselect from "./async-multiselect";
 
 export default {
     name: "BookInsight",
     components: {
-        editorComponent,
         timePicker,
-        bookCover,
-        authorModal,
-        searchTermsModal,
-        asyncMultiselect
+        editorComponent: () => import(/* webpackChunkName: "editor-component" */ "@c/editor-component/editor-component"),
+        bookCover: () => import(/* webpackChunkName: "book-cover" */ "@c/hibooks/book-cover/book-cover"),
+        authorModal: () => import(/* webpackChunkName: "author-modal" */ "@c/hibooks/modals/author-modal"),
+        searchTermsModal: () => import(/* webpackChunkName: "search-terms-modal" */ "@c/hibooks/modals/search-terms-modal"),
+        asyncMultiselect: () => import(/* webpackChunkName: "async-multiselect" */ "@c/async-multiselect/async-multiselect")
     },
     data() {
         return {
@@ -462,4 +457,4 @@ export default {
 </style>
 
 
-<style lang="scss" src="./resource.scss" />
+<style lang="scss" src="../resource.scss" />

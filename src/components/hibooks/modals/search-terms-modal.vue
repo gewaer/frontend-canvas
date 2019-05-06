@@ -11,12 +11,11 @@
 </template>
 
 <script>
-import searchTermsForm from "./search-terms-form";
 
 export default {
     name: "AuthorModal",
     components: {
-        searchTermsForm
+        searchTermsForm: () => import(/* webpackChunkName: "search-terms-form" */ "@c/hibooks/forms/search-terms-form")
     },
     methods: {
         searchTermSaved() {

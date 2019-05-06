@@ -11,12 +11,11 @@
 </template>
 
 <script>
-import authorForm from "./author-form";
 
 export default {
     name: "AuthorModal",
     components: {
-        authorForm
+        authorForm: () => import(/* webpackChunkName: "author-form" */ "@c/hibooks/forms/author-form")
     },
     methods: {
         authorSaved() {

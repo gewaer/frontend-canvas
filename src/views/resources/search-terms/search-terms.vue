@@ -10,12 +10,11 @@
 </template>
 
 <script>
-import searchTermsForm from "./search-terms-form";
 
 export default {
     name: "SearchTerms",
     components: {
-        searchTermsForm
+        searchTermsForm: () => import(/* webpackChunkName: "search-terms-form" */ "@c/hibooks/forms/search-terms-form")
     },
     computed: {
         isEditing() {
