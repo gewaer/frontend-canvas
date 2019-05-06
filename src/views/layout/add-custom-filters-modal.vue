@@ -187,7 +187,7 @@ export default {
                     data: formData
                 }).then(() => {
                     this.isLoading = false;
-                    let message = method == "POST" ? "created" : "updated";
+                    const message = method == "POST" ? "created" : "updated";
 
                     this.$notify({
                         group: null,

@@ -93,7 +93,7 @@ export default {
     },
     methods: {
         formatFrecuencys() {
-            let monthly = this.plan.pricing || "1";
+            const monthly = this.plan.pricing || "1";
             this.pricingMonthly.price = `${monthly}`;
             this.pricingAnual.price = this.plan.pricing_anual || `${monthly * 10}`;
         },

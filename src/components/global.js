@@ -6,6 +6,7 @@
  * Vue.component("conponent", require("@/<path>/<component>"));
  */
 import Vue from "vue";
+import CustomFieldsForm from "@gewaer/vue-form-generator";
 import { abilitiesPlugin as AbilitiesPlugin } from "@casl/vue";
 import { quillEditor as QuillEditor } from "vue-quill-editor";
 import VueMultiselect from "vue-multiselect";
@@ -21,6 +22,7 @@ Vue.use(Notifications);
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
 Vue.use(VTooltip);
 
+Vue.component("custom-fields-form", CustomFieldsForm);
 Vue.component("quill-editor", QuillEditor);
 Vue.component("multiselect", VueMultiselect);
 Vue.component("vuetable", Vuetable);

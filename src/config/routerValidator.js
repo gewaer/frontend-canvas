@@ -11,7 +11,7 @@ const validateSubscription = function validateSubscription(routeTo) {
 };
 
 const validationHandler = function validationHandler(routeTo) {
-    let routeToGo = validateSubscription(routeTo);
+    const routeToGo = validateSubscription(routeTo);
 
     return routeToGo;
 }
