@@ -17,7 +17,6 @@ module.exports = {
         }],
         "capIsNew": false,
         "comma-dangle": "error",
-        "comma-spacing": "error",
         "comma-style": "error",
         "computed-property-spacing": "error",
         "consistent-this": ["error", "self"],
@@ -62,6 +61,7 @@ module.exports = {
         "arrow-spacing": "error",
         "no-useless-escape": 0,
         "vue/no-v-html": "warn",
+        "prefer-const": "error",
         "vue/html-indent": ["error", 4, {
             "attribute": 1,
             "closeBracket": 0,

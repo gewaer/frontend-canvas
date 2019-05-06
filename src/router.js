@@ -105,10 +105,9 @@ router.beforeEach((to, from, next) => {
             if (isEqual(routeToGo, to)) {
                 next();
             } else {
-                next(routeToGo)
+                next(routeToGo);
             }
         }).catch((routeToGo) => next(routeToGo));
-
     } else {
         next();
     }
