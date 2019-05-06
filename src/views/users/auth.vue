@@ -411,7 +411,7 @@ export default {
             });
         },
         validateInvitation() {
-            let url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
+            const url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
             axios({
                 url
             }).then(({ data }) => this.data.email = data.email)
