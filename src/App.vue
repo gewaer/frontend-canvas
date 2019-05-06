@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
         <!-- <modals-container/> -->
         <notifications/>
