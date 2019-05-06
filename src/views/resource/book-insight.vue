@@ -58,7 +58,7 @@
                             <custom-multiselect
                                 id="name"
                                 ref="authorsMultiselect"
-                                v-model="bookInsight.author"
+                                v-model="bookInsight.authors"
                                 :endpoint="authorsEndpoint"
                                 :multiselect-props="authorsMultiselectProps"
                             >
@@ -153,7 +153,6 @@
                             </label>
                             <audiobook-multiselect
                                 v-model="bookInsight.external_book"
-                                :multiselect-props="audiobooksMultiselectProps"
                             />
                         </div>
                         <div class="col-12 col-md">
@@ -256,15 +255,16 @@
 </template>
 
 <script>
+
 // TODO: lazy loaaad
-import editorComponent from "../editor-component";
+import editorComponent from "./editor-component";
 import timePicker from "vue2-timepicker";
-import bookCover from "../book-cover.vue";
+import bookCover from "./book-cover.vue";
 import moment from "moment";
-import authorModal from "../author-modal";
-import searchTermsModal from "../search-terms-modal";
-import customMultiselect from "@c/multiselects/custom-multiselect";
-import audiobookMultiselect from  "@v/resource/book-insights/audiobook-multiselect";
+import authorModal from "./author-modal";
+import searchTermsModal from "./search-terms-modal";
+import customMultiselect from "@c/custom-multiselect/custom-multiselect";
+import audiobookMultiselect from  "@c/audiobook-multiselect/audiobook-multiselect";
 
 export default {
     name: "BookInsight",
@@ -336,14 +336,11 @@ export default {
             },
             associateFileSystem: [],
             bookInsightMultiselectProps: {
-                "multiple": true,
-                "trackBy": "id",
-                "label": "title"
+                "multiple": true
             },
             bookInsightsCreditsProps: {
                 "single-select": true,
-                "trackBy": "external_id",
-                "label": "title"
+                "trackBy": "external_id"
             },
             searchTermsMultiselectProps: {
                 "trackBy": "id",
@@ -351,13 +348,8 @@ export default {
                 "label": "name"
             },
             authorsMultiselectProps: {
-                "trackBy": "id",
                 "multiple": true,
                 "label": "name"
-            },
-            audiobooksMultiselectProps: {
-                "trackBy": "id",
-                "label": "title"
             }
         };
     },
@@ -391,8 +383,10 @@ export default {
     created() {
         this.isEditing && this.getBookInsight();
         axios({ url: "/book-insights", method: "GET" }).then((response) => {
-            console.log(response);
-            // const currentBookInsight = response.data.find(() => {})
+            const currentBookInsight = response.data.find((bookInsight) => {
+                return bookInsight.id === this.$route.params.id
+            })
+            this.bookInsight = currentBookInsight;
         });
     },
     methods: {
@@ -409,7 +403,6 @@ export default {
                     "url": `https://www.hibooks.com/discover/audiobook/${element.short_url}` // should be on env?
                 }
             });
-
             return filteredResponse;
         },
         addTheme() {
@@ -470,8 +463,7 @@ export default {
             this.isLoading = true;
             const url = this.isEditing ? `${this.bookInsightsEndpoint}/${this.$route.params.id}` : this.bookInsightsEndpoint;
             const method = this.isEditing ? "PUT" : "POST";
-            console.log(this.bookInsight);
-            debugger;
+
             axios({
                 url,
                 method,
@@ -515,4 +507,4 @@ export default {
 </style>
 
 
-<style lang="scss" src="../resource.scss" />
+<style lang="scss" src="./resource.scss" />

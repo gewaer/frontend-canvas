@@ -6,8 +6,7 @@
         :options="list"
         :loading="isLoading"
         :internal-search="false"
-        :options-limit="25"
-        v-bind="multiselectProps"
+        v-bind="mergedProps"
         class="multiselect-multiple-custom form-group-multiselect"
         @search-change="asyncFind"
         @input="(event) => $emit('input', event)"
@@ -47,15 +46,24 @@ export default {
         },
         multiselectProps: {
             type: Object,
-            required: true
+            default: null
         }
     },
     data() {
         return {
             isLoading: false,
             list: [],
-            currentPage: 0
+            defaultProps: {
+                "trackBy": "id",
+                "label": "title",
+                "options-limit": 25
+            }
         };
+    },
+    computed: {
+        mergedProps() {
+            return {...this.defaultProps, ...this.multiselectProps}
+        }
     },
     created() {
         this.asyncFind = _.debounce(this.searchList, this.debounceTime);
