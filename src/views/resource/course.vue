@@ -45,15 +45,15 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
-                            <async-multiselect
+                            <label>
+                                Book Insights feature in the Course
+                            </label>
+                            <custom-multiselect
+                                id="title"
                                 v-model="course.book_insights"
                                 :endpoint="bookInsightsEndpoint"
-                                track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Book Insights feature in the Course
-                                </template>
-                            </async-multiselect>
+                                :multiselect-props="bookInsightMultiselectProps"
+                            />
                         </div>
                         <div class="col-12 col-lg">
                             <div class="form-group-multiselect">
@@ -73,29 +73,24 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg">
-                            <async-multiselect
+                            <label>
+                                Listen to Original Audio Books mentioned
+                            </label>
+                            <audiobook-multiselect
+                                :debounce-time="200"
                                 v-model="listenOriginalMentioned"
-                                :external-call="true"
-                                :disabled="true"
-                                track-by="id"
-                                label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
-                                <template slot="label">
-                                    Listen to Original Audio Books mentioned
-                                </template>
-                            </async-multiselect>
+                            />
                         </div>
                         <div class="col-12 col-lg">
-                            <async-multiselect
+                            <label>
+                                Other Courses
+                            </label>
+                            <custom-multiselect
+                                id="title"
                                 v-model="course.similar"
                                 :endpoint="coursesEndpoint"
-                                :exclude-option-id="Number($route.params.id)"
-                                track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Other Courses
-                                </template>
-                            </async-multiselect>
+                                :exclude-option-id="$route.params.id"
+                            />
                         </div>
                     </div>
                     <div class="row">
@@ -110,16 +105,19 @@
 </template>
 
 <script>
+
 import bookCover from "./book-cover.vue";
 import editorComponent from "./editor-component";
-import asyncMultiselect from "./async-multiselect";
+import customMultiselect from "@c/custom-multiselect/custom-multiselect";
+import audiobookMultiselect from "@c/audiobook-multiselect/audiobook-multiselect";
 
 export default {
     name: "Course",
     components: {
         bookCover,
         editorComponent,
-        asyncMultiselect
+        customMultiselect,
+        audiobookMultiselect
     },
     data() {
         return {
@@ -136,8 +134,11 @@ export default {
                 book_insights: [],
                 similar: []
             },
-            listenOriginalMentioned: [],
-            themesList: []
+            listenOriginalMentioned: null,
+            themesList: [],
+            bookInsightMultiselectProps: {
+                "multiple": true
+            }
         };
     },
     computed: {
