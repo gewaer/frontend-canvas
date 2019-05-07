@@ -52,21 +52,22 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <async-multiselect
+                            <label>
+                                Book Authors
+                            </label>
+                            <custom-multiselect
+                                id="name"
                                 ref="authorsMultiselect"
                                 v-model="bookInsight.authors"
                                 :endpoint="authorsEndpoint"
-                                track-by="id"
-                                label="name">
-                                <template slot="label">
-                                    Book Authors
-                                </template>
+                                :multiselect-props="authorsMultiselectProps"
+                            >
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('author-modal')">
                                         <i class="fa fa-plus" />Add author
                                     </div>
                                 </template>
-                            </async-multiselect>
+                            </custom-multiselect>
                         </div>
                         <div class="col-12 col-md">
                             <div class="form-group-multiselect">
@@ -135,41 +136,35 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-md">
-                            <async-multiselect
+                            <label>
+                                Similar Book Insights Titles
+                            </label>
+                            <custom-multiselect
+                                id="title"
                                 v-model="bookInsight.similar"
-                                :exclude-option-id="Number($route.params.id)"
                                 :endpoint="bookInsightsEndpoint"
-                                track-by="id"
-                                label="title">
-                                <template slot="label">
-                                    Similar Book Insights Titles
-                                </template>
-                            </async-multiselect>
+                                :exclude-option-id="$route.params.id"
+                                :multiselect-props="bookInsightMultiselectProps"
+                            />
                         </div>
                         <div class="col-12 col-md">
-                            <async-multiselect
+                            <label>
+                                Listen to the original audio book
+                            </label>
+                            <audiobook-multiselect
                                 v-model="bookInsight.external_book"
-                                :external-call="true"
-                                :single-select="true"
-                                track-by="external_id"
-                                label="title"
-                                endpoint="https://staging-api.hibooks.com/v2/browse/section/audiobooks">
-                                <template slot="label">
-                                    Listen to the original audio book
-                                </template>
-                            </async-multiselect>
+                            />
                         </div>
                         <div class="col-12 col-md">
-                            <async-multiselect
+                            <label>
+                                Book Insight Credits
+                            </label>
+                            <custom-multiselect
+                                id="title"
                                 v-model="bookInsight.credits"
-                                :single-select="true"
                                 :endpoint="collaboratorsEndpoint"
-                                track-by="external_id"
-                                label="title">
-                                <template slot="label">
-                                    Book Insight Credits
-                                </template>
-                            </async-multiselect>
+                                :multiselect-props="bookInsightsCreditsProps"
+                            />
                         </div>
                     </div>
                     <div class="row">
@@ -182,21 +177,22 @@
                     </div>
                     <div class="row">
                         <div class="col-12 col-lg-6 col-xl">
-                            <async-multiselect
+                            <label>
+                                Search Terms - Genre
+                            </label>
+                            <custom-multiselect
+                                id="name"
                                 ref="searchTermsMultiselect"
                                 v-model="bookInsight.categories"
                                 :endpoint="categoriesEndpoint"
-                                track-by="id"
-                                label="name">
-                                <template slot="label">
-                                    Search Terms - Genre
-                                </template>
+                                :multiselect-props="searchTermsMultiselectProps"
+                            >
                                 <template slot="beforeList" >
                                     <div class="add-author-button option__desc" @click="$modal.show('search-terms-modal')">
                                         <i class="fa fa-plus" />Add search term
                                     </div>
                                 </template>
-                            </async-multiselect>
+                            </custom-multiselect>
                         </div>
                         <div class="col-12 col-lg-6 col-xl">
                             <div class="form-group-multiselect">
@@ -258,6 +254,7 @@
 </template>
 
 <script>
+
 import timePicker from "vue2-timepicker";
 import moment from "moment";
 
@@ -269,7 +266,8 @@ export default {
         bookCover: () => import(/* webpackChunkName: "book-cover" */ "@c/hibooks/book-cover/book-cover"),
         authorModal: () => import(/* webpackChunkName: "author-modal" */ "@c/hibooks/modals/author-modal"),
         searchTermsModal: () => import(/* webpackChunkName: "search-terms-modal" */ "@c/hibooks/modals/search-terms-modal"),
-        asyncMultiselect: () => import(/* webpackChunkName: "async-multiselect" */ "@c/async-multiselect/async-multiselect")
+        customMultiselect: () => import(/* webpackChunkName: "custom-multiselect" */ "@c/custom-multiselect/custom-multiselect"),
+        audiobookMultiselect: () => import(/* webpackChunkName: "audiobook-multiselect" */ "@c/audiobook-multiselect/audiobook-multiselect")
     },
     data() {
         return {
@@ -290,14 +288,14 @@ export default {
                 authors: [],
                 themes: [],
                 similar: [],
-                external_book: {},
+                external_book: null,
                 credits: [],
                 categories: [],
-                attachments: []
-                // bisac1: "",
-                // bisac2: "",
-                // bisac3: "",
-                // thisCourse: ""
+                attachments: [],
+                selected: { id: ""},
+                bisac1: [],
+                bisac2: [],
+                bisac3: []
             },
             filesToAssociate: [],
             authorsList: [
@@ -328,7 +326,23 @@ export default {
                 attachments: 3,
                 themes: 5
             },
-            associateFileSystem: []
+            associateFileSystem: [],
+            bookInsightMultiselectProps: {
+                "multiple": true
+            },
+            bookInsightsCreditsProps: {
+                "single-select": true,
+                "trackBy": "external_id"
+            },
+            searchTermsMultiselectProps: {
+                "trackBy": "id",
+                "multiple": true,
+                "label": "name"
+            },
+            authorsMultiselectProps: {
+                "multiple": true,
+                "label": "name"
+            }
         };
     },
     computed: {
@@ -420,6 +434,7 @@ export default {
             this.isLoading = true;
             const url = this.isEditing ? `${this.bookInsightsEndpoint}/${this.$route.params.id}` : this.bookInsightsEndpoint;
             const method = this.isEditing ? "PUT" : "POST";
+
             axios({
                 url,
                 method,
@@ -434,6 +449,12 @@ export default {
                     type: "error"
                 });
             });
+        },
+        hasCover(props) {
+            if (props.option.attachments && props.option.attachments.length) {
+                return props.option.attachments[0].url;
+            }
+            return props.option.cover || props.option.cover_url;
         }
     }
 }
