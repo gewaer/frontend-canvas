@@ -109,6 +109,15 @@ export const authMixins = {
         }
         next();
     },
+    computed: {
+        validations() {
+            const validations = {};
+            for (const key in this.form.data) {
+                validations[key] = this.form.data[key].validations || "";
+            }
+            return validations
+        }
+    },
     methods: {
         handleResponse({ data }, isSignup = false) {
             const auth = isSignup ? data.session : data ;
@@ -152,6 +161,33 @@ export const authMixins = {
                     type: "error"
                 });
             });
+        },
+        validateInvitation() {
+            const url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
+            axios({
+                url
+            }).then(({ data }) => this.data.email = data.email)
+                .catch((error) => {
+                    this.$notify({
+                        title: "Error",
+                        text: error.response.data.errors.message,
+                        type: "error"
+                    });
+                    this.$router.replace({ name: "404" });
+                });
+        },
+        verifyFields() {
+            if (this.errors.items.length) {
+                const verificationMessage = this.errors.items[0].msg;
+                const verificationTitle = `Please verify the ${this.errors.items[0].field}`;
+                this.$notify({
+                    title: verificationTitle,
+                    text: verificationMessage,
+                    type: "warn"
+                });
+            } else {
+                this.submitData();
+            }
         }
     }
 }
