@@ -2,8 +2,13 @@ import Vue from "vue";
 import Router from "vue-router";
 import isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
-import Auth from "@/views/auth/index.vue";
 import Login from "@/views/auth/login.vue";
+import SignUp from "@/views/auth/sign-up.vue";
+import ForgotPassword from "@/views/auth/forgot-password.vue";
+import UsersInvites from "@/views/auth/users-invites.vue";
+import UsersInvitesConfirmation from "@/views/auth/users-invites-confirmation.vue";
+
+import ResetPassword from "@/views/auth/reset-password.vue";
 import BrowseList from "./views/browse/";
 import createResource from "./views/resource/create.vue";
 import routerValidator from "@/config/routerValidator";
@@ -32,7 +37,7 @@ const router = new Router({
         {
             path: "/users/signup",
             name: "signup",
-            component: Auth,
+            component: SignUp,
             meta: {
                 requiresAuth: false
             }
@@ -40,7 +45,7 @@ const router = new Router({
         {
             path: "/users/forgot-password",
             name: "forgotPassword",
-            component: Auth,
+            component: ForgotPassword,
             meta: {
                 requiresAuth: false
             }
@@ -48,7 +53,7 @@ const router = new Router({
         {
             path: "/users/reset-password/:resetKey",
             name: "resetPassword",
-            component: Auth,
+            component: ResetPassword,
             meta: {
                 requiresAuth: false
             }
@@ -56,7 +61,7 @@ const router = new Router({
         {
             path: "/users/invites/:hash",
             name: "usersInvites",
-            component: Auth,
+            component: UsersInvites,
             meta: {
                 requiresAuth: false
             }
@@ -64,7 +69,7 @@ const router = new Router({
         {
             path: "/users/link/:hash",
             name: "usersInvitesConfirmation",
-            component: Auth,
+            component: UsersInvitesConfirmation,
             meta: {
                 requiresAuth: false
             }
