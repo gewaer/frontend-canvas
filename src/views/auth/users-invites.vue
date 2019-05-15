@@ -97,7 +97,7 @@
 import { authMixins } from "@/utils/mixins";
 
 export default {
-    name: "Login",
+    name: "UserInvite",
     components: {
         AuthContainer: () => import(/* webpackChunkName: "auth-background" */ "@v/auth/container")
     },

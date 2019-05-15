@@ -20,7 +20,6 @@
                         >
                     </div>
                 </div>
-
                 <div class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">

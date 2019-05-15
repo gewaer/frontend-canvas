@@ -6,35 +6,32 @@
                 class="p-t-15"
                 autocomplete="on"
                 @submit.prevent="submitData()">
-                <template>
-                    <!-- START Form Control-->
-                    <div class="form-group form-group-default required">
-                        <label>First Name</label>
-                        <div class="controls">
-                            <input
-                                v-model="data.firstname"
-                                type="text"
-                                name="firstname"
-                                placeholder="John"
-                                class="form-control"
-                                required
-                            >
-                        </div>
+                <div class="form-group form-group-default required">
+                    <label>First Name</label>
+                    <div class="controls">
+                        <input
+                            v-model="data.firstname"
+                            type="text"
+                            name="firstname"
+                            placeholder="John"
+                            class="form-control"
+                            required
+                        >
                     </div>
-                    <div class="form-group form-group-default required">
-                        <label>Last Name</label>
-                        <div class="controls">
-                            <input
-                                v-model="data.lastname"
-                                type="text"
-                                name="lastname"
-                                placeholder="Smith"
-                                class="form-control"
-                                required
-                            >
-                        </div>
+                </div>
+                <div class="form-group form-group-default required">
+                    <label>Last Name</label>
+                    <div class="controls">
+                        <input
+                            v-model="data.lastname"
+                            type="text"
+                            name="lastname"
+                            placeholder="Smith"
+                            class="form-control"
+                            required
+                        >
                     </div>
-                </template>
+                </div>
                 <div class="form-group form-group-default required">
                     <label>{{ form.data.email.label }}</label>
                     <div class="controls">
