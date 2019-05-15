@@ -2,7 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
-import Auth from "@/views/users/auth";
+import Auth from "@/views/auth/index.vue";
+import Login from "@/views/auth/login.vue";
 import BrowseList from "./views/browse/";
 import createResource from "./views/resource/create.vue";
 import routerValidator from "@/config/routerValidator";
@@ -23,7 +24,7 @@ const router = new Router({
         {
             path: "/users/login",
             name: "login",
-            component: Auth,
+            component: Login,
             meta: {
                 requiresAuth: false
             }

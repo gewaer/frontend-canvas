@@ -101,3 +101,57 @@ export const listMixins = {
         }
     }
 }
+
+export const authMixins = {
+    beforeRouteLeave(to, from, next) {
+        for (const prop in this.data) {
+            this.data[prop] = "";
+        }
+        next();
+    },
+    methods: {
+        handleResponse({ data }, isSignup = false) {
+            const auth = isSignup ? data.session : data ;
+
+            Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
+            this.$store.dispatch("User/setToken", auth.token);
+            if (isSignup) {
+                this.$modal.show("after-signup-wizard")
+            }
+            // TODO: Redirect to ?redirect URL
+            this.$router.push({ name: "dashboard" });
+        },
+        prepareData() {
+            const data = new FormData();
+
+            Object.keys(this.form.data).forEach((field) => {
+                let apiField = field;
+
+                if (this.form.data[field].map) {
+                    apiField = this.form.data[field].map;
+                }
+
+                data.append(apiField, this.data[field]);
+            });
+
+            return data;
+        },
+        submitData() {
+            const data = this.prepareData();
+
+            axios({
+                url: `/${this.form.endpoint}`,
+                method: "POST",
+                data
+            }).then((response) => {
+                this.handleResponse(response);
+            }).catch((error) => {
+                this.$notify({
+                    title: "Error",
+                    text: error.response.data.errors.message,
+                    type: "error"
+                });
+            });
+        }
+    }
+}
