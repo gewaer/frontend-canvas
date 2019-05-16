@@ -7,7 +7,8 @@
                         id="bulk-actions"
                         slot="btn"
                         class="btn btn-info dropdown-toggle"
-                        type="button">
+                        type="button"
+                    >
                         Bulk actions
                     </button>
                     <div slot="body">
@@ -16,55 +17,63 @@
                             :key="action.name"
                             class="dropdown-item"
                             href="#"
-                            @click="action.action">
+                            @click.prevent="action.action"
+                        >
                             {{ action.name }}
                         </a>
                     </div>
                 </dropdown>
-
-                <router-link :to="{ name: 'create-resource', params: { resource: currentResource.name } }" class="add-record-btn btn btn-primary">
-                    <i class="fa fa-plus-circle"/> Add {{ currentResource.title }}
+                <router-link
+                    :to="{ name: 'create-resource', params: { resource: currentResource.name }}"
+                    class="add-record-btn btn btn-primary"
+                >
+                    <i class="fa fa-plus-circle"/>
+                    Add {{ currentResource.title }}
                 </router-link>
-
                 <div class="input-group search-bar">
                     <input
-                        v-model="searchOptions.text"
+                        v-model="search.text"
                         type="text"
                         class="form-control"
-                        @keydown.13="getData()">
+                        @keydown.enter="$emit('getData', search)"
+                    >
                     <div class="input-group-append">
-                        <button class="btn btn-primary" @click="getData()">
-                            <i class="fa fa-search"/> Search
+                        <button class="btn btn-primary" @click="$emit('getData', search)">
+                            <i class="fa fa-search"/>
+                            Search
                         </button>
                     </div>
                 </div>
-
                 <div class="browse-list-filters d-flex align-items-center">
                     <span class="mr-3">Filters</span>
                     <multiselect
-                        v-model="searchOptions.filters"
+                        v-model="search.filters"
                         :multiple="true"
                         :show-labels="false"
                         :options="filterableFields"
-                        @input="getData()"
+                        @input="$emit('getData', search)"
                     >
-                        <template slot="afterList" >
-                            <div class="add-custom-filter-btn option__desc"><a class="option__title" @click="showAddCustomFilter()">
-                            <i class="fa fa-plus"/> Add custom Filter</a>
+                        <template slot="afterList">
+                            <div class="add-custom-filter-btn option__desc">
+                                <a class="option__title" @click="$emit('show-add-custom-filter')">
+                                    <i class="fa fa-plus"/>
+                                    Add custom Filter
+                                </a>
                             </div>
                         </template>
                     </multiselect>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import _clone from "lodash/clone";
+
 export default {
     props: {
-        searchOptions:{
+        searchOptions: {
             type: Object,
             required: true
         },
@@ -75,7 +84,7 @@ export default {
         bulkActions: {
             type: Array,
             default() {
-                return []
+                return [];
             }
         },
         currentResource: {
@@ -83,12 +92,9 @@ export default {
             required: true
         }
     },
-    methods: {
-        getData() {
-            this.$emit("getData")
-        },
-        showAddCustomFilter() {
-            this.$emit("show-add-custom-filter");
+    data() {
+        return {
+            search: _clone(this.searchOptions)
         }
     }
 }
