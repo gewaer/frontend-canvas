@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-/src/npm-components
+/npm-components
+/src/import.local.js
 
 # local env files
 .env
