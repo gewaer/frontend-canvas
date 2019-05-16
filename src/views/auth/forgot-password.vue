@@ -5,18 +5,20 @@
                 id="form-login"
                 class="p-t-15"
                 autocomplete="on"
-                @submit.prevent="submitData()">
+                @submit.prevent="verifyFields()">
                 <div class="form-group form-group-default required">
                     <label>{{ form.data.email.label }}</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.email"
                             v-model="data.email"
                             type="text"
-                            name="username"
+                            name="email"
                             autocomplete="on"
                             placeholder="user@example.com"
                             class="form-control"
                             required>
+                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
                 <div class="row">

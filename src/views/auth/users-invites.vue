@@ -5,7 +5,7 @@
                 id="form-login"
                 class="p-t-15"
                 autocomplete="off"
-                @submit.prevent="submitData()">
+                @submit.prevent="verifyFields()">
                 <div class="form-group form-group-default required">
                     <label>First Name</label>
                     <div class="controls">

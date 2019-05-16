@@ -5,25 +5,27 @@
                 id="form-login"
                 class="p-t-15"
                 autocomplete="on"
-                @submit.prevent="submitData()">
+                @submit.prevent="verifyFields()">
                 <div class="form-group form-group-default required">
                     <label>{{ form.data.email.label }}</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.email"
                             v-model="data.email"
                             type="text"
-                            name="username"
+                            name="email"
                             autocomplete="on"
                             placeholder="user@example.com"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.password"
                             v-model="data.password"
                             type="password"
                             class="form-control"
@@ -32,6 +34,7 @@
                             placeholder="Credentials"
                             required
                         >
+                        <span class="text-danger">{{ errors.first('password') }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -75,7 +78,7 @@ export default {
             form: {
                 data: {
                     email: {
-                        label: "Login",
+                        label: "Email",
                         validations: "required|email"
                     },
                     password: {
@@ -88,5 +91,6 @@ export default {
             }
         }
     }
+
 }
 </script>
