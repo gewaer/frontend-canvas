@@ -10,41 +10,44 @@
                     <label>First Name</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.firstname"
                             v-model="data.firstname"
                             type="text"
                             name="firstname"
                             placeholder="John"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("firstname") }}</span>
                     </div>
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Last Name</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.lastname"
                             v-model="data.lastname"
                             type="text"
                             name="lastname"
                             placeholder="Smith"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("lastname") }}</span>
                     </div>
                 </div>
                 <div class="form-group form-group-default required">
                     <label>{{ form.data.email.label }}</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.email"
                             v-model="data.email"
                             type="text"
-                            name="username"
+                            name="email"
                             disabled
                             autocomplete="off"
                             placeholder="user@example.com"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
 
@@ -52,28 +55,31 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.password"
                             v-model="data.password"
                             type="password"
                             class="form-control"
                             name="password"
                             autocomplete="off"
                             placeholder="Credentials"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("password") }}</span>
                     </div>
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.verifyPassword"
                             v-model="data.verifyPassword"
                             type="password"
                             name="verifyPassword"
+                            data-vv-as="password"
                             autocomplete="off"
                             placeholder="Retype Credentials"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("verifyPassword") }}</span>
                     </div>
                 </div>
                 <div class="row">
