@@ -177,17 +177,19 @@ export const authMixins = {
                 });
         },
         verifyFields() {
-            if (this.errors.items.length) {
-                const verificationMessage = this.errors.items[0].msg;
-                const verificationTitle = `Please verify the ${this.errors.items[0].field}`;
-                this.$notify({
-                    title: verificationTitle,
-                    text: verificationMessage,
-                    type: "warn"
-                });
-            } else {
-                this.submitData();
-            }
+            this.$validator.validate().then(result => {
+                if (result) {
+                    this.submitData();
+                } else {
+                    const verificationMessage = this.errors.items[0].msg;
+                    const verificationTitle = `Please verify the ${this.errors.items[0].field}`;
+                    this.$notify({
+                        title: verificationTitle,
+                        text: verificationMessage,
+                        type: "warn"
+                    });
+                }
+            });
         }
     }
 }
