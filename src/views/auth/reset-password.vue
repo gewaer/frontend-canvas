@@ -4,19 +4,22 @@
             <form
                 id="form-login"
                 class="p-t-15"
-                autocomplete="on"
+                autocomplete="off"
                 @submit.prevent="verifyFields()">
                 <div class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.password"
+                            ref="password"
                             v-model="data.password"
                             type="password"
                             class="form-control"
                             name="password"
                             placeholder="Credentials"
-                            required
+                            autocomplete="off"
                         >
+                        <span class="text-danger">{{ errors.first("password") }}</span>
                     </div>
                 </div>
 
@@ -24,13 +27,16 @@
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.verifyPassword"
                             v-model="data.verifyPassword"
                             type="password"
                             name="verifyPassword"
+                            data-vv-as="password"
                             placeholder="Retype Credentials"
                             class="form-control"
-                            required
+                            autocomplete="off"
                         >
+                        <span class="text-danger">{{ errors.first("verifyPassword") }}</span>
                     </div>
                 </div>
 
@@ -68,7 +74,7 @@ export default {
                     },
                     verifyPassword: {
                         map: "verify_password",
-                        validations: "required|min:8"
+                        validations: "required|confirmed:password"
                     }
                 },
                 endpoint: `auth/reset/${this.$route.params.resetKey}`,
