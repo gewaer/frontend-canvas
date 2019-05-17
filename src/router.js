@@ -7,7 +7,6 @@ import SignUp from "@/views/auth/sign-up.vue";
 import ForgotPassword from "@/views/auth/forgot-password.vue";
 import UsersInvites from "@/views/auth/users-invites.vue";
 import UsersInvitesConfirmation from "@/views/auth/users-invites-confirmation.vue";
-
 import ResetPassword from "@/views/auth/reset-password.vue";
 import BrowseList from "./views/browse/";
 import createResource from "./views/resource/create.vue";
