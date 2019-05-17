@@ -10,29 +10,31 @@
                     <label>{{ form.data.email.label }}</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.email"
                             v-model="data.email"
                             type="text"
-                            name="username"
+                            name="email"
                             disabled
                             autocomplete="off"
                             placeholder="user@example.com"
                             class="form-control"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
                 <div class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">
                         <input
+                            v-validate="validations.password"
                             v-model="data.password"
                             type="password"
                             class="form-control"
                             name="password"
-                            autocomplete="off"
+                            autocomplete="on"
                             placeholder="Credentials"
-                            required
                         >
+                        <span class="text-danger">{{ errors.first('password') }}</span>
                     </div>
                 </div>
                 <div class="row">
