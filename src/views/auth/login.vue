@@ -32,7 +32,6 @@
                             name="password"
                             autocomplete="on"
                             placeholder="Credentials"
-                            required
                         >
                         <span class="text-danger">{{ errors.first('password') }}</span>
                     </div>
