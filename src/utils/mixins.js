@@ -128,7 +128,7 @@ export const authMixins = {
                 this.$modal.show("after-signup-wizard")
             }
             // TODO: Redirect to ?redirect URL
-            this.$router.push({ name: "dashboard" });
+            this.$router.replace({ name: "dashboard" });
         },
         prepareData() {
             const data = new FormData();
@@ -163,9 +163,8 @@ export const authMixins = {
             });
         },
         validateInvitation() {
-            const url = `users-invite/validate/${this.$route.params.hash}?relationships=companies`;
             axios({
-                url
+                url:`users-invite/validate/${this.$route.params.hash}?relationships=companies`
             }).then(({ data }) => this.data.email = data.email)
                 .catch((error) => {
                     this.$notify({

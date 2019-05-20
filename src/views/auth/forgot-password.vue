@@ -17,7 +17,7 @@
                             autocomplete="on"
                             placeholder="user@example.com"
                             class="form-control"
-                            required>
+                        >
                         <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
@@ -42,7 +42,7 @@ import { authMixins } from "@/utils/mixins";
 export default {
     name: "ForgotPassword",
     components: {
-        AuthContainer: () => import(/* webpackChunkName: "auth-background" */ "@v/auth/container")
+        AuthContainer: () => import(/* webpackChunkName: "auth-container" */ "@v/auth/container")
     },
     mixins: [authMixins],
     data() {

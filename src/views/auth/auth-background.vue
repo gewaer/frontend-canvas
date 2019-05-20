@@ -22,9 +22,7 @@ export default {
         imgSrc: {
             type: String,
             default:"https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg",
-            validator(url) {
-                return isURL(url)
-            }
+            validator: isURL
         },
         title: {
             type: String,
