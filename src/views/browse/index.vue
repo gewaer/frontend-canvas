@@ -1,15 +1,18 @@
 <template>
     <gw-browse
         ref="gwBrowse"
+        :append-params="appendParams"
         :http-options="{ baseURL, headers: { Authorization: token }}"
         :pagination-data="paginationData"
+        :pagination-path="''"
+        :query-params="queryParams"
         :resources="resources"
     />
 </template>
 
 <script>
+const { GwBrowse } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
 import { mapState } from "vuex";
-import GwBrowse from "@/npm-components/gw-browse/src/browse"
 
 export default {
     name: "Browse",
@@ -18,7 +21,15 @@ export default {
     },
     data() {
         return {
+            appendParams: {
+                format: "true"
+            },
             baseURL: process.env.VUE_APP_BASE_API_URL,
+            queryParams: {
+                sort: "sort",
+                page: "page",
+                perPage: "limit"
+            },
             token: this.$store.state.User.token || Cookies.get("token")
         }
     },
