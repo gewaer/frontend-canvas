@@ -1,6 +1,13 @@
 <template>
-    <div :id="uppyId">
-        <div class="uppyFileInput" />
+    <div :id="uppyId" >
+        <button
+            :id="buttonInstanceId"
+            :class="['uppy-container','btn btn-primary']"
+            type="button"
+            class=""
+        >
+            Select File{{ multipleFiles ? 's' : '' }}
+        </button>
     </div>
 </template>
 
@@ -8,11 +15,12 @@
 import uppy from "@uppy/core";
 import XHRUpload from "@uppy/xhr-upload";
 import FileInput from "@uppy/file-input";
+import uuidv4 from "uuid/v4";
+
 /**
      * Please visit the Uppy docs at https://uppy.io/docs/uppy/
      *
      * You can change the ccs of Uppy Input FIle with the following class
-     * .uppy-FileInput-btn {}
      *
      */
 export default {
@@ -48,8 +56,10 @@ export default {
     data() {
         return {
             uppyInstance: null,
-            uppyId: `uppy-${Math.random().toLocaleString(16)}`,
-            fileInputInstanceId: `uppy-file-input-${Math.random().toLocaleString(16)}`
+            uppyId: `uppy-${uuidv4()}`,
+            fileInputInstanceId: `uppy-dashboard-${uuidv4()}`,
+            buttonInstanceId: `uppy-dashboard-button-${uuidv4()}`,
+            multipleFiles: false
         }
     },
     mounted() {
@@ -65,9 +75,10 @@ export default {
             ...customRestrictions
         };
 
+        this.multipleFiles = restrictions.maxNumberOfFiles > 1;
+
         const defaultUppyConfig = {
             autoProceed: true,
-            debug: false,
             ...this.uppyConfig,
             restrictions
         };
@@ -78,15 +89,13 @@ export default {
         });
 
         const defaultFileInputConfig = {
-            pretty: true,
-            inline: true,
             replaceTargetContent: false,
             locale: {},
             ...this.fileInputConfig
         }
         uppyInstance.use(FileInput, {
             id: this.fileInputInstanceId,
-            target: `.uppyFileInput`,
+            target: `#${buttonInstanceId}`,
             ...defaultFileInputConfig
         })
 
@@ -100,7 +109,6 @@ export default {
         uppyInstance.on("upload-error", (file, error, response) => {
             this.$emit("error", error, file, response);
         });
-
         this.uppyInstance = uppyInstance;
     }
 }

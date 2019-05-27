@@ -8,20 +8,22 @@
                 ref="fileUploader"
                 :xhr-config="uppyXhrConfig"
                 :uppy-config="uppyConfig"
+                modal-button
                 @uploaded="uploaded"
-                @error="onError" />
+                @uploaderror="onError" />
         </div>
     </div>
 </template>
 
 <script>
-import store from "@/store";
-import { isURL } from "@/utils/helpers";
+import { mapState } from "vuex";
+import isURL from "is-url";
+import DashboardUploader from "./dashboard-file-uploader";
 
 export default {
     name: "ProfileUploader",
     components: {
-        DashboardUploader: () => import(/* webpackChunkName: "dashboard-uploader" */ "@c/uploaders/dashboard-file-uploader")
+        DashboardUploader
     },
     props: {
         defaultAvatar: {
@@ -44,12 +46,20 @@ export default {
                 debug: process.env.NODE_ENV !== "production",
                 restrictions: {
                     maxNumberOfFiles: 1,
-                    allowedFileTypes: ["image/*"]
+                    allowedFileTypes: ["image/*"],
+                    meta: {
+                        atributes: JSON.stringify({
+                            type: "profile"
+                        })
+                    }
                 }
             }
         }
     },
     computed: {
+        ...mapState({
+            userToken: state => state.User.token
+        }),
         imgUrl() {
             return this.avatarUrl.length && isURL(this.avatarUrl) ? this.avatarUrl : this.defaultAvatar;
         },
@@ -59,7 +69,7 @@ export default {
                 fieldName: "file",
                 endpoint: `${axios.defaults.baseURL}${this.endpoint}`,
                 headers: {
-                    Authorization: store.state.User.token
+                    Authorization: this.userToken
                 }
             };
         },
