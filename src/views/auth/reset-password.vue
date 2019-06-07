@@ -1,18 +1,20 @@
 <template>
-    <auth-container>
+    <auth-container
+        logo-title="Reset your password"
+    >
         <template slot="auth-form">
             <form
-                id="form-login"
                 class="p-t-15"
                 autocomplete="off"
-                @submit.prevent="verifyFields()">
+                @submit.prevent="verifyFields()"
+            >
                 <div class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="validations.password"
+                            v-validate="form.fields.password.validations"
                             ref="password"
-                            v-model="data.password"
+                            v-model="form.fields.password.value"
                             type="password"
                             class="form-control"
                             name="password"
@@ -22,13 +24,12 @@
                         <span class="text-danger">{{ errors.first("password") }}</span>
                     </div>
                 </div>
-
                 <div class="form-group form-group-default required">
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
-                            v-validate="validations.verifyPassword"
-                            v-model="data.verifyPassword"
+                            v-validate="form.fields.verifyPassword.validations"
+                            v-model="form.fields.verifyPassword.value"
                             type="password"
                             name="verifyPassword"
                             data-vv-as="password"
@@ -39,47 +40,42 @@
                         <span class="text-danger">{{ errors.first("verifyPassword") }}</span>
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10"/>
+                    <div class="col-md-6 no-padding sm-p-l-10" />
                     <div class="col-md-6 d-flex align-items-center justify-content-end">
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">{{ form.submitLabel }}</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset Password</button>
             </form>
         </template>
     </auth-container>
 </template>
 
 <script>
-import { authMixins } from "@/utils/mixins";
+import authMixins from "@/mixins/auth";
+
 export default {
     name: "ResetPassword",
-    components: {
-        AuthContainer: () => import(/* webpackChunkName: "auth-container" */ "@v/auth/container")
-    },
-    mixins: [authMixins],
+    mixins: [
+        authMixins
+    ],
     data() {
         return {
-            data: {
-                verifyPassword: "",
-                password: ""
-            },
             form: {
-                data: {
+                fields: {
                     password: {
                         map: "new_password",
-                        validations: "required|min:8"
+                        validations: "required|min:8",
+                        value: ""
                     },
                     verifyPassword: {
                         map: "verify_password",
-                        validations: "required|confirmed:password"
+                        validations: "required|confirmed:password",
+                        value: ""
                     }
                 },
-                endpoint: `auth/reset/${this.$route.params.resetKey}`,
-                submitLabel: "Reset Password",
-                title: "Reset your Gewaer password"
+                endpoint: `/auth/reset/${this.$route.params.resetKey}`
             }
         }
     },

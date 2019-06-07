@@ -4,9 +4,9 @@
         :append-params="appendParams"
         :http-options="{ baseURL, headers: { Authorization: token }}"
         :pagination-data="paginationData"
-        :pagination-path="''"
         :query-params="queryParams"
         :resources="resources"
+        pagination-path=""
     />
 </template>
 
