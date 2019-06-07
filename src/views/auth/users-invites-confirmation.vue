@@ -1,17 +1,20 @@
 <template>
-    <auth-container>
+    <auth-container
+        logo-title="Link to your account"
+    >
         <template slot="auth-form">
             <form
                 id="form-login"
                 class="p-t-15"
                 autocomplete="off"
-                @submit.prevent="verifyFields()">
+                @submit.prevent="verifyFields()"
+            >
                 <div class="form-group form-group-default required">
-                    <label>{{ form.data.email.label }}</label>
+                    <label>Email</label>
                     <div class="controls">
                         <input
-                            v-validate="validations.email"
-                            v-model="data.email"
+                            v-validate="form.fields.email.validations"
+                            v-model="form.fields.email.value"
                             type="text"
                             name="email"
                             disabled
@@ -26,15 +29,15 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="validations.password"
-                            v-model="data.password"
+                            v-validate="form.fields.password.validations"
+                            v-model="form.fields.password.value"
                             type="password"
                             class="form-control"
                             name="password"
                             autocomplete="on"
                             placeholder="Credentials"
                         >
-                        <span class="text-danger">{{ errors.first('password') }}</span>
+                        <span class="text-danger">{{ errors.first("password") }}</span>
                     </div>
                 </div>
                 <div class="row">
@@ -43,7 +46,7 @@
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">{{ form.submitLabel }}</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">Accept</button>
                 <router-link
                     :to="{ name: 'login' }"
                     tag="button"
@@ -54,33 +57,27 @@
 </template>
 
 <script>
-import { authMixins } from "@/utils/mixins";
+import authMixins from "@/mixins/auth";
 
 export default {
     name: "Login",
-    components: {
-        AuthContainer: () => import(/* webpackChunkName: "auth-container" */ "@v/auth/container")
-    },
-    mixins: [authMixins],
+    mixins: [
+        authMixins
+    ],
     data() {
         return {
-            data: {
-                email: "",
-                password: ""
-            },
             form: {
-                data: {
+                fields: {
                     email: {
-                        label: "Email",
-                        validations: "required|email"
+                        validations: "required|email",
+                        value: ""
                     },
                     password: {
-                        validations: "required|min:8"
+                        validations: "required|min:8",
+                        value: ""
                     }
                 },
-                endpoint: `users-invite/${this.$route.params.hash}`,
-                submitLabel: "Acept",
-                title: "Link to your Gewaer account"
+                endpoint: `/users-invite/${this.$route.params.hash}`
             }
         }
     },
