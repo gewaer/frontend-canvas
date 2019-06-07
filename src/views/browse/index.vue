@@ -35,7 +35,7 @@ export default {
     },
     computed: {
         ...mapState({
-            resources: state => state.Company.data.resources
+            resources: state => state.Application.resources
         })
     },
     methods: {

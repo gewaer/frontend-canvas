@@ -15,6 +15,7 @@ const validationHandler = function validationHandler(routeTo) {
 
     return routeToGo;
 }
+
 /**
  * @param {Object} to the route that the user will go
  * @param {Object} from the route that the user came from
@@ -46,4 +47,3 @@ export default function(to) {
 
     });
 }
-
