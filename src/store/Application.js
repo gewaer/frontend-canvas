@@ -24,6 +24,9 @@ const mutations = {
     SET_CURRENCIES(state, payload) {
         state.currencies = payload;
     },
+    SET_RESOURCES(state, payload) {
+        state.resources = payload;
+    },
     SET_ROLES(state, payload) {
         state.roles = payload;
     }
@@ -39,49 +42,14 @@ const actions = {
 
         return Promise.all([
             dispatch("User/getData", null, { root: true }),
-            dispatch("Company/getData", null, { root: true })
+            dispatch("Company/getData", null, { root: true }),
+            dispatch("getResources")
         ]).then(response => {
-
-            // TODO: This is hardcored, remove this as soon as the backend send each company  resources
-            const resources = [
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Shopping/Product.png&r=255&g=255&b=255",
-                    name: "products",
-                    title: "Products"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Mobile%20Application/Mail-01.png&r=255&g=255&b=255",
-                    name: "contacts",
-                    title: "Contacs"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Banking/Customer.png&r=255&g=255&b=255",
-                    name: "clients",
-                    title: "Clients"
-                },
-                {
-                    icon: null,
-                    name: "suppliers",
-                    title: "Suppliers"
-                },
-                {
-                    icon: null,
-                    name: "places",
-                    title: "Places"
-                },
-                {
-                    icon: "https://flaticons.net/gd/makefg.php?i=icons/Miscellaneous/Book-Open.png&r=255&g=255&b=255s",
-                    name: "book_insights",
-                    title: "Book Insights"
-                }
-            ]
-
-            response[1].data.forEach(company => {
-                company.resources = resources;
+            dispatch("setGlobalData", {
+                userData: response[0].data,
+                companies: response[1].data,
+                resources: response[2].data
             });
-            // TODO: This is hardcored, remove this as soon as the backend send each company  resources
-
-            dispatch("setGlobalData", { userData: response[0].data, companies: response[1].data });
         });
     },
     getLanguages({ commit }) {
@@ -96,6 +64,11 @@ const actions = {
                 resolve();
             });
         }
+    },
+    getResources() {
+        return axios({
+            url: "/system-modules"
+        });
     },
     getSettingsLists({ dispatch }) {
         return Promise.all([
@@ -163,16 +136,17 @@ const actions = {
         dispatch("Company/setList", [], { root: true });
         dispatch("Company/setData", null, { root: true });
     },
-    setGlobalData({ dispatch }, data) {
+    setGlobalData({ commit, dispatch }, data) {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
         dispatch("Company/setData", data.companies.find((company) => company.id == data.userData.default_company), { root: true });
+        commit("SET_RESOURCES", data.resources);
     }
 };
 
 const getters = {
     isStateReady() {
-        return !isEmpty(store.User.state.data) && !!store.Company.state.data;
+        return !isEmpty(store.User.state.data) && !!store.Company.state.data && state.resources.length;
     }
 };
 
