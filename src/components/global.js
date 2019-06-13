@@ -17,14 +17,17 @@ import VuetablePagination from "vuetable-2/src/components/VuetablePagination";
 import Dropdown from "bp-vuejs-dropdown";
 import VTooltip from "v-tooltip";
 
+import Loader from "@c/loader";
+
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true });
 Vue.use(VTooltip);
 
 Vue.component("custom-fields-form", CustomFieldsForm);
-Vue.component("quill-editor", QuillEditor);
+Vue.component("dropdown", Dropdown);
+Vue.component("loader", Loader);
 Vue.component("multiselect", VueMultiselect);
 Vue.component("vuetable", Vuetable);
 Vue.component("vuetable-pagination", VuetablePagination);
-Vue.component("dropdown", Dropdown);
+Vue.component("quill-editor", QuillEditor);

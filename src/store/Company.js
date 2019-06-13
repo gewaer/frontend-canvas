@@ -19,7 +19,7 @@ const mutations = {
 const actions = {
     getData() {
         return axios({
-            url: "/companies?relationships=apps,subscription,branch,filesystem,logo"
+            url: "/companies?relationships=apps,subscription,branch,branches,filesystem,logo"
         });
     },
     setData({ commit }, data) {
