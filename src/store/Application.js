@@ -3,6 +3,8 @@ import isEmpty from "lodash/isEmpty";
 import store from "@/store/index";
 
 const state = {
+    data: {},
+    isLoading: true,
     languages: [],
     timezones: [],
     locales: [],
@@ -12,8 +14,14 @@ const state = {
 };
 
 const mutations = {
+    SET_DATA(state, payload) {
+        state.data = payload;
+    },
     SET_LANGUAGES(state, payload) {
         state.languages = payload;
+    },
+    SET_IS_LOADING(state, payload) {
+        state.isLoading = payload;
     },
     SET_TIMEZONES(state, payload) {
         state.timezones = payload;
@@ -33,6 +41,14 @@ const mutations = {
 };
 
 const actions = {
+    getData({ commit }) {
+        axios({
+            url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
+        }).then(response => {
+            commit("SET_DATA", response.data);
+            commit("SET_IS_LOADING", false);
+        });
+    },
     getGlobalStateData({ dispatch }) {
         if (!Cookies.get("token") || !isValidJWT(Cookies.get("token"))) {
             return new Promise((resolve, reject) => {
@@ -145,8 +161,11 @@ const actions = {
 };
 
 const getters = {
+    isDataReady() {
+        return !isEmpty(state.data);
+    },
     isStateReady() {
-        return !isEmpty(store.User.state.data) && !!store.Company.state.data && state.resources.length;
+        return !isEmpty(store.User.state.data) && !!store.Company.state.data;
     }
 };
 

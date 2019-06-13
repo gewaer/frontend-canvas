@@ -7,6 +7,7 @@
         :query-params="queryParams"
         :resources="resources"
         pagination-path=""
+        @load-error="loadError"
     />
 </template>
 
@@ -39,6 +40,13 @@ export default {
         })
     },
     methods: {
+        loadError(error) {
+            this.$notify({
+                title: "Error",
+                text: error.response.data.errors.message,
+                type: "error"
+            });
+        },
         paginationData(data) {
             const paginationData = {
                 total: parseInt(data.total_rows),

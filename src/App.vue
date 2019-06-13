@@ -1,20 +1,24 @@
 <template>
     <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
-        <!-- <modals-container/> -->
-        <notifications/>
-        <after-signup-wizard/>
-        <basic-modal/>
+        <fullscreen-loader />
+        <notifications />
+        <after-signup-wizard />
+        <basic-modal />
         <app-sidebar
             v-if="$route.meta && $route.meta.requiresAuth == undefined"
+            :resources="resources"
             :show-sidebar="showSidebar"
-            @handleSidebar="handleSidebar"
+            @handle-sidebar="handleSidebar"
         />
         <div class="page-container">
             <app-header
-                v-if="$route.meta && $route.meta.requiresAuth == undefined"
+                v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
+                :companies-list="companiesList"
+                :company-data="companyData"
                 :show-sidebar="showSidebar"
-                @handleSidebar="handleSidebar"
-                @toggleNotifications="toggleNotifications"
+                :user-data="userData"
+                @toggle-notifications="toggleNotifications"
+                @selected-company="switchCompany"
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
@@ -35,20 +39,22 @@
 <script>
 const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
 
-import { mapState, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
-import FreeTrialBar from "@/views/layout/free-trial-banner.vue"
-import AfterSignupWizard from "@/components/modals/after-signup-wizard.vue";
-import BasicModal from "@/components/modals/basic-modal.vue";
+import AfterSignupWizard from "@/components/modals/after-signup-wizard";
+import BasicModal from "@/components/modals/basic-modal";
+import FreeTrialBar from "@/views/layout/free-trial-banner";
+import FullscreenLoader from "@c/fullscreen-loader";
 import NotificationCenter from "@/views/layout/notification-center";
 
 export default {
     components: {
+        AfterSignupWizard,
         AppHeader,
         AppSidebar,
-        FreeTrialBar,
-        AfterSignupWizard,
         BasicModal,
+        FreeTrialBar,
+        FullscreenLoader,
         NotificationCenter
     },
     data() {
@@ -61,7 +67,11 @@ export default {
     },
     computed: {
         ...mapState({
-            accessList: state => state.User.data.access_list
+            accessList: state => state.User.data.access_list,
+            companyData: state => state.Company.data,
+            companiesList: state => state.Company.list,
+            resources: state => state.Application.resources,
+            userData: state => state.User.data
         }),
         ...mapGetters({
             isTrialSubscription: "Company/isTrialSubscription"
@@ -84,16 +94,35 @@ export default {
             }
         }
     },
+    created() {
+        this.getAppData();
+    },
     mounted() {
         this.appInitialize();
     },
     methods: {
+        ...mapActions({
+            getAppData: "Application/getData"
+        }),
         appInitialize() {
             document.body.style.setProperty("--base-color", this.appBaseColor);
             document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
         },
         handleSidebar(state) {
             this.showSidebar = state;
+        },
+        switchCompany(company) {
+            axios({
+                url: `/users/${this.userData.id}`,
+                method: "PUT",
+                data: {
+                    "default_company": company.id
+                }
+            }).then(() => {
+                // Solution implemented for now until we can properly refresh all
+                // of the user's and company's data through Vuex implementation.
+                window.location.reload();
+            });
         },
         toggleNotifications() {
             this.showNotificationCenter = !this.showNotificationCenter;
