@@ -10,7 +10,7 @@
             :show-sidebar="showSidebar"
             @handle-sidebar="handleSidebar"
         >
-            <img slot="app-logo" src="https://mc-canvas.s3.amazonaws.com/gewaer-logo-sidebar.png">
+            <img slot="app-logo" src="https://mc-canvas.s3.amazonaws.com/gewaer-logo.png">
         </app-sidebar>
         <div class="page-container">
             <app-header
