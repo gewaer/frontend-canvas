@@ -9,7 +9,9 @@
             :resources="resources"
             :show-sidebar="showSidebar"
             @handle-sidebar="handleSidebar"
-        />
+        >
+            <img slot="app-logo" src="https://mc-canvas.s3.amazonaws.com/gewaer-logo-sidebar.png">
+        </app-sidebar>
         <div class="page-container">
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
@@ -23,7 +25,12 @@
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
                     <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined && isTrialSubscription"/>
-                    <router-view class="container-fluid container-fixed-lg" transition="fade" transition-mode="out-in"/>
+                    <router-view
+                        :app-settings="appSettings"
+                        class="container-fluid container-fixed-lg"
+                        transition="fade"
+                        transition-mode="out-in"
+                    />
                 </div>
             </div>
         </div>
@@ -67,6 +74,7 @@ export default {
     },
     computed: {
         ...mapState({
+            appSettings: state => state.Application.data,
             accessList: state => state.User.data.access_list,
             companyData: state => state.Company.data,
             companiesList: state => state.Company.list,

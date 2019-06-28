@@ -17,15 +17,15 @@ export default {
     props: {
         backgroundSrc: {
             type: String,
-            default: "https://wallpaper-house.com/data/out/8/wallpaper2you_279811.jpg"
+            default: "https://mc-canvas.s3.amazonaws.com/default-background-auth.jpg"
         },
         title: {
             type: String,
-            default: "Some title."
+            default: ""
         },
         text: {
             type: String,
-            default: "Some text."
+            default: ""
         }
     }
 }

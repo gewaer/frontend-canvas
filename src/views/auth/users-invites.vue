@@ -1,5 +1,8 @@
 <template>
     <auth-container
+        :app-name="appName"
+        :background-src="backgroundSrc"
+        :logo-src="logoSrc"
         logo-title="Confirm your account"
     >
         <template slot="auth-form">
