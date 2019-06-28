@@ -84,7 +84,7 @@ const router = new Router({
         {
             path: "/forbidden",
             name: "403",
-            component: () => import(/* webpackChunkName: "error-404" */ "./views/errors/error-403"),
+            component: () => import(/* webpackChunkName: "error-403" */ "./views/errors/error-403"),
             meta: {
                 requiresAuth: false
             }

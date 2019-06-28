@@ -1,11 +1,12 @@
 <template>
     <div class="login-wrapper">
-        <auth-background />
+        <auth-background :background-src="backgroundSrc" />
         <div class="login-container bg-white">
             <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
                 <auth-logo
                     :title="logoTitle"
-                    logo-src="/img/primary-logo.png"
+                    :app-name="appName"
+                    :logo-src="logoSrc"
                 />
                 <slot name="auth-form" />
             </div>
@@ -24,6 +25,18 @@ export default {
         AuthLogo
     },
     props: {
+        appName: {
+            type: String,
+            required: true
+        },
+        backgroundSrc: {
+            type: String,
+            default: "https://mc-canvas.s3.amazonaws.com/default-background-auth.jpg"
+        },
+        logoSrc: {
+            type: String,
+            required: true
+        },
         logoTitle: {
             type: String,
             default: ""

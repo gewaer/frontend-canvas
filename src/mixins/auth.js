@@ -4,6 +4,25 @@ export default {
     components: {
         AuthContainer
     },
+    props: {
+        appSettings: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
+    },
+    computed: {
+        backgroundSrc() {
+            return this.appSettings.settings && this.appSettings.settings.background_image || "";
+        },
+        appName() {
+            return this.appSettings.name || "";
+        },
+        logoSrc() {
+            return this.appSettings.settings && this.appSettings.settings.logo || "";
+        }
+    },
     methods: {
         handleResponse({ data }, isSignup = false) {
             const auth = isSignup ? data.session : data;

@@ -2,8 +2,8 @@
     <div >
         <router-link :to="{ name: 'login' }">
             <img
+                :alt="appName"
                 :src="logoSrc"
-                alt="Gewaer.io"
                 class="company-logo"
             >
         </router-link>
@@ -15,6 +15,10 @@
 export default {
     name: "AuthLogo",
     props:{
+        appName: {
+            type: String,
+            required: true
+        },
         logoSrc: {
             type: String,
             required: true
