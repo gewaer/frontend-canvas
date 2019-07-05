@@ -5,8 +5,9 @@
  *
  * Vue.component("conponent", require("@/<path>/<component>"));
  */
+const { CustomFieldsForm } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
+
 import Vue from "vue";
-import CustomFieldsForm from "@gewaer/vue-form-generator";
 import { abilitiesPlugin as AbilitiesPlugin } from "@casl/vue";
 import { quillEditor as QuillEditor } from "vue-quill-editor";
 import VueMultiselect from "vue-multiselect";
