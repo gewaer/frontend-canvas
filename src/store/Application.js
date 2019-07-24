@@ -41,8 +41,8 @@ const mutations = {
 };
 
 const actions = {
-    getData({ commit }) {
-        axios({
+    async getData({ commit }) {
+        await axios({
             url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
         }).then(response => {
             commit("SET_DATA", response.data);
