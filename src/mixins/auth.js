@@ -25,10 +25,8 @@ export default {
     },
     methods: {
         handleResponse({ data }, isSignup = false) {
-            const auth = isSignup ? data.session : data;
-
-            Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
-            this.$store.dispatch("User/setToken", auth.token);
+            Cookies.set("token", data.token, { expires: new Date(data.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
+            this.$store.dispatch("User/setToken", data.token);
 
             if (isSignup) {
                 this.$modal.show("after-signup-wizard");
