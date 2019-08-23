@@ -60,7 +60,7 @@ module.exports = {
         "object-curly-spacing": ["error", "always"],
         "arrow-spacing": "error",
         "no-useless-escape": 0,
-        "vue/no-v-html": "warn",
+        "vue/no-v-html": 0,
         "prefer-const": "error",
         "vue/html-indent": ["error", 4, {
             "attribute": 1,
