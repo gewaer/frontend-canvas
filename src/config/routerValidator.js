@@ -4,17 +4,12 @@ import { isValidJWT } from "@/utils/helpers";
 
 const validateSubscription = function validateSubscription(routeTo) {
     let routeToGo = routeTo;
-    if (routeTo.name != "settingsCompaniesSubscriptions" && store.getters["Company/subscriptionHasEnded"]) {
+    if (routeTo.name != "settingsCompaniesSubscriptions" && store.getters["Subscription/daysLeft"] < 0) {
         routeToGo = { name: "settingsCompaniesSubscriptions" }
     }
+
     return routeToGo;
 };
-
-const validationHandler = function validationHandler(routeTo) {
-    const routeToGo = validateSubscription(routeTo);
-
-    return routeToGo;
-}
 
 /**
  * @param {Object} to the route that the user will go
@@ -30,14 +25,12 @@ export default function(to) {
     };
     return new Promise((resolve, reject) => {
         if (store.getters["Application/isStateReady"]) {
-            const routeToGo = validationHandler(to);
-            resolve(routeToGo);
+            resolve(validateSubscription(to));
         } else {
             if (Cookies.get("token") && isValidJWT(Cookies.get("token"))) {
 
                 store.dispatch("Application/getGlobalStateData").then(() => {
-                    const routeToGo = validationHandler(to);
-                    resolve(routeToGo);
+                    resolve(validateSubscription(to));
                 }).catch(() => reject(LoginRoute));
             } else {
                 reject(LoginRoute)

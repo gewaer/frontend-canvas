@@ -10,7 +10,8 @@ const state = {
     locales: [],
     currencies: [],
     roles: [],
-    resources: []
+    resources: [],
+    settings: {}
 };
 
 const mutations = {
@@ -37,16 +38,18 @@ const mutations = {
     },
     SET_ROLES(state, payload) {
         state.roles = payload;
+    },
+    SET_SETTINGS(state, payload) {
+        state.settings = payload;
     }
 };
 
 const actions = {
-    async getData({ commit }) {
+    async getData({ commit }, appsId) {
         await axios({
-            url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
+            url: `/apps/${appsId}`
         }).then(response => {
             commit("SET_DATA", response.data);
-            commit("SET_IS_LOADING", false);
         });
     },
     getGlobalStateData({ dispatch }) {
@@ -84,6 +87,14 @@ const actions = {
     getResources() {
         return axios({
             url: "/system-modules"
+        });
+    },
+    async getSettings({ commit }) {
+        await axios({
+            url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
+        }).then(response => {
+            commit("SET_SETTINGS", response.data);
+            commit("SET_IS_LOADING", false);
         });
     },
     getSettingsLists({ dispatch }) {
@@ -153,9 +164,11 @@ const actions = {
         dispatch("Company/setData", null, { root: true });
     },
     setGlobalData({ commit, dispatch }, data) {
+        const currentCompany = data.companies.find((company) => company.id == data.userData.default_company);
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
-        dispatch("Company/setData", data.companies.find((company) => company.id == data.userData.default_company), { root: true });
+        dispatch("Company/setData", currentCompany, { root: true });
+        dispatch("getData", currentCompany.apps.apps_id);
         commit("SET_RESOURCES", data.resources);
     }
 };
@@ -166,6 +179,9 @@ const getters = {
     },
     isStateReady() {
         return !isEmpty(store.User.state.data) && !!store.Company.state.data;
+    },
+    isSubscriptionBased() {
+        return Boolean(Number(state.data.payments_active));
     }
 };
 

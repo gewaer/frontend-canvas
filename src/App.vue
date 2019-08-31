@@ -24,7 +24,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <free-trial-bar v-if="$route.meta && $route.meta.requiresAuth == undefined && isTrialSubscription"/>
+                    <subscription-bar v-if="$route.meta && $route.meta.requiresAuth == undefined"/>
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -46,11 +46,11 @@
 <script>
 const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
 
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
 import AfterSignupWizard from "@/components/modals/after-signup-wizard";
 import BasicModal from "@/components/modals/basic-modal";
-import FreeTrialBar from "@/views/layout/free-trial-banner";
+import SubscriptionBar from "@/views/layout/subscription-bar";
 import FullscreenLoader from "@c/fullscreen-loader";
 import NotificationCenter from "@/views/layout/notification-center";
 
@@ -60,7 +60,7 @@ export default {
         AppHeader,
         AppSidebar,
         BasicModal,
-        FreeTrialBar,
+        SubscriptionBar,
         FullscreenLoader,
         NotificationCenter
     },
@@ -74,15 +74,12 @@ export default {
     },
     computed: {
         ...mapState({
-            appSettings: state => state.Application.data,
+            appSettings: state => state.Application.settings,
             accessList: state => state.User.data.access_list,
             companyData: state => state.Company.data,
             companiesList: state => state.Company.list,
             resources: state => state.Application.resources,
             userData: state => state.User.data
-        }),
-        ...mapGetters({
-            isTrialSubscription: "Company/isTrialSubscription"
         })
     },
     watch: {
@@ -110,7 +107,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            getAppData: "Application/getData"
+            getAppData: "Application/getSettings"
         }),
         appInitialize() {
             document.body.style.setProperty("--base-color", this.appBaseColor);

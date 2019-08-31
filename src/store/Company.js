@@ -22,8 +22,9 @@ const actions = {
             url: "/companies?relationships=apps,subscription,branch,branches,logo"
         });
     },
-    setData({ commit }, data) {
+    setData({ commit, dispatch }, data) {
         commit("SET_DATA", data);
+        dispatch("Subscription/setData", data.subscription, { root: true });
     },
     setList({ commit }, data) {
         commit("SET_LIST", data);
