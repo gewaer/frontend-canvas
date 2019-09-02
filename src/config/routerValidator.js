@@ -8,7 +8,7 @@ const validateSubscription = function validateSubscription(routeTo) {
     const graceDaysLeft = store.getters["Subscription/graceDaysLeft"];
     let routeToGo = routeTo;
 
-    if (isNotInSubscriptions && daysLeft < 0 && graceDaysLeft < 0) {
+    if (isNotInSubscriptions && daysLeft <= 0 && graceDaysLeft <= 0) {
         routeToGo = { name: "settingsCompaniesSubscriptions" }
     }
 
