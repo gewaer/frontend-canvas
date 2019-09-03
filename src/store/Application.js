@@ -74,7 +74,8 @@ const actions = {
             dispatch("setGlobalData", {
                 userData,
                 companies,
-                resources
+                resources,
+                currentCompany
             });
         });
     },
@@ -171,11 +172,9 @@ const actions = {
         dispatch("Company/setData", null, { root: true });
     },
     setGlobalData({ commit, dispatch }, data) {
-        const currentCompany = data.companies.find((company) => company.id == data.userData.default_company);
-
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
-        dispatch("Company/setData", currentCompany, { root: true });
+        dispatch("Company/setData", data.currentCompany, { root: true });
         commit("SET_RESOURCES", data.resources);
     }
 };
