@@ -64,10 +64,15 @@ const actions = {
             dispatch("Company/getData", null, { root: true }),
             dispatch("getResources")
         ]).then(response => {
+            const [{ data: userData }, { data: companies }, { data: resources }] = response;
+            const currentCompany = companies.find((company) => company.id == userData.default_company);
+
+            dispatch("getData", currentCompany.apps.apps_id);
+
             dispatch("setGlobalData", {
-                userData: response[0].data,
-                companies: response[1].data,
-                resources: response[2].data
+                userData,
+                companies,
+                resources
             });
         });
     },
@@ -169,7 +174,6 @@ const actions = {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
         dispatch("Company/setData", currentCompany, { root: true });
-        dispatch("getData", currentCompany.apps.apps_id);
         commit("SET_RESOURCES", data.resources);
     }
 };

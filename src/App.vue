@@ -24,7 +24,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <subscription-bar v-if="$route.meta && $route.meta.requiresAuth == undefined"/>
+                    <subscription-bar v-if="isSubscriptionBased && $route.meta && $route.meta.requiresAuth == undefined"/>
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -46,7 +46,7 @@
 <script>
 const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
 
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
 import AfterSignupWizard from "@/components/modals/after-signup-wizard";
 import BasicModal from "@/components/modals/basic-modal";
@@ -80,6 +80,9 @@ export default {
             companiesList: state => state.Company.list,
             resources: state => state.Application.resources,
             userData: state => state.User.data
+        }),
+        ...mapGetters({
+            isSubscriptionBased: "Application/isSubscriptionBased"
         })
     },
     watch: {

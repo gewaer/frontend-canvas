@@ -3,12 +3,15 @@ import store from "@/store";
 import { isValidJWT } from "@/utils/helpers";
 
 const validateSubscription = function validateSubscription(routeTo) {
-    const isNotInSubscriptions = routeTo.name != "settingsCompaniesSubscriptions";
     const daysLeft = store.getters["Subscription/daysLeft"];
     const graceDaysLeft = store.getters["Subscription/graceDaysLeft"];
+    const isActive = store.getters["Subscription/isActive"];
+    const isNotInRoute = routeTo.name != "settingsCompaniesSubscriptions";
+    const isSubscriptionBased = store.getters["Application/isSubscriptionBased"];
+
     let routeToGo = routeTo;
 
-    if (isNotInSubscriptions && daysLeft <= 0 && graceDaysLeft <= 0) {
+    if (isSubscriptionBased && (!isActive && isNotInRoute || isNotInRoute && daysLeft <= 0 && graceDaysLeft <= 0)) {
         routeToGo = { name: "settingsCompaniesSubscriptions" }
     }
 
