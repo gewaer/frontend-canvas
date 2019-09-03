@@ -3,9 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import store from "@/store/index";
 
 const state = {
-    data: {
-        settings: {}
-    },
+    data: {},
     isLoading: true,
     languages: [],
     timezones: [],
@@ -181,7 +179,7 @@ const actions = {
 
 const getters = {
     allowUserRegistration() {
-        return Boolean(Number(state.data.settings.allow_user_registration));
+        return Boolean(Number(state.settings.settings.allow_user_registration));
     },
     isDataReady() {
         return !isEmpty(state.data);
