@@ -13,6 +13,9 @@ export default {
         }
     },
     computed: {
+        allowUserRegistration() {
+            return this.appSettings.settings && Boolean(Number(this.appSettings.settings.allow_user_registration));
+        },
         backgroundSrc() {
             return this.appSettings.settings && this.appSettings.settings.background_image || "";
         },

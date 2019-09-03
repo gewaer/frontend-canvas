@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import isEqual from "lodash/isEqual";
+import store from "@/store";
+import _isEqual from "lodash/isEqual";
 import Dashboard from "./views/dashboard";
 import Login from "@/views/auth/login.vue";
 import SignUp from "@/views/auth/sign-up.vue";
@@ -39,6 +40,13 @@ const router = new Router({
             component: SignUp,
             meta: {
                 requiresAuth: false
+            },
+            beforeEnter: (to, from, next) => {
+                if (store.getters["Application/allowUserRegistration"]) {
+                    next();
+                } else {
+                    next({ name: "login" });
+                }
             }
         },
         {
@@ -107,7 +115,7 @@ router.addRoutes(GwSettingsRoutes);
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth !== false)) {
         routerValidator(to, from).then((routeToGo) => {
-            if (isEqual(routeToGo, to)) {
+            if (_isEqual(routeToGo, to)) {
                 next();
             } else {
                 next(routeToGo);
