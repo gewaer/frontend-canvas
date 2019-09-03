@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary btn-cons m-t-10" type="submit">Sign In</button>
-                <div class="m-t-10">
+                <div v-if="allowUserRegistration" class="m-t-10">
                     Don't have an account?
                     <router-link :to="{ name: 'signup' }">Create one!</router-link>
                 </div>
