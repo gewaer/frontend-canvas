@@ -21,6 +21,8 @@
     "@gewaer/gw-settings": "^0.2.0",
     "@gewaer/gw-sidebar": "^0.2.1",
     "@gewaer/vue-form-generator": "^0.1.1",
+    "@sentry/browser": "^5.6.3",
+    "@sentry/integrations": "^5.6.1",
     "@uppy/core": "^1.1.0",
     "@uppy/dashboard": "^1.1.0",
     "@uppy/file-input": "^1.1.0",
