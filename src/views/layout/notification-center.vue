@@ -1,5 +1,5 @@
 <template>
-    <div class="notifications-center">
+    <div v-on-clickout="closeNotifications" class="notifications-center">
         <div class="notifications-center__header">
             Notifications
             <button
@@ -7,204 +7,62 @@
                 class="notification-close-button"
                 data-dismiss="modal"
                 aria-hidden="true"
-                @click="$emit('toggleNotifications')">
+                @click="closeNotifications">
                 <i class="pg-close fs-14"/>
             </button>
         </div>
-        <!-- <div class="notifications-center__do-not-disturb">
-            <span>Do not disturb</span>
-            <switches
-                :emit-on-mount="false"
-                type-bold="true"
-                theme="bootstrap"
-                color="info"
-            />
-        </div> -->
         <div class="notifications-center__day-group">
-            <div class="day-group__header">
-                <h1 class="text-green">Today</h1>
-                <button
-                    type="button"
-                    class="notification-close-button"
-                    data-dismiss="modal"
-                    aria-hidden="true"><i class="pg-close fs-14"/>
-                </button>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-        </div>
-        <div class="notifications-center__day-group">
-            <div class="day-group__header">
-                <h1>Yesterday</h1>
-                <button
-                    type="button"
-                    class="notification-close-button"
-                    data-dismiss="modal"
-                    aria-hidden="true"><i class="pg-close fs-14"/></button>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-        </div>
-        <div class="notifications-center__day-group">
-            <div class="day-group__header">
-                <h1>2 days ago</h1>
-                <button
-                    type="button"
-                    class="notification-close-button"
-                    data-dismiss="modal"
-                    aria-hidden="true"><i class="pg-close fs-14"/></button>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-primary fa-info-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-warning fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
-            <div class="notification-container">
-                <div class="notification-container__header">
-                    <div class="header__icon"><i class="fas text-danger fa-exclamation-circle"/></div>
-                    <span class="header__title">Notification Title</span>
-                    <div class="header__time-and-close">
-                        <button
-                            type="button"
-                            class="notification-close-button"
-                            data-dismiss="modal"
-                            aria-hidden="true"><i class="pg-close fs-14"/></button>
-                    </div>
-                </div>
-                <div class="notification-container__body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque lorem tortor, tristique varius tortor tempor a.
-                </div>
-            </div>
+            <template
+                v-for="(notifications, notificationGroup) in notificationsList"
+                :notification="notification">
+                <notification-header
+                    :header="notificationGroup"
+                    :key="notificationGroup" />
+
+                <notification-card
+                    v-for="notification in notifications"
+                    :notification="notification"
+                    :key="notification.id" />
+            </template>
         </div>
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import NotificationCard from "./notification-card";
+import NotificationHeader from "./notification-header";
+
+import { directive as onClickout } from "vue-clickout";
+
 export default {
     name: "NotificationCenter",
+    components: {
+        NotificationCard,
+        NotificationHeader
+    },
+    directives: {
+        onClickout
+    },
     props: {
         showNotificationCenter: {
             type: Boolean,
             default: false
+        }
+    },
+    computed: {
+        ...mapState({
+            notificationsList: state => state.Notifications.data
+        })
+    },
+    created() {
+        if (!this.notificationsList.length) {
+            this.$store.dispatch("Notifications/getNotifications");
+        }
+    },
+    methods: {
+        closeNotifications() {
+            this.$emit("toggleNotifications");
         }
     }
 };

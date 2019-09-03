@@ -1,6 +1,3 @@
-/**
- * Import plugin configurations.
- */
 import Vue from "vue";
 import "@/config/axios";
 import "@/config/lodash";
