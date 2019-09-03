@@ -3,14 +3,17 @@ import isEmpty from "lodash/isEmpty";
 import store from "@/store/index";
 
 const state = {
-    data: {},
+    data: {
+        settings: {}
+    },
     isLoading: true,
     languages: [],
     timezones: [],
     locales: [],
     currencies: [],
     roles: [],
-    resources: []
+    resources: [],
+    settings: {}
 };
 
 const mutations = {
@@ -37,16 +40,18 @@ const mutations = {
     },
     SET_ROLES(state, payload) {
         state.roles = payload;
+    },
+    SET_SETTINGS(state, payload) {
+        state.settings = payload;
     }
 };
 
 const actions = {
-    getData({ commit }) {
-        axios({
-            url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
+    async getData({ commit }, appsId) {
+        await axios({
+            url: `/apps/${appsId}`
         }).then(response => {
             commit("SET_DATA", response.data);
-            commit("SET_IS_LOADING", false);
         });
     },
     getGlobalStateData({ dispatch }) {
@@ -61,10 +66,16 @@ const actions = {
             dispatch("Company/getData", null, { root: true }),
             dispatch("getResources")
         ]).then(response => {
+            const [{ data: userData }, { data: companies }, { data: resources }] = response;
+            const currentCompany = companies.find((company) => company.id == userData.default_company);
+
+            dispatch("getData", currentCompany.apps.apps_id);
+
             dispatch("setGlobalData", {
-                userData: response[0].data,
-                companies: response[1].data,
-                resources: response[2].data
+                userData,
+                companies,
+                resources,
+                currentCompany
             });
         });
     },
@@ -84,6 +95,14 @@ const actions = {
     getResources() {
         return axios({
             url: "/system-modules"
+        });
+    },
+    async getSettings({ commit }) {
+        await axios({
+            url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
+        }).then(response => {
+            commit("SET_SETTINGS", response.data);
+            commit("SET_IS_LOADING", false);
         });
     },
     getSettingsLists({ dispatch }) {
@@ -155,17 +174,23 @@ const actions = {
     setGlobalData({ commit, dispatch }, data) {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
-        dispatch("Company/setData", data.companies.find((company) => company.id == data.userData.default_company), { root: true });
+        dispatch("Company/setData", data.currentCompany, { root: true });
         commit("SET_RESOURCES", data.resources);
     }
 };
 
 const getters = {
+    allowUserRegistration() {
+        return Boolean(Number(state.data.settings.allow_user_registration));
+    },
     isDataReady() {
         return !isEmpty(state.data);
     },
     isStateReady() {
         return !isEmpty(store.User.state.data) && !!store.Company.state.data;
+    },
+    isSubscriptionBased() {
+        return Boolean(Number(state.data.payments_active));
     }
 };
 
