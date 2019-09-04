@@ -30,11 +30,9 @@
 
 <script>
 import { mapState } from "vuex";
+import { directive as onClickout } from "vue-clickout";
 import NotificationCard from "./notification-card";
 import NotificationHeader from "./notification-header";
-
-// eslint-disable-next-line
-import { directive as onClickout } from "vue-clickout";
 
 export default {
     name: "NotificationCenter",
@@ -47,6 +45,9 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    directives: {
+        onClickout: onClickout
     },
     computed: {
         ...mapState({
