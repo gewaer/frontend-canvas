@@ -33,6 +33,7 @@ import { mapState } from "vuex";
 import NotificationCard from "./notification-card";
 import NotificationHeader from "./notification-header";
 
+// eslint-disable-next-line
 import { directive as onClickout } from "vue-clickout";
 
 export default {
@@ -40,9 +41,6 @@ export default {
     components: {
         NotificationCard,
         NotificationHeader
-    },
-    directives: {
-        onClickout
     },
     props: {
         showNotificationCenter: {
@@ -52,12 +50,16 @@ export default {
     },
     computed: {
         ...mapState({
-            notificationsList: state => state.Notifications.data
+            notificationsList: state => state.Notifications.grouped,
+            notifications: state => state.Notifications.notifications
         })
     },
     created() {
-        if (!this.notificationsList.length) {
-            this.$store.dispatch("Notifications/getNotifications");
+        if (this.notifications.total_notifications) {
+            console.log("XX")
+            this.$store.dispatch("Notifications/readAllNotification");
+        } else {
+            console.log("Nope")
         }
     },
     methods: {
