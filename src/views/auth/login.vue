@@ -79,11 +79,11 @@ export default {
                 fields: {
                     email: {
                         validations: "required|email",
-                        value: "max@mctekk.com"
+                        value: ""
                     },
                     password: {
                         validations: "required|min:8",
-                        value: "nosenose"
+                        value: ""
                     }
                 },
                 endpoint: "/auth"
