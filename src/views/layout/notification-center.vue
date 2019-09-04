@@ -41,7 +41,7 @@ export default {
         NotificationHeader
     },
     directives: {
-        onClickout: onClickout
+        onClickout
     },
     props: {
         showNotificationCenter: {
@@ -57,10 +57,7 @@ export default {
     },
     created() {
         if (this.notifications.total_notifications) {
-            console.log("XX")
             this.$store.dispatch("Notifications/readAllNotification");
-        } else {
-            console.log("Nope")
         }
     },
     methods: {
