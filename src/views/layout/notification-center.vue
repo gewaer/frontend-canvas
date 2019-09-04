@@ -40,14 +40,14 @@ export default {
         NotificationCard,
         NotificationHeader
     },
+    directives: {
+        onClickout: onClickout
+    },
     props: {
         showNotificationCenter: {
             type: Boolean,
             default: false
         }
-    },
-    directives: {
-        onClickout: onClickout
     },
     computed: {
         ...mapState({
