@@ -107,6 +107,7 @@ export default {
         this.appBaseColor = this.appSettings.settings.base_color || this.appBaseColor;
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;
         this.appInitialize();
+        this.$store.dispatch("Notifications/getNotifications");
     },
     methods: {
         ...mapActions({
