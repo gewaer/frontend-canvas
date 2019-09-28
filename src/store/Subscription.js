@@ -24,6 +24,9 @@ const getters = {
     isActive() {
         return Boolean(Number(state.data.is_active));
     },
+    isPaid() {
+        return Boolean(Number(state.data.paid));
+    },
     isReady() {
         return Boolean(state.data.is_active);
     },
