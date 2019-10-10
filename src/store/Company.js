@@ -1,7 +1,3 @@
-import get from "lodash/get";
-import isEmpty from "lodash/isEmpty";
-import moment from "moment";
-
 const state = {
     data: null,
     list: []
