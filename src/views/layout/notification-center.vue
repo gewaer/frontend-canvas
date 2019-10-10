@@ -30,10 +30,9 @@
 
 <script>
 import { mapState } from "vuex";
+import { directive as onClickout } from "vue-clickout";
 import NotificationCard from "./notification-card";
 import NotificationHeader from "./notification-header";
-
-import { directive as onClickout } from "vue-clickout";
 
 export default {
     name: "NotificationCenter",
@@ -52,12 +51,13 @@ export default {
     },
     computed: {
         ...mapState({
-            notificationsList: state => state.Notifications.data
+            notificationsList: state => state.Notifications.grouped,
+            notifications: state => state.Notifications.notifications
         })
     },
     created() {
-        if (!this.notificationsList.length) {
-            this.$store.dispatch("Notifications/getNotifications");
+        if (this.notifications.total_notifications) {
+            this.$store.dispatch("Notifications/readAllNotification");
         }
     },
     methods: {
