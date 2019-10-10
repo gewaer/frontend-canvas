@@ -63,11 +63,11 @@ const actions = {
             dispatch("User/getData", null, { root: true }),
             dispatch("Company/getData", null, { root: true }),
             dispatch("getResources")
-        ]).then(response => {
+        ]).then(async(response) => {
             const [{ data: userData }, { data: companies }, { data: resources }] = response;
             const currentCompany = companies.find((company) => company.id == userData.default_company);
 
-            dispatch("getData", currentCompany.apps.apps_id);
+            await dispatch("getData", currentCompany.apps.apps_id);
 
             dispatch("setGlobalData", {
                 userData,
