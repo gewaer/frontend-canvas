@@ -24,6 +24,9 @@ const getters = {
     isActive() {
         return Boolean(Number(state.data.is_active));
     },
+    isCancelled() {
+        return Boolean(Number(state.data.is_cancelled));
+    },
     isPaid() {
         return Boolean(Number(state.data.paid));
     },
