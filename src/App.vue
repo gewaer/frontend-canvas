@@ -103,6 +103,7 @@ export default {
         }
     },
     async created() {
+        await this.$store.dispatch("Application/setEnv");
         await this.getAppData();
         this.appBaseColor = this.appSettings.settings.base_color || this.appBaseColor;
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;

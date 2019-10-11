@@ -4,6 +4,7 @@ import store from "@/store/index";
 
 const state = {
     data: {},
+    env: {},
     isLoading: true,
     languages: [],
     timezones: [],
@@ -17,6 +18,9 @@ const state = {
 const mutations = {
     SET_DATA(state, payload) {
         state.data = payload;
+    },
+    SET_ENV(state, payload) {
+        state.env = payload;
     },
     SET_LANGUAGES(state, payload) {
         state.languages = payload;
@@ -168,6 +172,13 @@ const actions = {
         dispatch("User/setData", {}, { root: true });
         dispatch("Company/setList", [], { root: true });
         dispatch("Company/setData", null, { root: true });
+    },
+    setEnv({ commit }) {
+        const envList = Object.keys(process.env)
+            .filter(key => key.startsWith("VUE_APP_"))
+            .reduce((list, key) => list = { ...list, [key]: process.env[key] }, {});
+
+        commit("SET_ENV", envList);
     },
     setGlobalData({ commit, dispatch }, data) {
         dispatch("User/setData", data.userData, { root: true });
