@@ -18,7 +18,7 @@
     "@casl/vue": "^0.5.1",
     "@gewaer/gw-browse": "^0.2.2",
     "@gewaer/gw-header": "^0.2.1",
-    "@gewaer/gw-settings": "^0.2.0",
+    "@gewaer/gw-settings": "^0.2.2",
     "@gewaer/gw-sidebar": "^0.2.1",
     "@gewaer/vue-form-generator": "^0.1.1",
     "@sentry/browser": "^5.6.3",
