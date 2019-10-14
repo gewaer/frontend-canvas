@@ -34,8 +34,7 @@ const getters = {
         return Boolean(state.data.is_active);
     },
     daysLeft() {
-        const subProp = getters.isFreeTrial() ? "trial_ends_at" : "ends_at";
-        return state.data[subProp] && moment.tz(state.data[subProp], "UTC").diff(moment(), "days", true) || 0;
+        return !getters.isFreeTrial() && getters.isPaid() || state.data.trial_ends_at && moment.tz(state.data.trial_ends_at, "UTC").diff(moment(), "days", true) || 0;
     },
     graceDaysLeft() {
         return state.data.grace_period_ends && moment.tz(state.data.grace_period_ends, "UTC").diff(moment(), "days", true) || 0;
