@@ -72,6 +72,7 @@ const actions = {
             const currentCompany = companies.find((company) => company.id == userData.default_company);
 
             await dispatch("getData", currentCompany.apps.apps_id);
+            dispatch("Notifications/getNotifications", null, { root: true });
 
             dispatch("setGlobalData", {
                 userData,
@@ -168,10 +169,11 @@ const actions = {
             });
         }
     },
-    resetGlobalData({ dispatch }) {
+    resetGlobalData({ commit, dispatch }) {
         dispatch("User/setData", {}, { root: true });
         dispatch("Company/setList", [], { root: true });
         dispatch("Company/setData", null, { root: true });
+        commit("SET_RESOURCES", []);
     },
     setEnv({ commit }) {
         const envList = Object.keys(process.env)
