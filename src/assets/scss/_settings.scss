@@ -6,7 +6,7 @@
         max-width: initial;
         padding: 2rem;
 
-        @media(max-width: 768px) {
+        @media(max-width: $sm-tablet-v) {
             padding: 0.5rem;
         }
     }
@@ -37,7 +37,7 @@
             // color: white !important;
         }
     }
-    @media(max-width: 768px) {
+    @media(max-width: $sm-tablet-v) {
         .card.flex-md-row {
             .nav-tabs-simple {
                 display: flex;

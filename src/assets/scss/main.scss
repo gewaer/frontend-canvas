@@ -1,5 +1,11 @@
+@import "variables";
 @import "settings";
 @import "vendors";
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: rgba(246, 247, 249, 1);
+}
 
 .v--modal-overlay {
     z-index: 99999 !important;
@@ -29,6 +35,22 @@
 
 .text-primary {
     color: var(--base-color) !important;
+}
+
+.section-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--base-color);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 28px;
+    color: #383752;
+    margin-bottom: 30px;
 }
 
 .btn-primary.active,
@@ -235,6 +257,14 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 
 .table-actions {
     text-align: right;
+    padding-right: 40px !important;
+
+    button {
+        margin-left: 8px;
+        padding: 6px 12px;
+        font-weight: 100;
+        border-radius: 5px;
+    }
 }
 
 .deactivated {
@@ -244,7 +274,22 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 }
 
 .card {
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: none;
+    box-shadow: 0 7px 14px rgba(132, 132, 132, 0.15);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+
+    .card-title {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #383752;
+        font-size: 16px;
+    }
+
+    .card-body {
+        padding: 0;
+        font-size: 14px;
+    }
 }
 
 .nav-tabs~.tab-content {

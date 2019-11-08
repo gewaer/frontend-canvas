@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
+    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }" class="app">
         <fullscreen-loader />
         <notifications />
         <after-signup-wizard />
@@ -10,7 +10,7 @@
             :show-sidebar="showSidebar"
             @handle-sidebar="handleSidebar"
         >
-            <img slot="app-logo" src="https://mc-canvas.s3.amazonaws.com/gewaer-logo.png">
+            <span slot="app-logo">KANVAS</span>
         </app-sidebar>
         <div class="page-container">
             <app-header
@@ -66,7 +66,7 @@ export default {
     },
     data() {
         return {
-            appBaseColor: "#61c2cc",
+            appBaseColor: "#8582D1",
             appSecondaryColor: "#9ee5b5",
             showSidebar: false,
             showNotificationCenter: false
@@ -115,8 +115,11 @@ export default {
             getAppData: "Application/getSettings"
         }),
         appInitialize() {
-            document.body.style.setProperty("--base-color", this.appBaseColor);
-            document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+            const root = document.documentElement;
+            const { h, s, l } = this.hexToHSL(this.appBaseColor);
+            root.style.setProperty("--base-color", `hsl(${h},${s}%,${l}%)`);
+            root.style.setProperty("--darken-base-color", `hsla(${h},${s - 10}%,${l - 40}%)`);
+            root.style.setProperty("--secondary-color", this.hexToHSL(this.appSecondaryColor));
         },
         handleSidebar(state) {
             this.showSidebar = state;
@@ -136,7 +139,102 @@ export default {
         },
         toggleNotifications() {
             this.showNotificationCenter = !this.showNotificationCenter;
+        },
+        hexToHSL(H) {
+            // Convert hex to RGB first
+            let r = 0, g = 0, b = 0;
+            if (H.length == 4) {
+                r = "0x" + H[1] + H[1];
+                g = "0x" + H[2] + H[2];
+                b = "0x" + H[3] + H[3];
+            } else if (H.length == 7) {
+                r = "0x" + H[1] + H[2];
+                g = "0x" + H[3] + H[4];
+                b = "0x" + H[5] + H[6];
+            }
+            // Then to HSL
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            let cmin = Math.min(r,g,b),
+                cmax = Math.max(r,g,b),
+                delta = cmax - cmin,
+                h = 0,
+                s = 0,
+                l = 0;
+
+            if (delta == 0) {
+                h = 0;
+            } else if (cmax == r) {
+                h = ((g - b) / delta) % 6;
+            } else if (cmax == g) {
+                h = (b - r) / delta + 2;
+            } else {
+                h = (r - g) / delta + 4;
+            }
+
+            h = Math.round(h * 60);
+
+            if (h < 0) {
+                h += 360;
+            }
+
+            l = (cmax + cmin) / 2;
+            s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+            s = +(s * 100).toFixed(1);
+            l = +(l * 100).toFixed(1);
+
+            return { h, s, l };
         }
     }
 }
 </script>
+
+<style lang="scss">
+.app {
+    .page-container {
+        width: 100%;
+        height: 100%;
+        padding-left: 70px;
+
+        &.menu-pinned  {
+            padding-left: 210px;
+        }
+
+        @media (max-width: $lg) {
+            padding-left: 0;
+            position: relative;
+            transition: transform .25s ease;
+        }
+
+        .page-content-wrapper {
+            min-height: 100%;
+            position: relative;
+
+            .content {
+                z-index: 10;
+                padding-top: 90px;
+                padding-bottom: 69px;
+                min-height: 100%;
+                transition: all .3s ease;
+
+                .container-fluid {
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    position: relative;
+
+                    @media (min-width: 1824px) {
+                        width: 1700px;
+                        margin-right: auto;
+                        margin-left: auto;
+
+                        &.menu-pinned {
+                            width: 1450px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</style>
