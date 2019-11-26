@@ -11,7 +11,7 @@
                 autocomplete="on"
                 @submit.prevent="verifyFields()"
             >
-                <div class="form-group form-group-default required">
+                <div :class="{ 'error' : errors.first('email') }" class="form-group form-group-default required">
                     <label>Email</label>
                     <div class="controls">
                         <input
@@ -23,10 +23,10 @@
                             placeholder="user@example.com"
                             class="form-control"
                         >
-                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
-                <div class="form-group form-group-default required">
+                <span class="text-danger">{{ errors.first("email") }}</span>
+                <div :class="{ 'error' : errors.first('password') }" class="form-group form-group-default required">
                     <label>Password</label>
                     <div class="controls">
                         <input
@@ -38,27 +38,27 @@
                             autocomplete="on"
                             placeholder="Credentials"
                         >
-                        <span class="text-danger">{{ errors.first("password") }}</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10">
+                <span class="text-danger">{{ errors.first("password") }}</span>
+                <!-- <div class="row">
+                    <div class="col d-flex align-items-center">
                         <div class="checkbox">
                             <input id="remember-me" type="checkbox" value="1">
                             <label for="remember-me">Keep Me Signed in</label>
                         </div>
                     </div>
-                    <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <div class="col d-flex align-items-center justify-content-end">
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
-                </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">Sign In</button>
-                <div v-if="allowUserRegistration" class="m-t-10">
+                </div> -->
+                <button class="btn btn-primary btn-block my-4" type="submit">Sign In</button>
+                <div v-if="allowUserRegistration" class="text-center small">
                     Don't have an account?
-                    <router-link :to="{ name: 'signup' }">Create one!</router-link>
+                    <router-link :to="{ name: 'signup' }" class="text-info">Create one!</router-link>
                 </div>
-                <div class="m-t-10">
-                    <router-link :to="{ name: 'forgotPassword' }">Forgot Password?</router-link>
+                <div class="text-center small">
+                    <router-link :to="{ name: 'forgotPassword' }" class="text-info">Forgot Password?</router-link>
                 </div>
             </form>
         </template>

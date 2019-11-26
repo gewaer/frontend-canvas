@@ -1,8 +1,8 @@
 <template>
-    <div class="login-wrapper">
-        <auth-background :background-src="backgroundSrc" />
-        <div class="login-container bg-white">
-            <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+    <div class="login-wrapper row no-gutters">
+        <auth-background :background-src="backgroundSrc" class="col d-none d-md-block" />
+        <div class="col-12 col-md-auto">
+            <div class="login-container">
                 <auth-logo
                     :title="logoTitle"
                     :app-name="appName"
@@ -44,3 +44,22 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.login-wrapper {
+    .login-container {
+        width: 500px;
+        height: 100%;
+        background-color: white;
+        padding: 0 70px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @media(max-width: $md) {
+            width: 100%;
+            padding: 0 40px;
+        }
+    }
+}
+</style>

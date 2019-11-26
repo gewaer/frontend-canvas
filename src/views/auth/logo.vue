@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <router-link :to="{ name: 'login' }">
             <img
                 :alt="appName"
@@ -7,7 +7,7 @@
                 class="company-logo"
             >
         </router-link>
-        <p class="p-t-10">{{ title }}</p>
+        <p class="p-t-10 login-title">{{ title }}</p>
     </div>
 </template>
 
@@ -34,5 +34,10 @@ export default {
 <style lang="scss" scoped>
 .company-logo {
     max-height: 30px;
+}
+
+.login-title {
+    font-size: 14px;
+    margin: 10px 0;
 }
 </style>

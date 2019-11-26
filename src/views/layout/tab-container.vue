@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="card flex-md-row">
-                            <ul id="tab-3" class="nav nav-tabs nav-tabs-simple nav-tabs-left bg-white">
+                            <ul id="tab-3" class="nav nav-tabs">
                                 <li v-for="tab in tabs" :key="tab.name" class="nav-item">
                                     <router-link
                                         :to="{ name: tab.name }"
