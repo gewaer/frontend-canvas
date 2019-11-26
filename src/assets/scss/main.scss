@@ -248,6 +248,15 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
         font-weight: 100;
         border-radius: 5px;
     }
+
+    @media (max-width: $md) {
+        padding: 0 !important;
+        padding-right: 0 !important;
+
+        button {
+            margin-left: 0;
+        }
+    }
 }
 
 .deactivated {

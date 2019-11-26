@@ -19,6 +19,7 @@
                 :company-data="companyData"
                 :show-sidebar="showSidebar"
                 :user-data="userData"
+                @handle-sidebar="handleSidebar(!showSidebar)"
                 @toggle-notifications="toggleNotifications"
                 @selected-company="switchCompany"
             />
@@ -151,6 +152,7 @@ export default {
         width: 100%;
         height: 100%;
         padding-left: 70px;
+        background-color: inherit;
 
         &.menu-pinned  {
             padding-left: 210px;
@@ -186,6 +188,11 @@ export default {
                         &.menu-pinned {
                             width: 1450px;
                         }
+                    }
+
+                    @media (max-width: $md) {
+                        padding-left: 5px;
+                        padding-right: 5px;
                     }
                 }
             }

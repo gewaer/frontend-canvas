@@ -29,7 +29,7 @@ export default {
     computed: {
         backgroundColor() {
             const { h, s, l } = hexToHSL(this.$store.state.Application.settings.settings.base_color);
-            return `hsla(${h},${s}%,${l}%,0.6)`;
+            return `hsla(${h},${s}%,${l}%,0.5)`;
         }
     }
 }
