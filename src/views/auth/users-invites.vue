@@ -16,8 +16,8 @@
                     <label>First Name</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.firstname.validations"
                             v-model="form.fields.firstname.value"
+                            v-validate="form.fields.firstname.validations"
                             type="text"
                             name="firstname"
                             placeholder="John"
@@ -30,8 +30,8 @@
                     <label>Last Name</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.lastname.validations"
                             v-model="form.fields.lastname.value"
+                            v-validate="form.fields.lastname.validations"
                             type="text"
                             name="lastname"
                             placeholder="Smith"
@@ -44,8 +44,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.email.validations"
                             v-model="form.fields.email.value"
+                            v-validate="form.fields.email.validations"
                             type="text"
                             name="email"
                             disabled
@@ -61,8 +61,8 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.password.validations"
                             v-model="form.fields.password.value"
+                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -76,8 +76,8 @@
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.verifyPassword.validations"
                             v-model="form.fields.verifyPassword.value"
+                            v-validate="form.fields.verifyPassword.validations"
                             type="password"
                             name="verifyPassword"
                             data-vv-as="password"
@@ -94,7 +94,9 @@
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">Sign Up</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">
+                    Sign Up
+                </button>
             </form>
         </template>
     </auth-container>

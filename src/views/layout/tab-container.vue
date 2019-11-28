@@ -1,6 +1,8 @@
 <template>
     <div class="apps-settings">
-        <h4 class="section-title p-l-10">Settings</h4>
+        <h4 class="section-title p-l-10">
+            Settings
+        </h4>
         <div class="card card-transparent">
             <div class="card-body no-padding">
                 <div class="row">
@@ -18,7 +20,7 @@
                             </ul>
                             <div class="tab-content bg-white">
                                 <div class="tab-pane active">
-                                    <slot/>
+                                    <slot />
                                 </div>
                             </div>
                         </div>

@@ -2,17 +2,24 @@
     <div v-if="shouldShowBar" class="free-trial-banner">
         <h6 v-if="isActiveFreeSubscription">
             Your free trial {{ trialText }}, please upgrade
-            <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link>.
+            <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">
+                here
+            </router-link>.
         </h6>
         <h6 v-else-if="isActiveSubscription">
             Your subscription has expired.
             Please proceed to payment
-            <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link>
+            <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">
+                here
+            </router-link>
             before the grace period expires.
         </h6>
         <h6 v-else-if="isInactiveSubscription">
             Your subscription has expired.
-            Click <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">here</router-link> to pay.
+            Click
+            <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">
+                here
+            </router-link> to pay.
         </h6>
     </div>
 </template>

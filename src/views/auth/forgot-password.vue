@@ -15,8 +15,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.email.validations"
                             v-model="form.fields.email.value"
+                            v-validate="form.fields.email.validations"
                             type="text"
                             name="email"
                             autocomplete="on"
@@ -32,10 +32,14 @@
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">Reset Password</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">
+                    Reset Password
+                </button>
                 <div class="m-t-10">
                     Already have an account?
-                    <router-link :to="{ name: 'login' }">Log in!</router-link>
+                    <router-link :to="{ name: 'login' }">
+                        Log in!
+                    </router-link>
                 </div>
             </form>
         </template>
