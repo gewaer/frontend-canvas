@@ -85,9 +85,9 @@ export const vuexMixins = {
     },
     watch: {
         currentCompanyId() {
-            if (this.hasOwnProperty("initialize")) {
+            try {
                 this.initialize();
-            } else {
+            } catch (error) {
                 console.warn("Component expects a defined initialize() method to respond properly to a currentCompanyId change");
             }
         }

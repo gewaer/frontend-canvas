@@ -1,11 +1,20 @@
 <template>
     <div class="page-403 d-flex justify-content-center full-height full-width align-items-center">
         <div class="error-container text-center">
-            <h1 class="error-number">Access Denied</h1>
-            <h2 class="semi-bold">Sorry but you are not authorize</h2>
-            <p class="p-b-10">Think this is an error?<a href="#"> Report this?</a></p>
+            <h1 class="error-number">
+                Access Denied
+            </h1>
+            <h2 class="semi-bold">
+                Sorry but you are not authorize
+            </h2>
+            <p class="p-b-10">
+                Think this is an error?
+                <a href="#">Report this?</a>
+            </p>
             <div class="error-container-innner text-center">
-                <router-link to="/users/login" class="btn btn-primary">Go to login</router-link>
+                <router-link to="/users/login" class="btn btn-primary">
+                    Go to login
+                </router-link>
             </div>
         </div>
     </div>

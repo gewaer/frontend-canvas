@@ -1,14 +1,18 @@
 <template>
     <div>
         <div class="day-group__header">
-            <h1 :title="header" class="text-green">{{ formattedHeader }}</h1>
+            <h1 :title="header" class="text-green">
+                {{ formattedHeader }}
+            </h1>
             <button
                 :title="`Remove notifications from ${formattedHeader}`"
                 type="button"
                 class="notification-close-button"
                 data-dismiss="modal"
                 aria-hidden="true"
-                @click="removeNotificationGroup"><i class="pg-close fs-14"/>
+                @click="removeNotificationGroup"
+            >
+                <i class="pg-close fs-14" />
             </button>
         </div>
     </div>

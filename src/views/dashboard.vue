@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <h4 class="section-title p-l-10">Dashboard</h4>
+        <h4 class="section-title p-l-10">
+            Dashboard
+        </h4>
         <div class="row section">
             <div class="col">
                 <div class="card padding-20">

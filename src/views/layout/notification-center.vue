@@ -18,14 +18,14 @@
                 :notification="notification"
             >
                 <notification-header
-                    :header="notificationGroup"
                     :key="notificationGroup"
+                    :header="notificationGroup"
                 />
 
                 <notification-card
                     v-for="notification in notifications"
-                    :notification="notification"
                     :key="notification.id"
+                    :notification="notification"
                 />
             </template>
         </div>

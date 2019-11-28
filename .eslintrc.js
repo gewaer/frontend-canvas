@@ -15,8 +15,8 @@ module.exports = {
         camelcase: ["error", {
             properties: "never"
         }],
-        "capIsNew": false,
         "comma-dangle": "error",
+        "comma-spacing": "error",
         "comma-style": "error",
         "computed-property-spacing": "error",
         "consistent-this": ["error", "self"],
@@ -38,7 +38,9 @@ module.exports = {
             flatTernaryExpressions: true
         }],
         "linebreak-style": ["error"],
-        "new-cap": "error",
+        "new-cap": ["error", {
+            capIsNew: false
+        }],
         "newline-per-chained-call": 0,
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",

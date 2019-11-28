@@ -16,8 +16,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.email.validations"
                             v-model="form.fields.email.value"
+                            v-validate="form.fields.email.validations"
                             type="text"
                             name="email"
                             disabled
@@ -32,8 +32,8 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.password.validations"
                             v-model="form.fields.password.value"
+                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -44,16 +44,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10"/>
+                    <div class="col-md-6 no-padding sm-p-l-10" />
                     <div class="col-md-6 d-flex align-items-center justify-content-end">
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">Accept</button>
+                <button class="btn btn-primary btn-cons m-t-10" type="submit">
+                    Accept
+                </button>
                 <router-link
                     :to="{ name: 'login' }"
                     tag="button"
-                    class="btn btn-danger btn-cons m-t-10">Cancel</router-link>
+                    class="btn btn-danger btn-cons m-t-10"
+                >
+                    Cancel
+                </router-link>
             </form>
         </template>
     </auth-container>

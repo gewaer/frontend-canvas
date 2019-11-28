@@ -20,7 +20,7 @@ axios.interceptors.request.use(
     },
     error => {
         return Promise.reject(error);
-    },
+    }
 );
 
 window.axios = axios;

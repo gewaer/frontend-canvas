@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <router-link :to="{ name: 'login' }">
             <img
                 :alt="appName"
@@ -7,7 +7,9 @@
                 class="company-logo"
             >
         </router-link>
-        <p class="p-t-10">{{ title }}</p>
+        <p class="p-t-10">
+            {{ title }}
+        </p>
     </div>
 </template>
 

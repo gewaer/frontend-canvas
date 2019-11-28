@@ -8,7 +8,9 @@
         <div class="row modal-body">
             <div class="col">
                 <div class="row m-b-20">
-                    <div class="col-12"><strong class="text-warning">Warning: </strong>The following changes have not been saved and will be lost unless they are saved:</div>
+                    <div class="col-12">
+                        <strong class="text-warning">Warning: </strong>The following changes have not been saved and will be lost unless they are saved:
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -23,7 +25,9 @@
         </div>
         <div class="row modal-footer">
             <div v-for="(button, index) in buttons" :key="'button-' + index" class="col">
-                <button :class="button.class" class="btn btn-block" @click="button.handler">{{ button.title }}</button>
+                <button :class="button.class" class="btn btn-block" @click="button.handler">
+                    {{ button.title }}
+                </button>
             </div>
         </div>
     </div>

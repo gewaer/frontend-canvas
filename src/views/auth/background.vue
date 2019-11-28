@@ -1,12 +1,13 @@
 <template>
     <div class="bg-pic">
-        <img
-            :src="backgroundSrc"
-            alt=""
-        >
+        <img :src="backgroundSrc" alt="">
         <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-            <h2 class="semi-bold text-white">{{ title }}</h2>
-            <p class="small">{{ text }}</p>
+            <h2 class="semi-bold text-white">
+                {{ title }}
+            </h2>
+            <p class="small">
+                {{ text }}
+            </p>
         </div>
     </div>
 </template>
