@@ -15,8 +15,8 @@
                     <label>First Name</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.firstname.value"
                             v-validate="form.fields.firstname.validations"
+                            v-model="form.fields.firstname.value"
                             type="text"
                             name="firstname"
                             placeholder="John"
@@ -29,8 +29,8 @@
                     <label>Last Name</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.lastname.value"
                             v-validate="form.fields.lastname.validations"
+                            v-model="form.fields.lastname.value"
                             type="text"
                             name="lastname"
                             placeholder="Smith"
@@ -43,8 +43,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.email.value"
                             v-validate="form.fields.email.validations"
+                            v-model="form.fields.email.value"
                             type="text"
                             name="email"
                             autocomplete="off"
@@ -58,9 +58,9 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
+                            v-validate="form.fields.password.validations"
                             ref="password"
                             v-model="form.fields.password.value"
-                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -74,8 +74,8 @@
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.verifyPassword.value"
                             v-validate="form.fields.verifyPassword.validations"
+                            v-model="form.fields.verifyPassword.value"
                             type="password"
                             name="verifyPassword"
                             data-vv-as="password"
@@ -90,8 +90,8 @@
                     <label>Company Name</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.company.value"
                             v-validate="form.fields.company.validations"
+                            v-model="form.fields.company.value"
                             type="text"
                             name="company"
                             placeholder="John Smith Co."

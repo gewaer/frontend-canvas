@@ -15,8 +15,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-model="form.fields.email.value"
                             v-validate="form.fields.email.validations"
+                            v-model="form.fields.email.value"
                             type="text"
                             name="email"
                             autocomplete="on"

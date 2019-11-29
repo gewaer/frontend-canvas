@@ -35,8 +35,8 @@ export function hexToHSL(H) {
     r /= 255;
     g /= 255;
     b /= 255;
-    let cmin = Math.min(r,g,b),
-        cmax = Math.max(r,g,b),
+    let cmin = Math.min(r, g, b),
+        cmax = Math.max(r, g, b),
         delta = cmax - cmin,
         h = 0,
         s = 0,
