@@ -1,15 +1,1 @@
-<!-- Pages Progressbar -->
-
-<svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 50 50" >
-
-<circle fill="none" opacity="0.10" stroke="#000000" stroke-width="3" cx="25" cy="25" r="20"/>
-
-
-<g transform="translate(25,25) rotate(-90)">
-     <circle  style="stroke: #626262; fill:none; stroke-width: 3px; stroke-linecap: round" stroke-dasharray="110" stroke-dashoffset="0" cx="0" cy="0" r="20">
-         <animate attributeName="stroke-dashoffset" values="360;140" dur="2.2s" keyTimes="0;1" calcMode="spline" fill="freeze" keySplines="0.41,0.314,0.8,0.54" repeatCount="indefinite" begin="0"/>
-         <animateTransform attributeName="transform" type="rotate" values="0;274;360" keyTimes="0;0.74;1" calcMode="linear" dur="2.2s" repeatCount="indefinite" begin="0"/>
-     </circle>
-</g>
-
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="#000" stroke-width="3" opacity=".1"/><g transform="translate(25,25) rotate(-90)"><circle cx="0" cy="0" r="20" fill="none" stroke="#626262" stroke-dasharray="110" stroke-dashoffset="0" stroke-linecap="round" stroke-width="3"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0" calcMode="spline" dur="2.2s" keySplines="0.41,0.314,0.8,0.54" keyTimes="0;1" repeatCount="indefinite" values="360;140"/><animateTransform attributeName="transform" begin="0" calcMode="linear" dur="2.2s" keyTimes="0;0.74;1" repeatCount="indefinite" type="rotate" values="0;274;360"/></circle></g></svg>
