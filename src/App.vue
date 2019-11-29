@@ -118,12 +118,14 @@ export default {
             getAppData: "Application/getSettings"
         }),
         appInitialize() {
-            const root = document.documentElement;
-            const { h, s, l } = hexToHSL(this.appBaseColor);
-            const secondaryColor = hexToHSL(this.appSecondaryColor);
-            root.style.setProperty("--base-color", `hsl(${h},${s}%,${l}%)`);
-            root.style.setProperty("--darken-base-color", `hsla(${h},${s - 10}%,${l - 40}%)`);
-            root.style.setProperty("--secondary-color", `hsl(${secondaryColor.h},${secondaryColor.s}%,${secondaryColor.l}%)`);
+            const documentRoot = document.documentElement;
+            // Primary App HSL Color
+            const { pH, pS, pL } = hexToHSL(this.appBaseColor);
+            // Secondary App HSL Colors
+            const { sH, sS, sL } = hexToHSL(this.appSecondaryColor);
+            documentRoot.style.setProperty("--base-color", `hsl(${pH},${pS}%,${pL}%)`);
+            documentRoot.style.setProperty("--darkend-base-color", `hsla(${pH},${pS - 10}%,${pL - 40}%)`);
+            documentRoot.style.setProperty("--secondary-color", `hsl(${sH},${sS}%,${sL}%)`);
         },
         handleSidebar(state) {
             this.showSidebar = state;
