@@ -17,6 +17,7 @@
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
                 :companies-list="companiesList"
                 :company-data="companyData"
+                :notifications-count="notificationsCount"
                 :show-sidebar="showSidebar"
                 :user-data="userData"
                 @handle-sidebar="handleSidebar(!showSidebar)"
@@ -25,7 +26,7 @@
             />
             <div class="page-content-wrapper animated">
                 <div class="content sm-gutter">
-                    <subscription-bar v-if="isSubscriptionBased && $route.meta && $route.meta.requiresAuth == undefined"/>
+                    <subscription-bar v-if="isSubscriptionBased && $route.meta && $route.meta.requiresAuth == undefined" />
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -79,11 +80,13 @@ export default {
             accessList: state => state.User.data.access_list,
             companyData: state => state.Company.data,
             companiesList: state => state.Company.list,
+            notificationsCount: state => state.Notifications.notifications.total_notifications || 0,
             resources: state => state.Application.resources,
             userData: state => state.User.data
         }),
         ...mapGetters({
-            isSubscriptionBased: "Application/isSubscriptionBased"
+            isSubscriptionBased: "Application/isSubscriptionBased",
+            userIsLoggedIn: "User/isLoggedIn"
         })
     },
     watch: {
@@ -109,7 +112,6 @@ export default {
         this.appBaseColor = this.appSettings.settings.base_color || this.appBaseColor;
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;
         this.appInitialize();
-        this.$store.dispatch("Notifications/getNotifications");
     },
     methods: {
         ...mapActions({

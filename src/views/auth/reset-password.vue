@@ -15,9 +15,9 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.password.validations"
                             ref="password"
                             v-model="form.fields.password.value"
+                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -31,8 +31,8 @@
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.verifyPassword.validations"
                             v-model="form.fields.verifyPassword.value"
+                            v-validate="form.fields.verifyPassword.validations"
                             type="password"
                             name="verifyPassword"
                             data-vv-as="password"

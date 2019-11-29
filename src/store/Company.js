@@ -20,7 +20,7 @@ const actions = {
     },
     setData({ commit, dispatch }, data) {
         commit("SET_DATA", data);
-        dispatch("Subscription/setData", data.subscription, { root: true });
+        dispatch("Subscription/setData", data && data.subscription || {}, { root: true });
     },
     setList({ commit }, data) {
         commit("SET_LIST", data);

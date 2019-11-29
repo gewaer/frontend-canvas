@@ -1,9 +1,11 @@
 <template>
     <div class="create-resource">
-        <h4 class="section-title p-l-10">Create {{ currentResource.title }}</h4>
+        <h4 class="section-title p-l-10">
+            Create {{ currentResource.title }}
+        </h4>
         <div class="card">
             <div class="card-block">
-                <form class="resource-form" novalidate/>
+                <form class="resource-form" novalidate />
             </div>
         </div>
     </div>
@@ -38,10 +40,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-.create-resource {
-    .resource-form {
-    }
-}
-</style>

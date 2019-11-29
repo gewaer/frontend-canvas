@@ -18,13 +18,15 @@
             <div class="row modal-body">
                 <div class="col">
                     <div slot="container" class="row  m-b-20">
-                        <div class="col-12" v-html="message"/>
+                        <div class="col-12" v-html="message" />
                     </div>
                 </div>
             </div>
             <div class="row modal-footer">
                 <div v-for="(button, index) in buttons" :key="'button-' + index" class="col">
-                    <button :class="button.class" class="btn btn-block" @click="button.handler">{{ button.title }}</button>
+                    <button :class="button.class" class="btn btn-block" @click="button.handler">
+                        {{ button.title }}
+                    </button>
                 </div>
             </div>
         </div>

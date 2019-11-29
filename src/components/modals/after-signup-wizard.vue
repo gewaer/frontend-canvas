@@ -9,7 +9,9 @@
         width="900"
     >
         <form-wizard class="wizard-component" shape="tab" color="var(--base-color)">
-            <h2 slot="title">This will replace a title</h2>
+            <h2 slot="title">
+                This will replace a title
+            </h2>
             <tab-content title="Step 1" icon="fa fa-cog">
                 <h1>Step 1</h1>
             </tab-content>

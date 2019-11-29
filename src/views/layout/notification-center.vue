@@ -7,22 +7,26 @@
                 class="notification-close-button"
                 data-dismiss="modal"
                 aria-hidden="true"
-                @click="closeNotifications">
-                <i class="pg-close fs-14"/>
+                @click="closeNotifications"
+            >
+                <i class="pg-close fs-14" />
             </button>
         </div>
         <div class="notifications-center__day-group">
             <template
                 v-for="(notifications, notificationGroup) in notificationsList"
-                :notification="notification">
+                :notification="notification"
+            >
                 <notification-header
+                    :key="notificationGroup"
                     :header="notificationGroup"
-                    :key="notificationGroup" />
+                />
 
                 <notification-card
                     v-for="notification in notifications"
+                    :key="notification.id"
                     :notification="notification"
-                    :key="notification.id" />
+                />
             </template>
         </div>
     </div>
