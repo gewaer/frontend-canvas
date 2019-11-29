@@ -7,7 +7,7 @@
                 class="company-logo"
             >
         </router-link>
-        <p class="p-t-10">
+        <p class="p-t-10 login-title">
             {{ title }}
         </p>
     </div>
@@ -36,5 +36,10 @@ export default {
 <style lang="scss" scoped>
 .company-logo {
     max-height: 30px;
+}
+
+.login-title {
+    font-size: 14px;
+    margin: 10px 0;
 }
 </style>

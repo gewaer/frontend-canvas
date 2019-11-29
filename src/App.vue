@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }">
+    <div id="app" :class="{ 'full-height' : !($route.meta && $route.meta.requiresAuth == undefined) }" class="app">
         <fullscreen-loader />
         <notifications />
         <after-signup-wizard />
@@ -10,7 +10,7 @@
             :show-sidebar="showSidebar"
             @handle-sidebar="handleSidebar"
         >
-            <img slot="app-logo" src="https://mc-canvas.s3.amazonaws.com/gewaer-logo.png">
+            <span slot="app-logo">KANVAS</span>
         </app-sidebar>
         <div class="page-container">
             <app-header
@@ -20,6 +20,7 @@
                 :notifications-count="notificationsCount"
                 :show-sidebar="showSidebar"
                 :user-data="userData"
+                @handle-sidebar="handleSidebar(!showSidebar)"
                 @toggle-notifications="toggleNotifications"
                 @selected-company="switchCompany"
             />
@@ -46,7 +47,7 @@
 
 <script>
 const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
-
+import { hexToHSL } from "@/utils/helpers";
 import { mapActions, mapGetters, mapState } from "vuex";
 import { AbilityBuilder } from "@casl/ability";
 import AfterSignupWizard from "@/components/modals/after-signup-wizard";
@@ -67,7 +68,7 @@ export default {
     },
     data() {
         return {
-            appBaseColor: "#61c2cc",
+            appBaseColor: "#8582D1",
             appSecondaryColor: "#9ee5b5",
             showSidebar: false,
             showNotificationCenter: false
@@ -117,8 +118,14 @@ export default {
             getAppData: "Application/getSettings"
         }),
         appInitialize() {
-            document.body.style.setProperty("--base-color", this.appBaseColor);
-            document.body.style.setProperty("--secondary-color", this.appSecondaryColor);
+            const documentRoot = document.documentElement;
+            // Primary App HSL Color
+            const { pH, pS, pL } = hexToHSL(this.appBaseColor);
+            // Secondary App HSL Colors
+            const { sH, sS, sL } = hexToHSL(this.appSecondaryColor);
+            documentRoot.style.setProperty("--base-color", `hsl(${pH},${pS}%,${pL}%)`);
+            documentRoot.style.setProperty("--darkend-base-color", `hsla(${pH},${pS - 10}%,${pL - 40}%)`);
+            documentRoot.style.setProperty("--secondary-color", `hsl(${sH},${sS}%,${sL}%)`);
         },
         handleSidebar(state) {
             this.showSidebar = state;
@@ -142,3 +149,58 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.app {
+    .page-container {
+        width: 100%;
+        height: 100%;
+        padding-left: 70px;
+        background-color: inherit;
+
+        &.menu-pinned  {
+            padding-left: 210px;
+        }
+
+        @media (max-width: $lg) {
+            padding-left: 0;
+            position: relative;
+            transition: transform .25s ease;
+        }
+
+        .page-content-wrapper {
+            min-height: 100%;
+            position: relative;
+
+            .content {
+                z-index: 10;
+                padding-top: 90px;
+                padding-bottom: 70px;
+                min-height: 100%;
+                transition: all .3s ease;
+
+                .container-fluid {
+                    padding-left: 30px;
+                    padding-right: 30px;
+                    position: relative;
+
+                    @media (min-width: 1824px) {
+                        width: 1700px;
+                        margin-right: auto;
+                        margin-left: auto;
+
+                        &.menu-pinned {
+                            width: 1450px;
+                        }
+                    }
+
+                    @media (max-width: $md) {
+                        padding-left: 5px;
+                        padding-right: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>

@@ -11,7 +11,7 @@
                 autocomplete="on"
                 @submit.prevent="verifyFields()"
             >
-                <div class="form-group form-group-default required">
+                <div :class="{ 'error' : errors.first('email') }" class="form-group form-group-default required">
                     <label>Email</label>
                     <div class="controls">
                         <input
@@ -23,21 +23,15 @@
                             placeholder="user@example.com"
                             class="form-control"
                         >
-                        <span class="text-danger">{{ errors.first("email") }}</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10" />
-                    <div class="col-md-6 d-flex align-items-center justify-content-end">
-                        <a href="#" class="text-info small">Help? Contact Support</a>
-                    </div>
-                </div>
-                <button class="btn btn-primary btn-cons m-t-10" type="submit">
+                <span class="text-danger">{{ errors.first("email") }}</span>
+                <button class="btn btn-primary btn-block my-4" type="submit">
                     Reset Password
                 </button>
-                <div class="m-t-10">
+                <div class="text-center small">
                     Already have an account?
-                    <router-link :to="{ name: 'login' }">
+                    <router-link :to="{ name: 'login' }" class="text-info">
                         Log in!
                     </router-link>
                 </div>
