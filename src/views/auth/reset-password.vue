@@ -15,9 +15,9 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.password.validations"
                             ref="password"
                             v-model="form.fields.password.value"
+                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -31,8 +31,8 @@
                     <label>Confirm Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.verifyPassword.validations"
                             v-model="form.fields.verifyPassword.value"
+                            v-validate="form.fields.verifyPassword.validations"
                             type="password"
                             name="verifyPassword"
                             data-vv-as="password"
@@ -49,7 +49,9 @@
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div> -->
-                <button class="btn btn-primary btn-block my-4" type="submit">Reset Password</button>
+                <button class="btn btn-primary btn-block my-4" type="submit">
+                    Reset Password
+                </button>
             </form>
         </template>
     </auth-container>

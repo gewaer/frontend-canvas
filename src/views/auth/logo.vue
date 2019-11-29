@@ -7,7 +7,9 @@
                 class="company-logo"
             >
         </router-link>
-        <p class="p-t-10 login-title">{{ title }}</p>
+        <p class="p-t-10 login-title">
+            {{ title }}
+        </p>
     </div>
 </template>
 

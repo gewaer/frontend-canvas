@@ -15,8 +15,8 @@
                     <label>Email</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.email.validations"
                             v-model="form.fields.email.value"
+                            v-validate="form.fields.email.validations"
                             type="text"
                             name="email"
                             autocomplete="on"
@@ -30,8 +30,8 @@
                     <label>Password</label>
                     <div class="controls">
                         <input
-                            v-validate="form.fields.password.validations"
                             v-model="form.fields.password.value"
+                            v-validate="form.fields.password.validations"
                             type="password"
                             class="form-control"
                             name="password"
@@ -52,13 +52,19 @@
                         <a href="#" class="text-info small">Help? Contact Support</a>
                     </div>
                 </div> -->
-                <button class="btn btn-primary btn-block my-4" type="submit">Sign In</button>
+                <button class="btn btn-primary btn-block my-4" type="submit">
+                    Sign In
+                </button>
                 <div v-if="allowUserRegistration" class="text-center small">
                     Don't have an account?
-                    <router-link :to="{ name: 'signup' }" class="text-info">Create one!</router-link>
+                    <router-link :to="{ name: 'signup' }" class="text-info">
+                        Create one!
+                    </router-link>
                 </div>
                 <div class="text-center small">
-                    <router-link :to="{ name: 'forgotPassword' }" class="text-info">Forgot Password?</router-link>
+                    <router-link :to="{ name: 'forgotPassword' }" class="text-info">
+                        Forgot Password?
+                    </router-link>
                 </div>
             </form>
         </template>

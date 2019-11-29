@@ -2,7 +2,6 @@ import * as slug from "slugify";
 import { toLower } from "lodash";
 import textIsURL from "is-url";
 
-
 export function isValidJWT(jwt) {
     return /^([a-z0-9_=]{4,})\.([a-z0-9_=]{4,})\.([a-z0-9_\-+/=]{4,})/i.test(jwt);
 }
@@ -22,6 +21,7 @@ export function isURL(str) {
 export function hexToHSL(H) {
     // Convert hex to RGB first
     let r = 0, g = 0, b = 0;
+
     if (H.length == 4) {
         r = "0x" + H[1] + H[1];
         g = "0x" + H[2] + H[2];
@@ -35,10 +35,10 @@ export function hexToHSL(H) {
     r /= 255;
     g /= 255;
     b /= 255;
-    let cmin = Math.min(r, g, b),
+    const cmin = Math.min(r, g, b),
         cmax = Math.max(r, g, b),
-        delta = cmax - cmin,
-        h = 0,
+        delta = cmax - cmin;
+    let h = 0,
         s = 0,
         l = 0;
 
