@@ -100,22 +100,6 @@
                     </div>
                 </div>
                 <span class="text-danger">{{ errors.first("company") }}</span>
-                <!-- <div class="form-group form-group-default">
-                    <label>Have a promo code?</label>
-                    <div class="controls">
-                        <input
-                            type="text"
-                            name="promo-code"
-                            class="form-control"
-                        >
-                    </div>
-                </div> -->
-                <!-- <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10" />
-                    <div class="col-md-6 d-flex align-items-center justify-content-end">
-                        <a href="#" class="text-info small">Help? Contact Support</a>
-                    </div>
-                </div> -->
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Sign Up
                 </button>

@@ -41,17 +41,6 @@
                     </div>
                 </div>
                 <span class="text-danger">{{ errors.first("password") }}</span>
-                <!-- <div class="row">
-                    <div class="col d-flex align-items-center">
-                        <div class="checkbox">
-                            <input id="remember-me" type="checkbox" value="1">
-                            <label for="remember-me">Keep Me Signed in</label>
-                        </div>
-                    </div>
-                    <div class="col d-flex align-items-center justify-content-end">
-                        <a href="#" class="text-info small">Help? Contact Support</a>
-                    </div>
-                </div> -->
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Sign In
                 </button>

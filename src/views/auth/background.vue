@@ -1,13 +1,9 @@
 <template>
-    <div :style="`background-image:url('${backgroundSrc}'); background-color: ${backgroundColor}`" class="bg-pic">
-        <!-- <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
-            <h2 class="semi-bold text-white">{{ title }}</h2>
-            <p class="small">{{ text }}</p>
-        </div> -->
-    </div>
+    <div :style="`background-image:url('${backgroundSrc}'); background-color: ${backgroundColor}`" class="bg-pic" />
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { hexToHSL } from "@/utils/helpers";
 
 export default {
@@ -27,8 +23,11 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            appBaseColor: state => state.Application.settings.settings.base_color
+        }),
         backgroundColor() {
-            const { h, s, l } = hexToHSL(this.$store.state.Application.settings.settings.base_color);
+            const { h, s, l } = hexToHSL(this.appBaseColor);
             return `hsla(${h},${s}%,${l}%,0.5)`;
         }
     }

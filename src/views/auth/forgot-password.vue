@@ -26,12 +26,6 @@
                     </div>
                 </div>
                 <span class="text-danger">{{ errors.first("email") }}</span>
-                <!-- <div class="row">
-                    <div class="col-md-6 no-padding sm-p-l-10" />
-                    <div class="col-md-6 d-flex align-items-center justify-content-end">
-                        <a href="#" class="text-info small">Help? Contact Support</a>
-                    </div>
-                </div> -->
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Reset Password
                 </button>
