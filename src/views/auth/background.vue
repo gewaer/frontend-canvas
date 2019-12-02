@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         ...mapState({
-            appBaseColor: state => state.Application.settings.settings.base_color
+            appBaseColor: state => state.Application.settings.settings && state.Application.settings.settings.base_color || ""
         }),
         backgroundColor() {
             const { h, s, l } = hexToHSL(this.appBaseColor);

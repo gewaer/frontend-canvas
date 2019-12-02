@@ -120,11 +120,11 @@ export default {
         appInitialize() {
             const documentRoot = document.documentElement;
             // Primary App HSL Color
-            const { pH, pS, pL } = hexToHSL(this.appBaseColor);
+            const { h: pH, s: pS, l: pL } = hexToHSL(this.appBaseColor);
             // Secondary App HSL Colors
-            const { sH, sS, sL } = hexToHSL(this.appSecondaryColor);
+            const { h: sH, s: sS, l: sL } = hexToHSL(this.appSecondaryColor);
             documentRoot.style.setProperty("--base-color", `hsl(${pH},${pS}%,${pL}%)`);
-            documentRoot.style.setProperty("--darkend-base-color", `hsla(${pH},${pS - 10}%,${pL - 40}%)`);
+            documentRoot.style.setProperty("--darken-base-color", `hsla(${pH},${pS - 10}%,${pL - 40}%)`);
             documentRoot.style.setProperty("--secondary-color", `hsl(${sH},${sS}%,${sL}%)`);
         },
         handleSidebar(state) {
