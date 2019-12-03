@@ -38,7 +38,10 @@ export default function(to) {
             if (Cookies.get("token") && isValidJWT(Cookies.get("token"))) {
                 store.dispatch("Application/getGlobalStateData").then(() => {
                     resolve(validateSubscription(to));
-                }).catch(() => reject(LoginRoute));
+                }).catch((error) => {
+                    console.error(error); 
+                    reject(LoginRoute) 
+                });
             } else {
                 reject(LoginRoute);
             }
