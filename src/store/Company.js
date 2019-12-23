@@ -1,3 +1,5 @@
+import store from "@/store/index";
+
 const state = {
     data: null,
     list: []
@@ -36,6 +38,13 @@ const actions = {
 };
 
 const getters = {
+    currentBranch() {
+        if (!store.Application.getters.isStateReady) {
+            return null;
+        }
+
+        return state.data.branches.find(branch => branch.id == store.User.state.data.default_company_branch);
+    },
     currentCompanyId(state) {
         return state.data ? state.data.id : null;
     }

@@ -1,6 +1,7 @@
 import { isValidJWT } from "@/utils/helpers";
 import isEmpty from "lodash/isEmpty";
 import store from "@/store/index";
+import manualResources from "../config/manual-resources";
 
 const state = {
     data: {},
@@ -38,6 +39,7 @@ const mutations = {
         state.currencies = payload;
     },
     SET_RESOURCES(state, payload) {
+        payload = payload.concat(manualResources);
         state.resources = payload;
     },
     SET_ROLES(state, payload) {
