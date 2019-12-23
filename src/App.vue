@@ -16,6 +16,7 @@
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
                 :companies-list="companiesList"
+                :company-branch-data="companyBranchData"
                 :company-data="companyData"
                 :notifications-count="notificationsCount"
                 :show-sidebar="showSidebar"
@@ -85,6 +86,7 @@ export default {
             userData: state => state.User.data
         }),
         ...mapGetters({
+            companyBranchData: "Company/currentBranch",
             isSubscriptionBased: "Application/isSubscriptionBased",
             userIsLoggedIn: "User/isLoggedIn"
         })
@@ -135,7 +137,8 @@ export default {
                 url: `/users/${this.userData.id}`,
                 method: "PUT",
                 data: {
-                    "default_company": company.id
+                    "default_company": company.companies_id,
+                    "default_company_branch": company.id
                 }
             }).then(() => {
                 // Solution implemented for now until we can properly refresh all
