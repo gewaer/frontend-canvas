@@ -61,7 +61,7 @@ const actions = {
             .filter(notification => notification.created_at.startsWith(date))
             .map(notification => notification.id);
     },
-    async deleteAllNotifications() {
+    deleteAllNotifications() {
         const ids = state.notifications.data.map(notification => notification.id);
         axios.delete(`/notifications?id=${ids.join(",")}`)
     },
