@@ -37,6 +37,7 @@ const actions = {
                 sort: "created_at|DESC"
             }
         }).then(({ data: notifications }) => {
+            console.log(notifications);
             commit("SET_NOTIFICATIONS", notifications);
             dispatch("groupNotifications", notifications);
         }).catch(error => {
@@ -46,8 +47,7 @@ const actions = {
     groupNotifications({ dispatch }, notifications) {
         const groupedNotifications = groupBy(notifications.data, notification => {
             return moment(notification.created_at).format("YYYY-MM-DD");
-        })
-
+        });
         dispatch("sortNotifications", groupedNotifications);
     },
     sortNotifications({ commit }, notifications) {
@@ -58,10 +58,13 @@ const actions = {
         commit("SET_GROUPED_NOTIFICATIONS", notifications);
     },
     extractNotificationsId(_, date) {
-        return state.data[date]
+        return state.grouped[date]
             .filter(notification => notification.created_at.startsWith(date))
             .map(notification => notification.id);
-
+    },
+    async deleteAllNotificiations() {
+        const ids = state.notifications.data.map(notification => notification.id);
+        axios.delete(`/notifications?id=${ids.join(",")}`)
     },
     async deleteGroupNotifications({ dispatch }, date) {
         const ids = await dispatch("extractNotificationsId", date);
