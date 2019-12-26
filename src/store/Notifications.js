@@ -37,7 +37,6 @@ const actions = {
                 sort: "created_at|DESC"
             }
         }).then(({ data: notifications }) => {
-            console.log(notifications);
             commit("SET_NOTIFICATIONS", notifications);
             dispatch("groupNotifications", notifications);
         }).catch(error => {
@@ -72,7 +71,6 @@ const actions = {
     },
     async deleteSingleNotification({ dispatch }, notification) {
         await axios.delete(`/notifications/${notification.id}`);
-
         dispatch("getNotifications");
     }
 };
