@@ -66,6 +66,7 @@ export default {
     },
     methods: {
         closeNotifications() {
+            this.$store.dispatch("Notifications/deleteAllNotifications");
             this.$emit("toggleNotifications");
         }
     }
