@@ -115,6 +115,13 @@ export default {
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;
         this.appInitialize();
     },
+    mounted() {
+        FB.init({
+            appId : process.env.VUE_APP_FACEBOOK_APP_ID,
+            xfbml : true,
+            version : "v5.0"
+        });
+    },
     methods: {
         ...mapActions({
             getAppData: "Application/getSettings"
