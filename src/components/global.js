@@ -14,6 +14,31 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import Dropdown from "bp-vuejs-dropdown";
 import Loader from "@c/loader";
+import VueAxios from "vue-axios";
+import VueAuthenticate from "vue-authenticate";
+import VueGoogleApi from "vue-google-api"
+
+Vue.use(VueAxios, axios);
+Vue.use(VueAuthenticate, {
+    baseUrl: "https://2b6084d7.ngrok.io/", // Your API domain
+
+    providers: {
+        facebook: {
+            clientId: "801311160227693"
+            // authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
+            // redirectUri: "https://2b6084d7.ngrok.io/"
+        }
+    }
+});
+
+const config = {
+    apiKey: "AIzaSyD3hRNfdoYxNr6gOtHtLqKvLlMlPh-qOOE",
+    clientId: "375948125965-61tl3huis9scd841tslo14a9gq2agqmq.apps.googleusercontent.com",
+    scope: "profile",
+    discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"]
+}
+
+Vue.use(VueGoogleApi, config);
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
