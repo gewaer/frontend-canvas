@@ -1,7 +1,7 @@
 <template>
     <div class="social-auth">
-        <facebook-auth @facebook-auth="handleFacebookAuth" />
-        <google-auth @google-auth="handleGoogleAuth" />
+        <facebook-auth class="provider-auth" @facebook-auth="handleSocialAuthRequest" />
+        <google-auth class="provider-auth" @google-auth="handleSocialAuthRequest" />
     </div>
 </template>
 
@@ -19,19 +19,13 @@ export default {
     },
     mixins: [authMixins],
     methods: {
-        handleFacebookAuth(userData) {
-            this.socialAuthRequest(userData, "facebook");
-        },
-        handleGoogleAuth(userData) {
-            this.socialAuthRequest(userData, "google");
-        },
-        socialAuthRequest(userData, provider) {
+        handleSocialAuthRequest(userAuth) {
             const formData = new FormData();
-            formData.append("email", userData.email);
-            formData.append("firstname", userData.firstname);
-            formData.append("lastname", userData.lastname);
-            formData.append("provider", provider);
-            formData.append("social_id", userData.id);
+            formData.append("email", userAuth.email);
+            formData.append("firstname", userAuth.firstname);
+            formData.append("lastname", userAuth.lastname);
+            formData.append("provider", userAuth.provider);
+            formData.append("social_id", userAuth.id);
             axios.post("users/social", formData)
                 .then((response) => {
                     this.handleResponse(response);
@@ -43,11 +37,8 @@ export default {
 
 <style lang="scss" scoped>
 .social-auth {
-    .my-button {
-    background-color: #eee;
-    }
-    .my-button span.text {
-    color: red;
+    .provider-auth {
+        margin-bottom: 10px;
     }
 }
 </style>

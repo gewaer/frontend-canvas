@@ -1,5 +1,7 @@
 <template>
-    <google-signin-btn label="Sign In" class="my-button" @click="googleSignIn" />
+    <div class="google-auth">
+        <google-signin-btn label="Sign In" class="sign-in-button" @click="googleSignIn" />
+    </div>
 </template>
 <script>
 export default {
@@ -12,10 +14,17 @@ export default {
             const authInstance = baseGapi.auth2.getAuthInstance();
             const { Zi } = authInstance.currentUser.get();
             const mergedUserData = { ...currentUser, access_token: Zi.access_token }
-            this.$emit("google-auth", mergedUserData);
+            const googleAuth = { ...mergedUserData, provider: "google" }
+            this.$emit("google-auth", googleAuth);
         }
     }
 }
 </script>
 <style lang="scss" scoped>
+.google-auth {
+    .sign-in-button {
+        width: 100%;
+        text-align: center;
+    }
+}
 </style>

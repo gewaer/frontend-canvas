@@ -13,11 +13,9 @@ export default {
         login() {
             FB.login(loginResponse => {
                 if (loginResponse.status === "connected") {
-                    console.log(loginResponse);
-                    const authResponse = loginResponse.authResponse;
-                    FB.api(`/${authResponse.userID}?fields=email,first_name,last_name`, userData => {
-                        userData = { accessToken: authResponse.accessToken, ...userData }
-                        this.$emit("facebook-auth", userData);
+                    FB.api(`/${loginResponse.authResponse.userID}?fields=email,first_name,last_name`, userData => {
+                        const facebookAuth = { accessToken: loginResponse.authResponse.accessToken, ...userData, provider: "facebook" }
+                        this.$emit("facebook-auth", facebookAuth);
                     });
                 } else {
                     console.log("User cancelled login or did not fully authorize.");
