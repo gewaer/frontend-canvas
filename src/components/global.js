@@ -14,6 +14,16 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import Dropdown from "bp-vuejs-dropdown";
 import Loader from "@c/loader";
+import VueGoogleApi from "vue-google-api"
+
+const config = {
+    apiKey: "AIzaSyD3hRNfdoYxNr6gOtHtLqKvLlMlPh-qOOE",
+    clientId: "375948125965-61tl3huis9scd841tslo14a9gq2agqmq.apps.googleusercontent.com",
+    scope: "profile",
+    discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"]
+}
+
+Vue.use(VueGoogleApi, config);
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);

@@ -44,6 +44,7 @@
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Sign In
                 </button>
+                <social-auth />
                 <div v-if="allowUserRegistration" class="text-center small">
                     Don't have an account?
                     <router-link :to="{ name: 'signup' }" class="text-info">
@@ -62,9 +63,13 @@
 
 <script>
 import authMixins from "@/mixins/auth";
+import socialAuth from "@c/social-auth.vue";
 
 export default {
     name: "Login",
+    components: {
+        socialAuth
+    },
     mixins: [
         authMixins
     ],
