@@ -50,7 +50,6 @@
 const { AppHeader, AppSidebar } = require(`./import.${process.env.VUE_APP_IMPORTS}`);
 import { hexToHSL } from "@/utils/helpers";
 import { mapActions, mapGetters, mapState } from "vuex";
-import { AbilityBuilder } from "@casl/ability";
 import AfterSignupWizard from "@/components/modals/after-signup-wizard";
 import BasicModal from "@/components/modals/basic-modal";
 import SubscriptionBar from "@/views/layout/subscription-bar";
@@ -83,7 +82,8 @@ export default {
             companiesList: state => state.Company.list,
             notificationsCount: state => state.Notifications.notifications.total_notifications || 0,
             resources: state => state.Application.resources,
-            userData: state => state.User.data
+            userData: state => state.User.data,
+            userPermissions: state => state.User.abilities
         }),
         ...mapGetters({
             companyBranchData: "Company/currentBranch",
@@ -92,20 +92,8 @@ export default {
         })
     },
     watch: {
-        accessList(permissions) {
-            if (permissions) {
-                const ability = AbilityBuilder.define((can, cannot) => {
-                    can("manage", "all");
-
-                    Object.keys(permissions).forEach((resource) => {
-                        Object.keys(permissions[resource]).forEach((action) => {
-                            cannot(action, resource);
-                        });
-                    });
-                });
-
-                this.$ability.update(ability.rules);
-            }
+        userPermissions() {
+            this.$ability.update(this.userPermissions);
         }
     },
     async created() {

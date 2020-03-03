@@ -5,8 +5,6 @@
  *
  * Vue.component("conponent", require("@/<path>/<component>"));
  */
-const { CustomFieldsForm } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
-
 import Vue from "vue";
 import { abilitiesPlugin as AbilitiesPlugin } from "@casl/vue";
 import VueMultiselect from "vue-multiselect";
@@ -14,6 +12,8 @@ import Notifications from "vue-notification";
 import VModal from "vue-js-modal";
 import Dropdown from "bp-vuejs-dropdown";
 import Loader from "@c/loader";
+
+const { CustomFieldsForm } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);

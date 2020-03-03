@@ -1,9 +1,15 @@
+import { AbilityBuilder } from "@casl/ability";
+
 const state = {
+    abilities: null,
     data: {},
     token: null
 }
 
 const mutations = {
+    SET_ABILITIES(state, data) {
+        state.abilities = data;
+    },
     SET_DATA(state, data) {
         state.data = data;
     },
@@ -18,8 +24,22 @@ const actions = {
             url: "/users/0?relationships=roles,photo"
         });
     },
-    setData({ commit }, payload) {
+    setAbilities({ commit }, permissons) {
+        const rules = AbilityBuilder.define((can, cannot) => {
+            can("manage", "all");
+
+            Object.keys(permissons).forEach((resource) => {
+                Object.keys(permissons[resource]).forEach((action) => {
+                    cannot(action, resource);
+                });
+            });
+        });
+
+        commit("SET_ABILITIES", rules);
+    },
+    setData({ commit, dispatch }, payload) {
         commit("SET_DATA", payload);
+        dispatch("setAbilities", payload.access_list);
     },
     setToken({ commit }, token) {
         commit("SET_TOKEN", token);
