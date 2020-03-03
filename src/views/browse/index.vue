@@ -5,7 +5,7 @@
         :http-options="{ baseURL, headers: { Authorization: token }}"
         :pagination-data="paginationData"
         :query-params="queryParams"
-        :resources="resources"
+        :resource="resource"
         pagination-path=""
         @load-error="loadError"
     />
@@ -37,7 +37,10 @@ export default {
     computed: {
         ...mapState({
             resources: state => state.Application.resources
-        })
+        }),
+        resource() {
+            return this.resources.find(resource => resource.slug == this.$route.params.resource);
+        }
     },
     methods: {
         loadError(error) {

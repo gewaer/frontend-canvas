@@ -5,8 +5,6 @@
  *
  * Vue.component("conponent", require("@/<path>/<component>"));
  */
-const { CustomFieldsForm } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
-
 import Vue from "vue";
 import { abilitiesPlugin as AbilitiesPlugin } from "@casl/vue";
 import VueMultiselect from "vue-multiselect";
@@ -24,6 +22,8 @@ const config = {
 }
 
 Vue.use(VueGoogleApi, config);
+
+const { CustomFieldsForm } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
 
 Vue.use(AbilitiesPlugin);
 Vue.use(Notifications);
