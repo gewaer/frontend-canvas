@@ -25,7 +25,6 @@ const actions = {
         });
     },
     setAbilities({ commit }, permissons) {
-        permissons = [];
         const rules = AbilityBuilder.define((can, cannot) => {
             can("manage", "all");
 
