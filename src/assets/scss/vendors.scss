@@ -189,22 +189,23 @@
 .form-control {
     background-color: #fff;
     background-image: none;
-    border: 1px solid rgba(0,0,0,.07);
-    font-family: Arial,sans-serif;
+    border: 1px solid #CCCCCC;
+    font-family: "Roboto", sans-serif;
     -webkit-appearance: none;
-    color: #2c2c2c;
+    color: #4B4B4B;
     outline: 0;
     padding: 8px 12px;
+    padding-left: 25px;
     line-height: normal;
     font-size: 14px;
     font-weight: 400;
     vertical-align: middle;
-    min-height: 35px;
+    min-height: 36px;
     -webkit-transition: all .12s ease;
     transition: all .12s ease;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border-radius: 2px;
+    border-radius: 3px !important;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-transition: background .2s linear 0s;
