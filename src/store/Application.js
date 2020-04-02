@@ -102,10 +102,15 @@ const actions = {
             url: "/system-modules"
         });
     },
-    async getSettings({ commit }) {
+    setPageTitleAndMeta(_, appSettings) {
+        document.title = appSettings.name;
+        document.querySelector("meta[name=description]").content = appSettings.description;
+    },
+    async getSettings({ commit, dispatch }) {
         await axios({
             url: `/apps/${process.env.VUE_APP_APPLICATION_KEY}/settings`
         }).then(response => {
+            dispatch("setPageTitleAndMeta", response.data)
             commit("SET_SETTINGS", response.data);
             commit("SET_IS_LOADING", false);
         });
