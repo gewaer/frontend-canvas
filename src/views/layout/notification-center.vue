@@ -5,6 +5,7 @@
             <a href="#">View all notifications</a>
         </div>
         <div class="notifications-center__day-group">
+            <span v-if="!notifications.total_notifications" class="no-notifications">No new notification</span>
             <template
                 v-for="(notifications, notificationGroup) in notificationsList"
                 :notification="notification"
@@ -96,7 +97,7 @@ export default {
     }
 
     &__header {
-        padding: 15px 40px;
+        padding: 17.5px 40px;
         display: flex;
         justify-content: space-between;
         font-size: 12px;
@@ -119,6 +120,14 @@ export default {
         padding: 20px 40px;
         border-top: 1px solid #E2E8ED;
         border-bottom: 1px solid #E2E8ED;
+
+        .no-notifications {
+            display: block;
+            margin: 10px 0;
+            text-align: center;
+            color: #b9b9b9;
+            font-size: 16px;
+        }
 
         .day-group__header {
             display: flex;
