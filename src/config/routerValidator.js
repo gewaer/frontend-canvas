@@ -18,13 +18,27 @@ const validateSubscription = function validateSubscription(routeTo) {
     return routeToGo;
 };
 
+const validateRouteAcl = function validateRouteAcl(routeTo) {
+    let routeToGo = routeTo;
+
+    if (Object.prototype.hasOwnProperty.call(routeTo.meta, "acl")) {
+        const routeAcl = routeTo.meta.acl;
+
+        if (store.state.User.abilities.cannot(routeAcl.action, routeAcl.resource)) {
+            routeToGo = { name: "dashboard" };
+        }
+    }
+
+    return routeToGo;
+}
+
 /**
  * @param {Object} to the route that the user will go
  * @param {Object} from the route that the user came from
  * @returns {Object} routeToGo
  */
 export default function(to) {
-    const LoginRoute = {
+    const loginRoute = {
         name: "login",
         query: {
             redirect: to.fullPath
@@ -33,17 +47,19 @@ export default function(to) {
 
     return new Promise((resolve, reject) => {
         if (store.getters["Application/isStateReady"]) {
-            resolve(validateSubscription(to));
+            const aclValidatedRoute = validateRouteAcl(to);
+            resolve(validateSubscription(aclValidatedRoute));
         } else {
             if (Cookies.get("token") && isValidJWT(Cookies.get("token"))) {
                 store.dispatch("Application/getGlobalStateData").then(() => {
-                    resolve(validateSubscription(to));
+                    const aclValidatedRoute = validateRouteAcl(to);
+                    resolve(validateSubscription(aclValidatedRoute));
                 }).catch((error) => {
                     console.log(error);
-                    reject(LoginRoute);
+                    reject(loginRoute);
                 });
             } else {
-                reject(LoginRoute);
+                reject(loginRoute);
             }
         }
     });

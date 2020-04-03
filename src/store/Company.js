@@ -43,7 +43,7 @@ const getters = {
             return null;
         }
 
-        return state.data.branches.find(branch => branch.id == store.User.state.data.default_company_branch);
+        return state.data.branches.find(branch => branch.id == store.User.state.data.default_company_branch) || {};
     },
     currentCompanyId(state) {
         return state.data ? state.data.id : null;

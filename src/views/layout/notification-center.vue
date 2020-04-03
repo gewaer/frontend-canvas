@@ -1,18 +1,11 @@
 <template>
     <div v-on-clickout="closeNotifications" class="notifications-center">
         <div class="notifications-center__header">
-            Notifications
-            <button
-                type="button"
-                class="notification-close-button"
-                data-dismiss="modal"
-                aria-hidden="true"
-                @click="closeNotifications"
-            >
-                <i class="pg-close fs-14" />
-            </button>
+            <span>Notifications</span>
+            <a href="#">View all notifications</a>
         </div>
         <div class="notifications-center__day-group">
+            <span v-if="!notifications.total_notifications" class="no-notifications">No new notification</span>
             <template
                 v-for="(notifications, notificationGroup) in notificationsList"
                 :notification="notification"
@@ -74,48 +67,8 @@ export default {
 </script>
 
 <style lang="scss">
-.notification-container {
-    border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 9px rgba(191, 191, 191, 0.36);
-    border: 1px solid rgba(222, 227, 231, 0.56);
-    background-color: white;
-
-    &__header {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #eaebeb;
-        padding: 5px 10px;
-        background-color: #f1f1f1;
-
-
-        .header__icon {
-            width: 16px;
-            margin-right: 10px;
-        }
-
-        .header__title {
-            text-transform: uppercase;
-        }
-
-        .header__time-and-close {
-            margin-left: auto;
-            display: flex;
-
-            .header__time {
-                margin-right: 10px;
-            }
-        }
-    }
-
-    &__body {
-        padding: 10px;
-        font-size: 12px;
-    }
-}
-
 .notifications-center {
-    width: 300px;
+    width: 400px;
     background-color: white;
     z-index: 1000;
     right: 0;
@@ -127,39 +80,62 @@ export default {
     transition: transform 400ms cubic-bezier(0.05, 0.74, 0.27, 0.99);
     box-shadow: 0 0 9px rgba(191, 191, 191, 0.36);
     border-left: 1px solid rgba(222, 227, 231, 0.56);
-    padding: 15px;
+    padding-top: 6px;
 
     h1 {
         font-size: 22px;
         line-height: 25px;
     }
 
-    &__header {
-        background-color: #eaebeb;
-        padding: 10px;
-        border-radius: 5px;
-        display: flex;
+    &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        top: 0;
+        height: 6px;
+        background-color: var(--base-color);
     }
 
-    // &__do-not-disturb {
-    //     padding: 10px;
-    //     padding-bottom: 0;
-    //     display: flex;
-    //     align-items: center;
+    &__header {
+        padding: 17.5px 40px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
 
-    //     .vue-switcher {
-    //         margin-left: auto;
-    //     }
-    // }
+        span {
+            color: var(--base-color);
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        a {
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+    }
 
     &__day-group {
+        padding: 20px 40px;
+        border-top: 1px solid #E2E8ED;
+        border-bottom: 1px solid #E2E8ED;
+
+        .no-notifications {
+            display: block;
+            margin: 10px 0;
+            text-align: center;
+            color: #b9b9b9;
+            font-size: 16px;
+        }
+
         .day-group__header {
             display: flex;
             align-items: center;
-            padding: 10px;
-            padding-top: 25px;
+            padding: 10px 0;
 
             h1 {
+                font-size: 20px;
                 margin: 0;
                 font-weight: 500;
             }
@@ -176,12 +152,15 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 0;
     border: 0;
     cursor: pointer;
 
     i {
-        color: gray;
+        color: #c1bfbf;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>

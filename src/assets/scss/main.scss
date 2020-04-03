@@ -25,7 +25,7 @@ body {
 }
 
 .slide-left-enter, .slide-left-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    right: -300px;
+    right: -400px;
 }
 
 .btn-primary {
@@ -119,12 +119,25 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 }
 
 .multiselect {
-    .multiselect__tags {
-        border-radius: 0;
+    min-height: 35px;
+
+    .multiselect__select {
+        height: 100%;
     }
 
-    .multiselect__content-wrapper {
-        border-radius: 0;
+    .multiselect__tags {
+        border-radius: 3px;
+        min-height: 35px;
+        padding-left: 20px;
+        padding-top: 6px;
+        border: 1px solid #CCCCCC;
+
+        .multiselect__single, .multiselect__input {
+            font-family: "Roboto" ,sans-serif;
+            font-size: 14px;
+            color: #4B4B4B;
+            margin-bottom: 0;
+        }
     }
 
     .multiselect__element {
@@ -176,12 +189,28 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
 }
 
 .form-group label {
-    text-transform: capitalize;
-    font-size: 14px;
+    padding-left: 5px;
+    margin-bottom: 8px;
+    text-transform: capitalize !important;
+    font-size: 12px !important;
     font-weight: 400;
     line-height: 20px;
-    letter-spacing: initial;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+    letter-spacing: 0.5px !important;
+    font-family: "Roboto", sans-serif;
+    opacity: 1 !important;
+    color: #4B4B4B;
+    position: relative;
+}
+
+.form-group.required {
+    label {
+        &:after {
+            content: "*";
+            position: absolute;
+            color: #E54671;
+            right: -8px;
+        }
+    }
 }
 
 .form-group {
@@ -306,15 +335,16 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
         a {
             display: block;
             padding: 13px 20px;
-            color: var(--secondary-color);
+            color: #383652;
             text-decoration: none;
             font-weight: 500;
-            letter-spacing: .06em;
-            font-size: 13px;
-            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-size: 18px;
+            text-transform: capitalize;
 
-            &.router-link-exact-active {
+            &.router-link-exact-active, &.active {
                 position: relative;
+                color: var(--secondary-color);
 
                 &::after {
                     content: "";
@@ -343,6 +373,7 @@ body.sidebar-visible .page-sidebar .sidebar-header .sidebar-header-controls {
         border-bottom: 1px solid #dee2e6;
         border-right: 0;
         min-width: initial;
+        margin-bottom: 25px;
 
         .nav-item {
             a {

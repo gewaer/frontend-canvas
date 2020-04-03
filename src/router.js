@@ -106,6 +106,14 @@ const router = new Router({
             path: "/browse/:resource/create",
             name: "create-resource",
             component: createResource
+        },
+        {
+            path: "/auth/facebook",
+            name: "facebook-auth",
+            component: () => import(/* webpackChunkName: "facebook-auth" */ "@c/social-auth"),
+            meta: {
+                requiresAuth: false
+            }
         }
     ]
 });

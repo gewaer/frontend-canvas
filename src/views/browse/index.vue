@@ -1,14 +1,16 @@
 <template>
-    <gw-browse
-        ref="gwBrowse"
-        :append-params="appendParams"
-        :http-options="{ baseURL, headers: { Authorization: token }}"
-        :pagination-data="paginationData"
-        :query-params="queryParams"
-        :resources="resources"
-        pagination-path=""
-        @load-error="loadError"
-    />
+    <div class="browse-table">
+        <gw-browse
+            ref="gwBrowse"
+            :append-params="appendParams"
+            :http-options="{ baseURL, headers: { Authorization: token }}"
+            :pagination-data="paginationData"
+            :query-params="queryParams"
+            :resource="resource"
+            pagination-path=""
+            @load-error="loadError"
+        />
+    </div>
 </template>
 
 <script>
@@ -37,7 +39,10 @@ export default {
     computed: {
         ...mapState({
             resources: state => state.Application.resources
-        })
+        }),
+        resource() {
+            return this.resources.find(resource => resource.slug == this.$route.params.resource);
+        }
     },
     methods: {
         loadError(error) {
@@ -73,3 +78,15 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+.browse-table {
+    .table-container {
+        border: 0;
+        box-shadow: 0 7px 14px rgba(132, 132, 132, 0.15);
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+    }
+}
+</style>
