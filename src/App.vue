@@ -8,11 +8,15 @@
             v-if="$route.meta && $route.meta.requiresAuth == undefined"
             :resources="resources"
             :show-sidebar="showSidebar"
+            :sidebar-state="sidebarState"
             @handle-sidebar="handleSidebar"
         >
             <span slot="app-logo">KANVAS</span>
         </app-sidebar>
-        <div class="page-container">
+        <div
+            :class="{ 'menu-pinned': sidebarState == 'opened' }"
+            class="page-container"
+        >
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
                 :companies-list="companiesList"
@@ -20,6 +24,7 @@
                 :company-data="companyData"
                 :notifications-count="notificationsCount"
                 :show-sidebar="showSidebar"
+                :sidebar-state="sidebarState"
                 :user-data="userData"
                 @handle-sidebar="handleSidebar(!showSidebar)"
                 @toggle-notifications="toggleNotifications"
@@ -71,6 +76,7 @@ export default {
             appBaseColor: "#8582D1",
             appSecondaryColor: "#9ee5b5",
             showSidebar: false,
+            sidebarState: "hover",
             showNotificationCenter: false
         };
     },
@@ -99,11 +105,19 @@ export default {
     async created() {
         await this.$store.dispatch("Application/setEnv");
         await this.getAppData();
+        this.sidebarState = this.appSettings.settings.default_sidebar_state;
         this.appBaseColor = this.appSettings.settings.base_color || this.appBaseColor;
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;
         this.appInitialize();
     },
     mounted() {
+        window.addEventListener("resize", () => {
+            if (screen.availWidth <= 991) {
+                this.sidebarState = "closed";
+            } else {
+                this.sidebarState = this.appSettings.settings.default_sidebar_state;
+            }
+        });
         FB.init({
             appId : process.env.VUE_APP_FACEBOOK_APP_ID,
             xfbml : true,
@@ -157,7 +171,7 @@ export default {
         background-color: inherit;
 
         &.menu-pinned  {
-            padding-left: 210px;
+            padding-left: 280px;
         }
 
         @media (max-width: $lg) {
