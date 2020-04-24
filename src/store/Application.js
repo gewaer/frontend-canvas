@@ -4,6 +4,7 @@ import store from "@/store/index";
 import manualResources from "../config/manual-resources";
 
 const state = {
+    apps: [],
     data: {},
     env: {},
     isLoading: true,
@@ -17,6 +18,9 @@ const state = {
 };
 
 const mutations = {
+    SET_APPS(state, payload) {
+        state.apps = payload;
+    },
     SET_DATA(state, payload) {
         state.data = payload;
     },
@@ -51,14 +55,14 @@ const mutations = {
 };
 
 const actions = {
-    async getData({ commit }, appsId) {
+    async getApps({ commit }) {
         await axios({
-            url: `/apps/${appsId}`
+            url: "/apps"
         }).then(response => {
-            commit("SET_DATA", response.data);
+            commit("SET_APPS", response.data);
         });
     },
-    getGlobalStateData({ dispatch }) {
+    getGlobalStateData({ commit, dispatch }) {
         if (!Cookies.get("token") || !isValidJWT(Cookies.get("token"))) {
             return new Promise((resolve, reject) => {
                 reject("ERROR");
@@ -73,7 +77,8 @@ const actions = {
             const [{ data: userData }, { data: companies }, { data: resources }] = response;
             const currentCompany = companies.find((company) => company.id == userData.default_company);
 
-            await dispatch("getData", currentCompany.apps.apps_id);
+            await dispatch("getApps");
+            await commit("SET_DATA", state.apps.find(app => app.id == currentCompany.apps.apps_id));
             dispatch("Notifications/getNotifications", null, { root: true });
 
             dispatch("setGlobalData", {

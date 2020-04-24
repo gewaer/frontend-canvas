@@ -19,6 +19,7 @@
         >
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
+                :apps-list="appsList"
                 :companies-list="companiesList"
                 :company-branch-data="companyBranchData"
                 :company-data="companyData"
@@ -82,8 +83,8 @@ export default {
     },
     computed: {
         ...mapState({
+            appsList: state => state.Application.apps,
             appSettings: state => state.Application.settings,
-            accessList: state => state.User.data.access_list,
             companyData: state => state.Company.data,
             companiesList: state => state.Company.list,
             notificationsCount: state => state.Notifications.notifications.total_notifications || 0,
@@ -99,7 +100,7 @@ export default {
     },
     watch: {
         userPermissions() {
-            this.$ability.update(this.userPermissions);
+            this.$ability.update(this.userPermissions.rules);
         }
     },
     async created() {
