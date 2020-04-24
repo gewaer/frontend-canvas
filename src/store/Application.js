@@ -186,6 +186,7 @@ const actions = {
         dispatch("Company/setList", [], { root: true });
         dispatch("Company/setData", null, { root: true });
         commit("SET_RESOURCES", []);
+        commit("SET_APPS", []);
     },
     setEnv({ commit }) {
         const envList = Object.keys(process.env)

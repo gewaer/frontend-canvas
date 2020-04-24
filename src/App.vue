@@ -24,6 +24,7 @@
                 :company-branch-data="companyBranchData"
                 :company-data="companyData"
                 :notifications-count="notificationsCount"
+                :show-notifications="showNotifications"
                 :show-sidebar="showSidebar"
                 :sidebar-state="sidebarState"
                 :user-data="userData"
@@ -45,7 +46,7 @@
         </div>
         <transition name="slide-left" mode="out-in">
             <notification-center
-                v-if="showNotificationCenter"
+                v-if="showNotifications && showNotificationCenter"
                 @toggleNotifications="toggleNotifications"
             />
         </transition>
@@ -96,7 +97,10 @@ export default {
             companyBranchData: "Company/currentBranch",
             isSubscriptionBased: "Application/isSubscriptionBased",
             userIsLoggedIn: "User/isLoggedIn"
-        })
+        }),
+        showNotifications() {
+            return this.appSettings.settings && Boolean(+this.appSettings.settings.show_notifications);
+        }
     },
     watch: {
         userPermissions() {
