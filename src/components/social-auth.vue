@@ -1,7 +1,7 @@
 <template>
-    <div class="social-auth">
-        <facebook-auth class="provider-auth" @facebook-auth="handleSocialAuthRequest" />
-        <google-auth class="provider-auth" @google-auth="handleSocialAuthRequest" />
+    <div v-if="allowSocialAuth" class="social-auth">
+        <facebook-auth v-if="+allowedSocialAuths.facebook" class="provider-auth" @facebook-auth="handleSocialAuthRequest" />
+        <google-auth v-if="+allowedSocialAuths.google" class="provider-auth" @google-auth="handleSocialAuthRequest" />
     </div>
 </template>
 
@@ -26,9 +26,13 @@ export default {
             formData.append("lastname", userAuth.lastname);
             formData.append("provider", userAuth.provider);
             formData.append("social_id", userAuth.id);
+            this.$store.dispatch("Application/setLoading", true)
             axios.post("users/social", formData)
                 .then((response) => {
                     this.handleResponse(response);
+                })
+                .catch(() => {
+                    this.$store.dispatch("Application/setLoading", false)
                 });
         }
     }

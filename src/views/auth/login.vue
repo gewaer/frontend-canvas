@@ -44,7 +44,7 @@
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Sign In
                 </button>
-                <social-auth />
+                <social-auth :app-settings="appSettings" />
                 <div v-if="allowUserRegistration" class="text-center small">
                     Don't have an account?
                     <router-link :to="{ name: 'signup' }" class="text-info">

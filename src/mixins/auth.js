@@ -16,6 +16,12 @@ export default {
         allowUserRegistration() {
             return this.appSettings.settings && Boolean(Number(this.appSettings.settings.allow_user_registration));
         },
+        allowSocialAuth() {
+            return this.appSettings.settings && Boolean(+this.appSettings.settings.allow_social_auth);
+        },
+        allowedSocialAuths() {
+            return this.appSettings.settings && this.appSettings.settings.allowed_social_auths && JSON.parse(this.appSettings.settings.alloweds_social_auths);
+        },
         backgroundSrc() {
             return this.appSettings.settings && this.appSettings.settings.background_image || "";
         },
@@ -39,6 +45,7 @@ export default {
 
             // TODO: Redirect to ?redirect URL
             this.$router.replace({ name: "dashboard" });
+            this.$store.dispatch("Application/setLoading", false)
         },
         prepareData() {
             const data = new FormData();
