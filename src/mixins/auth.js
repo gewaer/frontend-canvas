@@ -45,7 +45,7 @@ export default {
 
             // TODO: Redirect to ?redirect URL
             this.$router.replace({ name: "dashboard" });
-            this.$store.dispatch("Application/setLoading", false)
+            this.$store.dispatch("Application/setLoading", false);
         },
         prepareData() {
             const data = new FormData();
