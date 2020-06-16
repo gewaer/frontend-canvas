@@ -26,13 +26,12 @@ export default {
             formData.append("lastname", userAuth.lastname);
             formData.append("provider", userAuth.provider);
             formData.append("social_id", userAuth.id);
-            this.$store.dispatch("Application/setLoading", true)
+            this.$store.dispatch("Application/setLoading", true);
             axios.post("users/social", formData)
                 .then((response) => {
                     this.handleResponse(response);
-                })
-                .catch(() => {
-                    this.$store.dispatch("Application/setLoading", false)
+                }).catch(() => {
+                    this.$store.dispatch("Application/setLoading", false);
                 });
         }
     }
