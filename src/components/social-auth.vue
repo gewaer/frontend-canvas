@@ -31,7 +31,7 @@ export default {
                 .then((response) => {
                     this.handleResponse(response);
                 }).catch(() => {
-                    this.$store.dispatch("Application/setLoading", false);
+                    this.$store.dispatch("Application/setIsLoading", false);
                 });
         }
     }

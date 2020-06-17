@@ -201,7 +201,7 @@ const actions = {
         dispatch("Company/setData", data.currentCompany, { root: true });
         commit("SET_RESOURCES", data.resources);
     },
-    setLoading({ commit }, data) {
+    setIsLoading({ commit }, data) {
         commit("SET_IS_LOADING", data);
     }
 };
