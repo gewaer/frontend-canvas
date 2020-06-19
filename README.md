@@ -34,3 +34,32 @@ npm run serve | Run a live server for testing the application during development
 npm run build | Compile a production ready version of the application.
 npm run dev | Compile a development testing version of the application.
 npm run lint | Run a linter pass through to fix those shameful formatting mistakes left behind.
+
+## CASL (ACL)
+
+Frontend Kanvas makes use of Access Control List via a very useful library called [CASL](https://casl.js.org/v4/en/guide/intro),
+implemented via the [CASL VueJS package](https://casl.js.org/v4/en/package/casl-vue).
+
+### Basic Premise
+
+User permissions are fetched from the API after login. Permissions are then set in a `no-access` policy, meaning:
+when first initialized the ACL is set to `all-access` and then access is restricted based on what is received from the
+API. The user is not allowed to continue into the application until all permissions have been set.
+
+This method allows for less cluttered permissions, since you only specify what you want to restrict (less) instead of
+all you want to allow (more).
+
+The application is injected with the global `$ability` class by `Vue.use(AbilitiesPlugin)`, and also the move
+convinient `$can` and `$cannot`.
+
+### Some Examples
+
+The `AbilityBuilder` is used to set the initial state of the ACL: `can("manage", "all")`. After which restrictions are
+placed with `cannot(action, resource)`.
+
+From there on, and in the same way, you can verify if a user has access to (or not) either routes or sections of
+the application.
+
+`this.$can("edit", "companies")` will return either `true` or `false` on whether the use can or cannot edit information
+for a company.
+(`this.$cannot("edit", "companies")` can similarly be used, remember it will return an opposite value to `$can`.)
