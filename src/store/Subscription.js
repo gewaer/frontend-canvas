@@ -24,8 +24,17 @@ const getters = {
     isActive() {
         return Boolean(Number(state.data.is_active));
     },
+    isActiveSubscription() {
+        return getters.isActive() && getters.daysLeft() < 0 && getters.graceDaysLeft() > 0;
+    },
+    isActiveFreeSubscription() {
+        return getters.isActive() && getters.isFreeTrial();
+    },
     isCancelled() {
         return Boolean(Number(state.data.is_cancelled));
+    },
+    isInactiveSubscription() {
+        return !getters.isActive() || getters.daysLeft() < 0 && getters.graceDaysLeft() <= 0;
     },
     isPaid() {
         return Boolean(Number(state.data.paid));
@@ -38,6 +47,9 @@ const getters = {
     },
     graceDaysLeft() {
         return state.data.grace_period_ends && moment.tz(state.data.grace_period_ends, "UTC").diff(moment(), "days", true) || 0;
+    },
+    showSubscriptionBar() {
+        return getters.isReady() && (getters.isActiveFreeSubscription() || getters.isActiveSubscription() || getters.isInactiveSubscription());
     }
 };
 

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="shouldShowBar" class="free-trial-banner">
+    <div class="free-trial-banner">
         <h6 v-if="isActiveFreeSubscription">
             Your free trial {{ trialText }}, please upgrade
             <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">
@@ -32,23 +32,10 @@ export default {
     computed:{
         ...mapGetters({
             daysLeft: "Subscription/daysLeft",
-            graceDaysLeft: "Subscription/graceDaysLeft",
-            isActive: "Subscription/isActive",
-            isFreeTrial: "Subscription/isFreeTrial",
-            isReady: "Subscription/isReady"
+            isActiveFreeSubscription: "Subscription/isActiveFreeSubscription",
+            isActiveSubscription: "Subscription/isActiveSubscription",
+            isInactiveSubscription: "Subscription/isInactiveSubscription"
         }),
-        isActiveFreeSubscription() {
-            return this.isActive && this.isFreeTrial;
-        },
-        isActiveSubscription() {
-            return this.isActive && this.daysLeft < 0 && this.graceDaysLeft > 0;
-        },
-        isInactiveSubscription() {
-            return !this.isActive || this.daysLeft < 0 && this.graceDaysLeft <= 0;
-        },
-        shouldShowBar() {
-            return this.isReady && (this.isActiveFreeSubscription || this.isActiveSubscription || this.isInactiveSubscription);
-        },
         trialText() {
             let message = "is over"
 
@@ -66,8 +53,9 @@ export default {
 <style lang="scss" scoped>
 .free-trial-banner {
     background-color: var(--secondary-color);
-    text-align: center;
+    margin-bottom: 30px;
     padding: 15px;
+    text-align: center;
 
     h6 {
         margin: 0;

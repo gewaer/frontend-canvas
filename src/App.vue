@@ -33,8 +33,8 @@
                 @selected-company="switchCompany"
             />
             <div class="page-content-wrapper animated">
-                <div class="content sm-gutter">
-                    <subscription-bar v-if="isSubscriptionBased && $route.meta && $route.meta.requiresAuth == undefined" />
+                <div :class="{ 'subscription-bar': showSubscriptionBar }" class="content sm-gutter">
+                    <subscription-bar v-if="showSubscriptionBar" />
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -96,11 +96,12 @@ export default {
         ...mapGetters({
             companyBranchData: "Company/currentBranch",
             isSubscriptionBased: "Application/isSubscriptionBased",
+            showSubscriptionBar: "Subscription/showSubscriptionBar",
             userIsLoggedIn: "User/isLoggedIn"
         }),
         showNotifications() {
             return this.appSettings.settings && Boolean(+this.appSettings.settings.show_notifications);
-        }
+        },
     },
     watch: {
         userPermissions() {
@@ -195,6 +196,10 @@ export default {
                 padding-bottom: 70px;
                 min-height: 100%;
                 transition: all .3s ease;
+
+                &.subscription-bar {
+                    padding-top: 60px;
+                }
 
                 .container-fluid {
                     padding-left: 30px;
