@@ -101,7 +101,7 @@ export default {
         }),
         showNotifications() {
             return this.appSettings.settings && Boolean(+this.appSettings.settings.show_notifications);
-        },
+        }
     },
     watch: {
         userPermissions() {
