@@ -3,11 +3,11 @@
         <input
             :id="$attrs.id"
             ref="input"
-            :value="value"
-            :type="type"
             :class="customClass"
-            autocomplete="off"
             :placeholder="placeholder"
+            :type="type"
+            :value="value"
+            autocomplete="off"
             @input="emitInput"
         >
         <div class="input-group-prepend">
@@ -48,7 +48,6 @@ export default {
             isVisible: false
         }
     },
-
     computed: {
         type() {
             return this.isVisible ? "text" : "password";
@@ -60,10 +59,9 @@ export default {
             return this.isVisible ? "hide password" : "show password";
         }
     },
-
     methods: {
         emitInput() {
-            this.$emit("input", this.$refs.input.value)
+            this.$emit("input", this.$refs.input.value);
         },
         toggleVisibility() {
             this.isVisible = !this.isVisible;
@@ -73,8 +71,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-group .input-group-text {
-    border: none;
-    background: transparent;
+.form-group {
+    .input-group-text {
+        border: none;
+        background: transparent;
+    }
 }
 </style>

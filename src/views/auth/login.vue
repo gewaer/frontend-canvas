@@ -64,7 +64,6 @@ import authMixins from "@/mixins/auth";
 import socialAuth from "@c/social-auth.vue";
 import InputPassword from "@c/input-password.vue";
 
-
 export default {
     name: "Login",
     components: {
