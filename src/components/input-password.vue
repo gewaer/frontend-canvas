@@ -10,9 +10,8 @@
             autocomplete="off"
             @input="emitInput"
         >
-        <div class="input-group-prepend">
+        <div class="input-group-prepend" v-if="showVisibilityToggle">
             <span
-                id="inputGroupPrepend"
                 class="input-group-text"
                 :title="title"
                 @click="toggleVisibility"
@@ -41,6 +40,10 @@ export default {
         placeholder: {
             type: String,
             default: ""
+        },
+        showVisibilityToggle: {
+            type: Boolean,
+            default: true
         }
     },
     data() {

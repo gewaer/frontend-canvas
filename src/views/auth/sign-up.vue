@@ -60,7 +60,6 @@
                         ref="password"
                         v-model="form.fields.password.value"
                         v-validate="form.fields.password.validations"
-                        type="password"
                         name="password"
                         placeholder="Credentials"
                     />
