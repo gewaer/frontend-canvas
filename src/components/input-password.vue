@@ -12,8 +12,8 @@
         >
         <div class="input-group-prepend" v-if="showVisibilityToggle">
             <span
-                class="input-group-text"
                 :title="title"
+                class="input-group-text"
                 @click="toggleVisibility"
             >
                 <i :class="icon" />
