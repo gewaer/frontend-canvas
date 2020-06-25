@@ -56,34 +56,26 @@
                 <span class="text-danger">{{ errors.first("email") }}</span>
                 <div :class="{ 'error' : errors.first('password') }" class="form-group form-group-default required">
                     <label>Password</label>
-                    <div class="controls">
-                        <input
-                            ref="password"
-                            v-model="form.fields.password.value"
-                            v-validate="form.fields.password.validations"
-                            type="password"
-                            class="form-control"
-                            name="password"
-                            autocomplete="off"
-                            placeholder="Credentials"
-                        >
-                    </div>
+                    <input-password
+                        ref="password"
+                        v-model="form.fields.password.value"
+                        v-validate="form.fields.password.validations"
+                        type="password"
+                        name="password"
+                        placeholder="Credentials"
+                    />
                 </div>
                 <span class="text-danger">{{ errors.first("password") }}</span>
                 <div :class="{ 'error' : errors.first('verifyPassword') }" class="form-group form-group-default required">
                     <label>Confirm Password</label>
-                    <div class="controls">
-                        <input
-                            v-model="form.fields.verifyPassword.value"
-                            v-validate="form.fields.verifyPassword.validations"
-                            type="password"
-                            name="verifyPassword"
-                            data-vv-as="password"
-                            autocomplete="off"
-                            placeholder="Retype Credentials"
-                            class="form-control"
-                        >
-                    </div>
+                    <input-password
+                        id="verifyPassword"
+                        v-model="form.fields.verifyPassword.value"
+                        v-validate="form.fields.verifyPassword.validations"
+                        name="verifyPassword"
+                        data-vv-as="confirm password"
+                        placeholder="Retype credentials"
+                    />
                 </div>
                 <span class="text-danger">{{ errors.first("verifyPassword") }}</span>
                 <div :class="{ 'error' : errors.first('company') }" class="form-group form-group-default required">
@@ -116,9 +108,13 @@
 
 <script>
 import authMixins from "@/mixins/auth";
+import InputPassword from "@c/input-password.vue";
 
 export default {
     name: "SignUp",
+    components: {
+        InputPassword
+    },
     mixins: [
         authMixins
     ],
