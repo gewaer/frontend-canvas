@@ -62,7 +62,7 @@ const actions = {
             commit("SET_APPS", response.data);
         });
     },
-    getGlobalStateData({ commit, dispatch }) {
+    async getGlobalStateData({ commit, dispatch }) {
         if (!Cookies.get("token") || !isValidJWT(Cookies.get("token"))) {
             return new Promise((resolve, reject) => {
                 reject("ERROR");
@@ -74,13 +74,21 @@ const actions = {
             dispatch("Company/getData", null, { root: true }),
             dispatch("getResources")
         ]).then(async(response) => {
-            const [{ data: userData }, { data: companies }, { data: resources }] = response;
+            const [
+                { data: userData },
+                { data: companies },
+                { data: resources }
+            ] = response;
             const currentCompany = companies.find((company) => company.id == userData.default_company);
 
             await dispatch("getApps");
             await commit("SET_DATA", state.apps.find(app => app.id == currentCompany.apps.apps_id));
-            dispatch("Notifications/getNotifications", null, { root: true });
 
+            if (getters.isSubscriptionBased()) {
+                await dispatch("Subscription/getSubscriptionData", null, { root: true });
+            }
+
+            dispatch("Notifications/getNotifications", null, { root: true });
             dispatch("setGlobalData", {
                 userData,
                 companies,
