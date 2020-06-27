@@ -28,23 +28,21 @@
                 <span class="text-danger">{{ errors.first("email") }}</span>
                 <div :class="{ 'error' : errors.first('password') }" class="form-group form-group-default required">
                     <label>Password</label>
-                    <div class="controls">
-                        <input
-                            v-model="form.fields.password.value"
-                            v-validate="form.fields.password.validations"
-                            type="password"
-                            class="form-control"
-                            name="password"
-                            autocomplete="on"
-                            placeholder="Credentials"
-                        >
-                    </div>
+                    <input-password
+                        v-model="form.fields.password.value"
+                        v-validate="form.fields.password.validations"
+                        name="password"
+                        class="form-control"
+                        data-class="form-control"
+                        placeholder="Credentials"
+                    />
                 </div>
                 <span class="text-danger">{{ errors.first("password") }}</span>
+
                 <button class="btn btn-primary btn-block my-4" type="submit">
                     Sign In
                 </button>
-                <social-auth />
+                <social-auth :app-settings="appSettings" />
                 <div v-if="allowUserRegistration" class="text-center small">
                     Don't have an account?
                     <router-link :to="{ name: 'signup' }" class="text-info">
@@ -64,11 +62,13 @@
 <script>
 import authMixins from "@/mixins/auth";
 import socialAuth from "@c/social-auth.vue";
+import InputPassword from "@c/input-password.vue";
 
 export default {
     name: "Login",
     components: {
-        socialAuth
+        socialAuth,
+        InputPassword
     },
     mixins: [
         authMixins

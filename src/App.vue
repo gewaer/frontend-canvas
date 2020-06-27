@@ -8,26 +8,33 @@
             v-if="$route.meta && $route.meta.requiresAuth == undefined"
             :resources="resources"
             :show-sidebar="showSidebar"
+            :sidebar-state="sidebarState"
             @handle-sidebar="handleSidebar"
         >
             <span slot="app-logo">KANVAS</span>
         </app-sidebar>
-        <div class="page-container">
+        <div
+            :class="{ 'menu-pinned': sidebarState == 'opened' }"
+            class="page-container"
+        >
             <app-header
                 v-if="$route.meta && $route.meta.requiresAuth == undefined && companyData"
+                :apps-list="appsList"
                 :companies-list="companiesList"
                 :company-branch-data="companyBranchData"
                 :company-data="companyData"
                 :notifications-count="notificationsCount"
+                :show-notifications="showNotifications"
                 :show-sidebar="showSidebar"
+                :sidebar-state="sidebarState"
                 :user-data="userData"
                 @handle-sidebar="handleSidebar(!showSidebar)"
                 @toggle-notifications="toggleNotifications"
                 @selected-company="switchCompany"
             />
             <div class="page-content-wrapper animated">
-                <div class="content sm-gutter">
-                    <subscription-bar v-if="isSubscriptionBased && $route.meta && $route.meta.requiresAuth == undefined" />
+                <div :class="{ 'subscription-bar': showSubscriptionBar }" class="content sm-gutter">
+                    <subscription-bar v-if="showSubscriptionBar" />
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -39,7 +46,7 @@
         </div>
         <transition name="slide-left" mode="out-in">
             <notification-center
-                v-if="showNotificationCenter"
+                v-if="showNotifications && showNotificationCenter"
                 @toggleNotifications="toggleNotifications"
             />
         </transition>
@@ -71,13 +78,14 @@ export default {
             appBaseColor: "#8582D1",
             appSecondaryColor: "#9ee5b5",
             showSidebar: false,
+            sidebarState: "hover",
             showNotificationCenter: false
         };
     },
     computed: {
         ...mapState({
+            appsList: state => state.Application.apps,
             appSettings: state => state.Application.settings,
-            accessList: state => state.User.data.access_list,
             companyData: state => state.Company.data,
             companiesList: state => state.Company.list,
             notificationsCount: state => state.Notifications.notifications.total_notifications || 0,
@@ -88,22 +96,34 @@ export default {
         ...mapGetters({
             companyBranchData: "Company/currentBranch",
             isSubscriptionBased: "Application/isSubscriptionBased",
+            showSubscriptionBar: "Subscription/showSubscriptionBar",
             userIsLoggedIn: "User/isLoggedIn"
-        })
+        }),
+        showNotifications() {
+            return this.appSettings.settings && Boolean(+this.appSettings.settings.show_notifications);
+        }
     },
     watch: {
         userPermissions() {
-            this.$ability.update(this.userPermissions);
+            this.$ability.update(this.userPermissions.rules);
         }
     },
     async created() {
         await this.$store.dispatch("Application/setEnv");
         await this.getAppData();
+        this.sidebarState = this.appSettings.settings.default_sidebar_state;
         this.appBaseColor = this.appSettings.settings.base_color || this.appBaseColor;
         this.appSecondaryColor = this.appSettings.settings.secondary_color || this.appSecondaryColor;
         this.appInitialize();
     },
     mounted() {
+        window.addEventListener("resize", () => {
+            if (screen.availWidth <= 991) {
+                this.sidebarState = "closed";
+            } else {
+                this.sidebarState = this.appSettings.settings.default_sidebar_state;
+            }
+        });
         FB.init({
             appId : process.env.VUE_APP_FACEBOOK_APP_ID,
             xfbml : true,
@@ -157,7 +177,7 @@ export default {
         background-color: inherit;
 
         &.menu-pinned  {
-            padding-left: 210px;
+            padding-left: 280px;
         }
 
         @media (max-width: $lg) {
@@ -176,6 +196,10 @@ export default {
                 padding-bottom: 70px;
                 min-height: 100%;
                 transition: all .3s ease;
+
+                &.subscription-bar {
+                    padding-top: 60px;
+                }
 
                 .container-fluid {
                     padding-left: 30px;
