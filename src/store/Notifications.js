@@ -63,11 +63,11 @@ const actions = {
     },
     deleteAllNotifications() {
         const ids = state.notifications.data.map(notification => notification.id);
-        axios.delete(`/notifications?id=${ids.join(",")}`)
+        axios.post("/notifications/bulk/delete", { ids })
     },
     async deleteGroupNotifications({ dispatch }, date) {
         const ids = await dispatch("extractNotificationsId", date);
-        axios.delete(`/notifications?id=${ids.join(",")}`)
+        axios.post("/notifications/bulk/delete", { ids })
     },
     async deleteSingleNotification({ dispatch }, notification) {
         await axios.delete(`/notifications/${notification.id}`);
