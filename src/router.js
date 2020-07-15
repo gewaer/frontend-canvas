@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
 import _isEqual from "lodash/isEqual";
-import Dashboard from "./views/dashboard";
+import Dashboard from "./views/dashboard/";
 import Login from "@/views/auth/login.vue";
 import SignUp from "@/views/auth/sign-up.vue";
 import ForgotPassword from "@/views/auth/forgot-password.vue";
