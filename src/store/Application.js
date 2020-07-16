@@ -42,7 +42,7 @@ const mutations = {
     SET_CURRENCIES(state, payload) {
         state.currencies = payload;
     },
-    SET_RESOURCES(state, payload) {
+    SET_SIDEBAR_LINKS(state, payload) {
         payload = payload.concat(manualResources);
         state.resources = payload;
     },
@@ -72,12 +72,12 @@ const actions = {
         return Promise.all([
             dispatch("User/getData", null, { root: true }),
             dispatch("Company/getData", null, { root: true }),
-            dispatch("getResources")
+            dispatch("getSidebar")
         ]).then(async(response) => {
             const [
                 { data: userData },
                 { data: companies },
-                { data: resources }
+                { data: sidebarLinks }
             ] = response;
             const currentCompany = companies.find((company) => company.id == userData.default_company);
 
@@ -92,7 +92,7 @@ const actions = {
             dispatch("setGlobalData", {
                 userData,
                 companies,
-                resources,
+                sidebarLinks,
                 currentCompany
             });
         });
@@ -110,9 +110,9 @@ const actions = {
             });
         }
     },
-    getResources() {
+    getSidebar() {
         return axios({
-            url: "/system-modules"
+            url: "/menus/1"
         });
     },
     setPageTitleAndMeta(_, appSettings) {
@@ -193,7 +193,7 @@ const actions = {
         dispatch("User/setData", {}, { root: true });
         dispatch("Company/setList", [], { root: true });
         dispatch("Company/setData", null, { root: true });
-        commit("SET_RESOURCES", []);
+        commit("SET_SIDEBAR_LINKS", []);
         commit("SET_APPS", []);
     },
     setEnv({ commit }) {
@@ -207,7 +207,7 @@ const actions = {
         dispatch("User/setData", data.userData, { root: true });
         dispatch("Company/setList", data.companies, { root: true });
         dispatch("Company/setData", data.currentCompany, { root: true });
-        commit("SET_RESOURCES", data.resources);
+        commit("SET_SIDEBAR_LINKS", data.sidebarLinks.sidebar);
     },
     setIsLoading({ commit }, data) {
         commit("SET_IS_LOADING", data);
