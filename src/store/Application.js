@@ -112,7 +112,7 @@ const actions = {
     },
     getSidebar() {
         return axios({
-            url: "/menus/1"
+            url: "/menus/main"
         });
     },
     setPageTitleAndMeta(_, appSettings) {
