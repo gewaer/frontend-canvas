@@ -72,7 +72,7 @@ const actions = {
         return Promise.all([
             dispatch("User/getData", null, { root: true }),
             dispatch("Company/getData", null, { root: true }),
-            dispatch("getSidebar")
+            dispatch("getSidebarMenuData")
         ]).then(async(response) => {
             const [
                 { data: userData },
@@ -110,7 +110,7 @@ const actions = {
             });
         }
     },
-    getSidebar() {
+    getSidebarMenuData() {
         return axios({
             url: "/menus/main"
         });
