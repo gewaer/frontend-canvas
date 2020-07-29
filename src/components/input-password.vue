@@ -10,7 +10,7 @@
             autocomplete="off"
             @input="emitInput"
         >
-        <div class="input-group-prepend" v-if="showVisibilityToggle">
+        <div v-if="showVisibilityToggle" class="input-group-prepend">
             <span
                 :title="title"
                 class="input-group-text"

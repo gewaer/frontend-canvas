@@ -13,8 +13,9 @@
         >
             <span slot="app-logo">KANVAS</span>
         </app-sidebar>
+        <subscription-bar v-if="showSubscriptionBar" />
         <div
-            :class="{ 'menu-pinned': sidebarState == 'opened' }"
+            :class="{ 'menu-pinned': sidebarState == 'opened', 'subscription-bar': showSubscriptionBar }"
             class="page-container"
         >
             <app-header
@@ -33,8 +34,7 @@
                 @selected-company="switchCompany"
             />
             <div class="page-content-wrapper animated">
-                <div :class="{ 'subscription-bar': showSubscriptionBar }" class="content sm-gutter">
-                    <subscription-bar v-if="showSubscriptionBar" />
+                <div class="content sm-gutter">
                     <router-view
                         :app-settings="appSettings"
                         class="container-fluid container-fixed-lg"
@@ -191,15 +191,10 @@ export default {
             position: relative;
 
             .content {
-                z-index: 10;
                 padding-top: 90px;
                 padding-bottom: 70px;
                 min-height: 100%;
                 transition: all .3s ease;
-
-                &.subscription-bar {
-                    padding-top: 60px;
-                }
 
                 .container-fluid {
                     padding-left: 30px;
@@ -221,6 +216,16 @@ export default {
                         padding-right: 5px;
                     }
                 }
+            }
+        }
+
+        &.subscription-bar {
+            .app-header {
+                top: 50px;
+            }
+
+            .content {
+                padding-top: 140px;
             }
         }
     }
