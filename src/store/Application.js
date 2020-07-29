@@ -226,6 +226,17 @@ const getters = {
     },
     isSubscriptionBased() {
         return Boolean(Number(state.data.payments_active));
+    },
+    resourceList() {
+        const resources = [];
+        state.resources.forEach(link => {
+            if (link.links) {
+                resources.push(link, ...link.links)
+            } else {
+                resources.push(link)
+            }
+        });
+        return resources;
     }
 };
 
