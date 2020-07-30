@@ -17,7 +17,9 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <button class="btn btn-primary">START THE QUICK TUTORIAL</button>
+                    <button class="btn btn-primary">
+                        START THE QUICK TUTORIAL
+                    </button>
                 </div>
             </div>
             <hr>

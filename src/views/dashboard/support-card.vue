@@ -5,7 +5,9 @@
                 <div class="col">
                     <h1>Lorem Ipsum is simply</h1>
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                    <button type="button" class="btn btn-outline-light">Get Started</button>
+                    <button type="button" class="btn btn-outline-light">
+                        Get Started
+                    </button>
                 </div>
             </div>
         </div>

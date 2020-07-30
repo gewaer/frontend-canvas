@@ -1,5 +1,12 @@
 {
     "plugins": [
-        "@babel/syntax-dynamic-import"
+        "@babel/syntax-dynamic-import",
+        [
+            "component",
+            {
+                "libraryName": "element-ui",
+                "styleLibraryName": "theme-chalk"
+            }
+        ]
     ]
 }
