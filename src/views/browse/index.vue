@@ -15,7 +15,7 @@
 
 <script>
 const { GwBrowse } = require(`@/import.${process.env.VUE_APP_IMPORTS}`);
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
     name: "Browse",
@@ -37,11 +37,21 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            resourceList: "Application/resourceList"
+        ...mapState({
+            resources: state => {
+                const resources = [];
+                state.Application.resources.forEach(link => {
+                    if (link.links) {
+                        resources.push(link, ...link.links);
+                    } else {
+                        resources.push(link);
+                    }
+                });
+                return resources;
+            } 
         }),
         resource() {
-            return this.resourceList.find(resource => resource.slug == this.$route.params.resource);
+            return this.resources.find(resource => resource.slug == this.$route.params.resource);
         }
     },
     methods: {
