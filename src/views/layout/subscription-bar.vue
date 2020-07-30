@@ -1,6 +1,6 @@
 <template>
     <div class="free-trial-banner">
-        <h6 v-if="isActiveFreeSubscription">
+        <h6 v-if="1 || isActiveFreeSubscription">
             Your free trial {{ trialText }}, please upgrade
             <router-link :to="{ name: 'settingsCompaniesSubscriptions'}">
                 here
@@ -52,14 +52,26 @@ export default {
 
 <style lang="scss" scoped>
 .free-trial-banner {
-    background-color: var(--secondary-color);
-    margin-bottom: 30px;
-    padding: 15px;
+    align-items: center;
+    background-color: #e54671;
+    color: white;
+    display: flex;
+    height: 50px;
+    justify-content: center;
     text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1001;
 
     h6 {
         margin: 0;
         font-weight: 500;
+
+        a {
+            color: #C8D6B2;
+            display: inline-block;
+            font-weight: bold;
+        }
     }
 }
 </style>
