@@ -17,12 +17,6 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h2>Admin Console</h2>
-                    <p>Remember this is a SPA, but Kanvas provides you with the Admin App, a central hub to control your app ecosystem.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
                     <button class="btn btn-primary">
                         START THE QUICK TUTORIAL
                     </button>
