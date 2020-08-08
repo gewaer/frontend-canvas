@@ -5,14 +5,20 @@
                 <div class="col-12 col-xl-9">
                     <div class="d-flex flex-column align-items-start">
                         <h1>Welcome to Kanvas Skeleton</h1>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                        <p>Kanvas is a Smart Code Development Enviorment. With it we want to go beyond and above being just another boilerplate. We aim to offer solutions to common (and sometimes uncommon) needs developers have. We want to help developers quickly deploy apps by writing as less code as possible, while still keeping a high degree of customization and adaptability.</p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <h2>Lorem Ipsum is simply dummy.</h2>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                    <h2>What's this?</h2>
+                    <p>It's the initial Boilerplate Code for Smart SPA Development. We will provide common examples on how to develop your app.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h2>Admin Console</h2>
+                    <p>Remember this is a SPA, but Kanvas provides you with the Admin App, a central hub to control your app ecosystem.</p>
                 </div>
             </div>
             <div class="row">
