@@ -4,7 +4,9 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Email">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" id="button-addon2">Subscribe</button>
+                <button id="button-addon2" class="btn btn-primary" type="button">
+                    Subscribe
+                </button>
             </div>
         </div>
     </div>

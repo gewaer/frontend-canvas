@@ -38,7 +38,17 @@ export default {
     },
     computed: {
         ...mapState({
-            resources: state => state.Application.resources
+            resources: state => {
+                const resources = [];
+                state.Application.resources.forEach(link => {
+                    if (link.links) {
+                        resources.push(link, ...link.links);
+                    } else {
+                        resources.push(link);
+                    }
+                });
+                return resources;
+            } 
         }),
         resource() {
             return this.resources.find(resource => resource.slug == this.$route.params.resource);
