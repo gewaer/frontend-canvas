@@ -1,0 +1,57 @@
+// Responsive Breakpoints
+$sm: 576px;
+$md: 767px;
+$lg: 991px;
+$xl: 1200px;
+$sm-tablet-v: 768px;
+
+%dropdown-body {
+    border: 0;
+    padding: 0;
+    padding-top: 7px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        height: 7px;
+        background-color: var(--base-color);
+    }
+}
+
+%dropdown-title {
+    text-transform: uppercase;
+    display: block;
+    padding: 0 15px;
+    padding-top: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--base-color);
+    letter-spacing: 2px;
+}
+
+%dropdown-item {
+    padding: 10px 15px;
+    color: #4B4B4B;
+    text-transform: capitalize;
+    border-bottom: 1px solid #E1E8ED !important;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background: var(--base-color);
+        color: white;
+    }
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
