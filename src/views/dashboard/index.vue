@@ -15,7 +15,7 @@
                 <support-card />
             </div>
         </div>
-        <welcome-section />
+        <!-- <welcome-section /> -->
     </div>
 </template>
 
