@@ -39,8 +39,9 @@
                 </div>
                 <span class="text-danger">{{ errors.first("password") }}</span>
 
-                <button class="btn btn-primary btn-block my-4" type="submit">
+                <button class="btn btn-primary btn-block my-4" type="submit" :disabled="isLoading">
                     Sign In
+                    <i v-if="isLoading" class="fa fa-circle-notch fa-spin" />
                 </button>
                 <social-auth :app-settings="appSettings" />
                 <div v-if="allowUserRegistration" class="text-center small">
@@ -87,6 +88,27 @@ export default {
                     }
                 },
                 endpoint: "/auth"
+            }
+        }
+    },
+    methods: {
+        submitData() {
+            if (!this.isLoading) {
+                this.isLoading = true;
+                const data = this.prepareData(true);
+                kanvasSDK.auth.login(data.email, data.password)
+                    .then(() => {
+                        this.handleResponse()
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            title: "Error",
+                            text: error.errors.message,
+                            type: "error"
+                        });
+                    }).finally(() => {
+                        this.isLoading = false;
+                    })
             }
         }
     }

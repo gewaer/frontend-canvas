@@ -85,6 +85,7 @@ module.exports = {
         accounting: true,
         axios: true,
         moment: true,
-        window: true
+        window: true,
+        kanvasSDK: true
     }
 }

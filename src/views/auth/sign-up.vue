@@ -91,8 +91,9 @@
                     </div>
                 </div>
                 <span class="text-danger">{{ errors.first("company") }}</span>
-                <button class="btn btn-primary btn-block my-4" type="submit">
+                <button class="btn btn-primary btn-block my-4" type="submit" :disabled="isLoading">
                     Sign Up
+                    <i v-if="isLoading" class="fa fa-circle-notch fa-spin" />
                 </button>
                 <div class="text-center small">
                     Already have an account?
@@ -149,6 +150,27 @@ export default {
                     }
                 },
                 endpoint: "/users"
+            }
+        }
+    },
+    methods: {
+        submitData() {
+            if (!this.isLoading) {
+                this.isLoading = true;
+                const data = this.prepareData(true);
+                kanvasSDK.auth.register(data)
+                    .then(() => {
+                        this.handleResponse(null, true)
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            title: "Error",
+                            text: error.errors.message,
+                            type: "error"
+                        });
+                    }).finally(() => {
+                        this.isLoading = false;
+                    })
             }
         }
     }
