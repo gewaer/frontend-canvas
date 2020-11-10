@@ -19,9 +19,6 @@ export default {
         }
     },
     computed: {
-        ...mapState({
-            isLoading: state => state.Application.isLoading
-        }),
         allowUserRegistration() {
             return this.appSettings.settings && Boolean(Number(this.appSettings.settings.allow_user_registration));
         },

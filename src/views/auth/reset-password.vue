@@ -79,16 +79,36 @@ export default {
         }
     },
     methods: {
-        handleResponse(response) {
+        handleResponse(data) {
             this.$notify({
                 title: "Confirmation",
-                text: response.data,
+                text: data,
                 type: "success"
             });
 
             this.$router.push({
                 name: "login"
             });
+        },
+
+        submitData() {
+            if (!this.isLoading) {
+                this.isLoading = true;
+                const data = this.prepareData(true);
+                kanvasSDK.auth.resetPassword(data.new_password, data.verify_password,this.$route.params.resetKey)
+                    .then((responseData) => {
+                        this.handleResponse(responseData)
+                    })
+                    .catch(error => {
+                        this.$notify({
+                            title: "Error",
+                            text: error.errors.message,
+                            type: "error"
+                        });
+                    }).finally(() => {
+                        this.isLoading = false;
+                    })
+            }
         }
     }
 }
