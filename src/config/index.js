@@ -5,6 +5,7 @@ import "@/config/cookies";
 import "@/config/vee-validate";
 import "@/config/sentry";
 import "@/config/element-ui";
+import "@/config/kanvasSDK";
 import * as filters from "@/utils/filters";
 import methods from "@/utils/methods";
 

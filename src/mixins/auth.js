@@ -1,4 +1,5 @@
 import AuthContainer from "@v/auth/container";
+import { mapState } from "vuex";
 
 export default {
     components: {
@@ -10,6 +11,11 @@ export default {
             default() {
                 return {}
             }
+        }
+    },
+    data() {
+        return {
+            isLoading: false
         }
     },
     computed: {
@@ -33,11 +39,13 @@ export default {
         }
     },
     methods: {
-        handleResponse({ data }, isSignup = false) {
-            const auth = isSignup ? data.session : data;
-
-            Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
-            this.$store.dispatch("User/setToken", auth.token);
+        handleResponse(responseData, isSignup = false) {
+            if (responseData) {
+                // support old modules
+                const auth = isSignup ? responseData.session : responseData.data;
+                Cookies.set("token", auth.token, { expires: new Date(auth.expires), path: "/", domain: process.env.VUE_APP_DOMAIN });
+                this.$store.dispatch("User/setToken", auth.token);
+            }
 
             if (isSignup) {
                 this.$modal.show("after-signup-wizard");
@@ -47,33 +55,37 @@ export default {
             this.$router.replace({ name: "dashboard" });
             this.$store.dispatch("Application/setIsLoading", false);
         },
-        prepareData() {
-            const data = new FormData();
+        prepareData(asObject) {
+            const data = {};
 
             Object.keys(this.form.fields).forEach((field) => {
                 const apiField = this.form.fields[field].map || field;
 
-                data.append(apiField, this.form.fields[field].value);
+                data[apiField] = this.form.fields[field].value;
             });
-
+            if (!asObject) {
+                const formData = new FormData();
+                Object.entries(data).forEach(([key, value]) => {
+                    formData.append(key, value)
+                })
+            }
             return data;
         },
-        submitData(isSignup) {
+        async submitData(isSignup) {
             const data = this.prepareData();
-
             axios({
                 url: `${this.form.endpoint}`,
                 method: "POST",
                 data
-            }).then((response) => {
-                this.handleResponse(response, isSignup);
+            }).then(({ data }) => {
+                this.handleResponse(data, isSignup);
             }).catch((error) => {
                 this.$notify({
                     title: "Error",
                     text: error.response.data.errors.message,
                     type: "error"
                 });
-            });
+            })
         },
         validateInvitation() {
             axios({
