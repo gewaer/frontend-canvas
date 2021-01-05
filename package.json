@@ -22,7 +22,7 @@
     "@gewaer/vue-form-generator": "git+ssh://git@github.com/Gewaer/vue-form-generator.git",
     "@sentry/browser": "^5.27.6",
     "@sentry/integrations": "^5.27.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bp-vuejs-dropdown": "^2.1.1",
     "core-js": "3.4.5",
     "element-ui": "^2.14.1",
