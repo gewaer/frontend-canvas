@@ -24,6 +24,7 @@
                 :companies-list="companiesList"
                 :company-branch-data="companyBranchData"
                 :company-data="companyData"
+                :domain="domain"
                 :notifications-count="notificationsCount"
                 :show-notifications="showNotifications"
                 :show-sidebar="showSidebar"
@@ -77,6 +78,7 @@ export default {
         return {
             appBaseColor: "#8582D1",
             appSecondaryColor: "#9ee5b5",
+            domain: process.env.VUE_APP_DOMAIN || "",
             showSidebar: false,
             sidebarState: "hover",
             showNotificationCenter: false
